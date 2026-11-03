@@ -72,7 +72,8 @@
             "variant_picker": {
               "type": "variant-picker",
               "settings": {
-                "variant_style": "buttons"
+                "variant_style": "buttons",
+                "guide_label": "Size & ingredients guide"
               }
             },
             "recipient": {

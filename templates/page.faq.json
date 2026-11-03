@@ -298,8 +298,7 @@
             "icon": "mail",
             "title": "Email us",
             "text": "We reply within 1 business day.",
-            "link_label": "Send us a message",
-            "link": "shopify://pages/contact"
+            "link_label": "Send us a message"
           }
         },
         "chat": {

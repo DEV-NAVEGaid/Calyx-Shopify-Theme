@@ -3,7 +3,7 @@
     "name": "theme_info",
     "theme_name": "Calyx",
     "theme_version": "1.0.0",
-    "theme_author": "Calyx",
+    "theme_author": "NAVEGaid",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
   },
@@ -1530,6 +1530,13 @@
             "label": "t:options.case.uppercase"
           }
         ]
+      },
+      {
+        "type": "checkbox",
+        "id": "card_title_two_lines",
+        "label": "t:settings.card_title_two_lines",
+        "default": false,
+        "info": "t:info.card_title_two_lines"
       }
     ]
   },

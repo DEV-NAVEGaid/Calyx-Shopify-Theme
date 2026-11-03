@@ -1,0 +1,123 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_title": true,
+        "show_description": true,
+        "show_moods": true,
+        "products_per_page": 9,
+        "columns_desktop": 3,
+        "columns_mobile": "2",
+        "promo_position": 4,
+        "promo_eyebrow": "Not sure yet?",
+        "promo_heading": "Try all six moods for $38",
+        "promo_text": "Get $15 back toward your full-size favourite.",
+        "promo_label": "Shop the discovery set",
+        "seo_heading": "About mood fragrance",
+        "seo_text": "<p>Mood fragrance pairs botanicals traditionally linked to a feeling with modern perfumery. Every eau de parfum we make is genderless, vegan and blended at 18–22% concentration for 6–8 hours of wear.</p>",
+        "padding-block-start": 16,
+        "padding-block-end": 88
+      },
+      "blocks": {
+        "filters": {
+          "type": "filters",
+          "static": true,
+          "settings": {
+            "enable_filtering": true,
+            "enable_sorting": true
+          }
+        },
+        "product-card": {
+          "type": "product-card",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "type_preset": "h6",
+                "heading_level": "h3"
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "type_preset": "paragraph"
+              }
+            }
+          },
+          "block_order": [
+            "card-gallery",
+            "title",
+            "price"
+          ]
+        }
+      },
+      "block_order": []
+    },
+    "usp_strip": {
+      "type": "usp-strip",
+      "settings": {},
+      "blocks": {
+        "usp_1": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping",
+            "text": "On orders over $75"
+          }
+        },
+        "usp_2": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "gift",
+            "title": "Free 2ml sample",
+            "text": "In every order"
+          }
+        },
+        "usp_3": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "leaf",
+            "title": "Clean & vegan",
+            "text": "85% natural origin"
+          }
+        },
+        "usp_4": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "sparkle",
+            "title": "30-day guarantee",
+            "text": "Love it or swap it"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "usp_strip"
+  ]
+}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}" class="template-{{ template.name }}">
+<html lang="{{ request.locale.iso_code }}" class="template-{{ template.name }}{% if settings.card_title_two_lines %} card-titles-clamped{% endif %}">
   <head>
     {% # Charset, viewport, social, title, etc. %}
     {% render 'meta-tags' %}

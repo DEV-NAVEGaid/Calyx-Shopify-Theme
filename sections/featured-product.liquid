@@ -1,0 +1,192 @@
+{% comment %}
+  Featured product: one chosen product, shown as on its own page, with the
+  media gallery (images, videos, 3D models) beside the details and buying
+  options. Both are static blocks that read the product through
+  `closest.product`; app blocks go in the details.
+{% endcomment %}
+
+{%- assign product = section.settings.product -%}
+
+<div class="section section--page-width spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div
+    class="section-content product-information featured-product product-information--media-{{ section.settings.media_position }}"
+    style="{% render 'gap-style', value: section.settings.gap %}"
+  >
+    {% content_for 'block', type: '_product-media-gallery', id: 'media-gallery', closest.product: product %}
+    {% content_for 'block', type: '_product-details', id: 'product-details', closest.product: product %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.featured_product",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:settings.product"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "t:settings.media_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:options.position.left"
+        },
+        {
+          "value": "right",
+          "label": "t:options.position.right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.featured_product",
+      "category": "t:categories.products",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "columns": "thumbnails",
+            "image_ratio": "adapt",
+            "sticky": false
+          }
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "gap": 20,
+            "sticky": false
+          },
+          "blocks": {
+            "eyebrow": {
+              "type": "product-meta",
+              "settings": {
+                "text": "",
+                "style": "eyebrow"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "type_preset": "h2",
+                "heading_level": "h2",
+                "show_sold_out_badge": true,
+                "link_to_product": true
+              }
+            },
+            "rating": {
+              "type": "product-rating",
+              "settings": {
+                "anchor": "reviews"
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "type_preset": "h3",
+                "show_tax_note": true,
+                "show_installments": true
+              }
+            },
+            "variant_picker": {
+              "type": "variant-picker",
+              "settings": {
+                "variant_style": "buttons"
+              }
+            },
+            "buy_buttons": {
+              "type": "buy-buttons",
+              "settings": {
+                "show_dynamic_checkout": true
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button",
+                    "show_price": true
+                  }
+                }
+              },
+              "block_order": []
+            },
+            "description": {
+              "type": "product-description",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "eyebrow",
+            "title",
+            "rating",
+            "price",
+            "variant_picker",
+            "buy_buttons",
+            "description"
+          ]
+        }
+      }
+    }
+  ]
+}
+{% endschema %}

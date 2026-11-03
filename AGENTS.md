@@ -140,8 +140,15 @@ everywhere:
 fields, badges, cart, drawers, popovers and modals, product cards, swatches,
 search, prices, social media. Component colors default to palette roles
 (`"default": "{{ settings.color_palette.foreground }}"`), so the theme styles
-in `config/settings_data.json` (Aurora, Clay, Noir) mostly set the palette,
-fonts, and corner radii. Format prices with `snippets/format-money.liquid`,
+in `config/settings_data.json` (Calyx, Clay, Noir; one must keep the theme's
+name) mostly set the palette, fonts, and corner radii. Each style has its
+listing templates in `listings/<style>/templates/`.
+
+Templates are the install state: they never reference store resources
+(products, collections other than `all`, pages, images, `shopify://` links),
+and schema defaults describe how to use a setting rather than demo copy.
+The demo store's own templates, with its copy and resources, live in
+`demo-store/` outside the theme folders. Format prices with `snippets/format-money.liquid`,
 not `| money`, so they follow the currency format setting.
 `snippets/color-palette.liquid` and `snippets/theme-styles-variables.liquid`
 turn them into CSS custom properties on `:root`.

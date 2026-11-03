@@ -84,7 +84,9 @@
     },
     "values": {
       "type": "value-cards",
-      "settings": {},
+      "settings": {
+        "heading": "What we stand for"
+      },
       "blocks": {
         "value_1": {
           "type": "_value-card",
@@ -164,12 +166,19 @@
     },
     "founder_quote": {
       "type": "quote-banner",
-      "settings": {},
+      "settings": {
+        "quote": "“Joy is the most underrated luxury. We wanted to make it something you can reach for every morning.”",
+        "author": "Our founder"
+      },
       "block_order": []
     },
     "responsibility": {
       "type": "stats-cards",
-      "settings": {},
+      "settings": {
+        "eyebrow": "Responsibility",
+        "heading": "Considered from bottle to box",
+        "link_label": "Read our sustainability report"
+      },
       "blocks": {
         "stat_1": {
           "type": "_stat",
@@ -209,27 +218,39 @@
     },
     "stockists": {
       "type": "logo-list",
-      "settings": {},
+      "settings": {
+        "heading": "Also found at"
+      },
       "blocks": {
         "logo_1": {
           "type": "_logo",
-          "settings": {}
+          "settings": {
+            "name": "Stockist logo"
+          }
         },
         "logo_2": {
           "type": "_logo",
-          "settings": {}
+          "settings": {
+            "name": "Stockist logo"
+          }
         },
         "logo_3": {
           "type": "_logo",
-          "settings": {}
+          "settings": {
+            "name": "Stockist logo"
+          }
         },
         "logo_4": {
           "type": "_logo",
-          "settings": {}
+          "settings": {
+            "name": "Stockist logo"
+          }
         },
         "logo_5": {
           "type": "_logo",
-          "settings": {}
+          "settings": {
+            "name": "Stockist logo"
+          }
         }
       },
       "block_order": [

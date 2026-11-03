@@ -8,9 +8,9 @@
  * ------------------------------------------------------------
  */
 {
-  "current": "Aurora",
+  "current": "Calyx",
   "presets": {
-    "Aurora": {
+    "Calyx": {
       "color_palette": {
         "background": "#ffffff",
         "foreground": "#1f1a17",

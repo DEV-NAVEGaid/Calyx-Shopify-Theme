@@ -12,7 +12,7 @@
     "main": {
       "type": "main-404",
       "settings": {
-        "collection": "bestsellers"
+        "collection_heading": "Popular right now"
       },
       "blocks": {
         "heading_1": {

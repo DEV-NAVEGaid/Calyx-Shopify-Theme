@@ -5473,12 +5473,7 @@ predictive-search[aria-busy="true"] .predictive-search__body {
 }
 
 .search-product-card__title {
-  display: -webkit-box;
-  overflow: hidden;
   font-weight: 600;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
 }
 
 .search-product-card__price {

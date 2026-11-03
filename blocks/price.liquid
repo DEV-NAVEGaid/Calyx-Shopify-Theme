@@ -6,15 +6,18 @@
 {%- liquid
   assign current_product = closest.product
 
-  # The page's own product uses the product-page settings; cards use the product card settings.
+  # The page's own product uses the product-page settings; cards use the product
+  # card settings and show a price range when the variants' prices differ.
   if request.page_type == 'product' and current_product.id == product.id
     assign show_currency_code = settings.currency_code_enabled_product_pages
     assign show_compare_at = true
     assign show_unit_price = true
+    assign show_range = false
   else
     assign show_currency_code = settings.currency_code_enabled_product_cards
     assign show_compare_at = settings.card_show_compare_at_price
     assign show_unit_price = settings.card_show_unit_price
+    assign show_range = true
   endif
 -%}
 
@@ -28,7 +31,8 @@
       product: current_product,
       show_currency_code: show_currency_code,
       show_compare_at: show_compare_at,
-      show_unit_price: show_unit_price
+      show_unit_price: show_unit_price,
+      show_range: show_range
     %}
     {% if block.settings.show_tax_note %}
       <small class="price-block__note">

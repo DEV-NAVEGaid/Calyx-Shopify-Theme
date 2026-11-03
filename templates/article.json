@@ -14,7 +14,8 @@
       "settings": {
         "show_image": true,
         "show_date": true,
-        "show_author": true
+        "show_author": true,
+        "author_bio": "Our in-house team of perfumers, writers and wellbeing nerds."
       },
       "blocks": {
         "related-card": {

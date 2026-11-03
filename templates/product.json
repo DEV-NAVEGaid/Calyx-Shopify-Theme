@@ -156,7 +156,10 @@
             },
             "back_in_stock": {
               "type": "back-in-stock",
-              "settings": {}
+              "settings": {
+                "heading": "Notify me when it’s back",
+                "text": "We’ll email you once, the moment it lands."
+              }
             },
             "pickup": {
               "type": "pickup-availability",
@@ -312,7 +315,10 @@
     },
     "notes": {
       "type": "notes-grid",
-      "settings": {},
+      "settings": {
+        "eyebrow": "Inside the bottle",
+        "heading": "What each note does"
+      },
       "blocks": {
         "note_1": {
           "type": "_note",
@@ -417,7 +423,10 @@
     },
     "ingredients": {
       "type": "ingredients-explorer",
-      "settings": {},
+      "settings": {
+        "eyebrow": "The ingredients",
+        "text": "<p>Five botanicals form the heart of this scent. Each one is chosen for how it makes you feel — together they build a scent that is bright, steady and quietly confident.</p>"
+      },
       "blocks": {
         "ingredient_1": {
           "type": "_ingredient",
@@ -465,12 +474,18 @@
     },
     "bundle": {
       "type": "product-bundle",
-      "settings": {},
+      "settings": {
+        "heading": "Complete the ritual"
+      },
       "block_order": []
     },
     "reviews": {
       "type": "product-reviews",
-      "settings": {},
+      "settings": {
+        "heading": "Reviews",
+        "topics": "Long-lasting\nCompliment magnet\nWarm\nNot too sweet",
+        "anchor": "reviews"
+      },
       "blocks": {
         "review_1": {
           "type": "_review",
@@ -508,7 +523,10 @@
     },
     "related": {
       "type": "product-recommendations",
-      "settings": {},
+      "settings": {
+        "heading": "You may also like",
+        "link_label": "Shop all"
+      },
       "blocks": {
         "product-card": {
           "type": "product-card",

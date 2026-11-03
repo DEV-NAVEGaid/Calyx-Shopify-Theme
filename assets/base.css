@@ -234,16 +234,20 @@
   z-index: 2;
 }
 
-/* Card titles: heading font at body size, tracked out, at most two lines. */
+/* Card titles: heading font at body size, tracked out. */
 .product-card .product-title {
-  display: -webkit-box;
-  overflow: hidden;
   font-family: var(--font-heading--family);
   font-weight: var(--font-heading--weight);
   font-size: 16px;
   line-height: 22px;
   letter-spacing: 0.07em;
   text-transform: var(--product-card--title-case);
+}
+
+/* Theme settings > Product cards > Limit titles to two lines. */
+.card-titles-clamped :is(.product-card .product-title, .search-product-card__title) {
+  display: -webkit-box;
+  overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;

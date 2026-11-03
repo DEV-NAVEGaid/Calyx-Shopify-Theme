@@ -14,7 +14,9 @@
       "settings": {
         "padding-block-start": 48,
         "padding-block-end": 96,
-        "empty_collection": "bestsellers"
+        "empty_text": "Not sure where to start? Explore our collections or start with our bestsellers.",
+        "empty_button_label": "Explore collections",
+        "empty_heading": "Bestsellers to start with"
       },
       "blocks": {
         "cart-title": {

@@ -1,0 +1,318 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page_hero": {
+      "type": "page-hero",
+      "settings": {},
+      "block_order": [
+        "eyebrow_1",
+        "heading_2",
+        "text_3"
+      ],
+      "blocks": {
+        "eyebrow_1": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "Our story"
+          }
+        },
+        "heading_2": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "We make good feelings",
+            "size": "display",
+            "tag": "h1"
+          }
+        },
+        "text_3": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>We began with a simple question: what if your fragrance could help you feel the way you want to feel?</p>",
+            "size": "large"
+          }
+        }
+      }
+    },
+    "origin": {
+      "type": "image-with-text",
+      "settings": {},
+      "block_order": [
+        "eyebrow_1",
+        "heading_2",
+        "text_3",
+        "button_4"
+      ],
+      "blocks": {
+        "eyebrow_1": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "Founded 2021"
+          }
+        },
+        "heading_2": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Fragrance as a daily ritual, not a finishing touch",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "text_3": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>We started in a small studio with a perfumer, a botanist and a wall of mood boards. Every scent is built backwards: first the feeling, then the plants traditionally linked to it, then the composition.</p><p>The result is a collection of six genderless eau de parfums, body veils and home scents designed to be worn on purpose.</p>",
+            "size": "large"
+          }
+        },
+        "button_4": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Explore the collection",
+            "link": "",
+            "style": "dark"
+          }
+        }
+      }
+    },
+    "values": {
+      "type": "value-cards",
+      "settings": {
+        "heading": "What we stand for"
+      },
+      "blocks": {
+        "value_1": {
+          "type": "_value-card",
+          "settings": {
+            "icon": "leaf",
+            "title": "Botanical first",
+            "text": "85% natural-origin ingredients, sourced from growers we know by name."
+          }
+        },
+        "value_2": {
+          "type": "_value-card",
+          "settings": {
+            "icon": "heart",
+            "title": "Kind by default",
+            "text": "Vegan, cruelty-free and free from phthalates, parabens and dyes."
+          }
+        },
+        "value_3": {
+          "type": "_value-card",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Made to be felt",
+            "text": "Each formula is tested with real wearers for how it makes them feel."
+          }
+        }
+      },
+      "block_order": [
+        "value_1",
+        "value_2",
+        "value_3"
+      ]
+    },
+    "how_we_make_it": {
+      "type": "ritual-steps",
+      "settings": {
+        "eyebrow": "How we make it",
+        "heading": "From feeling to formula",
+        "text": "",
+        "number_style": "numeral"
+      },
+      "blocks": {
+        "step_1": {
+          "type": "_ritual-step",
+          "settings": {
+            "title": "Start with a feeling",
+            "text": "We define the mood in words, colours and memories."
+          }
+        },
+        "step_2": {
+          "type": "_ritual-step",
+          "settings": {
+            "title": "Choose the botanicals",
+            "text": "Plants traditionally linked to that feeling become the heart."
+          }
+        },
+        "step_3": {
+          "type": "_ritual-step",
+          "settings": {
+            "title": "Compose with a perfumer",
+            "text": "Months of iterations until the blend feels right."
+          }
+        },
+        "step_4": {
+          "type": "_ritual-step",
+          "settings": {
+            "title": "Test with real wearers",
+            "text": "Panels rate how each scent makes them feel, not just how it smells."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4"
+      ]
+    },
+    "founder_quote": {
+      "type": "quote-banner",
+      "settings": {
+        "quote": "“Joy is the most underrated luxury. We wanted to make it something you can reach for every morning.”",
+        "author": "Our founder"
+      },
+      "block_order": []
+    },
+    "responsibility": {
+      "type": "stats-cards",
+      "settings": {
+        "eyebrow": "Responsibility",
+        "heading": "Considered from bottle to box",
+        "link_label": "Read our sustainability report"
+      },
+      "blocks": {
+        "stat_1": {
+          "type": "_stat",
+          "settings": {
+            "value": "60%",
+            "label": "plant-fibre outer packaging"
+          }
+        },
+        "stat_2": {
+          "type": "_stat",
+          "settings": {
+            "value": "100%",
+            "label": "recyclable glass bottles"
+          }
+        },
+        "stat_3": {
+          "type": "_stat",
+          "settings": {
+            "value": "85%",
+            "label": "natural-origin ingredients"
+          }
+        },
+        "stat_4": {
+          "type": "_stat",
+          "settings": {
+            "value": "0",
+            "label": "animal testing at any stage"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4"
+      ]
+    },
+    "stockists": {
+      "type": "logo-list",
+      "settings": {
+        "heading": "Also found at"
+      },
+      "blocks": {
+        "logo_1": {
+          "type": "_logo",
+          "settings": {
+            "name": "Stockist logo"
+          }
+        },
+        "logo_2": {
+          "type": "_logo",
+          "settings": {
+            "name": "Stockist logo"
+          }
+        },
+        "logo_3": {
+          "type": "_logo",
+          "settings": {
+            "name": "Stockist logo"
+          }
+        },
+        "logo_4": {
+          "type": "_logo",
+          "settings": {
+            "name": "Stockist logo"
+          }
+        },
+        "logo_5": {
+          "type": "_logo",
+          "settings": {
+            "name": "Stockist logo"
+          }
+        }
+      },
+      "block_order": [
+        "logo_1",
+        "logo_2",
+        "logo_3",
+        "logo_4",
+        "logo_5"
+      ]
+    },
+    "cta": {
+      "type": "cta-band",
+      "settings": {},
+      "block_order": [
+        "heading_1",
+        "text_2",
+        "button_3",
+        "button_4"
+      ],
+      "blocks": {
+        "heading_1": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Find the scent for your mood",
+            "size": "h3",
+            "tag": "h2"
+          }
+        },
+        "text_2": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>Take the 60-second quiz or start with the Discovery Set.</p>",
+            "size": "default"
+          }
+        },
+        "button_3": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Take the quiz",
+            "link": "",
+            "style": "primary"
+          }
+        },
+        "button_4": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Shop Discovery Set",
+            "link": "",
+            "style": "secondary"
+          }
+        }
+      }
+    }
+  },
+  "order": [
+    "page_hero",
+    "origin",
+    "values",
+    "how_we_make_it",
+    "founder_quote",
+    "responsibility",
+    "stockists",
+    "cta"
+  ]
+}

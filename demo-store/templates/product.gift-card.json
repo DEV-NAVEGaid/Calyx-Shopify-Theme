@@ -1,0 +1,156 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "breadcrumbs",
+      "settings": {
+        "padding-block-start": 20,
+        "padding-block-end": 16
+      },
+      "block_order": []
+    },
+    "main": {
+      "type": "product-information",
+      "settings": {
+        "media_position": "left",
+        "gap": 64,
+        "padding-block-start": 24,
+        "padding-block-end": 100
+      },
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "columns": "gift_card",
+            "image_ratio": "adapt"
+          }
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "gap": 18,
+            "sticky": false
+          },
+          "blocks": {
+            "eyebrow": {
+              "type": "product-meta",
+              "settings": {
+                "text": "",
+                "style": "eyebrow"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "type_preset": "h1",
+                "heading_level": "h1",
+                "show_sold_out_badge": true
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "type_preset": "h3",
+                "show_tax_note": false,
+                "show_installments": false
+              }
+            },
+            "description": {
+              "type": "product-description",
+              "settings": {}
+            },
+            "variant_picker": {
+              "type": "variant-picker",
+              "settings": {
+                "variant_style": "buttons",
+                "guide_label": "Size & ingredients guide"
+              }
+            },
+            "recipient": {
+              "type": "gift-card-recipient",
+              "settings": {}
+            },
+            "buy_buttons": {
+              "type": "buy-buttons",
+              "settings": {
+                "show_dynamic_checkout": true
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button",
+                    "show_price": true
+                  }
+                }
+              },
+              "block_order": []
+            },
+            "details": {
+              "type": "accordion",
+              "settings": {
+                "icon": "plus",
+                "dividers": true
+              },
+              "blocks": {
+                "how": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "How gift cards work",
+                    "open_by_default": false
+                  },
+                  "blocks": {
+                    "content": {
+                      "type": "text",
+                      "settings": {
+                        "type_preset": "rte",
+                        "text": "<p>Your gift card arrives by email with a code to use at checkout. Send it to yourself, or to someone else on the date you choose. It never expires.</p>"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "content"
+                  ]
+                }
+              },
+              "block_order": [
+                "how"
+              ]
+            }
+          },
+          "block_order": [
+            "eyebrow",
+            "title",
+            "price",
+            "description",
+            "variant_picker",
+            "recipient",
+            "buy_buttons",
+            "details"
+          ]
+        }
+      },
+      "block_order": []
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "main"
+  ]
+}

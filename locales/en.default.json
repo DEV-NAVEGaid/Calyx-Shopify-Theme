@@ -220,6 +220,7 @@
     "popular_products": "Popular products",
     "price_from": "From",
     "price_label": "Price:",
+    "price_range": "{{ min }} – {{ max }}",
     "price_regular": "Regular price",
     "price_sale": "Sale price",
     "price_to": "To",

@@ -50,7 +50,8 @@
         "heading": "10% off your first order",
         "text": "Plus new arrivals, rituals and early access to launches. No spam, ever.",
         "button_label": "Unlock 10% off",
-        "delay": 6
+        "delay": 6,
+        "fine_print": "By subscribing you agree to receive marketing emails. Unsubscribe anytime."
       }
     }
   },

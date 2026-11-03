@@ -7,6 +7,8 @@
   @param {boolean} [show_currency_code] - Show the currency code after the amount.
   @param {boolean} [show_compare_at] - Show the compare-at price of a sale. Default: true.
   @param {boolean} [show_unit_price] - Show the unit price, such as "$2.50/ml". Default: true.
+  @param {boolean} [show_range] - When variants have different prices, show the
+    lowest to highest price instead of one variant's price (product cards).
 
   @example
   {% render 'price', product: closest.product, show_currency_code: false %}
@@ -14,8 +16,13 @@
 
 {%- liquid
   assign variant = product.selected_or_first_available_variant
+  assign range = false
+  if show_range and product.price_varies
+    assign range = true
+  endif
+
   assign on_sale = false
-  if variant.compare_at_price > variant.price
+  if variant.compare_at_price > variant.price and range == false
     assign on_sale = true
   endif
 
@@ -30,7 +37,15 @@
     <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
   {% endif %}
   <span class="price__current">
-    {%- render 'format-money', amount: variant.price, show_currency_code: show_currency_code -%}
+    {%- if range -%}
+      {%- capture price_min -%}{%- render 'format-money', amount: product.price_min, show_currency_code: show_currency_code -%}{%- endcapture -%}
+      {%- capture price_max -%}{%- render 'format-money', amount: product.price_max, show_currency_code: show_currency_code -%}{%- endcapture -%}
+      {%- assign price_min = price_min | strip -%}
+      {%- assign price_max = price_max | strip -%}
+      {{- 'content.price_range' | t: min: price_min, max: price_max -}}
+    {%- else -%}
+      {%- render 'format-money', amount: variant.price, show_currency_code: show_currency_code -%}
+    {%- endif -%}
   </span>
 
   {% if compare_at_visible %}

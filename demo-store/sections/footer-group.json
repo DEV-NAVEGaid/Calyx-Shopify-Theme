@@ -1,0 +1,62 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "t:names.footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "show_newsletter": true,
+        "newsletter_text": "Join our circle for 10% off your first order.",
+        "show_wordmark": true,
+        "show_localization": true,
+        "show_follow_on_shop": true,
+        "show_social_icons": true,
+        "background_style": "grain"
+      },
+      "blocks": {
+        "menu_1": {
+          "type": "menu",
+          "settings": {
+            "menu": "main-menu",
+            "show_heading": true
+          }
+        },
+        "menu_2": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer",
+            "show_heading": true
+          }
+        }
+      },
+      "block_order": [
+        "menu_1",
+        "menu_2"
+      ]
+    },
+    "newsletter_popup": {
+      "type": "newsletter-popup",
+      "settings": {
+        "eyebrow": "Join the list",
+        "heading": "10% off your first order",
+        "text": "Plus new arrivals, rituals and early access to launches. No spam, ever.",
+        "button_label": "Unlock 10% off",
+        "delay": 6,
+        "fine_print": "By subscribing you agree to receive marketing emails. Unsubscribe anytime."
+      }
+    }
+  },
+  "order": [
+    "footer",
+    "newsletter_popup"
+  ]
+}
