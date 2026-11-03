@@ -1,0 +1,70 @@
+{% comment %}
+  A strip of short phrases that scrolls on a loop, separated by sparkles.
+  The phrases are blocks; the list is repeated so the loop has no gap.
+  Pauses on hover and stays still for reduced motion.
+{% endcomment %}
+
+{%- capture items -%}
+  {% content_for 'blocks' %}
+{%- endcapture -%}
+
+<div
+  class="marquee"
+  style="--marquee-background: {{ section.settings.background_color }}; --marquee-text: {{ section.settings.text_color }}; --marquee-duration: {{ section.settings.speed }}s;"
+>
+  {% for copy in (1..2) %}
+    <div class="marquee__track" {% if forloop.last %}aria-hidden="true"{% endif %}>
+      {{ items }}
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.marquee",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "blocks": [{ "type": "_marquee-item" }],
+  "settings": [
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:settings.loop_duration",
+      "min": 10,
+      "max": 80,
+      "step": 2,
+      "unit": "s",
+      "default": 30,
+      "info": "t:info.loop_duration"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#2d1338"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#f7f3ec"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.marquee",
+      "category": "t:categories.text",
+      "blocks": {
+        "item_1": { "type": "_marquee-item", "settings": { "text": "t:text_defaults.marquee_1" } },
+        "item_2": { "type": "_marquee-item", "settings": { "text": "t:text_defaults.marquee_2" } },
+        "item_3": { "type": "_marquee-item", "settings": { "text": "t:text_defaults.marquee_3" } },
+        "item_4": { "type": "_marquee-item", "settings": { "text": "t:text_defaults.marquee_4" } }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4"]
+    }
+  ]
+}
+{% endschema %}

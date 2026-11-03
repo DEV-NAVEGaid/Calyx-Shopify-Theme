@@ -1,0 +1,18 @@
+{% doc %}
+  Renders the color overlay from the Appearance settings of a section or
+  block, on top of its background media. Renders nothing when
+  `toggle_overlay` is off.
+
+  @param {object} settings - Settings with `toggle_overlay`, `overlay_color`,
+    `overlay_style`, and `gradient_direction`.
+
+  @example
+  {% render 'overlay', settings: section.settings %}
+{% enddoc %}
+
+{%- if settings.toggle_overlay -%}
+  <div
+    class="overlay overlay--{{ settings.overlay_style | default: 'solid' }}"
+    style="--overlay-color: {{ settings.overlay_color }}; --overlay-direction: {{ settings.gradient_direction | default: 'to top' }};"
+  ></div>
+{%- endif -%}

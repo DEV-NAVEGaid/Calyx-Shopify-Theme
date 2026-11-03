@@ -1,0 +1,31 @@
+{% doc %}
+  A compact product card for search panels: photo, product type, title,
+  and price with the first variant's name.
+
+  @param {product} product - The product to show.
+
+  @example
+  {% render 'search-product-card', product: product %}
+{% enddoc %}
+
+{%- assign variant = product.selected_or_first_available_variant -%}
+
+<a class="search-product-card" href="{{ product.url }}">
+  <span class="search-product-card__media">
+    {%- if product.featured_image -%}
+      {{ product.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </span>
+  <span class="search-product-card__text">
+    {% if product.type != blank %}
+      <span class="eyebrow search-product-card__type">{{ product.type | escape }}</span>
+    {% endif %}
+    <span class="search-product-card__title">{{ product.title | escape }}</span>
+    <span class="search-product-card__price">
+      {%- render 'format-money', amount: variant.price -%}
+      {%- unless product.has_only_default_variant %} — {{ variant.title | escape }}{% endunless -%}
+    </span>
+  </span>
+</a>

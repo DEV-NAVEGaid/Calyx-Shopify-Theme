@@ -1,0 +1,58 @@
+{% doc %}
+  One review card: star rating, a short quote, a longer line, and who
+  said it.
+{% enddoc %}
+
+<figure class="testimonial" {{ block.shopify_attributes }}>
+  {% render 'rating-stars', rating: block.settings.rating, max: 5 %}
+  <blockquote class="testimonial__quote">
+    <p class="h5">{{ block.settings.quote | escape }}</p>
+    {% if block.settings.text != blank %}
+      <p class="testimonial__text">{{ block.settings.text | escape }}</p>
+    {% endif %}
+  </blockquote>
+  {% if block.settings.author != blank %}
+    <figcaption class="testimonial__author">{{ block.settings.author | escape }}</figcaption>
+  {% endif %}
+</figure>
+
+{% schema %}
+{
+  "name": "t:names.testimonial",
+  "tag": null,
+  "settings": [
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "t:settings.rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "quote",
+      "label": "t:settings.quote",
+      "default": "t:text_defaults.review_1_quote"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.review_1_text"
+    },
+    {
+      "type": "text",
+      "id": "author",
+      "label": "t:settings.author",
+      "default": "t:text_defaults.review_1_author"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.testimonial"
+    }
+  ]
+}
+{% endschema %}

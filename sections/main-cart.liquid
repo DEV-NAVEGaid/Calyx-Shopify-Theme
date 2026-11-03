@@ -1,0 +1,147 @@
+{% comment %}
+  The cart page: the title row with a link back to the shop, the free
+  shipping progress, then the line items beside the order summary (static
+  blocks), followed by any extra blocks. assets/cart-items.js re-renders
+  this section when a quantity or discount code changes.
+{% endcomment %}
+
+<div class="home-section main-cart spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <cart-items
+    class="home-section__inner main-cart__inner"
+    data-section-id="{{ section.id }}"
+    data-cart-change-url="{{ routes.cart_change_url }}"
+    data-cart-update-url="{{ routes.cart_update_url }}"
+  >
+    {% if cart.item_count > 0 %}
+      <div class="main-cart__header">
+        {% content_for 'block', type: '_cart-title', id: 'cart-title' %}
+        <a class="arrow-link" href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}">
+          {{- 'actions.continue_shopping' | t -}}
+          {% render 'icon', icon: 'arrow-right' %}
+        </a>
+      </div>
+
+      {% render 'free-shipping-bar', icon: true %}
+      <div class="main-cart__layout">
+        {% content_for 'block', type: '_cart-products', id: 'cart-products' %}
+        {% content_for 'block', type: '_cart-summary', id: 'cart-summary' %}
+      </div>
+    {% else %}
+      <div class="empty-state main-cart__empty">
+        <span class="empty-state__icon">{% render 'icon', icon: 'bag' %}</span>
+        <h1 class="h2">{{ 'content.cart_empty_title' | t }}</h1>
+        {% if section.settings.empty_text != blank %}
+          <p class="body-l">{{ section.settings.empty_text | escape }}</p>
+        {% endif %}
+        <div class="main-cart__empty-actions">
+          <a class="button-dark" href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}">
+            {{- 'actions.continue_shopping' | t -}}
+          </a>
+          {% if section.settings.empty_button_label != blank %}
+            <a class="button-secondary" href="{{ section.settings.empty_button_link | default: routes.collections_url }}">
+              {{- section.settings.empty_button_label | escape -}}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      {%- assign suggested = section.settings.empty_collection -%}
+      {% if suggested != blank %}
+        <div class="main-cart__suggested">
+          {% if section.settings.empty_heading != blank %}
+            <h2 class="h3">{{ section.settings.empty_heading | escape }}</h2>
+          {% endif %}
+          <ul class="product-grid" role="list" style="--columns-desktop: 4; --columns-mobile: 2;">
+            {% for product in suggested.products limit: 4 %}
+              <li>{% content_for 'block', type: 'product-card', id: 'empty-product-card', closest.product: product %}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endif %}
+  </cart-items>
+  {% content_for 'blocks' %}
+</div>
+
+<script src="{{ 'cart-items.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.cart",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.empty_cart"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.empty_cart_text"
+    },
+    {
+      "type": "text",
+      "id": "empty_button_label",
+      "label": "t:settings.second_button_label",
+      "default": "t:text_defaults.empty_cart_button"
+    },
+    {
+      "type": "url",
+      "id": "empty_button_link",
+      "label": "t:settings.second_button_link"
+    },
+    {
+      "type": "text",
+      "id": "empty_heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.suggested_heading"
+    },
+    {
+      "type": "collection",
+      "id": "empty_collection",
+      "label": "t:settings.collection",
+      "info": "t:info.empty_cart_collection"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,76 @@
+{% comment %}
+  Predictive search results, rendered by Shopify at the predictive search
+  route (assets/predictive-search.js requests it with this section's name).
+  Suggestions, collections, and pages on the left; products as cards on
+  the right; a link to every result at the bottom. Never placed on a page.
+{% endcomment %}
+
+{%- liquid
+  assign terms = predictive_search.terms | escape
+  assign resources = predictive_search.resources
+  assign pages = resources.pages | concat: resources.articles
+-%}
+
+<div class="predictive-search__results" data-predictive-results-count="{{ resources.products.size | plus: resources.queries.size }}">
+  {% if resources.queries.size > 0 or resources.collections.size > 0 or pages.size > 0 %}
+    <div class="predictive-search__lists">
+      {% if resources.queries.size > 0 %}
+        <div class="predictive-search__group">
+          <p class="eyebrow predictive-search__label">{{ 'content.suggestions' | t }}</p>
+          <ul role="list">
+            {% for query in resources.queries %}
+              <li><a class="predictive-search__query" href="{{ query.url }}">{{ query.styled_text }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if resources.collections.size > 0 %}
+        <div class="predictive-search__group">
+          <p class="eyebrow predictive-search__label">{{ 'content.collections_title' | t }}</p>
+          <ul role="list">
+            {% for collection in resources.collections %}
+              <li><a href="{{ collection.url }}">{{ collection.title | escape }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if pages.size > 0 %}
+        <div class="predictive-search__group">
+          <p class="eyebrow predictive-search__label">{{ 'content.pages' | t }}</p>
+          <ul role="list">
+            {% for page in pages limit: 4 %}
+              <li><a href="{{ page.url }}">{{ page.title | escape }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="predictive-search__products">
+    {% if resources.products.size > 0 %}
+      <p class="eyebrow predictive-search__label">{{ 'content.products' | t }}</p>
+      <ul class="predictive-search__grid" role="list">
+        {% for product in resources.products %}
+          <li>{% render 'search-product-card', product: product %}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="predictive-search__none">{{ 'content.search_no_results_title' | t: terms: terms }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<a class="predictive-search__all" href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&options%5Bprefix%5D=last">
+  {{- 'content.search_for' | t: terms: terms -}}
+  {% render 'icon', icon: 'arrow-right' %}
+</a>
+
+{% schema %}
+{
+  "name": "t:names.predictive_search",
+  "settings": []
+}
+{% endschema %}

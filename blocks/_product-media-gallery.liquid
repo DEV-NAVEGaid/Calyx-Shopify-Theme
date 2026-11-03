@@ -1,0 +1,232 @@
+{% doc %}
+  The product page media: images, videos, and 3D models.
+  - Thumbnails: one large media with a row of thumbnails beneath; the
+    selected variant's media shows first (assets/product-gallery.js).
+  - One or two columns: every media stacked, the variant's media first.
+  - Gift card: the product photo as a card with the store name and the
+    selected amount.
+  Scrolls horizontally on small screens. Sale, sold out, and "badge:" tag
+  badges sit on the large media.
+{% enddoc %}
+
+{%- liquid
+  assign product = closest.product
+  assign featured = product.selected_or_first_available_variant.featured_media | default: product.featured_media
+
+  case block.settings.image_ratio
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'landscape'
+      assign ratio = '16 / 9'
+    else
+      assign ratio = 'auto'
+  endcase
+
+  # The thumbnails layout keeps the large media at the design's portrait shape.
+  if block.settings.columns == 'thumbnails' and ratio == 'auto'
+    assign ratio = '720 / 860'
+  endif
+
+  assign variant = product.selected_or_first_available_variant
+  assign tag_badge = blank
+  if settings.show_tag_badges
+    for tag in product.tags
+      if tag contains 'badge:'
+        assign tag_badge = tag | remove_first: 'badge:' | strip
+        break
+      endif
+    endfor
+  endif
+-%}
+
+<div
+  class="product-media-gallery product-media-gallery--{{ block.settings.columns }} spacing-style"
+  style="--media-ratio: {{ ratio }}; {% render 'spacing-style', settings: block.settings %}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.columns == 'gift_card' %}
+    <div class="gift-card-visual">
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 1440 | image_tag: widths: '720, 1080, 1440', sizes: '(min-width: 990px) 50vw, 100vw', fetchpriority: 'high', alt: '' }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag }}
+      {%- endif -%}
+      <p class="gift-card-visual__brand">{{ shop.name | escape }}</p>
+      <p class="gift-card-visual__value">
+        <span class="eyebrow">{{ 'content.gift_card' | t }}</span>
+        <span class="gift-card-visual__amount">{% render 'format-money', amount: variant.price %}</span>
+      </p>
+    </div>
+  {% elsif product.media.size == 0 %}
+    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+  {% elsif block.settings.columns == 'thumbnails' %}
+    <product-gallery class="product-gallery">
+      <div class="product-gallery__stage">
+        <div class="product-gallery__track" id="GalleryTrack-{{ block.id }}">
+          {% for media in product.media %}
+            <div
+              class="product-gallery__slide"
+              data-gallery-slide
+              {% unless media.id == featured.id %}
+                hidden
+              {% endunless %}
+            >
+              {% render 'product-media', media: media, eager: forloop.first %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="product-gallery__badges">
+          {% unless variant.available %}
+            <span class="badge badge--sold-out">{{ 'content.sold_out' | t }}</span>
+          {% endunless %}
+          {% if variant.available and variant.compare_at_price > variant.price %}
+            <span class="badge badge--sale">{{ 'content.sale' | t }}</span>
+          {% endif %}
+          {% if tag_badge != blank %}
+            <span class="badge badge--tag">{{ tag_badge | escape }}</span>
+          {% endif %}
+        </div>
+
+        {% if product.media.size > 1 %}
+          <scroll-dots class="scroll-dots product-gallery__dots" data-for="GalleryTrack-{{ block.id }}">
+            {% for media in product.media %}
+              <button
+                class="scroll-dots__dot"
+                type="button"
+                aria-label="{{ 'accessibility.go_to_image' | t: number: forloop.index }}"
+                {% if forloop.first %}
+                  aria-current="true"
+                {% endif %}
+              ></button>
+            {% endfor %}
+          </scroll-dots>
+          <script src="{{ 'scroll-dots.js' | asset_url }}" type="module"></script>
+        {% endif %}
+      </div>
+
+      {% if product.media.size > 1 %}
+        <div class="product-gallery__thumbs">
+          {% for media in product.media %}
+            <button
+              class="product-gallery__thumb"
+              type="button"
+              data-gallery-thumb="{{ forloop.index0 }}"
+              aria-label="{{ 'accessibility.go_to_image' | t: number: forloop.index }}"
+              {% if media.id == featured.id %}
+                aria-current="true"
+              {% endif %}
+            >
+              {{ media.preview_image | image_url: width: 280 | image_tag: loading: 'lazy', alt: '' }}
+              {% case media.media_type %}
+                {% when 'video', 'external_video' %}
+                  <span class="product-gallery__thumb-label">{% render 'icon', icon: 'play' %}</span>
+                {% when 'model' %}
+                  <span class="product-gallery__thumb-label">{{ 'content.model_3d' | t }}</span>
+              {% endcase %}
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </product-gallery>
+    <script src="{{ 'product-gallery.js' | asset_url }}" type="module"></script>
+  {% else %}
+    <ul class="product-media-gallery__list" role="list">
+      {% if featured %}
+        <li class="product-media-gallery__item">
+          {% render 'product-media', media: featured, eager: true %}
+        </li>
+      {% endif %}
+      {% for media in product.media %}
+        {% unless media.id == featured.id %}
+          <li class="product-media-gallery__item">
+            {% render 'product-media', media: media, eager: false %}
+          </li>
+        {% endunless %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.product_media",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "t:settings.layout",
+      "options": [
+        {
+          "value": "one",
+          "label": "t:options.media_columns.one"
+        },
+        {
+          "value": "two",
+          "label": "t:options.media_columns.two"
+        },
+        {
+          "value": "thumbnails",
+          "label": "t:options.media_columns.thumbnails"
+        },
+        {
+          "value": "gift_card",
+          "label": "t:options.media_columns.gift_card"
+        }
+      ],
+      "default": "thumbnails"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:settings.aspect_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:options.aspect_ratio.adapt"
+        },
+        {
+          "value": "square",
+          "label": "t:options.aspect_ratio.square"
+        },
+        {
+          "value": "portrait",
+          "label": "t:options.aspect_ratio.portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "t:options.aspect_ratio.landscape"
+        }
+      ],
+      "default": "adapt"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

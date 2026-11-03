@@ -1,0 +1,101 @@
+{% doc %}
+  Country/currency and language selectors. Each option is a submit button,
+  so switching works without JavaScript. A selector only shows when the
+  store sells in more than one country or language (Settings > Markets and
+  Settings > Languages).
+
+  @param {string} id - Unique prefix for the form id.
+  @param {string} [style] - `compact` ("US · USD $", "EN") for the header,
+    `full` ("United States (USD $)", "English") for the footer and drawer.
+  @param {boolean} [show_country] - Show the country selector. Default: true.
+  @param {boolean} [show_language] - Show the language selector. Default: true.
+
+  @example
+  {% render 'localization-form', id: 'HeaderLocalization', style: 'compact' %}
+{% enddoc %}
+
+{%- liquid
+  assign country_visible = false
+  if show_country != false and localization.available_countries.size > 1
+    assign country_visible = true
+  endif
+
+  assign language_visible = false
+  if show_language != false and localization.available_languages.size > 1
+    assign language_visible = true
+  endif
+
+  assign form_id = id | append: '-Form'
+  assign form_class = 'localization localization--' | append: style
+  assign current_country = localization.country
+-%}
+
+{%- if country_visible or language_visible -%}
+  {% form 'localization', id: form_id, class: form_class %}
+    <input type="hidden" name="return_to" value="{{ request.path }}">
+
+    {% if country_visible %}
+      <details class="localization__selector">
+        <summary class="localization__toggle">
+          {% if style == 'full' %}
+            {% render 'icon', icon: 'globe' %}
+            {{ current_country.name }} ({{ current_country.currency.iso_code }} {{ current_country.currency.symbol }})
+          {% else %}
+            {{ current_country.iso_code }} · {{ current_country.currency.iso_code }} {{ current_country.currency.symbol }}
+          {% endif %}
+          {% render 'icon', icon: 'chevron-down' %}
+          <span class="visually-hidden">{{ 'accessibility.country_region' | t }}</span>
+        </summary>
+        <ul class="localization__list" role="list">
+          {% for country in localization.available_countries %}
+            <li>
+              <button
+                class="localization__option"
+                type="submit"
+                name="country_code"
+                value="{{ country.iso_code }}"
+                {% if country.iso_code == current_country.iso_code %}
+                  aria-current="true"
+                {% endif %}
+              >
+                {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+              </button>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% endif %}
+
+    {% if language_visible %}
+      <details class="localization__selector">
+        <summary class="localization__toggle">
+          {% if style == 'full' %}
+            {{ localization.language.endonym_name | capitalize }}
+          {% else %}
+            {{ localization.language.iso_code | upcase }}
+          {% endif %}
+          {% render 'icon', icon: 'chevron-down' %}
+          <span class="visually-hidden">{{ 'accessibility.language' | t }}</span>
+        </summary>
+        <ul class="localization__list" role="list">
+          {% for language in localization.available_languages %}
+            <li>
+              <button
+                class="localization__option"
+                type="submit"
+                name="language_code"
+                value="{{ language.iso_code }}"
+                lang="{{ language.iso_code }}"
+                {% if language.iso_code == localization.language.iso_code %}
+                  aria-current="true"
+                {% endif %}
+              >
+                {{ language.endonym_name | capitalize }}
+              </button>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% endif %}
+  {% endform %}
+{%- endif -%}

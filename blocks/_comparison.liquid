@@ -1,0 +1,100 @@
+{% doc %}
+  One before/after pair: a large drag-to-compare view and a thumbnail that
+  selects it. An optional product shows as a "Results from" chip linking to
+  it. The first pair starts selected.
+{% enddoc %}
+
+{%- liquid
+  assign is_first = false
+  if section.blocks.first.id == block.id
+    assign is_first = true
+  endif
+  assign product = block.settings.product
+  assign slider_id = 'Comparison-' | append: block.id
+-%}
+
+<div class="comparison{% if is_first %} is-active{% endif %}" data-comparison {{ block.shopify_attributes }}>
+  <div class="comparison__stage" style="--position: 50%;">
+    <div class="comparison__image comparison__image--after">
+      {% if block.settings.after_image != blank %}
+        {{ block.settings.after_image | image_url: width: 1400 | image_tag: widths: '640, 960, 1280, 1400', sizes: '(min-width: 990px) 640px, 100vw', loading: 'lazy', alt: block.settings.after_image.alt }}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+    <div class="comparison__image comparison__image--before">
+      {% if block.settings.before_image != blank %}
+        {{ block.settings.before_image | image_url: width: 1400 | image_tag: widths: '640, 960, 1280, 1400', sizes: '(min-width: 990px) 640px, 100vw', loading: 'lazy', alt: block.settings.before_image.alt }}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg comparison__placeholder-before' }}
+      {% endif %}
+    </div>
+
+    <span class="comparison__label comparison__label--before eyebrow">{{ 'content.before' | t }}</span>
+    <span class="comparison__label comparison__label--after eyebrow">{{ 'content.after' | t }}</span>
+
+    <span class="comparison__divider" aria-hidden="true">
+      <span class="comparison__handle">
+        {% render 'icon', icon: 'chevron-left' %}
+        {% render 'icon', icon: 'chevron-right' %}
+      </span>
+    </span>
+
+    <label class="visually-hidden" for="{{ slider_id }}">{{ 'accessibility.compare_slider' | t }}</label>
+    <input class="comparison__range" id="{{ slider_id }}" type="range" min="0" max="100" value="50" data-comparison-range>
+
+    {% if product != blank %}
+      <a class="comparison__product" href="{{ product.url }}">
+        <span class="comparison__product-image">
+          {% if product.featured_image %}
+            {{ product.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+          {% endif %}
+        </span>
+        <span class="comparison__product-text">
+          <span class="comparison__product-label">{{ 'content.results_from' | t }}</span>
+          <span class="comparison__product-title">{{ product.title | escape }}</span>
+        </span>
+        {% render 'icon', icon: 'arrow-right' %}
+      </a>
+    {% endif %}
+  </div>
+
+  <button class="comparison__thumb" type="button" data-comparison-select aria-pressed="{{ is_first }}">
+    {% if block.settings.after_image != blank %}
+      {{ block.settings.after_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}
+    {% else %}
+      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+    <span class="visually-hidden">{{ 'accessibility.show_comparison' | t }}</span>
+  </button>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.comparison",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "t:settings.before_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "t:settings.after_image"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:settings.product",
+      "info": "t:info.comparison_product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.comparison"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,63 @@
+{% doc %}
+  Submit button for the section's product form. Disabled when the selected
+  variant is sold out.
+{% enddoc %}
+
+{%- assign variant = closest.product.selected_or_first_available_variant -%}
+
+<button
+  class="{{ block.settings.style_class }} add-to-cart"
+  type="submit"
+  name="add"
+  form="product-form-{{ section.id }}"
+  {% unless variant.available %}
+    disabled
+  {% endunless %}
+  {{ block.shopify_attributes }}
+>
+  {%- if variant.available and block.settings.show_price -%}
+    {%- capture price %}{% render 'format-money', amount: variant.price %}{% endcapture -%}
+    {{ 'actions.add_to_cart_with_price' | t: price: price }}
+  {%- elsif variant.available -%}
+    {{ 'actions.add_to_cart' | t }}
+  {%- else -%}
+    {{ 'content.sold_out' | t }}
+  {%- endif -%}
+</button>
+
+{% schema %}
+{
+  "name": "t:names.add_to_cart",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "style_class",
+      "label": "t:settings.style",
+      "options": [
+        {
+          "value": "button",
+          "label": "t:options.button_style.primary"
+        },
+        {
+          "value": "button-secondary",
+          "label": "t:options.button_style.secondary"
+        }
+      ],
+      "default": "button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "t:settings.show_price_in_button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.add_to_cart",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

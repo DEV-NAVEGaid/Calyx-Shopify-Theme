@@ -1,0 +1,56 @@
+{% doc %}
+  Links to the store's social media profiles from Theme settings > Social
+  media. Only filled-in profiles show.
+{% enddoc %}
+
+<ul class="social-links" role="list" {{ block.shopify_attributes }}>
+  {% if settings.social_facebook_link != blank %}
+    <li>
+      <a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener">{{ 'blocks.social_links.facebook' | t }}</a>
+    </li>
+  {% endif %}
+  {% if settings.social_instagram_link != blank %}
+    <li>
+      <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener">{{ 'blocks.social_links.instagram' | t }}</a>
+    </li>
+  {% endif %}
+  {% if settings.social_tiktok_link != blank %}
+    <li>
+      <a href="{{ settings.social_tiktok_link }}" target="_blank" rel="noopener">{{ 'blocks.social_links.tiktok' | t }}</a>
+    </li>
+  {% endif %}
+  {% if settings.social_x_link != blank %}
+    <li>
+      <a href="{{ settings.social_x_link }}" target="_blank" rel="noopener">{{ 'blocks.social_links.x' | t }}</a>
+    </li>
+  {% endif %}
+  {% if settings.social_youtube_link != blank %}
+    <li>
+      <a href="{{ settings.social_youtube_link }}" target="_blank" rel="noopener">{{ 'blocks.social_links.youtube' | t }}</a>
+    </li>
+  {% endif %}
+  {% if settings.social_pinterest_link != blank %}
+    <li>
+      <a href="{{ settings.social_pinterest_link }}" target="_blank" rel="noopener">{{ 'blocks.social_links.pinterest' | t }}</a>
+    </li>
+  {% endif %}
+</ul>
+
+{% schema %}
+{
+  "name": "t:names.social_links",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.social_links_info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.social_links",
+      "category": "t:categories.links"
+    }
+  ]
+}
+{% endschema %}

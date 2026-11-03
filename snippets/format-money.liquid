@@ -1,0 +1,21 @@
+{% doc %}
+  Formats an amount with the store's money format, following Theme settings
+  > Prices: with the currency code, or without trailing zeros ($125 instead
+  of $125.00). Capture the output to use it inside other strings.
+
+  @param {number} amount - Amount in the currency's minor units, such as `variant.price`.
+  @param {boolean} [show_currency_code] - Add the currency code, such as "USD".
+
+  @example
+  {% render 'format-money', amount: variant.price, show_currency_code: settings.currency_code_enabled_product_pages %}
+{% enddoc %}
+
+{%- liquid
+  if show_currency_code
+    echo amount | money_with_currency
+  elsif settings.currency_format == 'without_trailing_zeros'
+    echo amount | money_without_trailing_zeros
+  else
+    echo amount | money
+  endif
+-%}

@@ -1,0 +1,46 @@
+{% doc %}
+  The product form: the selected variant, the quantity and add-to-cart
+  static blocks, and the dynamic checkout buttons.
+{% enddoc %}
+
+{%- liquid
+  assign product = closest.product
+  assign form_id = 'product-form-' | append: section.id
+-%}
+
+<div class="buy-buttons" {{ block.shopify_attributes }}>
+  {% form 'product', product, id: form_id, class: 'buy-buttons__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+    <div class="buy-buttons__row">
+      {% content_for 'block', type: 'quantity', id: 'quantity' %}
+      {% content_for 'block', type: 'add-to-cart', id: 'add-to-cart' %}
+    </div>
+
+    {% if block.settings.show_dynamic_checkout %}
+      {{ form | payment_button }}
+    {% endif %}
+  {% endform %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.buy_buttons",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "t:settings.show_dynamic_checkout",
+      "default": true,
+      "info": "t:info.dynamic_checkout"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.buy_buttons",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

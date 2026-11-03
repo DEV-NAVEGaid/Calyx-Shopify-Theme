@@ -1,0 +1,86 @@
+{% doc %}
+  Newsletter sign-up form. Subscribers are saved as customers tagged
+  "newsletter".
+{% enddoc %}
+
+{%- assign form_id = 'EmailSignup-' | append: block.id -%}
+
+<div class="email-signup size-style" style="{% render 'size-style', settings: block.settings %}" {{ block.shopify_attributes }}>
+  {% render 'newsletter-form',
+    id: form_id,
+    button_label: block.settings.button_label,
+    button_class: block.settings.style_class
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.email_signup",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:settings.button_label",
+      "default": "t:text_defaults.subscribe"
+    },
+    {
+      "type": "select",
+      "id": "style_class",
+      "label": "t:settings.style",
+      "options": [
+        {
+          "value": "button",
+          "label": "t:options.button_style.primary"
+        },
+        {
+          "value": "button-secondary",
+          "label": "t:options.button_style.secondary"
+        }
+      ],
+      "default": "button"
+    },
+    {
+      "type": "header",
+      "content": "t:content.size"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "fit",
+          "label": "t:options.width.fit"
+        },
+        {
+          "value": "fill",
+          "label": "t:options.width.fill"
+        },
+        {
+          "value": "custom",
+          "label": "t:options.width.custom"
+        }
+      ],
+      "default": "fill"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "label": "t:settings.custom_width",
+      "min": 5,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.width == 'custom' }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.email_signup",
+      "category": "t:categories.forms"
+    }
+  ]
+}
+{% endschema %}

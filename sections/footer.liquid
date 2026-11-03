@@ -1,0 +1,187 @@
+{% comment %}
+  The footer: link columns (blocks), a newsletter row, a large wordmark,
+  and a bottom bar with copyright, country/language, policy links,
+  Follow on Shop, and social icons. The background fades from the page
+  color into the gradient color, either as a static CSS gradient or as an
+  animated grainy gradient (assets/grain-gradient.js).
+
+  The wordmark is sized from its length so it always spans the footer;
+  names shorter than six characters are sized as six, so they don't grow
+  taller than the design.
+{% endcomment %}
+
+{%- liquid
+  assign form_id = 'FooterNewsletter-' | append: section.id
+  assign subscribe_label = 'actions.subscribe' | t
+  assign wordmark = section.settings.wordmark_text | default: shop.name | strip
+  assign wordmark_length = wordmark | size
+  if wordmark_length < 6
+    assign wordmark_length = 6
+  endif
+-%}
+
+<div
+  class="footer footer--{{ section.settings.background_style }}"
+  {% if section.settings.gradient_color != blank %}
+    style="--footer-gradient: {{ section.settings.gradient_color }};"
+  {% endif %}
+>
+  {% if section.settings.background_style == 'grain' %}
+    <grain-gradient class="footer__grain" aria-hidden="true"></grain-gradient>
+    <script src="{{ 'grain-gradient.js' | asset_url }}" type="module"></script>
+  {% endif %}
+
+  <div class="footer__inner">
+    {% if section.blocks.size > 0 %}
+      <div class="footer__columns">
+        {% content_for 'blocks' %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_newsletter %}
+      <div class="footer__newsletter">
+        {% if section.settings.newsletter_text != blank %}
+          <p class="footer__newsletter-text">{{ section.settings.newsletter_text | escape }}</p>
+        {% endif %}
+        {% render 'newsletter-form', id: form_id, button_label: subscribe_label %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_wordmark %}
+      <fit-text class="footer__wordmark" style="--wordmark-chars: {{ wordmark_length }};" aria-hidden="true">
+        {{- wordmark | escape -}}
+      </fit-text>
+      <script src="{{ 'fit-text.js' | asset_url }}" type="module"></script>
+    {% endif %}
+
+    <div class="footer__bottom">
+      <p class="footer__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}</p>
+
+      {% if section.settings.show_localization %}
+        <div class="footer__localization">
+          {% render 'localization-form', id: 'FooterLocalization', style: 'full' %}
+        </div>
+      {% endif %}
+
+      {% if shop.policies.size > 0 %}
+        <ul class="footer__policies" role="list">
+          {% for policy in shop.policies %}
+            <li><a href="{{ policy.url }}">{{ policy.title }}</a></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if section.settings.show_follow_on_shop %}
+        <div class="footer__follow">{{ shop | login_button: action: 'follow' }}</div>
+      {% endif %}
+
+      {% if section.settings.show_social_icons %}
+        <div class="footer__social">{% render 'social-icons' %}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.footer",
+  "class": "footer-section",
+  "tag": "footer",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "blocks": [{ "type": "@theme" }, { "type": "@app" }],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "t:settings.show_newsletter",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.footer_newsletter",
+      "visible_if": "{{ section.settings.show_newsletter }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.wordmark"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wordmark",
+      "label": "t:settings.show_wordmark",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "wordmark_text",
+      "label": "t:settings.wordmark_text",
+      "info": "t:info.wordmark_text",
+      "visible_if": "{{ section.settings.show_wordmark }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.bottom_bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_localization",
+      "label": "t:settings.show_localization",
+      "default": true,
+      "info": "t:info.show_localization"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_follow_on_shop",
+      "label": "t:settings.show_follow_on_shop",
+      "default": true,
+      "info": "t:info.show_follow_on_shop"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": "t:settings.show_social_icons",
+      "default": true,
+      "info": "t:info.show_social_icons"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "select",
+      "id": "background_style",
+      "label": "t:settings.background_style",
+      "options": [
+        { "value": "grain", "label": "t:options.footer_background.grain" },
+        { "value": "gradient", "label": "t:options.footer_background.gradient" }
+      ],
+      "default": "grain",
+      "info": "t:info.footer_background_style"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color",
+      "label": "t:settings.gradient_color",
+      "info": "t:info.gradient_color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.footer",
+      "blocks": {
+        "menu_1": { "type": "menu", "settings": { "menu": "main-menu" } },
+        "menu_2": { "type": "menu", "settings": { "menu": "footer" } }
+      },
+      "block_order": ["menu_1", "menu_2"]
+    }
+  ]
+}
+{% endschema %}

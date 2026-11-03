@@ -1,0 +1,137 @@
+{% comment %}
+  Ingredients explorer: a tall photo beside an intro, a row of numbered
+  ingredient photos (blocks), and the list of names with the selected
+  ingredient's description. Choosing a photo or a name selects it
+  (assets/ingredients-explorer.js).
+{% endcomment %}
+
+<ingredients-explorer class="ingredients-explorer spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="ingredients-explorer__media">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1400 | image_tag: widths: '640, 960, 1280, 1400', sizes: '(min-width: 990px) 640px, 100vw', loading: 'lazy', alt: section.settings.image.alt }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+
+  <div class="ingredients-explorer__content">
+    {% if section.settings.eyebrow != blank %}
+      <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {% endif %}
+    {% if section.settings.text != blank %}
+      <div class="ingredients-explorer__intro body-l">{{ section.settings.text }}</div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="ingredients-explorer__thumbs">
+        {% for block in section.blocks %}
+          <button
+            class="ingredients-explorer__thumb"
+            type="button"
+            data-ingredient-select="{{ forloop.index0 }}"
+            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-label="{{ block.settings.name | escape }}"
+          >
+            <span class="ingredients-explorer__index">[{{ forloop.index }}]</span>
+            <span class="ingredients-explorer__photo">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 260 | image_tag: loading: 'lazy', alt: '' }}
+              {%- else -%}
+                {{ 'lifestyle-2' | placeholder_svg_tag }}
+              {%- endif -%}
+            </span>
+          </button>
+        {% endfor %}
+      </div>
+
+      <div class="ingredients-explorer__detail">
+        <ol class="ingredients-explorer__list" role="list">
+          {% content_for 'blocks' %}
+        </ol>
+        {% for block in section.blocks %}
+          <div
+            class="ingredients-explorer__description"
+            data-ingredient-description
+            {% unless forloop.first %}
+              hidden
+            {% endunless %}
+          >
+            {{ block.settings.description }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</ingredients-explorer>
+
+<script src="{{ 'ingredients-explorer.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.ingredients_explorer",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_ingredient" }],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.ingredients_eyebrow"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:html_defaults.ingredients_text"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.ingredients_explorer",
+      "category": "t:categories.product",
+      "blocks": {
+        "ingredient_1": { "type": "_ingredient", "settings": { "name": "Fig leaf", "description": "t:html_defaults.ingredient_1" } },
+        "ingredient_2": { "type": "_ingredient", "settings": { "name": "Pink pepper", "description": "t:html_defaults.ingredient_2" } },
+        "ingredient_3": { "type": "_ingredient", "settings": { "name": "Orris root", "description": "t:html_defaults.ingredient_3" } },
+        "ingredient_4": { "type": "_ingredient", "settings": { "name": "Amber resin", "description": "t:html_defaults.ingredient_4" } },
+        "ingredient_5": { "type": "_ingredient", "settings": { "name": "Cedarwood", "description": "t:html_defaults.ingredient_5" } }
+      },
+      "block_order": ["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4", "ingredient_5"]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,117 @@
+{% comment %}
+  UGC mosaic: a headline stretched across the page, a line of text with
+  the community handle, then an edge-to-edge mosaic of photo tiles
+  (blocks). Small tiles fill one cell, large tiles two by two.
+{% endcomment %}
+
+{%- liquid
+  assign heading = section.settings.heading | strip
+  assign heading_length = heading.size | at_least: 6
+-%}
+
+<div class="ugc-mosaic spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  {% if heading != blank %}
+    <h2 class="ugc-mosaic__headline">
+      <fit-text class="ugc-mosaic__title" style="--chars: {{ heading_length }};">{{ heading | escape }}</fit-text>
+    </h2>
+    <script src="{{ 'fit-text.js' | asset_url }}" type="module"></script>
+  {% endif %}
+
+  {% if section.settings.text != blank or section.settings.handle != blank %}
+    <div class="ugc-mosaic__bar">
+      {% if section.settings.text != blank %}
+        <p class="ugc-mosaic__text body-l">{{ section.settings.text | escape }}</p>
+      {% endif %}
+      {% if section.settings.handle != blank %}
+        {% if section.settings.handle_link != blank %}
+          <a class="ugc-mosaic__handle" href="{{ section.settings.handle_link }}">{{ section.settings.handle | escape }}</a>
+        {% else %}
+          <p class="ugc-mosaic__handle">{{ section.settings.handle | escape }}</p>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="ugc-mosaic__grid">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.ugc_mosaic",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_ugc-tile" }, { "type": "_ugc-campaign" }],
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.ugc_heading"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.ugc_text"
+    },
+    {
+      "type": "text",
+      "id": "handle",
+      "label": "t:settings.handle",
+      "default": "@yourcommunity"
+    },
+    {
+      "type": "url",
+      "id": "handle_link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.ugc_mosaic",
+      "category": "t:categories.storytelling",
+      "blocks": {
+        "campaign": { "type": "_ugc-campaign" },
+        "tile_1": { "type": "_ugc-tile", "settings": { "post_type": "instagram" } },
+        "tile_2": { "type": "_ugc-tile" },
+        "tile_3": { "type": "_ugc-tile" },
+        "tile_4": { "type": "_ugc-tile", "settings": { "size": "large", "name": "Maya", "location": "Lisbon, PT", "note": "t:text_defaults.ugc_note_1" } },
+        "tile_5": { "type": "_ugc-tile", "settings": { "post_type": "video", "caption": "t:text_defaults.ugc_caption" } },
+        "tile_6": { "type": "_ugc-tile" },
+        "tile_7": { "type": "_ugc-tile", "settings": { "size": "large", "name": "Helen", "location": "Copenhagen, DK", "note": "t:text_defaults.ugc_note_2" } }
+      },
+      "block_order": ["campaign", "tile_1", "tile_2", "tile_3", "tile_4", "tile_5", "tile_6", "tile_7"]
+    }
+  ]
+}
+{% endschema %}

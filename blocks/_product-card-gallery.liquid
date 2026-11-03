@@ -1,0 +1,127 @@
+{% doc %}
+  The image of a product card: a second image on hover, badges (sold out,
+  sale, and "badge:" product tags), the review rating, and the quick shop
+  button. Each extra follows its setting in Theme settings > Product cards.
+{% enddoc %}
+
+{%- liquid
+  assign product = closest.product
+  assign second_image = product.media[1]
+
+  assign tag_badge = blank
+  if settings.show_tag_badges
+    for tag in product.tags
+      if tag contains 'badge:'
+        assign tag_badge = tag | remove_first: 'badge:' | strip
+        break
+      endif
+    endfor
+  endif
+
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+
+  case block.settings.image_ratio
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'landscape'
+      assign ratio = '16 / 9'
+    else
+      assign ratio = product.featured_media.preview_image.aspect_ratio | default: 1
+  endcase
+-%}
+
+<div
+  class="card-gallery card-gallery--badge-{{ settings.badge_position }} card-gallery--hover-{{ settings.card_hover_effect }}"
+  style="--media-ratio: {{ ratio }};"
+  {{ block.shopify_attributes }}
+>
+  {% if product.featured_media %}
+    {{
+      product.featured_media.preview_image
+      | image_url: width: 1200
+      | image_tag: class: 'card-gallery__image', widths: '300, 450, 600, 900, 1200', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: product.featured_media.alt
+    }}
+    {% if settings.card_hover_effect == 'second_image' and second_image %}
+      {{
+        second_image.preview_image
+        | image_url: width: 1200
+        | image_tag: class: 'card-gallery__image card-gallery__image--hover', widths: '300, 450, 600, 900, 1200', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: ''
+      }}
+    {% endif %}
+  {% else %}
+    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+  {% endif %}
+
+  <div class="card-gallery__badges">
+    {% if product.available == false and product != blank %}
+      <span class="badge badge--sold-out">{{ 'content.sold_out' | t }}</span>
+    {% elsif product.compare_at_price > product.price %}
+      <span class="badge badge--sale">{{ 'content.sale' | t }}</span>
+    {% endif %}
+
+    {% if tag_badge != blank %}
+      <span class="badge badge--tag">{{ tag_badge | escape }}</span>
+    {% endif %}
+  </div>
+
+  {% if settings.show_rating and rating != blank %}
+    <span class="card-gallery__rating">
+      {% render 'icon', icon: 'star' %}
+      <span aria-hidden="true">{{ rating.rating | round: 1 }}{% if rating_count %} ({{ rating_count }}){% endif %}</span>
+      <span class="visually-hidden">{{ 'content.rating' | t: rating: rating.rating, max: rating.scale_max }}</span>
+    </span>
+  {% endif %}
+
+  {% if settings.quick_add and product.available %}
+    <button
+      class="card-gallery__quick-add"
+      type="button"
+      data-quick-add-url="{{ product.url }}"
+      aria-haspopup="dialog"
+    >
+      {{ 'actions.quick_shop' | t }}
+      <span class="visually-hidden">: {{ product.title | escape }}</span>
+    </button>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.product_card_media",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:settings.aspect_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:options.aspect_ratio.adapt"
+        },
+        {
+          "value": "square",
+          "label": "t:options.aspect_ratio.square"
+        },
+        {
+          "value": "portrait",
+          "label": "t:options.aspect_ratio.portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "t:options.aspect_ratio.landscape"
+        }
+      ],
+      "default": "portrait"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_card_media"
+    }
+  ]
+}
+{% endschema %}

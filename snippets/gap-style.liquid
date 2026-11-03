@@ -1,0 +1,13 @@
+{% doc %}
+  Outputs a gap setting as the `--gap` CSS custom property used by
+  `layout-panel` and grid components.
+
+  @param {number} value - Gap in pixels.
+
+  @example
+  <div class="layout-panel" style="{% render 'gap-style', value: block.settings.gap %}">
+{% enddoc %}
+
+{%- if value != blank -%}
+  --gap: {{ value }}px;
+{%- endif -%}

@@ -1,0 +1,29 @@
+{% doc %}
+  Copyright line with the current year and store name.
+{% enddoc %}
+
+<p class="footer-copyright" {{ block.shopify_attributes }}>
+  &copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url }}
+  {%- if block.settings.show_powered_by %} · {{ powered_by_link }}{% endif %}
+</p>
+
+{% schema %}
+{
+  "name": "t:names.copyright",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_powered_by",
+      "label": "t:settings.show_powered_by",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.copyright",
+      "category": "t:categories.footer"
+    }
+  ]
+}
+{% endschema %}

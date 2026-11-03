@@ -1,0 +1,57 @@
+{% doc %}
+  The predictive search panel (Theme settings > Search). It drops down
+  under the announcement bar from any link marked `data-search-open`; the
+  links still go to the search page without JavaScript. Before the shopper
+  types, it shows popular products from the chosen collection; then
+  assets/predictive-search.js fills it with live results.
+
+  @example
+  {% render 'search-modal' %}
+{% enddoc %}
+
+{%- assign popular = settings.predictive_search_collection -%}
+
+<predictive-search
+  class="predictive-search"
+  data-url="{{ routes.predictive_search_url }}"
+  data-section="predictive-search"
+>
+  <dialog class="predictive-search__dialog" aria-label="{{ 'content.search' | t }}" data-search-dialog>
+    <form class="predictive-search__form" action="{{ routes.search_url }}" method="get" role="search">
+      {% render 'icon', icon: 'search', class: 'predictive-search__icon' %}
+      <label class="visually-hidden" for="PredictiveSearchInput">{{ 'content.search' | t }}</label>
+      <input
+        id="PredictiveSearchInput"
+        class="predictive-search__input"
+        type="search"
+        name="q"
+        autocomplete="off"
+        placeholder="{{ 'content.search_placeholder' | t }}"
+        aria-controls="PredictiveSearchResults"
+        data-search-input
+      >
+      <input type="hidden" name="options[prefix]" value="last">
+      <button class="button-unstyled predictive-search__close" type="button" data-search-close>
+        {% render 'icon', icon: 'close' %}
+        <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+      </button>
+    </form>
+
+    <div class="predictive-search__body" id="PredictiveSearchResults" aria-live="polite" data-search-results>
+      {% if popular != blank %}
+        <div class="predictive-search__results">
+          <div class="predictive-search__products">
+            <p class="eyebrow predictive-search__label">{{ 'content.popular_products' | t }}</p>
+            <ul class="predictive-search__grid" role="list">
+              {% for product in popular.products limit: 4 %}
+                <li>{% render 'search-product-card', product: product %}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </dialog>
+</predictive-search>
+
+<script src="{{ 'predictive-search.js' | asset_url }}" type="module"></script>

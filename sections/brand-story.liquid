@@ -1,0 +1,121 @@
+{% comment %}
+  Brand story, split in two: a centered headline, two photos, and a short
+  story with a link on one side; a tall photo on the other.
+{% endcomment %}
+
+<div class="brand-story brand-story--image-{{ section.settings.image_position }}">
+  <div class="brand-story__story">
+    {% if section.settings.heading != blank %}
+      <h2 class="h1">{{ section.settings.heading | escape | newline_to_br }}</h2>
+    {% endif %}
+
+    <div class="brand-story__photos">
+      {% for i in (1..2) %}
+        {%- liquid
+          if i == 1
+            assign photo = section.settings.photo_1
+          else
+            assign photo = section.settings.photo_2
+          endif
+        -%}
+        <div class="brand-story__photo">
+          {% if photo != blank %}
+            {{ photo | image_url: width: 800 | image_tag: widths: '300, 532, 800', sizes: '(min-width: 990px) 266px, 45vw', loading: 'lazy', alt: photo.alt }}
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="brand-story__copy">
+      {% if section.settings.text != blank %}
+        <div class="body-l">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.settings.link_label != blank %}
+        <a class="brand-story__link" href="{{ section.settings.link | default: routes.root_url }}">
+          {{- section.settings.link_label | escape -}}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="brand-story__image">
+    {% if section.settings.image != blank %}
+      {{ section.settings.image | image_url: width: 1800 | image_tag: widths: '600, 900, 1200, 1800', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', alt: section.settings.image.alt }}
+    {% else %}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.brand_story",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.brand_story_heading"
+    },
+    {
+      "type": "image_picker",
+      "id": "photo_1",
+      "label": "t:settings.small_photo_1"
+    },
+    {
+      "type": "image_picker",
+      "id": "photo_2",
+      "label": "t:settings.small_photo_2"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:html_defaults.brand_story_text"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "t:settings.link_label",
+      "default": "t:text_defaults.read_more"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.large_photo"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:settings.position",
+      "options": [
+        { "value": "right", "label": "t:options.position.right" },
+        { "value": "left", "label": "t:options.position.left" }
+      ],
+      "default": "right"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.brand_story",
+      "category": "t:categories.storytelling"
+    }
+  ]
+}
+{% endschema %}

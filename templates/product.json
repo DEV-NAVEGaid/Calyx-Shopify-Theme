@@ -1,0 +1,576 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "breadcrumbs",
+      "settings": {
+        "padding-block-start": 20,
+        "padding-block-end": 16
+      },
+      "block_order": []
+    },
+    "main": {
+      "type": "product-information",
+      "settings": {
+        "media_position": "left",
+        "gap": 64,
+        "padding-block-start": 0,
+        "padding-block-end": 100
+      },
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "columns": "thumbnails",
+            "image_ratio": "adapt"
+          }
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "gap": 20,
+            "sticky": false
+          },
+          "blocks": {
+            "eyebrow": {
+              "type": "product-meta",
+              "settings": {
+                "text": "",
+                "style": "eyebrow"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "type_preset": "h1",
+                "heading_level": "h1",
+                "show_sold_out_badge": true
+              }
+            },
+            "rating": {
+              "type": "product-rating",
+              "settings": {
+                "anchor": "reviews"
+              }
+            },
+            "subtitle": {
+              "type": "product-meta",
+              "settings": {
+                "text": "",
+                "style": "subtitle"
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "type_preset": "h3",
+                "show_tax_note": true,
+                "show_installments": true
+              }
+            },
+            "description": {
+              "type": "product-description",
+              "settings": {}
+            },
+            "claims": {
+              "type": "icon-list",
+              "settings": {
+                "dividers": false
+              },
+              "blocks": {
+                "claim_1": {
+                  "type": "_icon-list-item",
+                  "settings": {
+                    "icon": "check",
+                    "text": "Blended to help you feel self-assured"
+                  }
+                },
+                "claim_2": {
+                  "type": "_icon-list-item",
+                  "settings": {
+                    "icon": "check",
+                    "text": "Clean, phthalate-free formula"
+                  }
+                },
+                "claim_3": {
+                  "type": "_icon-list-item",
+                  "settings": {
+                    "icon": "check",
+                    "text": "Vegan &amp; cruelty-free · 85% natural origin"
+                  }
+                }
+              },
+              "block_order": [
+                "claim_1",
+                "claim_2",
+                "claim_3"
+              ]
+            },
+            "intention": {
+              "type": "callout",
+              "settings": {
+                "label": "Breathe &amp; Say",
+                "text": "“I am ready to take up space.”"
+              }
+            },
+            "variant_picker": {
+              "type": "variant-picker",
+              "settings": {
+                "variant_style": "buttons"
+              }
+            },
+            "buy_buttons": {
+              "type": "buy-buttons",
+              "settings": {
+                "show_dynamic_checkout": true
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button",
+                    "show_price": true
+                  }
+                }
+              },
+              "block_order": []
+            },
+            "back_in_stock": {
+              "type": "back-in-stock",
+              "settings": {}
+            },
+            "pickup": {
+              "type": "pickup-availability",
+              "settings": {}
+            },
+            "delivery": {
+              "type": "icon-list",
+              "settings": {
+                "dividers": true
+              },
+              "blocks": {
+                "shipping": {
+                  "type": "_icon-list-item",
+                  "settings": {
+                    "icon": "truck",
+                    "text": "Free shipping over $75 · dispatched in 1–2 business days"
+                  }
+                },
+                "sample": {
+                  "type": "_icon-list-item",
+                  "settings": {
+                    "icon": "gift",
+                    "text": "Free 2ml sample of your choice with every order"
+                  }
+                },
+                "guarantee": {
+                  "type": "_icon-list-item",
+                  "settings": {
+                    "icon": "sparkle",
+                    "text": "30-day scent guarantee — swap it if it isn’t you"
+                  }
+                }
+              },
+              "block_order": [
+                "shipping",
+                "sample",
+                "guarantee"
+              ]
+            },
+            "upsell": {
+              "type": "product-upsell",
+              "settings": {
+                "heading": "Not sure yet? Try it in the Discovery Set",
+                "text": "6 × 2ml · $38 · $15 credit back"
+              }
+            },
+            "details": {
+              "type": "accordion",
+              "settings": {
+                "icon": "plus",
+                "dividers": true
+              },
+              "blocks": {
+                "notes": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Notes &amp; ingredients",
+                    "open_by_default": true
+                  },
+                  "blocks": {
+                    "content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Top: pink pepper, bergamot · Heart: fig leaf, orris · Base: amber, cedar, musk. Alcohol denat., parfum, aqua, linalool, limonene.</p>",
+                        "type_preset": "rte"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "content"
+                  ]
+                },
+                "wear": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "How to wear",
+                    "open_by_default": false
+                  },
+                  "blocks": {
+                    "content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Spray twice on pulse points, wrists and neck, from about 15 cm. Let it settle; don’t rub.</p>",
+                        "type_preset": "rte"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "content"
+                  ]
+                },
+                "shipping": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Shipping &amp; returns",
+                    "open_by_default": false
+                  },
+                  "blocks": {
+                    "content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Free shipping over $75, dispatched in 1–2 business days. Not quite you? Swap it within 30 days.</p>",
+                        "type_preset": "rte"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "content"
+                  ]
+                }
+              },
+              "block_order": [
+                "notes",
+                "wear",
+                "shipping"
+              ]
+            },
+            "sticky": {
+              "type": "sticky-add-to-cart",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "eyebrow",
+            "title",
+            "rating",
+            "subtitle",
+            "price",
+            "description",
+            "claims",
+            "intention",
+            "variant_picker",
+            "buy_buttons",
+            "back_in_stock",
+            "pickup",
+            "delivery",
+            "upsell",
+            "details",
+            "sticky"
+          ]
+        }
+      },
+      "block_order": []
+    },
+    "notes": {
+      "type": "notes-grid",
+      "settings": {},
+      "blocks": {
+        "note_1": {
+          "type": "_note",
+          "settings": {
+            "name": "Pink pepper",
+            "feeling": "Energy",
+            "color": "#f3d9d2"
+          }
+        },
+        "note_2": {
+          "type": "_note",
+          "settings": {
+            "name": "Fig leaf",
+            "feeling": "Self-belief",
+            "color": "#e2ecd3"
+          }
+        },
+        "note_3": {
+          "type": "_note",
+          "settings": {
+            "name": "Orris",
+            "feeling": "Poise",
+            "color": "#e9d8ea"
+          }
+        },
+        "note_4": {
+          "type": "_note",
+          "settings": {
+            "name": "Cedar",
+            "feeling": "Steadiness",
+            "color": "#dce9e4"
+          }
+        },
+        "note_5": {
+          "type": "_note",
+          "settings": {
+            "name": "Amber",
+            "feeling": "Warmth",
+            "color": "#f8e7c9"
+          }
+        },
+        "note_6": {
+          "type": "_note",
+          "settings": {
+            "name": "Musk",
+            "feeling": "Comfort",
+            "color": "#dde6f4"
+          }
+        }
+      },
+      "block_order": [
+        "note_1",
+        "note_2",
+        "note_3",
+        "note_4",
+        "note_5",
+        "note_6"
+      ]
+    },
+    "story": {
+      "type": "image-with-text",
+      "settings": {
+        "image_position": "left",
+        "eyebrow": "The story",
+        "heading": "Written for the moment before you walk in",
+        "text": "<p>Our perfumer built this scent around fig leaf, a green, milky note that feels both grounded and bright. Pink pepper gives the first lift; amber holds you steady.</p>",
+        "button_label": "Listen to the playlist",
+        "button_style": "link"
+      },
+      "block_order": []
+    },
+    "ingredients": {
+      "type": "ingredients-explorer",
+      "settings": {},
+      "blocks": {
+        "ingredient_1": {
+          "type": "_ingredient",
+          "settings": {
+            "name": "Fig leaf",
+            "description": "<p>(Ficus carica) A green, milky note gathered from Mediterranean fig trees. It gives the scent its fresh, grounded lift — bright at first breath, then softly creamy.</p>"
+          }
+        },
+        "ingredient_2": {
+          "type": "_ingredient",
+          "settings": {
+            "name": "Pink pepper",
+            "description": "<p>(Schinus molle) A sparkling, rosy spice that opens the scent with a quick lift of energy.</p>"
+          }
+        },
+        "ingredient_3": {
+          "type": "_ingredient",
+          "settings": {
+            "name": "Orris root",
+            "description": "<p>(Iris pallida) A powdery, velvety root that brings poise and a quiet elegance to the heart.</p>"
+          }
+        },
+        "ingredient_4": {
+          "type": "_ingredient",
+          "settings": {
+            "name": "Amber resin",
+            "description": "<p>A warm, resinous glow that wraps the base in comfort and stays close to skin.</p>"
+          }
+        },
+        "ingredient_5": {
+          "type": "_ingredient",
+          "settings": {
+            "name": "Cedarwood",
+            "description": "<p>(Cedrus atlantica) A dry, steady wood that grounds the blend and helps it last.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3",
+        "ingredient_4",
+        "ingredient_5"
+      ]
+    },
+    "bundle": {
+      "type": "product-bundle",
+      "settings": {},
+      "block_order": []
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "settings": {},
+      "blocks": {
+        "review_1": {
+          "type": "_review",
+          "settings": {
+            "author": "Priya S.",
+            "date": "Oct 2, 2026",
+            "title": "My new signature for big days",
+            "text": "Warm and confident. Lasted through a twelve-hour day of meetings and I got three compliments."
+          }
+        },
+        "review_2": {
+          "type": "_review",
+          "settings": {
+            "author": "Jordan L.",
+            "date": "Sep 21, 2026",
+            "title": "Bright, then cosy",
+            "text": "The pepper opening is lovely and it dries down to something really soft and woody."
+          }
+        },
+        "review_3": {
+          "type": "_review",
+          "settings": {
+            "author": "Hana M.",
+            "date": "Sep 9, 2026",
+            "title": "Wish I’d bought the 50ml",
+            "text": "Started with the 10ml and finished it in a month. Ordering the full size now."
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ]
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": {},
+      "blocks": {
+        "product-card": {
+          "type": "product-card",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "row": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "space-between",
+                "vertical_alignment": "flex-start",
+                "width": "fill",
+                "gap": 12
+              },
+              "blocks": {
+                "title": {
+                  "type": "product-title",
+                  "settings": {
+                    "type_preset": "paragraph",
+                    "heading_level": "h3"
+                  }
+                },
+                "price": {
+                  "type": "price",
+                  "settings": {
+                    "type_preset": "paragraph"
+                  }
+                }
+              },
+              "block_order": [
+                "title",
+                "price"
+              ]
+            }
+          },
+          "block_order": [
+            "gallery",
+            "row"
+          ]
+        }
+      },
+      "block_order": []
+    },
+    "usp": {
+      "type": "usp-strip",
+      "settings": {},
+      "blocks": {
+        "usp_1": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping",
+            "text": "On orders over $75"
+          }
+        },
+        "usp_2": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "gift",
+            "title": "Free 2ml sample",
+            "text": "In every order"
+          }
+        },
+        "usp_3": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "leaf",
+            "title": "Clean & vegan",
+            "text": "85% natural origin"
+          }
+        },
+        "usp_4": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "sparkle",
+            "title": "30-day guarantee",
+            "text": "Love it or swap it"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "main",
+    "notes",
+    "story",
+    "ingredients",
+    "bundle",
+    "reviews",
+    "related",
+    "usp"
+  ]
+}

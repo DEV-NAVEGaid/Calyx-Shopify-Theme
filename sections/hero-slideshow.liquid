@@ -1,0 +1,94 @@
+{% comment %}
+  Full-width hero slideshow. Each slide is a block with its own photo,
+  badge, headline, text, and two buttons. assets/hero-slideshow.js rotates
+  the slides and wires the arrows and progress bars.
+{% endcomment %}
+
+{%- assign slide_count = section.blocks.size -%}
+
+<hero-slideshow
+  class="hero-slideshow"
+  data-autoplay="{{ section.settings.autoplay_speed }}"
+  style="--hero-height: {{ section.settings.height }}px;"
+>
+  {% content_for 'blocks' %}
+
+  {% if slide_count > 1 %}
+    <div class="hero-slideshow__controls">
+      <div class="hero-slideshow__progress">
+        <span><span data-slide-current>01</span> / {% if slide_count < 10 %}0{% endif %}{{ slide_count }}</span>
+        {% for i in (1..slide_count) %}
+          <button
+            class="hero-slideshow__bar"
+            type="button"
+            data-slide-to="{{ forloop.index0 }}"
+            aria-label="{{ 'accessibility.go_to_slide' | t: number: forloop.index }}"
+            {% if forloop.first %}
+              aria-current="true"
+            {% endif %}
+          ></button>
+        {% endfor %}
+      </div>
+
+      <div class="hero-slideshow__arrows">
+        <button class="round-arrow" type="button" data-slide-step="-1">
+          {% render 'icon', icon: 'chevron-left' %}
+          <span class="visually-hidden">{{ 'accessibility.previous_slide' | t }}</span>
+        </button>
+        <button class="round-arrow" type="button" data-slide-step="1">
+          {% render 'icon', icon: 'chevron-right' %}
+          <span class="visually-hidden">{{ 'accessibility.next_slide' | t }}</span>
+        </button>
+      </div>
+    </div>
+  {% endif %}
+</hero-slideshow>
+
+<script src="{{ 'hero-slideshow.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.hero_slideshow",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_hero-slide" }],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:settings.autoplay_speed",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 6,
+      "info": "t:info.autoplay_speed"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "t:settings.height",
+      "min": 480,
+      "max": 960,
+      "step": 20,
+      "unit": "px",
+      "default": 720
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.hero_slideshow",
+      "category": "t:categories.banners",
+      "blocks": {
+        "slide_1": { "type": "_hero-slide" },
+        "slide_2": { "type": "_hero-slide" }
+      },
+      "block_order": ["slide_1", "slide_2"]
+    }
+  ]
+}
+{% endschema %}

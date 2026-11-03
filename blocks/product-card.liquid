@@ -1,0 +1,107 @@
+{% doc %}
+  A card for the closest product, used in product lists, collection grids,
+  and search results. The whole card links to the product; its nested
+  blocks (gallery, title, price, …) read the same product. The variant and
+  product type lines below them follow Theme settings > Product cards.
+{% enddoc %}
+
+{%- liquid
+  assign product = closest.product
+  assign variant = product.selected_or_first_available_variant
+-%}
+
+<div
+  class="product-card layout-panel spacing-style"
+  style="--flex-direction: column; --align: {{ block.settings.horizontal_alignment }}; {% render 'gap-style', value: block.settings.gap %} {% render 'spacing-style', settings: block.settings %}"
+  {{ block.shopify_attributes }}
+>
+  {% if product != blank %}
+    <a class="product-card__link" href="{{ product.url }}">
+      <span class="visually-hidden">{{ product.title | escape }}</span>
+    </a>
+  {% endif %}
+
+  {% content_for 'blocks' %}
+
+  {% if settings.card_show_variant_label and product.has_only_default_variant == false %}
+    <p class="product-card__variant">{{ variant.title | escape }}</p>
+  {% endif %}
+
+  {% if settings.card_show_product_type and product.type != blank %}
+    <p class="product-card__type">{{ product.type | escape }}</p>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.product_card",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "_product-card-gallery"
+    },
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "horizontal_alignment",
+      "label": "t:settings.alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:options.alignment.left"
+        },
+        {
+          "value": "center",
+          "label": "t:options.alignment.center"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:options.alignment.right"
+        }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

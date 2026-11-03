@@ -1,0 +1,111 @@
+{% comment %}
+  Centered brand introduction: eyebrow, headline, text, a row of stats
+  (blocks), and a link.
+{% endcomment %}
+
+<div class="home-section brand-intro spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner brand-intro__inner">
+    {% if section.settings.eyebrow != blank %}
+      <p class="eyebrow brand-intro__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {% endif %}
+    {% if section.settings.heading != blank %}
+      <h2 class="h1 brand-intro__heading">{{ section.settings.heading | escape }}</h2>
+    {% endif %}
+    {% if section.settings.text != blank %}
+      <div class="body-l brand-intro__text">{{ section.settings.text }}</div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="brand-intro__stats">
+        {% content_for 'blocks' %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.link_label != blank %}
+      <a class="arrow-link" href="{{ section.settings.link | default: routes.root_url }}">
+        {{- section.settings.link_label | escape -}}
+        {% render 'icon', icon: 'arrow-right' %}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.brand_intro",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_stat" }],
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.brand_intro_eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.brand_intro_heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:html_defaults.brand_intro_text"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "t:settings.link_label",
+      "default": "t:text_defaults.read_our_story"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.brand_intro",
+      "category": "t:categories.text",
+      "blocks": {
+        "stat_1": { "type": "_stat", "settings": { "value": "6", "label": "t:text_defaults.stat_1" } },
+        "stat_2": { "type": "_stat", "settings": { "value": "85%", "label": "t:text_defaults.stat_2" } },
+        "stat_3": { "type": "_stat", "settings": { "value": "0", "label": "t:text_defaults.stat_3" } }
+      },
+      "block_order": ["stat_1", "stat_2", "stat_3"]
+    }
+  ]
+}
+{% endschema %}

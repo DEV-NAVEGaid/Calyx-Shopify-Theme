@@ -1,0 +1,127 @@
+{% comment %}
+  A photo beside numbered steps ("Breathe. Spray. Say."): eyebrow,
+  heading, text, and one block per step.
+{% endcomment %}
+
+<div class="home-section ritual-steps spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner ritual-steps__inner ritual-steps__inner--image-{{ section.settings.image_position }} ritual-steps__inner--{{ section.settings.number_style }}">
+    <div class="ritual-steps__media">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 600px, 100vw', loading: 'lazy', alt: section.settings.image.alt }}
+      {% else %}
+        {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+
+    <div class="ritual-steps__copy">
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow ritual-steps__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="h2">{{ section.settings.heading | escape }}</h2>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="body-l ritual-steps__text">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.blocks.size > 0 %}
+        <ol class="ritual-steps__list" role="list">
+          {% content_for 'blocks' %}
+        </ol>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.ritual_steps",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_ritual-step" }],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:settings.media_position",
+      "options": [
+        { "value": "left", "label": "t:options.position.left" },
+        { "value": "right", "label": "t:options.position.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "number_style",
+      "label": "t:settings.number_style",
+      "options": [
+        { "value": "circle", "label": "t:options.number_style.circle" },
+        { "value": "numeral", "label": "t:options.number_style.numeral" }
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.ritual_eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.ritual_heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:html_defaults.ritual_text"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.ritual_steps",
+      "category": "t:categories.storytelling",
+      "blocks": {
+        "step_1": { "type": "_ritual-step", "settings": { "title": "t:text_defaults.step_1", "text": "t:text_defaults.step_1_text" } },
+        "step_2": { "type": "_ritual-step", "settings": { "title": "t:text_defaults.step_2", "text": "t:text_defaults.step_2_text" } },
+        "step_3": { "type": "_ritual-step", "settings": { "title": "t:text_defaults.step_3", "text": "t:text_defaults.step_3_text" } }
+      },
+      "block_order": ["step_1", "step_2", "step_3"]
+    }
+  ]
+}
+{% endschema %}

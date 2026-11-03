@@ -1,0 +1,123 @@
+{% comment %}
+  The "page not found" page: a photo with a large 404, a heading and a
+  line of help, a search field, buttons home and to the catalog, then
+  popular products from a collection. Each product renders through the
+  static product card.
+{% endcomment %}
+
+{%- assign popular = section.settings.collection -%}
+
+<div class="home-section main-404 spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner">
+    <div class="main-404__content">
+      <div class="main-404__visual">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1440 | image_tag: widths: '720, 1080, 1440', sizes: '(min-width: 990px) 720px, 100vw', alt: '' }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag }}
+        {%- endif -%}
+        <span class="main-404__code" aria-hidden="true">404</span>
+      </div>
+
+      {% if section.settings.heading != blank %}
+        <h1 class="h2">{{ section.settings.heading | escape }}</h1>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <p class="body-l main-404__text">{{ section.settings.text | escape }}</p>
+      {% endif %}
+
+      <form class="main-404__search" action="{{ routes.search_url }}" method="get" role="search">
+        {% render 'icon', icon: 'search' %}
+        <label class="visually-hidden" for="NotFoundSearch">{{ 'content.search' | t }}</label>
+        <input id="NotFoundSearch" type="search" name="q" placeholder="{{ 'content.search_placeholder' | t }}">
+      </form>
+
+      <div class="main-404__actions">
+        <a class="button-dark" href="{{ routes.root_url }}">{{ 'actions.back_to_home' | t }}</a>
+        <a class="button-secondary" href="{{ routes.all_products_collection_url }}">{{ 'actions.shop_all' | t }}</a>
+      </div>
+    </div>
+
+    {% if popular != blank %}
+      <div class="main-404__popular">
+        {% if section.settings.collection_heading != blank %}
+          <h2 class="h3">{{ section.settings.collection_heading | escape }}</h2>
+        {% endif %}
+        <ul class="product-grid" role="list" style="--columns-desktop: 4; --columns-mobile: 2;">
+          {% for product in popular.products limit: 4 %}
+            <li>{% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.not_found",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.not_found_heading"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.not_found_text"
+    },
+    {
+      "type": "header",
+      "content": "t:content.products"
+    },
+    {
+      "type": "text",
+      "id": "collection_heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.popular_now"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:settings.collection"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,82 @@
+{% comment %}
+  Breadcrumbs: Home, then the collection or blog the page belongs to, then
+  the current page. Products use the collection they were opened from, or
+  their first collection.
+{% endcomment %}
+
+{%- liquid
+  assign parent_title = blank
+  assign parent_url = blank
+  assign current_title = page_title
+
+  case request.page_type
+    when 'product'
+      assign parent = collection | default: product.collections.first
+      assign parent_title = parent.title
+      assign parent_url = parent.url
+      assign current_title = product.title
+    when 'collection'
+      assign parent_title = 'content.collections_title' | t
+      assign parent_url = routes.collections_url
+      assign current_title = collection.title
+    when 'article'
+      assign parent_title = blog.title
+      assign parent_url = blog.url
+      assign current_title = article.title
+    when 'page'
+      assign current_title = page.title
+  endcase
+-%}
+
+<nav class="home-section breadcrumbs spacing-style" style="{% render 'spacing-style', settings: section.settings %}" aria-label="{{ 'accessibility.breadcrumbs' | t }}">
+  <ol class="home-section__inner breadcrumbs__list" role="list">
+    <li><a href="{{ routes.root_url }}">{{ 'content.home' | t }}</a></li>
+    {% if parent_title != blank %}
+      <li><a href="{{ parent_url }}">{{ parent_title | escape }}</a></li>
+    {% endif %}
+    <li><span aria-current="page">{{ current_title | escape }}</span></li>
+  </ol>
+</nav>
+
+{% schema %}
+{
+  "name": "t:names.breadcrumbs",
+  "class": "section-wrapper",
+  "tag": "div",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.breadcrumbs",
+      "category": "t:categories.basic"
+    }
+  ]
+}
+{% endschema %}

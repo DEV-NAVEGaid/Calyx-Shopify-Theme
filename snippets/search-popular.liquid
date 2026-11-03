@@ -1,0 +1,32 @@
+{% doc %}
+  A "Popular:" row of search links, one chip per term.
+
+  @param {string[]} terms - The search terms to offer.
+
+  @example
+  {% render 'search-popular', terms: popular %}
+{% enddoc %}
+
+{%- liquid
+  assign has_terms = false
+  for term in terms
+    if term != blank
+      assign has_terms = true
+      break
+    endif
+  endfor
+-%}
+
+{% if has_terms %}
+  <div class="search-popular">
+    <span class="search-popular__label">{{ 'content.popular' | t }}</span>
+    <ul class="search-popular__list" role="list">
+      {% for term in terms %}
+        {%- assign term = term | strip -%}
+        {% if term != blank %}
+          <li><a class="search-popular__chip" href="{{ routes.search_url }}?q={{ term | url_encode }}">{{ term | escape }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

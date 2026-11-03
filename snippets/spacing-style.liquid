@@ -1,0 +1,21 @@
+{% doc %}
+  Outputs the Padding settings of a section or block as CSS custom
+  properties. Pair it with the `spacing-style` class, which turns the
+  properties into padding (scaled down on small screens).
+
+  @param {object} settings - Settings that may include `padding-block-start`,
+    `padding-block-end`, `padding-inline-start`, and `padding-inline-end`.
+
+  @example
+  <div class="spacing-style" style="{% render 'spacing-style', settings: block.settings %}">
+{% enddoc %}
+
+{%- liquid
+  assign sides = 'padding-block-start,padding-block-end,padding-inline-start,padding-inline-end' | split: ','
+
+  for side in sides
+    if settings[side] != blank
+      echo '--' | append: side | append: ': ' | append: settings[side] | append: 'px; '
+    endif
+  endfor
+-%}

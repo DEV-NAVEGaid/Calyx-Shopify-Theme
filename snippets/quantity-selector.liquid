@@ -1,0 +1,55 @@
+{% doc %}
+  A pill-shaped quantity control: minus button, number input, plus button.
+  assets/quantity-selector.js steps the value and fires a `change` event on
+  the input, so the code that owns the input only listens for `change`.
+
+  @param {string} id - The input's id.
+  @param {string} name - The input's name, such as `quantity` or `updates[]`.
+  @param {number} value - The current quantity.
+  @param {string} label - Accessible name of the product, used in the button labels.
+  @param {number} [min] - Lowest allowed value. Default: 1.
+  @param {number} [line] - Cart line number, stored on the input as `data-line`.
+  @param {string} [form] - Id of the form the input belongs to.
+
+  @example
+  {% render 'quantity-selector', id: 'Quantity-1', name: 'updates[]', value: item.quantity, min: 0, line: 1, label: item.product.title %}
+{% enddoc %}
+
+{%- assign min = min | default: 1 -%}
+
+<quantity-selector class="quantity-selector">
+  <button
+    class="quantity-selector__button"
+    type="button"
+    name="minus"
+    aria-label="{{ 'accessibility.decrease_quantity' | t: product: label | escape }}"
+  >
+    {% render 'icon', icon: 'minus' %}
+  </button>
+
+  <input
+    class="quantity-selector__input"
+    id="{{ id }}"
+    type="number"
+    name="{{ name }}"
+    value="{{ value }}"
+    min="{{ min }}"
+    inputmode="numeric"
+    {% if line %}
+      data-line="{{ line }}"
+    {% endif %}
+    {% if form %}
+      form="{{ form }}"
+    {% endif %}
+    aria-label="{{ 'content.quantity' | t }}"
+  >
+
+  <button
+    class="quantity-selector__button"
+    type="button"
+    name="plus"
+    aria-label="{{ 'accessibility.increase_quantity' | t: product: label | escape }}"
+  >
+    {% render 'icon', icon: 'plus' %}
+  </button>
+</quantity-selector>

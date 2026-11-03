@@ -1,0 +1,102 @@
+{% comment %}
+  Expanding photo panels: one panel is open with its story, the others are
+  narrow strips with a vertical title. Clicking a strip, the arrows, or the
+  progress bars opens another panel (assets/expanding-panels.js). On small
+  screens the panels stack.
+{% endcomment %}
+
+{%- assign panel_count = section.blocks.size -%}
+
+<expanding-panels class="expanding-panels spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="expanding-panels__track">
+    {% content_for 'blocks' %}
+  </div>
+
+  {% if panel_count > 1 %}
+    <div class="expanding-panels__controls">
+      <div class="expanding-panels__progress">
+        <span class="expanding-panels__count">
+          <span data-panel-current>01</span>
+          <span class="expanding-panels__total">/ {% if panel_count < 10 %}0{% endif %}{{ panel_count }}</span>
+        </span>
+        <span class="expanding-panels__bars">
+          {% for i in (1..panel_count) %}
+            <button
+              class="expanding-panels__bar"
+              type="button"
+              data-panel-to="{{ forloop.index0 }}"
+              aria-label="{{ 'accessibility.go_to_slide' | t: number: forloop.index }}"
+              {% if forloop.first %}
+                aria-current="true"
+              {% endif %}
+            ></button>
+          {% endfor %}
+        </span>
+      </div>
+      <div class="expanding-panels__arrows">
+        <button class="round-arrow round-arrow--outline" type="button" data-panel-step="-1">
+          {% render 'icon', icon: 'chevron-left' %}
+          <span class="visually-hidden">{{ 'accessibility.previous_slide' | t }}</span>
+        </button>
+        <button class="round-arrow round-arrow--outline" type="button" data-panel-step="1">
+          {% render 'icon', icon: 'chevron-right' %}
+          <span class="visually-hidden">{{ 'accessibility.next_slide' | t }}</span>
+        </button>
+      </div>
+    </div>
+  {% endif %}
+</expanding-panels>
+
+<script src="{{ 'expanding-panels.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.expanding_panels",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_panel" }],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 28
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.expanding_panels",
+      "category": "t:categories.storytelling",
+      "blocks": {
+        "panel_1": { "type": "_panel", "settings": { "heading": "t:text_defaults.panel_1" } },
+        "panel_2": { "type": "_panel", "settings": { "heading": "t:text_defaults.panel_2" } },
+        "panel_3": { "type": "_panel", "settings": { "heading": "t:text_defaults.panel_3" } },
+        "panel_4": { "type": "_panel", "settings": { "heading": "t:text_defaults.panel_4" } }
+      },
+      "block_order": ["panel_1", "panel_2", "panel_3", "panel_4"]
+    }
+  ]
+}
+{% endschema %}

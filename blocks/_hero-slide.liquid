@@ -1,0 +1,126 @@
+{% doc %}
+  One slide of the hero slideshow: a full-bleed photo with a badge,
+  headline, text, and up to two buttons on the left.
+{% enddoc %}
+
+{%- assign is_first = false -%}
+{%- if section.blocks.first.id == block.id -%}
+  {%- assign is_first = true -%}
+{%- endif -%}
+
+<div class="hero-slide" aria-hidden="{% if is_first %}false{% else %}true{% endif %}" {{ block.shopify_attributes }}>
+  <div class="hero-slide__media">
+    {% if block.settings.image != blank %}
+      {%- liquid
+        if is_first
+          assign loading = 'eager'
+        else
+          assign loading = 'lazy'
+        endif
+      -%}
+      {{
+        block.settings.image
+        | image_url: width: 3000
+        | image_tag: widths: '750, 1100, 1500, 2200, 3000', sizes: '100vw', loading: loading, alt: block.settings.image.alt
+      }}
+    {% else %}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  </div>
+
+  <div class="hero-slide__content">
+    {% if block.settings.badge != blank %}
+      <span class="hero-slide__badge eyebrow">{{ block.settings.badge | escape }}</span>
+    {% endif %}
+
+    {% if block.settings.heading != blank %}
+      {%- if is_first -%}
+        <h1 class="display-xl">{{ block.settings.heading | escape }}</h1>
+      {%- else -%}
+        <h2 class="display-xl">{{ block.settings.heading | escape }}</h2>
+      {%- endif -%}
+    {% endif %}
+
+    {% if block.settings.text != blank %}
+      <p class="hero-slide__text body-l">{{ block.settings.text | escape }}</p>
+    {% endif %}
+
+    {% if block.settings.primary_label != blank or block.settings.secondary_label != blank %}
+      <div class="hero-slide__buttons">
+        {% if block.settings.primary_label != blank %}
+          <a class="button" href="{{ block.settings.primary_link | default: routes.all_products_collection_url }}">
+            {{- block.settings.primary_label | escape -}}
+          </a>
+        {% endif %}
+        {% if block.settings.secondary_label != blank %}
+          <a class="button-light" href="{{ block.settings.secondary_link | default: routes.collections_url }}">
+            {{- block.settings.secondary_label | escape -}}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.slide",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "t:settings.badge",
+      "default": "t:text_defaults.hero_badge"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.hero_heading"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.hero_text"
+    },
+    {
+      "type": "header",
+      "content": "t:content.buttons"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "t:settings.primary_button",
+      "default": "t:text_defaults.shop_now"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "t:settings.secondary_button",
+      "default": "t:text_defaults.explore"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "t:settings.link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.slide"
+    }
+  ]
+}
+{% endschema %}

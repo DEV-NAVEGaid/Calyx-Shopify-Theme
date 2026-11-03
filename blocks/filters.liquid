@@ -1,0 +1,286 @@
+{% doc %}
+  Storefront filters and sorting for the current collection or search
+  results. Works as a plain GET form; assets/facets.js submits it as soon
+  as a value changes and toggles the filter drawer.
+
+  Small screens get a full-screen "Filter & sort" drawer instead: sort
+  options and filter values as chips, applied together with "Show results".
+{% enddoc %}
+
+{%- liquid
+  if request.page_type == 'search'
+    assign results = search
+    assign action = routes.search_url
+    assign result_count = search.results_count
+  else
+    assign results = collection
+    assign action = collection.url
+    assign result_count = collection.products_count
+  endif
+
+  assign sort_by = results.sort_by | default: results.default_sort_by
+
+  assign has_active_filters = false
+  assign active_count = 0
+  for filter in results.filters
+    if filter.active_values.size > 0
+      assign has_active_filters = true
+      assign active_count = active_count | plus: filter.active_values.size
+    endif
+    if filter.type == 'price_range'
+      if filter.min_value.value != null or filter.max_value.value != null
+        assign has_active_filters = true
+        assign active_count = active_count | plus: 1
+      endif
+    endif
+  endfor
+-%}
+
+{%- capture clear_url -%}
+  {%- if request.page_type == 'search' -%}
+    {{ routes.search_url }}?q={{ search.terms | url_encode }}
+  {%- else -%}
+    {{ collection.url }}?sort_by={{ sort_by }}
+  {%- endif -%}
+{%- endcapture -%}
+
+<facet-filters class="filters" {{ block.shopify_attributes }}>
+  <form class="filters__form" action="{{ action }}" method="get" id="FacetsForm-{{ block.id }}">
+    {% if request.page_type == 'search' %}
+      <input type="hidden" name="q" value="{{ search.terms | escape }}">
+    {% endif %}
+
+    <div class="facets-toolbar">
+      {% if block.settings.enable_filtering and results.filters.size > 0 %}
+        <button
+          type="button"
+          class="facets-toolbar__toggle"
+          aria-expanded="true"
+          aria-controls="FacetsDrawer-{{ block.id }}"
+          data-facets-toggle
+          data-label-hide="{{ 'actions.hide_filters' | t }}"
+          data-label-show="{{ 'actions.show_filters' | t }}"
+          data-label-drawer="{{ 'content.filter_and_sort' | t }}"
+        >
+          {% render 'icon', icon: 'filter' %}
+          <span data-facets-toggle-label>{{ 'actions.hide_filters' | t }}</span>
+          {% if active_count > 0 %}
+            <span class="facets-toolbar__badge">
+              <span aria-hidden="true">{{ active_count }}</span>
+              <span class="visually-hidden">{{ 'accessibility.active_filters' | t: count: active_count }}</span>
+            </span>
+          {% endif %}
+        </button>
+      {% endif %}
+
+      <p class="facets-toolbar__count">{{ 'content.product_count' | t: count: result_count }}</p>
+
+      {% if has_active_filters %}
+        <ul class="filters__active" role="list">
+          {% for filter in results.filters %}
+            {% for value in filter.active_values %}
+              <li>
+                <a class="filters__pill" href="{{ value.url_to_remove }}">
+                  {{ value.label | escape }}
+                  {% render 'icon', icon: 'close' %}
+                  <span class="visually-hidden">{{ 'actions.remove' | t }}</span>
+                </a>
+              </li>
+            {% endfor %}
+            {% if filter.type == 'price_range' %}
+              {% if filter.min_value.value != null or filter.max_value.value != null %}
+                <li>
+                  <a class="filters__pill" href="{{ filter.url_to_remove }}">
+                    {%- assign price_min = filter.min_value.value | default: 0 -%}
+                    {%- assign price_max = filter.max_value.value | default: filter.range_max -%}
+                    {% render 'format-money', amount: price_min %}–{% render 'format-money', amount: price_max %}
+                    {% render 'icon', icon: 'close' %}
+                    <span class="visually-hidden">{{ 'actions.remove' | t }}</span>
+                  </a>
+                </li>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          <li>
+            <a class="filters__clear" href="{{ clear_url }}">
+              {{- 'actions.clear_all' | t -}}
+            </a>
+          </li>
+        </ul>
+      {% endif %}
+
+      {% if block.settings.enable_sorting %}
+        <div class="facets-toolbar__sort">
+          <label for="SortBy-{{ block.id }}">{{ 'content.sort_by' | t }}:</label>
+          <div class="facets-toolbar__select">
+            <select id="SortBy-{{ block.id }}" name="sort_by" class="facets-toolbar__input">
+              {% for option in results.sort_options %}
+                <option
+                  value="{{ option.value | escape }}"
+                  {% if option.value == sort_by %}
+                    selected
+                  {% endif %}
+                >
+                  {{ option.name | escape }}
+                </option>
+              {% endfor %}
+            </select>
+            {% render 'icon', icon: 'chevron-down', class: 'facets-toolbar__chevron' %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if block.settings.enable_filtering and results.filters.size > 0 %}
+      <details
+        class="filters__drawer"
+        id="FacetsDrawer-{{ block.id }}"
+        open
+        data-mobile-drawer
+      >
+        <summary class="visually-hidden">{{ 'content.filters' | t }}</summary>
+
+        <div class="filters__drawer-header">
+          <p class="filters__drawer-title">{{ 'content.filter_and_sort' | t }}</p>
+          <button class="filters__drawer-close button-unstyled" type="button" data-facets-close>
+            {% render 'icon', icon: 'close' %}
+            <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+          </button>
+        </div>
+
+        {% if block.settings.enable_sorting %}
+          <details class="filters__group filters__sort-group" open>
+            <summary class="filters__group-title">
+              <span>{{ 'content.sort_by' | t }}</span>
+              {% render 'icon', icon: 'plus', class: 'filters__group-icon filters__group-icon--plus' %}
+              {% render 'icon', icon: 'minus', class: 'filters__group-icon filters__group-icon--minus' %}
+              {% render 'icon', icon: 'chevron-down', class: 'filters__group-icon filters__group-icon--chevron' %}
+            </summary>
+            <ul class="filters__values" role="list">
+              {% for option in results.sort_options %}
+                <li>
+                  <label class="filters__value">
+                    <input
+                      type="radio"
+                      name="sort_by"
+                      value="{{ option.value | escape }}"
+                      {% if option.value == sort_by %}
+                        checked
+                      {% endif %}
+                    >
+                    <span class="filters__box" aria-hidden="true">
+                      {% render 'icon', icon: 'check', class: 'filters__tick' %}
+                    </span>
+                    <span class="filters__name">{{ option.name | escape }}</span>
+                  </label>
+                </li>
+              {% endfor %}
+            </ul>
+          </details>
+        {% endif %}
+
+        {% for filter in results.filters %}
+          {%- comment -%} On the search page the groups are closed dropdown pills. {%- endcomment -%}
+          <details class="filters__group" {% unless request.page_type == 'search' %}open{% endunless %}>
+            <summary class="filters__group-title">
+              <span>{{ filter.label | escape }}</span>
+              {% render 'icon', icon: 'plus', class: 'filters__group-icon filters__group-icon--plus' %}
+              {% render 'icon', icon: 'minus', class: 'filters__group-icon filters__group-icon--minus' %}
+              {% render 'icon', icon: 'chevron-down', class: 'filters__group-icon filters__group-icon--chevron' %}
+            </summary>
+
+            {% case filter.type %}
+              {% when 'price_range' %}
+                <div class="filters__price">
+                  <label class="field">
+                    <span class="visually-hidden">{{ 'content.price_from' | t }}</span>
+                    <input
+                      class="field__input"
+                      type="number"
+                      name="{{ filter.min_value.param_name }}"
+                      value="{{ filter.min_value.value | money_without_currency | remove: ',' }}"
+                      placeholder="0"
+                      min="0"
+                      aria-label="{{ 'content.price_from' | t }}"
+                    >
+                  </label>
+                  <label class="field">
+                    <span class="visually-hidden">{{ 'content.price_to' | t }}</span>
+                    <input
+                      class="field__input"
+                      type="number"
+                      name="{{ filter.max_value.param_name }}"
+                      value="{{ filter.max_value.value | money_without_currency | remove: ',' }}"
+                      placeholder="{{ filter.range_max | money_without_currency | remove: ',' }}"
+                      min="0"
+                      aria-label="{{ 'content.price_to' | t }}"
+                    >
+                  </label>
+                </div>
+              {% else %}
+                <ul class="filters__values" role="list">
+                  {% for value in filter.values %}
+                    <li>
+                      <label class="filters__value{% if value.count == 0 and value.active == false %} filters__value--empty{% endif %}">
+                        <input
+                          type="checkbox"
+                          name="{{ value.param_name }}"
+                          value="{{ value.value }}"
+                          {% if value.active %}
+                            checked
+                          {% endif %}
+                          {% if value.count == 0 and value.active == false %}
+                            disabled
+                          {% endif %}
+                        >
+                        <span class="filters__box" aria-hidden="true">
+                          {% render 'icon', icon: 'check', class: 'filters__tick' %}
+                        </span>
+                        <span class="filters__name">{{ value.label | escape }}</span>
+                        <span class="filters__count">{{ value.count }}</span>
+                      </label>
+                    </li>
+                  {% endfor %}
+                </ul>
+            {% endcase %}
+          </details>
+        {% endfor %}
+
+        <div class="filters__drawer-footer">
+          <a class="button-secondary" href="{{ clear_url }}">{{ 'actions.clear_all' | t }}</a>
+          <button class="button-dark" type="submit" data-label-pending="{{ 'actions.show_results_pending' | t }}">
+            {{- 'actions.show_results' | t: count: result_count -}}
+          </button>
+        </div>
+      </details>
+    {% endif %}
+
+    <noscript>
+      <button type="submit" class="button-secondary">{{ 'actions.apply' | t }}</button>
+    </noscript>
+  </form>
+</facet-filters>
+
+<script src="{{ 'facets.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.filters",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "t:settings.enable_filtering",
+      "default": true,
+      "info": "t:info.filtering"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "t:settings.enable_sorting",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

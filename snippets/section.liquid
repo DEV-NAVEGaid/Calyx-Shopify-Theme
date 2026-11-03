@@ -1,0 +1,57 @@
+{% doc %}
+  Shared wrapper for sections that use the standard Layout, Size,
+  Appearance, Borders, and Padding settings (see sections/section.liquid).
+  It paints the background media and overlay across the full width, and
+  lays the children out in the page-width or full-width column.
+
+  @param {object} section - The section object.
+  @param {string} children - The captured `{% content_for 'blocks' %}` output.
+  @param {string} [class] - Extra classes for the content element.
+
+  @example
+  {% capture children %}
+    {% content_for 'blocks' %}
+  {% endcapture %}
+
+  {% render 'section', section: section, children: children %}
+{% enddoc %}
+
+{%- liquid
+  assign settings = section.settings
+
+  case settings.section_height
+    when 'small'
+      assign min_height = '40svh'
+    when 'medium'
+      assign min_height = '60svh'
+    when 'large'
+      assign min_height = '80svh'
+    when 'full-screen'
+      assign min_height = '100svh'
+    when 'custom'
+      assign min_height = settings.section_height_custom | append: 'svh'
+    else
+      assign min_height = 'auto'
+  endcase
+-%}
+
+<div
+  class="section section--{{ settings.section_width | default: 'page-width' }} spacing-style border-style"
+  style="
+    --section-min-height: {{ min_height }};
+    {% if settings.background_color != blank %}--section-background: {{ settings.background_color }};{% endif %}
+    {% if settings.text_color != blank %}--section-text-color: {{ settings.text_color }};{% endif %}
+    {% render 'spacing-style', settings: settings %}
+    {% render 'border-override', settings: settings %}
+  "
+>
+  {% render 'background-media', settings: settings %}
+  {% render 'overlay', settings: settings %}
+
+  <div
+    class="section-content layout-panel {{ class }}"
+    style="{% render 'layout-panel-style', settings: settings %}"
+  >
+    {{ children }}
+  </div>
+</div>

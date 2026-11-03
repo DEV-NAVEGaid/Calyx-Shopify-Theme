@@ -1,0 +1,136 @@
+{% doc %}
+  The title of the closest product: the page's product on a product page,
+  or the card's product inside a product card. Optionally followed by a
+  "Sold out" badge while the selected variant is unavailable.
+{% enddoc %}
+
+{%- liquid
+  assign product = closest.product
+  assign placeholder_title = 'content.product_title_placeholder' | t
+-%}
+
+<{{ block.settings.heading_level }}
+  class="product-title {{ block.settings.type_preset }} spacing-style"
+  style="{% render 'spacing-style', settings: block.settings %}"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.link_to_product and product != blank -%}
+    <a href="{{ product.url }}">{{ product.title | escape }}</a>
+  {%- else -%}
+    {{ product.title | default: placeholder_title | escape }}
+  {%- endif -%}
+  {%- if block.settings.show_sold_out_badge and product.selected_or_first_available_variant.available == false %}
+    <span class="badge badge--sold-out product-title__badge">{{ 'content.sold_out' | t }}</span>
+  {%- endif -%}
+</{{ block.settings.heading_level }}>
+
+{% schema %}
+{
+  "name": "t:names.product_title",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "type_preset",
+      "label": "t:settings.preset",
+      "options": [
+        {
+          "value": "paragraph",
+          "label": "t:options.type_preset.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.type_preset.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.type_preset.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.type_preset.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.type_preset.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.type_preset.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.type_preset.h6"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "select",
+      "id": "heading_level",
+      "label": "t:settings.html_tag",
+      "options": [
+        {
+          "value": "h1",
+          "label": "t:options.html_tag.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.html_tag.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.html_tag.h3"
+        },
+        {
+          "value": "p",
+          "label": "t:options.html_tag.p"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "checkbox",
+      "id": "link_to_product",
+      "label": "t:settings.link_to_product",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sold_out_badge",
+      "label": "t:settings.show_sold_out_badge",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_title",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

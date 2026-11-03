@@ -1,0 +1,52 @@
+{% doc %}
+  A bar fixed to the bottom of the screen on phones and tablets: the
+  product and selected variant, its price, and an Add to cart button for
+  the section's product form. It slides in once the page's own Add to cart
+  button scrolls out of view (assets/sticky-add-to-cart.js).
+{% enddoc %}
+
+{%- liquid
+  assign product = closest.product
+  assign variant = product.selected_or_first_available_variant
+-%}
+
+<sticky-add-to-cart class="sticky-add-to-cart" data-form="product-form-{{ section.id }}" hidden {{ block.shopify_attributes }}>
+  <div class="sticky-add-to-cart__text">
+    <p class="sticky-add-to-cart__title">
+      {{- product.title | escape -}}
+      {%- unless product.has_only_default_variant %} · {{ variant.title | escape }}{% endunless -%}
+    </p>
+    <p class="sticky-add-to-cart__price">{% render 'format-money', amount: variant.price %}</p>
+  </div>
+  <button
+    class="button-dark"
+    type="submit"
+    name="add"
+    form="product-form-{{ section.id }}"
+    {% unless variant.available %}
+      disabled
+    {% endunless %}
+  >
+    {%- if variant.available -%}
+      {{ 'actions.add_to_cart' | t }}
+    {%- else -%}
+      {{ 'content.sold_out' | t }}
+    {%- endif -%}
+  </button>
+</sticky-add-to-cart>
+
+<script src="{{ 'sticky-add-to-cart.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.sticky_add_to_cart",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "t:names.sticky_add_to_cart",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

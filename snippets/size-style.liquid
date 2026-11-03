@@ -1,0 +1,29 @@
+{% doc %}
+  Outputs the Size settings of a block as CSS custom properties. Pair it
+  with the `size-style` class.
+
+  - `fit`: the block shrinks to its content.
+  - `fill`: the block shares the remaining space with its siblings.
+  - `custom`: the block takes `custom_width` percent of its parent.
+
+  @param {object} settings - Settings with `width`, `custom_width`, and
+    optionally `height` (`fit` or `fill`).
+
+  @example
+  <div class="size-style" style="{% render 'size-style', settings: block.settings %}">
+{% enddoc %}
+
+{%- liquid
+  case settings.width
+    when 'fill'
+      echo '--size-style-width: 100%; --size-style-flex: 1 1 0; '
+    when 'custom'
+      echo '--size-style-width: ' | append: settings.custom_width | append: '%; --size-style-flex: 0 1 ' | append: settings.custom_width | append: '%; '
+    else
+      echo '--size-style-width: fit-content; --size-style-flex: 0 1 auto; '
+  endcase
+
+  if settings.height == 'fill'
+    echo '--size-style-height: 100%; '
+  endif
+-%}

@@ -1,0 +1,62 @@
+{% doc %}
+  One collapsible row of an accordion block. The heading toggles the row;
+  the row's own blocks render inside it.
+{% enddoc %}
+
+<details class="accordion-row" {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+  <summary class="accordion-row__heading">
+    <span class="h5">{{ block.settings.heading }}</span>
+    {% render 'icon', icon: 'chevron-down', class: 'accordion-row__icon accordion-row__icon--caret' %}
+    {% render 'icon', icon: 'plus', class: 'accordion-row__icon accordion-row__icon--plus' %}
+    {% render 'icon', icon: 'minus', class: 'accordion-row__icon accordion-row__icon--minus' %}
+  </summary>
+
+  <div class="accordion-row__content layout-panel" style="--gap: 12px;">
+    {% content_for 'blocks' %}
+  </div>
+</details>
+
+{% schema %}
+{
+  "name": "t:names.accordion_row",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.accordion_heading_1"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_by_default",
+      "label": "t:settings.open_by_default",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.accordion_row",
+      "blocks": {
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "t:html_defaults.accordion_content_1"
+          }
+        }
+      },
+      "block_order": [
+        "text"
+      ]
+    }
+  ]
+}
+{% endschema %}

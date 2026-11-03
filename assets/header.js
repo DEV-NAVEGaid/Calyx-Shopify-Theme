@@ -1,0 +1,126 @@
+/*
+ * Header behavior:
+ * - Drop-downs and mega menus open on hover as well as click, one at a time,
+ *   and close on Escape or a click elsewhere.
+ * - Mega menu promo blocks move into the mega menu they name.
+ * - The mobile drawer's close button closes it; Back closes a drawer panel.
+ * - A transparent header turns solid once the page scrolls, and
+ *   `--header-height` stays current for layouts that sit under it.
+ */
+class HeaderComponent extends HTMLElement {
+  #resizeObserver = null;
+  #closeTimer = null;
+
+  get #dropdowns() {
+    return [...this.querySelectorAll(".header-nav__dropdown")];
+  }
+
+  connectedCallback() {
+    this.#placePromos();
+
+    for (const dropdown of this.#dropdowns) {
+      dropdown.addEventListener("mouseenter", this.#onEnter);
+      dropdown.addEventListener("mouseleave", this.#onLeave);
+      dropdown.addEventListener("toggle", this.#onToggle);
+    }
+
+    this.addEventListener("click", this.#onClick);
+    this.addEventListener("keydown", this.#onKeydown);
+    document.addEventListener("click", this.#onDocumentClick);
+
+    this.#resizeObserver = new ResizeObserver(() => {
+      document.documentElement.style.setProperty("--header-height", `${this.offsetHeight}px`);
+    });
+    this.#resizeObserver.observe(this);
+
+    if (this.classList.contains("header--transparent")) {
+      window.addEventListener("scroll", this.#onScroll, { passive: true });
+      this.#onScroll();
+    }
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("click", this.#onDocumentClick);
+    window.removeEventListener("scroll", this.#onScroll);
+    this.#resizeObserver?.disconnect();
+  }
+
+  // Promo blocks name a menu item; their handle matches `data-mega-promos`.
+  #placePromos() {
+    for (const promo of this.querySelectorAll(".header__promos .mega-promo")) {
+      const target = this.querySelector(`[data-mega-promos="${promo.dataset.menuItem}"]`);
+      target?.append(promo);
+    }
+  }
+
+  #onEnter = (event) => {
+    if (!window.matchMedia("(hover: hover)").matches) {
+      return;
+    }
+    clearTimeout(this.#closeTimer);
+    event.currentTarget.open = true;
+  };
+
+  #onLeave = (event) => {
+    if (!window.matchMedia("(hover: hover)").matches) {
+      return;
+    }
+    const dropdown = event.currentTarget;
+    this.#closeTimer = setTimeout(() => {
+      dropdown.open = false;
+    }, 150);
+  };
+
+  #onToggle = (event) => {
+    if (!event.currentTarget.open) {
+      return;
+    }
+    for (const dropdown of this.#dropdowns) {
+      if (dropdown !== event.currentTarget) {
+        dropdown.open = false;
+      }
+    }
+  };
+
+  #onClick = (event) => {
+    if (event.target.closest("[data-submenu-close]")) {
+      const submenu = event.target.closest(".header-drawer__submenu");
+      submenu.open = false;
+      submenu.querySelector("summary").focus();
+    }
+    if (event.target.closest("[data-drawer-close]")) {
+      this.querySelector(".header-drawer").open = false;
+      for (const submenu of this.querySelectorAll(".header-drawer__submenu[open]")) {
+        submenu.open = false;
+      }
+    }
+  };
+
+  #onKeydown = (event) => {
+    if (event.key !== "Escape") {
+      return;
+    }
+    const open = event.target.closest("details[open]");
+    if (open) {
+      open.open = false;
+      open.querySelector("summary")?.focus();
+    }
+  };
+
+  #onDocumentClick = (event) => {
+    if (this.contains(event.target)) {
+      return;
+    }
+    for (const dropdown of this.#dropdowns) {
+      dropdown.open = false;
+    }
+  };
+
+  #onScroll = () => {
+    this.classList.toggle("is-scrolled", window.scrollY > 10);
+  };
+}
+
+if (!customElements.get("header-component")) {
+  customElements.define("header-component", HeaderComponent);
+}

@@ -1,0 +1,26 @@
+{% doc %}
+  One phrase in the marquee, followed by a sparkle separator.
+{% enddoc %}
+
+<span class="marquee__item heading-italic" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</span>
+{% render 'icon', icon: 'sparkle' %}
+
+{% schema %}
+{
+  "name": "t:names.marquee_item",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.marquee_1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.marquee_item"
+    }
+  ]
+}
+{% endschema %}

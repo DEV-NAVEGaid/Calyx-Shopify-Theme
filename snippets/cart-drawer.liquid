@@ -1,0 +1,30 @@
+{% doc %}
+  The cart drawer shell: a modal `<dialog>` that slides in from the side.
+  Its content comes from snippets/cart-drawer-content.liquid, which
+  sections/cart-drawer.liquid also renders so assets/cart-drawer.js can
+  refresh it with the Section Rendering API.
+
+  Rendered by layout/theme.liquid when the cart type is "Drawer".
+
+  @example
+  {% render 'cart-drawer' %}
+{% enddoc %}
+
+<cart-drawer
+  class="cart-drawer"
+  data-section-id="cart-drawer"
+  data-cart-add-url="{{ routes.cart_add_url }}"
+  data-cart-change-url="{{ routes.cart_change_url }}"
+  data-auto-open="{{ settings.auto_open_cart_drawer }}"
+  data-added-message="{{ 'content.added_to_cart' | t | escape }}"
+>
+  <dialog class="cart-drawer__dialog" aria-labelledby="CartDrawer-Title" scroll-lock>
+    <div class="cart-drawer__inner">
+      {% render 'cart-drawer-content' %}
+    </div>
+  </dialog>
+
+  <p class="visually-hidden" role="status" data-cart-drawer-status></p>
+</cart-drawer>
+
+<script src="{{ 'cart-drawer.js' | asset_url }}" type="module"></script>

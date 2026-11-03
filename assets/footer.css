@@ -1,0 +1,335 @@
+/** Footer, menu columns, newsletter form, and social icons. */
+
+.footer {
+  --footer-gradient: var(--color-accent);
+
+  /* Colors for the animated grain gradient (assets/grain-gradient.js), top to bottom. */
+  --grain-color-top: var(--color-background);
+  --grain-color-middle: var(--color-accent-soft);
+  --grain-color-bottom: var(--footer-gradient);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(to bottom, var(--color-background) 19%, var(--footer-gradient));
+  color: var(--color-foreground);
+}
+
+/* The canvas paints over the CSS gradient, which stays as the fallback. */
+.footer__grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+}
+
+.footer__grain canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.footer__inner {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  padding: 88px var(--page-margin) 32px;
+}
+
+/** Link columns */
+.footer__columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 24px;
+  padding-block-end: 48px;
+}
+
+@media (min-width: 750px) {
+  .footer__columns {
+    display: flex;
+    gap: 24px;
+    padding-block-end: 64px;
+  }
+
+  .footer__columns > * {
+    flex: 1 1 0;
+  }
+}
+
+.menu-block__heading {
+  margin-block-end: 20px;
+  font-family: var(--font-subheading--family);
+  font-weight: var(--font-subheading--weight);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.menu-block__list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-block a {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.002em;
+  text-decoration: none;
+}
+
+.menu-block a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/** Newsletter row, between two dotted lines */
+.footer__newsletter {
+  --dots: color-mix(in srgb, var(--color-foreground) 35%, transparent);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+  padding-block: 32px;
+  background:
+    radial-gradient(circle, var(--dots) 1.25px, transparent 1.5px) top left / 9px 3px repeat-x,
+    radial-gradient(circle, var(--dots) 1.25px, transparent 1.5px) bottom left / 9px 3px repeat-x;
+}
+
+.footer__newsletter-text {
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.005em;
+}
+
+/*
+ * Large screens: the field and the button share one white capsule — a
+ * borderless 300px field with the dark button tucked into the right end.
+ * The capsule, not the field, shows the focus ring.
+ */
+.newsletter-form__field {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px;
+  background-color: var(--color-input-background);
+  border-radius: 999px;
+}
+
+.newsletter-form__field:focus-within {
+  box-shadow: 0 0 0 1px var(--color-accent), 0 0 0 5px color-mix(in srgb, var(--color-accent) 15%, transparent);
+}
+
+.newsletter-form__input.field__input {
+  width: 300px;
+  min-height: 46px;
+  padding-inline: 20px;
+  background-color: transparent;
+  border: 0;
+  border-radius: 999px;
+}
+
+.newsletter-form__input.field__input:focus-visible {
+  border: 0;
+  box-shadow: none;
+}
+
+.newsletter-form__button {
+  flex-shrink: 0;
+}
+
+.newsletter-form__message {
+  margin-block-start: 8px;
+  font-size: 14px;
+}
+
+/* Small screens: a full-width pill field above a full-width button. */
+@media (max-width: 749px) {
+  .footer__newsletter,
+  .newsletter-form,
+  .newsletter-form__field {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .newsletter-form__field {
+    gap: 14px;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .newsletter-form__field:focus-within {
+    box-shadow: none;
+  }
+
+  .newsletter-form__input.field__input {
+    width: 100%;
+    min-height: 48px;
+    padding-inline: 19px;
+    background-color: var(--color-input-background);
+    border: 1px solid var(--color-border);
+  }
+
+  .newsletter-form__input.field__input:focus-visible {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent), 0 0 0 5px color-mix(in srgb, var(--color-accent) 15%, transparent);
+  }
+}
+
+/**
+ * Wordmark: the store name, huge, fading out toward the bottom.
+ * Each character takes about 0.46em, so the width divided by the character
+ * count (at least six) makes the text span the footer. assets/fit-text.js
+ * trims the size further if wide letters still overflow.
+ */
+.footer__wordmark {
+  display: block;
+  margin-block: 24px -12px;
+  overflow: hidden;
+  font-family: var(--font-heading--family);
+  font-size: calc(100cqw / (var(--wordmark-chars, 6) * 0.46));
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-align: center;
+  white-space: nowrap;
+  /* White at the top fading to transparent at the bottom, clipped to the letters. */
+  color: transparent;
+  background: linear-gradient(to bottom, #ffffff, transparent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  user-select: none;
+}
+
+/** Bottom bar: light text on the gradient */
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  padding-block-start: 20px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-foreground-inverse);
+}
+
+.footer__bottom a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer__localization .localization--full .localization__toggle {
+  color: var(--color-foreground-inverse);
+  border-color: var(--color-border);
+}
+
+.footer__policies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 0;
+  margin-inline-start: auto;
+  padding: 0;
+  font-size: 16px;
+  line-height: 24px;
+  list-style: none;
+}
+
+.footer__policies a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Small screens: one column, in the order of the design. */
+@media (max-width: 749px) {
+  .footer__inner {
+    padding-block-start: 56px;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer__policies {
+    order: 1;
+    margin-inline-start: 0;
+  }
+
+  .footer__social {
+    order: 2;
+  }
+
+  .footer__localization {
+    order: 3;
+  }
+
+  .footer__follow {
+    order: 4;
+  }
+
+  .footer__copyright {
+    order: 5;
+  }
+}
+
+/** Social icons: white squares with the brand marks */
+.social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-icons__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.social-icons__link svg {
+  width: 16px;
+  height: 16px;
+}
+
+/** Footer blocks reused elsewhere */
+.policy-list,
+.social-links,
+.payment-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.policy-list a,
+.social-links a,
+.footer-copyright a {
+  text-decoration: none;
+}
+
+.payment-icon {
+  width: 38px;
+  height: auto;
+}
+
+.logo-block {
+  display: block;
+  width: var(--logo-width);
+  max-width: 100%;
+  text-decoration: none;
+}

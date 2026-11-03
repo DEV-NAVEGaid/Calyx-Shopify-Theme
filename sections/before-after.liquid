@@ -1,0 +1,77 @@
+{% comment %}
+  Before / after results. Left: a drag-to-compare photo pair with
+  thumbnails to switch between pairs (each pair is a block). Right: the
+  results column, a static block whose stats are its own blocks.
+  assets/before-after.js handles the slider and thumbnails.
+{% endcomment %}
+
+<before-after class="home-section before-after spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner before-after__inner">
+    <div class="before-after__comparisons">
+      {% content_for 'blocks' %}
+    </div>
+    {% content_for 'block', type: '_results', id: 'results' %}
+  </div>
+</before-after>
+
+<script src="{{ 'before-after.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.before_after",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_comparison" }],
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.before_after",
+      "category": "t:categories.storytelling",
+      "blocks": {
+        "comparison_1": { "type": "_comparison" },
+        "results": {
+          "type": "_results",
+          "static": true,
+          "blocks": {
+            "stat_1": { "type": "_result-stat", "settings": { "value": "85", "text": "t:text_defaults.result_1" } },
+            "stat_2": { "type": "_result-stat", "settings": { "value": "18–22", "text": "t:text_defaults.result_2" } },
+            "stat_3": { "type": "_result-stat", "settings": { "value": "100", "text": "t:text_defaults.result_3" } },
+            "stat_4": { "type": "_result-stat", "settings": { "value": "100", "text": "t:text_defaults.result_4" } }
+          },
+          "block_order": ["stat_1", "stat_2", "stat_3", "stat_4"]
+        }
+      },
+      "block_order": ["comparison_1"]
+    }
+  ]
+}
+{% endschema %}

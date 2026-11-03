@@ -1,0 +1,35 @@
+{% doc %}
+  Renders one product media item: an image, a hosted or external video, or
+  a 3D model.
+
+  @param {object} media - A product media item.
+  @param {boolean} [eager] - Load the media immediately (for the first item).
+
+  @example
+  {% render 'product-media', media: product.featured_media, eager: true %}
+{% enddoc %}
+
+{%- liquid
+  if eager
+    assign loading = 'eager'
+  else
+    assign loading = 'lazy'
+  endif
+-%}
+
+<div class="product-media product-media--{{ media.media_type }}">
+  {% case media.media_type %}
+    {% when 'image' %}
+      {{
+        media
+        | image_url: width: 2400
+        | image_tag: widths: '375, 550, 750, 1100, 1500, 1800, 2400', sizes: '(min-width: 990px) 55vw, 100vw', loading: loading, alt: media.alt
+      }}
+    {% when 'video' %}
+      {{ media | video_tag: controls: true, image_size: '1500x' }}
+    {% when 'external_video' %}
+      {{ media | external_video_tag }}
+    {% when 'model' %}
+      {{ media | model_viewer_tag }}
+  {% endcase %}
+</div>

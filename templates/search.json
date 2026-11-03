@@ -1,0 +1,115 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "search-results",
+      "settings": {
+        "results_per_page": 24,
+        "popular_searches": "Calm, Discovery Set, Body Veil, Gift card",
+        "suggested_heading": "Bestsellers to start with",
+        "suggested_collection": "bestsellers",
+        "columns_desktop": 4,
+        "columns_mobile": "2"
+      },
+      "blocks": {
+        "search-input": {
+          "type": "_search-input",
+          "static": true,
+          "settings": {}
+        },
+        "filters": {
+          "type": "filters",
+          "static": true,
+          "settings": {
+            "enable_filtering": true,
+            "enable_sorting": true
+          }
+        },
+        "product-card": {
+          "type": "product-card",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "type_preset": "h6",
+                "heading_level": "h3"
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "type_preset": "paragraph"
+              }
+            }
+          },
+          "block_order": [
+            "card-gallery",
+            "title",
+            "price"
+          ]
+        },
+        "suggested-product-card": {
+          "type": "product-card",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "type_preset": "h6",
+                "heading_level": "h3"
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "type_preset": "paragraph"
+              }
+            }
+          },
+          "block_order": [
+            "card-gallery",
+            "title",
+            "price"
+          ]
+        },
+        "blog-post-card": {
+          "type": "_blog-post-card",
+          "static": true,
+          "settings": {
+            "show_image": true,
+            "image_ratio": "landscape",
+            "show_date": true,
+            "show_excerpt": true
+          }
+        }
+      },
+      "block_order": []
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

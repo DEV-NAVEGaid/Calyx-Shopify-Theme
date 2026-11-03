@@ -1,0 +1,81 @@
+{% doc %}
+  Renders one of the theme icons, or an uploaded image in its place.
+{% enddoc %}
+
+<div class="icon-block" style="--icon-size: {{ block.settings.width }}px;" {{ block.shopify_attributes }}>
+  {% if block.settings.image != blank %}
+    {{ block.settings.image | image_url: width: 200 | image_tag: loading: 'lazy' }}
+  {% else %}
+    {% render 'icon', icon: block.settings.icon %}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.icon",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:settings.icon",
+      "options": [
+        {
+          "value": "check",
+          "label": "t:options.icon.check"
+        },
+        {
+          "value": "truck",
+          "label": "t:options.icon.truck"
+        },
+        {
+          "value": "return",
+          "label": "t:options.icon.return"
+        },
+        {
+          "value": "lock",
+          "label": "t:options.icon.lock"
+        },
+        {
+          "value": "star",
+          "label": "t:options.icon.star"
+        },
+        {
+          "value": "heart",
+          "label": "t:options.icon.heart"
+        },
+        {
+          "value": "leaf",
+          "label": "t:options.icon.leaf"
+        },
+        {
+          "value": "chat",
+          "label": "t:options.icon.chat"
+        }
+      ],
+      "default": "check"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.custom_icon"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "t:settings.width",
+      "min": 12,
+      "max": 96,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.icon",
+      "category": "t:categories.basic"
+    }
+  ]
+}
+{% endschema %}

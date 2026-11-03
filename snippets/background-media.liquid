@@ -1,0 +1,43 @@
+{% doc %}
+  Renders the background image or video chosen in the Appearance settings
+  of a section or block. Renders nothing when `background_media` is `none`,
+  and a placeholder while the image is still empty.
+
+  Images in the first sections of a page load eagerly; the rest load lazily.
+
+  @param {object} settings - Settings with `background_media`,
+    `background_image`, `background_image_position`, `video`, and
+    `video_position`.
+
+  @example
+  {% render 'background-media', settings: section.settings %}
+{% enddoc %}
+
+{%- liquid
+  if section.index <= 2
+    assign loading = 'eager'
+  else
+    assign loading = 'lazy'
+  endif
+-%}
+
+{%- if settings.background_media == 'image' -%}
+  <div class="background-media background-media--{{ settings.background_image_position | default: 'cover' }}">
+    {% if settings.background_image != blank %}
+      {{
+        settings.background_image
+        | image_url: width: 3840
+        | image_tag: sizes: '100vw', loading: loading, widths: '750, 1100, 1500, 2200, 3000, 3840'
+      }}
+    {% else %}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  </div>
+{%- elsif settings.background_media == 'video' and settings.video != blank -%}
+  <div class="background-media background-media--{{ settings.video_position | default: 'cover' }}">
+    {{
+      settings.video
+      | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1500x'
+    }}
+  </div>
+{%- endif -%}

@@ -1,0 +1,111 @@
+{% doc %}
+  The order summary card: subtotal, discounts, shipping, tax, a discount
+  code field, the total, and the checkout buttons, then any blocks the
+  merchant adds (such as an icon list of guarantees). assets/cart-items.js
+  applies and removes discount codes without leaving the page.
+{% enddoc %}
+
+{%- liquid
+  assign threshold = settings.free_shipping_threshold | times: 100
+  assign free_shipping = false
+  if settings.show_free_shipping_bar and threshold > 0 and cart.total_price >= threshold and cart.currency.iso_code == shop.currency
+    assign free_shipping = true
+  endif
+-%}
+
+<div class="cart-summary" {{ block.shopify_attributes }}>
+  <h2 class="h4 cart-summary__heading">{{ 'content.order_summary' | t }}</h2>
+
+  <dl class="cart-summary__rows">
+    <div class="cart-summary__row">
+      <dt>{{ 'content.subtotal' | t }}</dt>
+      <dd>{% render 'format-money', amount: cart.items_subtotal_price %}</dd>
+    </div>
+    {% for discount in cart.cart_level_discount_applications %}
+      <div class="cart-summary__row cart-summary__row--discount">
+        <dt>{{ 'content.discount_with_code' | t: code: discount.title }}</dt>
+        <dd>−{% render 'format-money', amount: discount.total_allocated_amount %}</dd>
+      </div>
+    {% endfor %}
+    <div class="cart-summary__row">
+      <dt>{{ 'content.shipping' | t }}</dt>
+      <dd {% if free_shipping %}class="cart-summary__free"{% endif %}>
+        {%- if free_shipping -%}
+          {{ 'content.free' | t }}
+        {%- else -%}
+          {{ 'content.calculated_at_checkout' | t }}
+        {%- endif -%}
+      </dd>
+    </div>
+    <div class="cart-summary__row">
+      <dt>{{ 'content.tax' | t }}</dt>
+      <dd>
+        {%- if cart.taxes_included -%}
+          {{ 'content.included' | t }}
+        {%- else -%}
+          {{ 'content.calculated_at_checkout' | t }}
+        {%- endif -%}
+      </dd>
+    </div>
+  </dl>
+
+  {% if settings.show_discount_code %}
+    <form class="cart-summary__discount" data-cart-discount>
+      <div class="field">
+        <label for="CartDiscount-{{ block.id }}">{{ 'content.discount_code' | t }}</label>
+        <input class="field__input" id="CartDiscount-{{ block.id }}" type="text" name="discount" autocomplete="off" placeholder="{{ 'content.enter_code' | t }}">
+      </div>
+      <button class="button-secondary" type="submit">{{ 'actions.apply' | t }}</button>
+    </form>
+    {% if cart.discount_codes.size > 0 %}
+      <ul class="cart-summary__codes" role="list">
+        {% for discount_code in cart.discount_codes %}
+          <li class="cart-summary__code{% unless discount_code.applicable %} cart-summary__code--inactive{% endunless %}">
+            {{ discount_code.code | escape }}
+            <button class="button-unstyled" type="button" data-discount-remove="{{ discount_code.code | escape }}">
+              {% render 'icon', icon: 'close' %}
+              <span class="visually-hidden">{{ 'actions.remove_discount' | t: code: discount_code.code }}</span>
+            </button>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+
+  <p class="cart-summary__total">
+    <span class="h5">{{ 'content.total' | t }}</span>
+    <span class="cart-summary__amount">
+      {% if settings.currency_code_enabled_cart_total %}
+        <small>{{ cart.currency.iso_code }}</small>
+      {% endif %}
+      <span class="h3">{% render 'format-money', amount: cart.total_price %}</span>
+    </span>
+  </p>
+  <p class="cart-summary__note">
+    {%- if cart.taxes_included -%}
+      {{ 'content.taxes_included_at_checkout' | t }}
+    {%- else -%}
+      {{ 'content.taxes_and_shipping_at_checkout' | t }}
+    {%- endif -%}
+  </p>
+
+  <button class="button-dark cart-summary__checkout" type="submit" name="checkout" form="cart-form">
+    {{- 'actions.checkout' | t -}}
+  </button>
+  {% if settings.show_accelerated_checkout_buttons and additional_checkout_buttons %}
+    <div class="cart-summary__additional">
+      {{ content_for_additional_checkout_buttons }}
+    </div>
+  {% endif %}
+
+  {% content_for 'blocks' %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.cart_summary",
+  "tag": null,
+  "blocks": [{ "type": "@theme" }, { "type": "@app" }],
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,36 @@
+{% doc %}
+  The store logo, linked to the home page. Falls back to the store name.
+{% enddoc %}
+
+<a class="logo-block" href="{{ routes.root_url }}" style="--logo-width: {{ block.settings.width }}px;" {{ block.shopify_attributes }}>
+  {% if settings.logo != blank %}
+    {{ settings.logo | image_url: width: 800 | image_tag: alt: shop.name, widths: '200, 400, 600, 800', sizes: '400px', loading: 'lazy' }}
+  {% else %}
+    <span class="h3">{{ shop.name }}</span>
+  {% endif %}
+</a>
+
+{% schema %}
+{
+  "name": "t:names.logo",
+  "tag": null,
+  "settings": [
+    {
+      "type": "range",
+      "id": "width",
+      "label": "t:settings.width",
+      "min": 40,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.logo",
+      "category": "t:categories.basic"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,159 @@
+{% doc %}
+  Everything inside the cart drawer: close button, free shipping progress,
+  line items, recommendations, and the checkout footer. Rendered on page
+  load by snippets/cart-drawer.liquid and on every cart change by
+  sections/cart-drawer.liquid.
+
+  The free shipping bar only shows when the customer shops in the store's
+  default currency, because the threshold setting is in that currency.
+
+  @example
+  {% render 'cart-drawer-content' %}
+{% enddoc %}
+
+<div class="cart-drawer__content" data-cart-count-value="{{ cart.item_count }}">
+  <div class="cart-drawer__header">
+    <h2 class="visually-hidden" id="CartDrawer-Title">{{ 'content.cart_title' | t }}</h2>
+    <button class="cart-drawer__close button-unstyled" type="button" data-cart-drawer-close>
+      {% render 'icon', icon: 'close' %}
+      <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+    </button>
+  </div>
+
+  {% render 'free-shipping-bar' %}
+
+  <div class="cart-drawer__body">
+    {% if cart.item_count > 0 %}
+      <ul class="cart-drawer__items" role="list">
+        {% for item in cart.items %}
+          <li class="cart-drawer-item">
+            <button
+              class="cart-drawer-item__remove button-unstyled"
+              type="button"
+              data-line="{{ forloop.index }}"
+              aria-label="{{ 'accessibility.remove_item' | t: product: item.product.title | escape }}"
+            >
+              {% render 'icon', icon: 'trash' %}
+            </button>
+
+            <a class="cart-drawer-item__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+              {% if item.image %}
+                {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}
+              {% endif %}
+            </a>
+
+            <div class="cart-drawer-item__details">
+              <a class="cart-drawer-item__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+
+              {% unless item.product.has_only_default_variant %}
+                <p class="cart-drawer-item__meta">{{ item.variant.title | escape }}</p>
+              {% endunless %}
+
+              {% if item.selling_plan_allocation %}
+                <p class="cart-drawer-item__meta">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+              {% endif %}
+
+              {% if item.unit_price_measurement %}
+                <p class="cart-drawer-item__meta">
+                  {%- render 'format-money', amount: item.unit_price -%}
+                  /
+                  {%- if item.unit_price_measurement.reference_value != 1 -%}
+                    {{- item.unit_price_measurement.reference_value -}}
+                  {%- endif -%}
+                  {{- item.unit_price_measurement.reference_unit -}}
+                </p>
+              {% endif %}
+
+              {% for discount in item.line_level_discount_allocations %}
+                <p class="cart-drawer-item__meta">{{ discount.discount_application.title }} (−{%- render 'format-money', amount: discount.amount -%})</p>
+              {% endfor %}
+            </div>
+
+            <div class="cart-drawer-item__end">
+              <p class="cart-drawer-item__price">
+                {% if item.original_line_price != item.final_line_price %}
+                  <s>{% render 'format-money', amount: item.original_line_price %}</s>
+                {% endif %}
+                {% render 'format-money', amount: item.final_line_price %}
+              </p>
+
+              {%- assign quantity_id = 'CartDrawer-Quantity-' | append: forloop.index -%}
+              {% render 'quantity-selector',
+                id: quantity_id,
+                name: 'updates[]',
+                value: item.quantity,
+                min: 0,
+                line: forloop.index,
+                label: item.product.title,
+                form: 'CartDrawer-Form'
+              %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+
+      {% if settings.show_cart_recommendations %}
+        <div
+          class="cart-drawer__recommendations"
+          data-recommendations-url="{{ routes.product_recommendations_url }}?product_id={{ cart.items.first.product_id }}&limit=4&section_id=cart-recommendations&intent=related"
+        >
+          {% if settings.cart_recommendations_heading != blank %}
+            <p class="cart-drawer__recommendations-heading">{{ settings.cart_recommendations_heading | escape }}</p>
+          {% endif %}
+          <div class="cart-drawer__recommendations-list" data-recommendations-list></div>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="cart-drawer__empty">
+        <p class="h4">{{ 'content.cart_empty' | t }}</p>
+        <a class="button" href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}">
+          {{- 'actions.continue_shopping' | t -}}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if cart.item_count > 0 %}
+    <form class="cart-drawer__footer" id="CartDrawer-Form" action="{{ routes.cart_url }}" method="post" novalidate>
+      {% if settings.show_cart_note %}
+        <details class="cart-drawer__note">
+          <summary>{{ 'content.cart_note' | t }}</summary>
+          <label class="visually-hidden" for="CartDrawer-Note">{{ 'content.cart_note' | t }}</label>
+          <textarea class="field__input" id="CartDrawer-Note" name="note" rows="3">{{ cart.note }}</textarea>
+        </details>
+      {% endif %}
+
+      {% for discount in cart.cart_level_discount_applications %}
+        <p class="cart-drawer__row cart-drawer__discount">
+          <span>{{ discount.title }}</span>
+          <span>−{% render 'format-money', amount: discount.total_allocated_amount %}</span>
+        </p>
+      {% endfor %}
+
+      <p class="cart-drawer__row cart-drawer__subtotal">
+        <span>{{ 'content.subtotal_count' | t: count: cart.item_count }}</span>
+        <span>
+          {%- render 'format-money', amount: cart.total_price, show_currency_code: settings.currency_code_enabled_cart_total -%}
+        </span>
+      </p>
+
+      <p class="cart-drawer__tax-note">
+        {%- if cart.taxes_included -%}
+          {{ 'content.taxes_included_at_checkout' | t }}
+        {%- else -%}
+          {{ 'content.taxes_and_shipping_at_checkout' | t }}
+        {%- endif -%}
+      </p>
+
+      <button class="button-dark cart-drawer__checkout" type="submit" name="checkout">
+        {{- 'actions.checkout' | t -}}
+      </button>
+
+      {% if settings.show_accelerated_checkout_buttons and additional_checkout_buttons %}
+        <div class="cart-drawer__additional">
+          {{ content_for_additional_checkout_buttons }}
+        </div>
+      {% endif %}
+    </form>
+  {% endif %}
+</div>

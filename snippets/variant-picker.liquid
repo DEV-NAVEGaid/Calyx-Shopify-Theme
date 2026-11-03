@@ -1,0 +1,134 @@
+{% doc %}
+  Lets the shopper choose a variant, one option at a time, as buttons or
+  drop-downs. assets/variant-picker.js re-renders the section for the
+  chosen option values with the Section Rendering API.
+
+  When the product has a single option, each button also shows that
+  variant's price. Options listed in Theme settings > Swatches show color
+  or image swatches instead (see snippets/swatch-style.liquid); values
+  without a swatch fall back to buttons.
+
+  @param {product} product - The product to pick a variant for.
+  @param {string} section_id - Id of the section to re-render on change.
+  @param {string} id_prefix - Unique prefix for input ids and names.
+  @param {string} [style] - `buttons` (default) or `dropdown`.
+  @param {boolean} [update_url] - Keep `?variant=` in the page URL in sync. Default: true.
+  @param {string} [attributes] - Extra attributes for the root element, such as `block.shopify_attributes`.
+
+  @example
+  {% render 'variant-picker', product: closest.product, section_id: section.id, id_prefix: block.id, style: 'buttons' %}
+{% enddoc %}
+
+{%- liquid
+  assign show_prices = false
+  # Gift card amounts are their own price, so they skip it.
+  if product.options.size == 1 and product.gift_card? == false
+    assign show_prices = true
+  endif
+
+  assign swatch_option_names = settings.swatch_option_names | downcase | split: ','
+-%}
+
+<variant-picker
+  class="variant-picker"
+  data-section-id="{{ section_id }}"
+  data-product-url="{{ product.url }}"
+  {% if update_url == false %}
+    data-update-url="false"
+  {% endif %}
+  {{ attributes }}
+>
+  {% unless product.has_only_default_variant %}
+    {% for option in product.options_with_values %}
+      {%- assign input_name = option.name | handle | append: '-' | append: id_prefix -%}
+
+      {% if style == 'dropdown' %}
+        <div class="field variant-picker__option">
+          <label class="variant-picker__label" for="{{ input_name }}">{{ option.name }}</label>
+          <select class="select__input" id="{{ input_name }}" name="{{ input_name }}">
+            {% for value in option.values %}
+              <option
+                value="{{ value | escape }}"
+                data-option-value-id="{{ value.id }}"
+                {% if value.selected %}
+                  selected
+                {% endif %}
+              >
+                {{ value }}
+                {%- unless value.available %} — {{ 'content.unavailable' | t }}{% endunless -%}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      {% else %}
+        {%- liquid
+          # Options named in Theme settings > Swatches show their values as swatches.
+          assign is_swatch_option = false
+          assign option_key = option.name | downcase | strip
+          for swatch_option_name in swatch_option_names
+            assign swatch_option_key = swatch_option_name | strip
+            if swatch_option_key == option_key
+              assign is_swatch_option = true
+              break
+            endif
+          endfor
+        -%}
+
+        <fieldset class="variant-picker__option">
+          <legend class="variant-picker__label">
+            {{- option.name -}}
+            {%- if settings.show_selected_value and option.selected_value -%}
+              : <span class="variant-picker__selected">{{ option.selected_value }}</span>
+            {%- endif -%}
+          </legend>
+          <div class="variant-picker__values">
+            {% for value in option.values %}
+              {%- liquid
+                assign input_id = input_name | append: '-' | append: forloop.index
+                assign swatch = blank
+                if is_swatch_option
+                  capture swatch
+                    render 'swatch-style', value: value
+                  endcapture
+                endif
+              -%}
+              <input
+                class="visually-hidden"
+                type="radio"
+                id="{{ input_id }}"
+                name="{{ input_name }}"
+                value="{{ value | escape }}"
+                data-option-value-id="{{ value.id }}"
+                {% if value.selected %}
+                  checked
+                {% endif %}
+              >
+              {% if swatch != blank %}
+                <label
+                  class="variant-picker__swatch{% unless value.available %} variant-picker__swatch--unavailable{% endunless %}"
+                  for="{{ input_id }}"
+                  style="{{ swatch }}"
+                  title="{{ value | escape }}"
+                >
+                  <span class="visually-hidden">{{ value }}</span>
+                </label>
+              {% else %}
+                <label
+                  class="variant-picker__pill{% if show_prices %} variant-picker__pill--priced{% endif %}{% unless value.available %} variant-picker__pill--unavailable{% endunless %}"
+                  for="{{ input_id }}"
+                >
+                  <span class="variant-picker__value">{{ value }}</span>
+                  {% if show_prices and value.variant %}
+                    <span class="variant-picker__price">{% render 'format-money', amount: value.variant.price %}</span>
+                  {% endif %}
+                </label>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </fieldset>
+      {% endif %}
+    {% endfor %}
+  {% endunless %}
+</variant-picker>
+
+<script src="{{ 'variant-picker.js' | asset_url }}" type="module"></script>

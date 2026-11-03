@@ -1,0 +1,48 @@
+{% doc %}
+  One way to reach the studio: a title, a line of text and an email address.
+  Without an email, it shows the store's contact email (Settings > General).
+
+  @example
+  {% content_for 'block', type: '_contact-channel', id: 'channel' %}
+{% enddoc %}
+
+<div class="contact-channel" {{ block.shopify_attributes }}>
+  {% if block.settings.title != blank %}
+    <p class="contact-channel__title">{{ block.settings.title | escape }}</p>
+  {% endif %}
+
+  {% if block.settings.text != blank %}
+    <p class="contact-channel__text">{{ block.settings.text | escape }}</p>
+  {% endif %}
+
+  {%- assign email = block.settings.email | default: shop.email -%}
+  {% if email != blank %}
+    <a class="contact-channel__email" href="mailto:{{ email }}">
+      {{- email | escape -}}
+    </a>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.contact_channel",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:settings.heading"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "t:settings.email"
+    }
+  ]
+}
+{% endschema %}

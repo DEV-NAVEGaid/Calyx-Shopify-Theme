@@ -1,0 +1,33 @@
+{% doc %}
+  Quantity input for the section's product form. The `form` attribute
+  ties it to the form even when the block sits outside it.
+{% enddoc %}
+
+{%- liquid
+  assign input_id = 'Quantity-' | append: block.id
+  assign form_id = 'product-form-' | append: section.id
+-%}
+
+<div class="quantity-block" {{ block.shopify_attributes }}>
+  {% render 'quantity-selector',
+    id: input_id,
+    name: 'quantity',
+    value: 1,
+    label: closest.product.title,
+    form: form_id
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.quantity",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "t:names.quantity",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

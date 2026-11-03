@@ -1,0 +1,76 @@
+{% doc %}
+  A small card offering another product, such as a discovery set, with its
+  photo, a line about it, and an Add button that puts it in the cart.
+{% enddoc %}
+
+{%- liquid
+  assign upsell = block.settings.product
+  assign variant = upsell.selected_or_first_available_variant
+  assign form_id = 'product-upsell-' | append: block.id
+-%}
+
+{% if upsell != blank or request.design_mode %}
+  <div class="product-upsell" {{ block.shopify_attributes }}>
+    <a class="product-upsell__media" href="{{ upsell.url }}" tabindex="-1" aria-hidden="true">
+      {%- if upsell.featured_image -%}
+        {{ upsell.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </a>
+
+    <div class="product-upsell__text">
+      <a class="product-upsell__title" href="{{ upsell.url }}">
+        {{- block.settings.heading | default: upsell.title | escape -}}
+      </a>
+      {% if block.settings.text != blank %}
+        <p class="product-upsell__note">{{ block.settings.text | escape }}</p>
+      {% elsif upsell != blank %}
+        <p class="product-upsell__note">{% render 'format-money', amount: variant.price %}</p>
+      {% endif %}
+    </div>
+
+    {% if variant.available %}
+      {% form 'product', upsell, id: form_id, class: 'product-upsell__form', data-type: 'add-to-cart-form' %}
+        <input type="hidden" name="id" value="{{ variant.id }}">
+        <button class="product-upsell__add" type="submit" name="add">
+          {{- 'actions.add' | t -}}
+          <span class="visually-hidden"> {{ upsell.title | escape }}</span>
+        </button>
+      {% endform %}
+    {% endif %}
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.product_upsell",
+  "tag": null,
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:settings.product"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "info": "t:info.upsell_heading",
+      "default": "t:text_defaults.upsell_heading"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.upsell_text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_upsell",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

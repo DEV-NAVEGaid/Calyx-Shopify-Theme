@@ -1,0 +1,124 @@
+{% comment %}
+  Hero split: a photo panel with a large heading and a line of text, beside
+  a product panel that cycles through featured products (blocks), each
+  with its name, a line about it, and a Buy now link
+  (assets/hero-split.js). Words in the heading set in italics stay italic.
+{% endcomment %}
+
+<hero-split class="hero-split spacing-style" data-autoplay="{{ section.settings.autoplay }}" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="hero-split__panel hero-split__panel--image">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1600 | image_tag: widths: '700, 1000, 1400, 1600', sizes: '(min-width: 990px) 50vw, 100vw', fetchpriority: 'high', alt: section.settings.image.alt }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag }}
+    {%- endif -%}
+    <div class="hero-split__copy">
+      {% if section.settings.heading != blank %}
+        <h1 class="display-xl hero-split__heading">{{ section.settings.heading }}</h1>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <p class="hero-split__text">{{ section.settings.text | escape }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="hero-split__panel hero-split__panel--products">
+    {% content_for 'blocks' %}
+    {% if section.blocks.size > 1 %}
+      <div class="hero-split__dots" role="tablist" aria-label="{{ 'accessibility.slides' | t }}">
+        {% for block in section.blocks %}
+          <button
+            class="hero-split__dot"
+            type="button"
+            role="tab"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-label="{{ 'accessibility.go_to_slide' | t: number: forloop.index }}"
+            data-hero-dot="{{ forloop.index0 }}"
+          ></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</hero-split>
+
+<script src="{{ 'hero-split.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.hero_split",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_hero-product" }],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "info": "t:info.italic_words",
+      "default": "t:text_defaults.hero_split_heading"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.hero_split_text"
+    },
+    {
+      "type": "range",
+      "id": "autoplay",
+      "label": "t:settings.autoplay_speed",
+      "info": "t:info.autoplay_off",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.hero_split",
+      "category": "t:categories.banners",
+      "blocks": {
+        "product_1": { "type": "_hero-product" },
+        "product_2": { "type": "_hero-product" },
+        "product_3": { "type": "_hero-product" }
+      },
+      "block_order": ["product_1", "product_2", "product_3"]
+    }
+  ]
+}
+{% endschema %}

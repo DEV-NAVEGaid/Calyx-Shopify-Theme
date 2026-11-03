@@ -1,0 +1,29 @@
+{% doc %}
+  The store logo in the header. Uses the logo from Theme settings > Logo and
+  favicon, or the store name as a wordmark when no logo is set.
+{% enddoc %}
+
+<a class="header-logo" href="{{ routes.root_url }}" {{ block.shopify_attributes }}>
+  {% if settings.logo != blank %}
+    {{
+      settings.logo
+      | image_url: width: 600
+      | image_tag: class: 'header-logo__image', alt: shop.name, widths: '150, 300, 450, 600', sizes: '300px', preload: true
+    }}
+  {% else %}
+    <span class="header-logo__text">{{ shop.name }}</span>
+  {% endif %}
+</a>
+
+{% schema %}
+{
+  "name": "t:names.logo",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.logo_settings_info"
+    }
+  ]
+}
+{% endschema %}

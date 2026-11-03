@@ -1,0 +1,300 @@
+{% comment %}
+  The collection page: breadcrumb, collection image, header with the mood
+  filters, toolbar with filters and sorting, the product grid with an
+  optional promo tile, and the SEO text.
+{% endcomment %}
+
+{%- liquid
+  assign collection_image = section.settings.image | default: collection.image
+  assign moods = 'Calm,Joy,Confidence,Clarity,Sensual,Renewal' | split: ','
+-%}
+
+<div class="section section--page-width spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="section-content main-collection">
+  <nav class="breadcrumb" aria-label="{{ 'content.breadcrumb' | t }}">
+    <a href="{{ routes.root_url }}">{{ 'content.home' | t }}</a>
+    <span aria-hidden="true">/</span>
+    <a href="{{ routes.collections_url }}">{{ 'content.collections' | t }}</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ collection.title }}</span>
+  </nav>
+
+  {% if collection_image != blank %}
+    <div class="main-collection__media">
+      {{ collection_image | image_url: width: 2000 | image_tag: loading: 'lazy', sizes: '100vw', widths: '600, 900, 1200, 1600, 2000' }}
+    </div>
+  {% endif %}
+
+  <div class="main-collection__header">
+    <div class="main-collection__intro">
+      {% if section.settings.show_title %}
+        <h1 class="main-collection__title">{{ collection.title }}</h1>
+      {% endif %}
+      {% if section.settings.show_description and collection.description != blank %}
+        <div class="main-collection__description rte">{{ collection.description }}</div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.show_moods %}
+      <nav class="mood-filters" aria-label="{{ 'content.mood_filters' | t }}">
+        <a
+          class="mood-filters__chip{% if collection.handle == 'all' %} mood-filters__chip--active{% endif %}"
+          href="{{ routes.all_products_collection_url }}"
+          {% if collection.handle == 'all' %}aria-current="page"{% endif %}
+        >
+          {{- 'content.mood_all' | t -}}
+        </a>
+        {% for mood in moods %}
+          {%- assign mood_handle = mood | handleize -%}
+          {%- assign mood_collection = collections[mood_handle] -%}
+          {% if mood_collection != blank %}
+            <a
+              class="mood-filters__chip{% if collection.handle == mood_handle %} mood-filters__chip--active{% endif %}"
+              href="{{ mood_collection.url }}"
+              {% if collection.handle == mood_handle %}aria-current="page"{% endif %}
+            >
+              {{- mood -}}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </nav>
+    {% endif %}
+  </div>
+
+  {% paginate collection.products by section.settings.products_per_page %}
+    <div class="main-collection__body">
+      {% content_for 'block', type: 'filters', id: 'filters' %}
+
+      <div class="main-collection__results">
+        {% if collection.products.size > 0 %}
+          <ul
+            class="product-grid"
+            role="list"
+            style="--columns-desktop: {{ section.settings.columns_desktop }}; --columns-mobile: {{ section.settings.columns_mobile }};"
+          >
+            {% for product in collection.products %}
+              <li>{% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}</li>
+              {% if section.settings.promo_position > 0 and forloop.index == section.settings.promo_position %}
+                <li class="promo-tile">
+                  <div class="promo-tile__inner">
+                    {% if section.settings.promo_eyebrow != blank %}
+                      <p class="promo-tile__eyebrow">{{ section.settings.promo_eyebrow | escape }}</p>
+                    {% endif %}
+                    {% if section.settings.promo_heading != blank %}
+                      <p class="promo-tile__heading">{{ section.settings.promo_heading | escape }}</p>
+                    {% endif %}
+                    {% if section.settings.promo_text != blank %}
+                      <p class="promo-tile__text">{{ section.settings.promo_text | escape }}</p>
+                    {% endif %}
+                    {% if section.settings.promo_label != blank %}
+                      <a class="button" href="{{ section.settings.promo_link | default: routes.all_products_collection_url }}">
+                        {{- section.settings.promo_label | escape -}}
+                      </a>
+                    {% endif %}
+                  </div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% elsif collection.all_products_count == 0 %}
+          <div class="empty-state">
+            <span class="empty-state__icon">{% render 'icon', icon: 'search' %}</span>
+            <h2 class="h3">{{ 'content.collection_empty_title' | t }}</h2>
+            <p>{{ 'content.collection_empty_text' | t }}</p>
+            <a class="button-dark" href="{{ routes.all_products_collection_url }}">{{ 'actions.shop_all' | t }}</a>
+          </div>
+        {% else %}
+          <p class="main-collection__empty">{{ 'content.no_products_found' | t }}</p>
+        {% endif %}
+
+        {%- assign shown = paginate.current_offset | plus: collection.products.size -%}
+        <div class="main-collection__more">
+          <p class="main-collection__count">
+            {{ 'content.showing_products' | t: shown: shown, total: paginate.items }}
+          </p>
+          {% if paginate.items > 0 %}
+            <span class="main-collection__bar" aria-hidden="true">
+              <span style="width: {{ shown | times: 100 | divided_by: paginate.items }}%;"></span>
+            </span>
+          {% endif %}
+          {% if paginate.next %}
+            <a class="button-secondary" href="{{ paginate.next.url }}">{{ 'actions.load_more' | t }}</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endpaginate %}
+
+  {% if section.settings.seo_heading != blank or section.settings.seo_text != blank %}
+    <div class="main-collection__seo">
+      {% if section.settings.seo_heading != blank %}
+        <h2 class="main-collection__seo-heading">{{ section.settings.seo_heading | escape }}</h2>
+      {% endif %}
+      {% if section.settings.seo_text != blank %}
+        <div class="main-collection__seo-text rte">{{ section.settings.seo_text }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.collection",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "t:settings.show_title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "t:settings.show_description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_moods",
+      "label": "t:settings.show_moods",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image",
+      "info": "t:info.collection_image"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:settings.products_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 1,
+      "default": 9
+    },
+    {
+      "type": "header",
+      "content": "t:content.grid"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "t:settings.columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "t:settings.columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:options.columns.one"
+        },
+        {
+          "value": "2",
+          "label": "t:options.columns.two"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "t:content.promo_tile"
+    },
+    {
+      "type": "range",
+      "id": "promo_position",
+      "label": "t:settings.promo_position",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "info": "t:info.promo_position"
+    },
+    {
+      "type": "text",
+      "id": "promo_eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.promo_tile_eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "promo_heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.promo_tile_heading"
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.promo_tile_text"
+    },
+    {
+      "type": "text",
+      "id": "promo_label",
+      "label": "t:settings.link_label",
+      "default": "t:text_defaults.promo_tile_label"
+    },
+    {
+      "type": "url",
+      "id": "promo_link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.seo_text"
+    },
+    {
+      "type": "text",
+      "id": "seo_heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.collection_seo_heading"
+    },
+    {
+      "type": "richtext",
+      "id": "seo_text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.collection_seo_text"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 88
+    }
+  ]
+}
+{% endschema %}

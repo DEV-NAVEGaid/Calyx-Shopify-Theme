@@ -1,0 +1,48 @@
+{% doc %}
+  The closest product's review rating as stars, with the average and the
+  number of reviews linked to the reviews section. Reads the standard
+  `reviews.rating` and `reviews.rating_count` metafields that review apps
+  fill in; shows nothing without a rating.
+{% enddoc %}
+
+{%- liquid
+  assign product = closest.product
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+-%}
+
+{% if rating != blank %}
+  <div class="product-rating" {{ block.shopify_attributes }}>
+    {% render 'rating-stars', rating: rating.rating, max: rating.scale_max %}
+    <a class="product-rating__link" href="#{{ block.settings.anchor | default: 'reviews' | handle }}">
+      {{- rating.rating | round: 1 }} · {{ 'content.reviews_count' | t: count: rating_count -}}
+    </a>
+  </div>
+{% elsif request.design_mode %}
+  <div class="product-rating" {{ block.shopify_attributes }}>
+    {% render 'rating-stars', rating: 5, max: 5 %}
+    <span class="product-rating__link">{{ 'content.no_reviews_yet' | t }}</span>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.product_rating",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "t:settings.reviews_anchor",
+      "info": "t:info.reviews_anchor",
+      "default": "reviews"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_rating",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,123 @@
+{% comment %}
+  Community videos: a heading column with arrows and a counter, beside a
+  row of tall video cards (blocks) that scrolls one card at a time and
+  runs off the right edge of the page.
+{% endcomment %}
+
+<video-carousel class="home-section video-carousel spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="video-carousel__intro">
+    <div class="video-carousel__heading">
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="video-carousel__title">{{ section.settings.heading | escape }}</h2>
+      {% endif %}
+    </div>
+
+    <div class="video-carousel__footer">
+      {% if section.settings.text != blank %}
+        <div class="video-carousel__text body-l">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.blocks.size > 1 %}
+        <div class="video-carousel__controls">
+          <button
+            class="round-arrow round-arrow--square video-carousel__previous"
+            type="button"
+            data-scroll-step="-1"
+            aria-label="{{ 'accessibility.previous_slide' | t }}"
+            disabled
+          >
+            {% render 'icon', icon: 'arrow-right' %}
+          </button>
+          <button
+            class="round-arrow round-arrow--square"
+            type="button"
+            data-scroll-step="1"
+            aria-label="{{ 'accessibility.next_slide' | t }}"
+          >
+            {% render 'icon', icon: 'arrow-right' %}
+          </button>
+          <span class="video-carousel__count" aria-hidden="true">
+            <span data-carousel-current>1</span> / {{ section.blocks.size }}
+          </span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="video-carousel__track" data-scroller>
+    {% content_for 'blocks' %}
+  </div>
+</video-carousel>
+
+<script src="{{ 'video-carousel.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.video_carousel",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_video-card" }],
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.community_eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.community_heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:html_defaults.community_text"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.video_carousel",
+      "category": "t:categories.storytelling",
+      "blocks": {
+        "video_1": { "type": "_video-card", "settings": { "handle": "@maya.morning" } },
+        "video_2": { "type": "_video-card", "settings": { "handle": "@daniel.k" } },
+        "video_3": { "type": "_video-card", "settings": { "handle": "@priya.s" } }
+      },
+      "block_order": ["video_1", "video_2", "video_3"]
+    }
+  ]
+}
+{% endschema %}

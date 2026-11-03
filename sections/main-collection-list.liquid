@@ -1,0 +1,175 @@
+{% comment %}
+  The list of all collections: breadcrumb, page header with the number of
+  collections, an optional featured collection banner, then a grid of
+  collection cards under its own heading. Each collection renders through
+  the static collection card.
+{% endcomment %}
+
+<div class="section section--page-width spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="section-content main-collection-list">
+    <nav class="breadcrumb" aria-label="{{ 'content.breadcrumb' | t }}">
+      <a href="{{ routes.root_url }}">{{ 'content.home' | t }}</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ 'content.collections_title' | t }}</span>
+    </nav>
+
+    {% if section.settings.show_title or section.settings.text != blank %}
+      <div class="main-collection__header">
+        <div class="main-collection__intro">
+          {% if section.settings.show_title %}
+            <h1 class="main-collection__title">{{ section.settings.heading | escape }}</h1>
+          {% endif %}
+          {% if section.settings.text != blank %}
+            <div class="main-collection__description rte">{{ section.settings.text }}</div>
+          {% endif %}
+        </div>
+        <p class="main-collection-list__count">{{ 'content.collections_count' | t: count: collections.size }}</p>
+      </div>
+    {% endif %}
+
+    {%- assign featured = section.settings.featured_collection -%}
+    {% if featured != blank %}
+      <div class="featured-collection-banner">
+        {%- if featured.featured_image -%}
+          {{ featured.featured_image | image_url: width: 2752 | image_tag: widths: '750, 1100, 1500, 2200, 2752', sizes: '100vw', alt: '' }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag }}
+        {%- endif -%}
+        <div class="featured-collection-banner__content">
+          <span class="badge badge--tag">{{ 'content.featured' | t }}</span>
+          <h2 class="h1">{{ featured.title | escape }}</h2>
+          {% if featured.description != blank %}
+            <p class="body-l featured-collection-banner__text">{{ featured.description | strip_html | truncatewords: 24 }}</p>
+          {% endif %}
+          <a class="button-light" href="{{ featured.url }}">{{ 'actions.shop_collection' | t }}</a>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if section.settings.grid_heading != blank %}
+      <h2 class="h3 main-collection-list__grid-heading">{{ section.settings.grid_heading | escape }}</h2>
+    {% endif %}
+
+    {% paginate collections by section.settings.collections_per_page %}
+      <ul
+        class="product-grid collection-grid"
+        role="list"
+        style="--columns-desktop: {{ section.settings.columns_desktop }}; --columns-mobile: {{ section.settings.columns_mobile }};"
+      >
+        {% for collection in collections %}
+          <li>{% content_for 'block', type: '_collection-card', id: 'collection-card', closest.collection: collection %}</li>
+        {% endfor %}
+      </ul>
+
+      {% render 'pagination', paginate: paginate %}
+    {% endpaginate %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.collection_list",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "t:settings.show_title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.collections_heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.collections_text"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "t:settings.featured_collection",
+      "info": "t:info.featured_collection"
+    },
+    {
+      "type": "text",
+      "id": "grid_heading",
+      "label": "t:settings.grid_heading",
+      "default": "t:text_defaults.shop_by_category"
+    },
+    {
+      "type": "range",
+      "id": "collections_per_page",
+      "label": "t:settings.collections_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 1,
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "t:content.grid"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "t:settings.columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "t:settings.columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:options.columns.one"
+        },
+        {
+          "value": "2",
+          "label": "t:options.columns.two"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 88
+    }
+  ]
+}
+{% endschema %}

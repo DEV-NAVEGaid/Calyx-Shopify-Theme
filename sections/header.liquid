@@ -1,0 +1,145 @@
+{% comment %}
+  The store header. Large screens: menu on the left, logo in the middle,
+  country/language, search, account, and cart on the right. Small screens:
+  menu and search icons, logo, account and bag icons. The menu and logo are
+  static blocks; mega menu promos are blocks that assets/header.js places in
+  the matching mega menu.
+
+  Account is Shopify's <shopify-account> component: it opens a sheet to sign
+  in and reach orders and profile without leaving the store. Signed out it
+  shows "Account" (an icon on small screens); signed in, the customer's
+  initial.
+{% endcomment %}
+
+{%- liquid
+  assign transparent = false
+  if section.settings.transparent_on_home and request.page_type == 'index'
+    assign transparent = true
+  endif
+
+  assign cart_trigger = false
+  if settings.cart_type == 'drawer' and request.page_type != 'cart'
+    assign cart_trigger = true
+  endif
+-%}
+
+<header-component
+  class="header{% if section.settings.sticky %} header--sticky{% endif %}{% if section.settings.border_bottom %} header--border{% endif %}{% if transparent %} header--transparent{% endif %}"
+>
+  <div class="header__inner">
+    <div class="header__start">
+      {% content_for 'block', type: '_header-menu', id: 'header-menu' %}
+
+      <a class="header__icon header__mobile-only" href="{{ routes.search_url }}" {% if settings.predictive_search_enabled %}data-search-open{% endif %}>
+        {% render 'icon', icon: 'search' %}
+        <span class="visually-hidden">{{ 'accessibility.search' | t }}</span>
+      </a>
+    </div>
+
+    {% content_for 'block', type: '_header-logo', id: 'header-logo' %}
+
+    <div class="header__end">
+      {% if section.settings.show_localization %}
+        <div class="header__desktop-only">
+          {% render 'localization-form', id: 'HeaderLocalization', style: 'compact' %}
+        </div>
+      {% endif %}
+
+      <a class="header__text-link header__desktop-only" href="{{ routes.search_url }}" {% if settings.predictive_search_enabled %}data-search-open{% endif %}>
+        {{- 'content.search' | t -}}
+      </a>
+
+      {% if shop.customer_accounts_enabled %}
+        {%- assign account_menu = section.settings.customer_account_menu.handle | default: 'customer-account-main-menu' -%}
+        <shopify-account class="header__account" menu="{{ account_menu }}">
+          <span class="header__account-avatar" slot="signed-out-avatar">
+            <span class="header__text-link header__desktop-only">{{ 'content.account' | t }}</span>
+            <span class="header__icon header__mobile-only">
+              {% render 'icon', icon: 'account' %}
+              <span class="visually-hidden">{{ 'content.account' | t }}</span>
+            </span>
+          </span>
+        </shopify-account>
+      {% endif %}
+
+      <a
+        class="header__cart"
+        href="{{ routes.cart_url }}"
+        {% if cart_trigger %}
+          data-cart-drawer-trigger
+        {% endif %}
+      >
+        <span class="header__text-link header__desktop-only">
+          {{- 'content.cart_title' | t -}}
+          <span class="header__cart-count-text" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>
+            {{- cart.item_count -}}
+          </span>
+        </span>
+        <span class="header__icon header__mobile-only">
+          {% render 'icon', icon: 'bag' %}
+          <span class="header__cart-bubble" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>
+            {{- cart.item_count -}}
+          </span>
+        </span>
+        <span class="visually-hidden">{{ 'accessibility.cart_count' | t: count: cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+
+  {% comment %} Mega menu promos wait here until assets/header.js moves them into their menu. {% endcomment %}
+  <div class="header__promos" hidden>
+    {% content_for 'blocks' %}
+  </div>
+</header-component>
+
+{% if settings.predictive_search_enabled %}
+  {% render 'search-modal' %}
+{% endif %}
+
+<script src="{{ 'header.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.header",
+  "class": "header-section",
+  "tag": "header",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "blocks": [{ "type": "_mega-menu-promo" }],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "t:settings.sticky_header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_on_home",
+      "label": "t:settings.transparent_on_home",
+      "default": false,
+      "info": "t:info.transparent_on_home"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_bottom",
+      "label": "t:settings.border_bottom",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_localization",
+      "label": "t:settings.show_localization",
+      "default": true,
+      "info": "t:info.show_localization"
+    },
+    {
+      "type": "link_list",
+      "id": "customer_account_menu",
+      "label": "t:settings.customer_account_menu",
+      "info": "t:info.customer_account_menu"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,23 @@
+{% doc %}
+  Icons for the payment methods enabled in the store's checkout.
+{% enddoc %}
+
+<ul class="payment-icons" role="list" {{ block.shopify_attributes }}>
+  {% for type in shop.enabled_payment_types %}
+    <li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>
+  {% endfor %}
+</ul>
+
+{% schema %}
+{
+  "name": "t:names.payment_icons",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "t:names.payment_icons",
+      "category": "t:categories.footer"
+    }
+  ]
+}
+{% endschema %}

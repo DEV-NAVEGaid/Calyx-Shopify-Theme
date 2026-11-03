@@ -1,0 +1,218 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "padding-block-start": 48,
+        "padding-block-end": 96,
+        "empty_collection": "bestsellers"
+      },
+      "blocks": {
+        "cart-title": {
+          "type": "_cart-title",
+          "static": true,
+          "settings": {
+            "type_preset": "h2"
+          }
+        },
+        "empty-product-card": {
+          "type": "product-card",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "type_preset": "h6",
+                "heading_level": "h3"
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "type_preset": "paragraph"
+              }
+            }
+          },
+          "block_order": [
+            "card-gallery",
+            "title",
+            "price"
+          ]
+        },
+        "cart-products": {
+          "type": "_cart-products",
+          "static": true,
+          "settings": {}
+        },
+        "cart-summary": {
+          "type": "_cart-summary",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "trust": {
+              "type": "icon-list",
+              "settings": {
+                "dividers": false
+              },
+              "blocks": {
+                "secure": {
+                  "type": "_icon-list-item",
+                  "settings": {
+                    "icon": "lock",
+                    "text": "Secure, encrypted checkout"
+                  }
+                },
+                "guarantee": {
+                  "type": "_icon-list-item",
+                  "settings": {
+                    "icon": "sparkle",
+                    "text": "30-day scent guarantee"
+                  }
+                },
+                "shipping": {
+                  "type": "_icon-list-item",
+                  "settings": {
+                    "icon": "truck",
+                    "text": "Ships to 30+ countries"
+                  }
+                }
+              },
+              "block_order": [
+                "secure",
+                "guarantee",
+                "shipping"
+              ]
+            }
+          },
+          "block_order": [
+            "trust"
+          ]
+        }
+      },
+      "block_order": []
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "Complete your ritual",
+        "link_label": "Shop all",
+        "padding-block-start": 0
+      },
+      "blocks": {
+        "product-card": {
+          "type": "product-card",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "row": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "space-between",
+                "vertical_alignment": "flex-start",
+                "width": "fill",
+                "gap": 12
+              },
+              "blocks": {
+                "title": {
+                  "type": "product-title",
+                  "settings": {
+                    "type_preset": "paragraph",
+                    "heading_level": "h3"
+                  }
+                },
+                "price": {
+                  "type": "price",
+                  "settings": {
+                    "type_preset": "paragraph"
+                  }
+                }
+              },
+              "block_order": [
+                "title",
+                "price"
+              ]
+            }
+          },
+          "block_order": [
+            "gallery",
+            "row"
+          ]
+        }
+      },
+      "block_order": []
+    },
+    "usp": {
+      "type": "usp-strip",
+      "settings": {},
+      "blocks": {
+        "usp_1": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping",
+            "text": "On orders over $75"
+          }
+        },
+        "usp_2": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "gift",
+            "title": "Free 2ml sample",
+            "text": "In every order"
+          }
+        },
+        "usp_3": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "leaf",
+            "title": "Clean & vegan",
+            "text": "85% natural origin"
+          }
+        },
+        "usp_4": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "sparkle",
+            "title": "30-day guarantee",
+            "text": "Love it or swap it"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "related",
+    "usp"
+  ]
+}

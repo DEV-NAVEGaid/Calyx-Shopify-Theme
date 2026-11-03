@@ -1,0 +1,57 @@
+{% doc %}
+  One promise in the USP strip: an icon, a title, and a line of detail.
+{% enddoc %}
+
+<div class="usp-item" {{ block.shopify_attributes }}>
+  {% render 'icon', icon: block.settings.icon, class: 'usp-item__icon' %}
+  <div class="usp-item__text">
+    <p class="usp-item__title">{{ block.settings.title | escape }}</p>
+    {% if block.settings.text != blank %}
+      <p class="usp-item__detail">{{ block.settings.text | escape }}</p>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.usp_item",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:settings.icon",
+      "options": [
+        { "value": "truck", "label": "t:options.icon.truck" },
+        { "value": "gift", "label": "t:options.icon.gift" },
+        { "value": "leaf", "label": "t:options.icon.leaf" },
+        { "value": "sparkle", "label": "t:options.icon.sparkle" },
+        { "value": "return", "label": "t:options.icon.return" },
+        { "value": "lock", "label": "t:options.icon.lock" },
+        { "value": "check", "label": "t:options.icon.check" },
+        { "value": "heart", "label": "t:options.icon.heart" },
+        { "value": "star", "label": "t:options.icon.star" },
+        { "value": "chat", "label": "t:options.icon.chat" }
+      ],
+      "default": "truck"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:settings.title",
+      "default": "t:text_defaults.usp_1"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.usp_1_text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.usp_item"
+    }
+  ]
+}
+{% endschema %}

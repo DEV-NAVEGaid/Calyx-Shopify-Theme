@@ -1,0 +1,81 @@
+{% comment %}
+  The announcement bar above the header. Each announcement is a block; with
+  more than one, arrows appear and the bar rotates through them
+  (assets/announcement-bar.js).
+{% endcomment %}
+
+{%- assign announcement_count = section.blocks.size -%}
+
+<announcement-bar
+  class="announcement-bar"
+  data-autoplay="{{ section.settings.autoplay_speed }}"
+  style="--announcement-background: {{ section.settings.background_color }}; --announcement-text: {{ section.settings.text_color }};"
+>
+  {% if announcement_count > 1 %}
+    <button class="announcement-bar__arrow button-unstyled" type="button" data-announcement-step="-1">
+      {% render 'icon', icon: 'chevron-left' %}
+      <span class="visually-hidden">{{ 'accessibility.previous_announcement' | t }}</span>
+    </button>
+  {% endif %}
+
+  <div class="announcement-bar__slides" aria-live="polite">
+    {% content_for 'blocks' %}
+  </div>
+
+  {% if announcement_count > 1 %}
+    <button class="announcement-bar__arrow button-unstyled" type="button" data-announcement-step="1">
+      {% render 'icon', icon: 'chevron-right' %}
+      <span class="visually-hidden">{{ 'accessibility.next_announcement' | t }}</span>
+    </button>
+  {% endif %}
+</announcement-bar>
+
+<script src="{{ 'announcement-bar.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.announcement_bar",
+  "class": "announcement-bar-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "blocks": [{ "type": "_announcement" }],
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:settings.autoplay_speed",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "info": "t:info.autoplay_speed"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#2f0a34"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#f7f3ec"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.announcement_bar",
+      "blocks": {
+        "announcement": {
+          "type": "_announcement"
+        }
+      },
+      "block_order": ["announcement"]
+    }
+  ]
+}
+{% endschema %}

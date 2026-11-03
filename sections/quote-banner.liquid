@@ -1,0 +1,82 @@
+{% comment %}
+  Quote banner: a large centered quote and who said it, in light text over
+  a darkened photo.
+{% endcomment %}
+
+<div class="quote-banner spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="quote-banner__media" aria-hidden="true">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2880 | image_tag: widths: '750, 1100, 1500, 2200, 2880', sizes: '100vw', loading: 'lazy', alt: '' }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+
+  <figure class="quote-banner__content">
+    {% render 'icon', icon: 'sparkle', class: 'quote-banner__icon' %}
+    <blockquote class="quote-banner__quote h1">{{ section.settings.quote | escape }}</blockquote>
+    {% if section.settings.author != blank %}
+      <figcaption class="eyebrow quote-banner__author">{{ section.settings.author | escape }}</figcaption>
+    {% endif %}
+  </figure>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.quote_banner",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "t:settings.quote",
+      "default": "t:text_defaults.founder_quote"
+    },
+    {
+      "type": "text",
+      "id": "author",
+      "label": "t:settings.author",
+      "default": "t:text_defaults.founder_name"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 128
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 128
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.quote_banner",
+      "category": "t:categories.storytelling"
+    }
+  ]
+}
+{% endschema %}

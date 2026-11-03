@@ -1,0 +1,162 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-collection-list",
+      "settings": {
+        "show_title": true,
+        "heading": "Collections",
+        "text": "<p>Shop by category or start with the feeling you want more of.</p>",
+        "collections_per_page": 24,
+        "columns_desktop": 3,
+        "columns_mobile": "2",
+        "padding-block-start": 16,
+        "padding-block-end": 88,
+        "featured_collection": "serums",
+        "grid_heading": "Shop by category"
+      },
+      "blocks": {
+        "collection-card": {
+          "type": "_collection-card",
+          "static": true,
+          "settings": {
+            "image_ratio": "portrait",
+            "show_product_count": true,
+            "show_description": false
+          }
+        }
+      },
+      "block_order": []
+    },
+    "moods": {
+      "type": "mood-grid",
+      "settings": {
+        "style": "pills",
+        "heading": "Shop by mood",
+        "text": "",
+        "padding-block-start": 0
+      },
+      "blocks": {
+        "mood_1": {
+          "type": "_mood-card",
+          "settings": {
+            "title": "Calm",
+            "text": "For slowing down and settling in",
+            "color": "#dce9e4",
+            "link_label": "Still Water"
+          }
+        },
+        "mood_2": {
+          "type": "_mood-card",
+          "settings": {
+            "title": "Joy",
+            "text": "For lightness and easy laughter",
+            "color": "#f8e7c9",
+            "link_label": "Golden Hour"
+          }
+        },
+        "mood_3": {
+          "type": "_mood-card",
+          "settings": {
+            "title": "Confidence",
+            "text": "For speaking up and standing tall",
+            "color": "#f3d9d2",
+            "link_label": "Brave Bloom"
+          }
+        },
+        "mood_4": {
+          "type": "_mood-card",
+          "settings": {
+            "title": "Clarity",
+            "text": "For focus and a clear head",
+            "color": "#dde6f4",
+            "link_label": "First Light"
+          }
+        },
+        "mood_5": {
+          "type": "_mood-card",
+          "settings": {
+            "title": "Sensual",
+            "text": "For closeness and slow evenings",
+            "color": "#e9d8ea",
+            "link_label": "Night Orchid"
+          }
+        },
+        "mood_6": {
+          "type": "_mood-card",
+          "settings": {
+            "title": "Renewal",
+            "text": "For fresh starts and balance",
+            "color": "#e2ecd3",
+            "link_label": "Green Return"
+          }
+        }
+      },
+      "block_order": [
+        "mood_1",
+        "mood_2",
+        "mood_3",
+        "mood_4",
+        "mood_5",
+        "mood_6"
+      ]
+    },
+    "usp_strip": {
+      "type": "usp-strip",
+      "settings": {},
+      "blocks": {
+        "usp_1": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping",
+            "text": "On orders over $75"
+          }
+        },
+        "usp_2": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "gift",
+            "title": "Free 2ml sample",
+            "text": "In every order"
+          }
+        },
+        "usp_3": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "leaf",
+            "title": "Clean & vegan",
+            "text": "85% natural origin"
+          }
+        },
+        "usp_4": {
+          "type": "_usp-item",
+          "settings": {
+            "icon": "sparkle",
+            "title": "30-day guarantee",
+            "text": "Love it or swap it"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "moods",
+    "usp_strip"
+  ]
+}

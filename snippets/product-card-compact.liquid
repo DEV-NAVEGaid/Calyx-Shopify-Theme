@@ -1,0 +1,26 @@
+{% doc %}
+  A small linked product card (image, title, price) for places that list
+  products without the configurable product card block, such as the cart
+  drawer recommendations.
+
+  @param {product} product - The product to show.
+
+  @example
+  {% render 'product-card-compact', product: product %}
+{% enddoc %}
+
+<a class="product-card-compact" href="{{ product.url }}">
+  <span class="product-card-compact__media">
+    {% if product.featured_media %}
+      {{
+        product.featured_media.preview_image
+        | image_url: width: 480
+        | image_tag: widths: '240, 360, 480', sizes: '200px', loading: 'lazy', alt: ''
+      }}
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  </span>
+  <span class="product-card-compact__title">{{ product.title | escape }}</span>
+  {% render 'price', product: product, show_currency_code: settings.currency_code_enabled_product_cards %}
+</a>

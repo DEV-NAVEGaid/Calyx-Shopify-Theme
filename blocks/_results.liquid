@@ -1,0 +1,72 @@
+{% doc %}
+  The results column of the before/after section: a verified eyebrow, a
+  large headline result, a note, a grid of stats (blocks), and a footnote.
+{% enddoc %}
+
+<div class="results" {{ block.shopify_attributes }}>
+  {% if block.settings.eyebrow != blank %}
+    <p class="results__eyebrow eyebrow">
+      <span class="results__badge">{% render 'icon', icon: 'check' %}</span>
+      {{ block.settings.eyebrow | escape }}
+    </p>
+  {% endif %}
+
+  {% if block.settings.heading != blank %}
+    <h2 class="results__heading">{{ block.settings.heading | escape }}</h2>
+  {% endif %}
+
+  {% if block.settings.note != blank %}
+    <p class="results__note">{{ block.settings.note | escape }}</p>
+  {% endif %}
+
+  {% if block.settings.stats_heading != blank %}
+    <p class="results__stats-heading eyebrow">{{ block.settings.stats_heading | escape }}</p>
+  {% endif %}
+
+  <div class="results__stats">
+    {% content_for 'blocks' %}
+  </div>
+
+  {% if block.settings.footnote != blank %}
+    <p class="results__footnote">{{ block.settings.footnote | escape }}</p>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.results",
+  "tag": null,
+  "blocks": [{ "type": "_result-stat" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.results_eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.results_heading"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.results_note"
+    },
+    {
+      "type": "text",
+      "id": "stats_heading",
+      "label": "t:settings.stats_heading",
+      "default": "t:text_defaults.results_stats_heading"
+    },
+    {
+      "type": "textarea",
+      "id": "footnote",
+      "label": "t:settings.footnote"
+    }
+  ]
+}
+{% endschema %}

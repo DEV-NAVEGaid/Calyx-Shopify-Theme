@@ -1,0 +1,113 @@
+{% doc %}
+  A card for the closest article, linked to the article page.
+
+  @example
+  {% content_for 'block', type: '_blog-post-card', id: 'blog-post-card', closest.article: article %}
+{% enddoc %}
+
+{%- liquid
+  assign article = closest.article
+
+  case block.settings.image_ratio
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'landscape'
+      assign ratio = '3 / 2'
+    else
+      assign ratio = article.image.aspect_ratio | default: 1.5
+  endcase
+-%}
+
+<article class="blog-post-card" style="--media-ratio: {{ ratio }};" {{ block.shopify_attributes }}>
+  {% if block.settings.show_image and article.image %}
+    <a class="blog-post-card__media" href="{{ article.url }}" tabindex="-1" aria-hidden="true">
+      {{
+        article.image
+        | image_url: width: 900
+        | image_tag: widths: '300, 450, 660, 900', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy'
+      }}
+    </a>
+  {% endif %}
+
+  <div class="blog-post-card__body">
+    {% if block.settings.show_date or article.tags.size > 0 %}
+      <p class="blog-post-card__meta">
+        {%- if article.tags.size > 0 -%}
+          <span class="badge badge--tag">{{ article.tags.first }}</span>
+        {%- endif -%}
+        {%- if block.settings.show_date -%}
+          {{ article.published_at | time_tag: format: 'date' }}
+        {%- endif -%}
+      </p>
+    {% endif %}
+
+    <h2 class="blog-post-card__title h4">
+      <a href="{{ article.url }}">{{ article.title | escape }}</a>
+    </h2>
+
+    {% if block.settings.show_excerpt %}
+      <p class="blog-post-card__excerpt">
+        {{- article.excerpt_or_content | strip_html | truncatewords: 24 -}}
+      </p>
+    {% endif %}
+
+    <a class="blog-post-card__link" href="{{ article.url }}">
+      {{ 'content.read_story' | t }}
+      {% render 'icon', icon: 'arrow-right' %}
+    </a>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "t:names.blog_post_card",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "t:settings.show_image",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:settings.aspect_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:options.aspect_ratio.adapt"
+        },
+        {
+          "value": "square",
+          "label": "t:options.aspect_ratio.square"
+        },
+        {
+          "value": "portrait",
+          "label": "t:options.aspect_ratio.portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "t:options.aspect_ratio.landscape"
+        }
+      ],
+      "default": "landscape",
+      "visible_if": "{{ block.settings.show_image }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "t:settings.show_date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "t:settings.show_excerpt",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

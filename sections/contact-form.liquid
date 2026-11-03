@@ -1,0 +1,226 @@
+{% comment %}
+  Contact page: the message form in a bordered card, with the ways to reach
+  the studio beside it. Info channels are private blocks.
+{% endcomment %}
+
+<div class="contact-form home-section spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner contact-form__layout">
+    <div class="contact-form__card">
+      {% form 'contact', class: 'contact-form__form' %}
+        {% if form.posted_successfully? %}
+          <p class="contact-form__success" role="status">{{ 'content.contact_success' | t }}</p>
+        {% endif %}
+
+        {{ form.errors | default_errors }}
+
+        <div class="contact-form__row">
+          <div class="field">
+            <label for="ContactName">{{ 'content.contact_name' | t }}</label>
+            <input
+              class="field__input"
+              type="text"
+              id="ContactName"
+              name="contact[name]"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="ContactEmail">{{ 'content.contact_email' | t }}</label>
+            <input
+              class="field__input"
+              type="email"
+              id="ContactEmail"
+              name="contact[email]"
+              value="{{ form.email }}"
+              autocomplete="email"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="ContactOrder">{{ 'content.contact_order_number' | t }}</label>
+          <input class="field__input" type="text" id="ContactOrder" name="contact[order_number]">
+        </div>
+
+        <div class="field">
+          <label for="ContactSubject">{{ 'content.contact_subject' | t }}</label>
+          <input class="field__input" type="text" id="ContactSubject" name="contact[subject]">
+        </div>
+
+        <div class="field">
+          <label for="ContactTopic">{{ 'content.contact_topic' | t }}</label>
+          <select class="field__input" id="ContactTopic" name="contact[topic]">
+            <option value="order">{{ 'content.topic_order' | t }}</option>
+            <option value="product">{{ 'content.topic_product' | t }}</option>
+            <option value="collaboration">{{ 'content.topic_collaboration' | t }}</option>
+            <option value="press">{{ 'content.topic_press' | t }}</option>
+            <option value="wholesale">{{ 'content.topic_wholesale' | t }}</option>
+            <option value="other">{{ 'content.topic_other' | t }}</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="ContactMessage">{{ 'content.contact_message' | t }}</label>
+          <textarea
+            class="field__input"
+            id="ContactMessage"
+            name="contact[body]"
+            rows="6"
+            placeholder="{{ 'content.contact_message_placeholder' | t }}"
+            required
+          >{{ form.body }}</textarea>
+        </div>
+
+        <label class="contact-form__consent">
+          <input type="checkbox" name="contact[newsletter]" value="yes">
+          <span>{{ 'content.contact_newsletter' | t }}</span>
+        </label>
+
+        <div class="contact-form__actions">
+          <button class="button" type="submit">{{ 'content.contact_send' | t }}</button>
+          <p class="contact-form__note">{{ 'content.contact_reply_note' | t }}</p>
+        </div>
+      {% endform %}
+    </div>
+
+    <aside class="contact-info">
+      {% content_for 'blocks' %}
+
+      {%- liquid
+        assign address = section.settings.address
+        if address == blank and shop.address.summary != blank
+          assign address = shop.address.summary
+        endif
+      -%}
+      {% if section.settings.hours != blank or address != blank %}
+        <div class="contact-info__box">
+          <p class="eyebrow">{{ 'content.contact_hours' | t }}</p>
+          {% if section.settings.hours != blank %}
+            <p class="contact-info__hours">{{ section.settings.hours | escape }}</p>
+          {% endif %}
+          {% if address != blank %}
+            <p class="contact-info__address">{{ address | escape }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.faq_text != blank %}
+        <a class="contact-info__faq" href="{{ section.settings.faq_link | default: '#' }}">
+          <span>
+            <span class="contact-info__faq-title">{{ section.settings.faq_heading | escape }}</span>
+            <span class="contact-info__faq-text">{{ section.settings.faq_text | escape }}</span>
+          </span>
+          {% render 'icon', icon: 'arrow-right' %}
+        </a>
+      {% endif %}
+    </aside>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.contact_form",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "_contact-channel"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.contact_info"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "t:settings.hours",
+      "default": "Mon–Fri · 9am–6pm ET"
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "t:settings.address",
+      "info": "t:info.contact_address"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "t:settings.heading",
+      "default": "Looking for a quick answer?"
+    },
+    {
+      "type": "text",
+      "id": "faq_text",
+      "label": "t:settings.text",
+      "default": "Most questions are covered in our FAQ."
+    },
+    {
+      "type": "url",
+      "id": "faq_link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.contact_form",
+      "category": "t:categories.forms",
+      "blocks": {
+        "care": {
+          "type": "_contact-channel",
+          "settings": {
+            "title": "t:text_defaults.contact_channel_care_title",
+            "text": "t:text_defaults.contact_channel_care_text"
+          }
+        },
+        "press": {
+          "type": "_contact-channel",
+          "settings": {
+            "title": "t:text_defaults.contact_channel_press_title",
+            "text": "t:text_defaults.contact_channel_press_text"
+          }
+        },
+        "wholesale": {
+          "type": "_contact-channel",
+          "settings": {
+            "title": "t:text_defaults.contact_channel_wholesale_title",
+            "text": "t:text_defaults.contact_channel_wholesale_text"
+          }
+        }
+      },
+      "block_order": ["care", "press", "wholesale"]
+    }
+  ]
+}
+{% endschema %}

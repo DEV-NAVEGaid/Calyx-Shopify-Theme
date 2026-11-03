@@ -1,0 +1,125 @@
+{% comment %}
+  Testimonial slider: a tag and a heading (words in italics stay italic),
+  then one testimonial at a time (blocks) with the previous one's photo
+  small beside the current photo, the quote, and who said it, next to an
+  overall satisfaction score. Previous / Next and a counter switch them
+  (assets/testimonial-slider.js).
+{% endcomment %}
+
+{%- assign count = section.blocks.size -%}
+
+<testimonial-slider class="home-section testimonial-slider spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner">
+    {% if section.settings.tag != blank %}
+      <p class="eyebrow testimonial-slider__tag">{{ section.settings.tag | escape }}</p>
+    {% endif %}
+    {% if section.settings.heading != blank %}
+      <h2 class="testimonial-slider__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="testimonial-slider__body">
+      <div class="testimonial-slider__slides">
+        {% content_for 'blocks' %}
+      </div>
+      {% if section.settings.score != blank %}
+        <div class="testimonial-slider__score">
+          <p class="testimonial-slider__score-label">{{ 'content.customer_satisfaction' | t }}</p>
+          <p class="testimonial-slider__score-value">
+            <span>{{ section.settings.score | escape }}</span><small>/5</small>
+          </p>
+          {%- assign score_value = section.settings.score | times: 1.0 -%}
+          {% render 'rating-stars', rating: score_value, max: 5 %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if count > 1 %}
+      <div class="testimonial-slider__nav">
+        <button class="button-unstyled testimonial-slider__step" type="button" data-slider-step="-1">
+          <span class="testimonial-slider__back">{% render 'icon', icon: 'arrow-right' %}</span>
+          {{- 'actions.previous' | t -}}
+        </button>
+        <p class="testimonial-slider__count" aria-live="polite">
+          <span data-slider-current>01</span> / {% if count < 10 %}0{% endif %}{{ count }}
+        </p>
+        <button class="button-unstyled testimonial-slider__step" type="button" data-slider-step="1">
+          {{- 'actions.next' | t -}}
+          {% render 'icon', icon: 'arrow-right' %}
+        </button>
+      </div>
+    {% endif %}
+  </div>
+</testimonial-slider>
+
+<script src="{{ 'testimonial-slider.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.testimonial_slider",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_testimonial-slide" }],
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.testimonials_tag"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "info": "t:info.italic_words",
+      "default": "t:text_defaults.testimonials_heading"
+    },
+    {
+      "type": "text",
+      "id": "score",
+      "label": "t:settings.satisfaction_score",
+      "info": "t:info.satisfaction_score",
+      "default": "4.8"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.testimonial_slider",
+      "category": "t:categories.storytelling",
+      "blocks": {
+        "slide_1": { "type": "_testimonial-slide", "settings": { "quote": "t:text_defaults.slide_quote_1", "author": "Emily — Customer · Still Water" } },
+        "slide_2": { "type": "_testimonial-slide", "settings": { "quote": "t:text_defaults.slide_quote_2", "author": "Daniel — Customer · Golden Hour" } },
+        "slide_3": { "type": "_testimonial-slide", "settings": { "quote": "t:text_defaults.slide_quote_3", "author": "Priya — Customer · Brave Bloom" } }
+      },
+      "block_order": ["slide_1", "slide_2", "slide_3"]
+    }
+  ]
+}
+{% endschema %}

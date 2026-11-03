@@ -1,0 +1,108 @@
+{% doc %}
+  The cart line items as a table: product, quantity, and line total. Each
+  line shows the product type, variant, unit price, discounts, and
+  subscription. The cart note (Theme settings > Cart) sits beneath as a
+  gift note. Submits as a regular cart form; assets/cart-items.js updates
+  quantities in place with the Section Rendering API.
+{% enddoc %}
+
+<div class="cart-products" {{ block.shopify_attributes }}>
+  <form id="cart-form" action="{{ routes.cart_url }}" method="post" novalidate>
+    <div class="cart-products__head" aria-hidden="true">
+      <span>{{ 'content.product' | t }}</span>
+      <span>{{ 'content.quantity' | t }}</span>
+      <span>{{ 'content.total' | t }}</span>
+    </div>
+
+    <ul class="cart-products__list" role="list">
+      {% for item in cart.items %}
+        <li class="cart-item" data-line="{{ forloop.index }}">
+          <div class="cart-item__media">
+            {% if item.image %}
+              {% render 'image', image: item.image, url: item.url, width: 300, class: 'cart-item__image' %}
+            {% endif %}
+          </div>
+
+          <div class="cart-item__details">
+            {% if item.product.type != blank %}
+              <p class="eyebrow cart-item__type">{{ item.product.type | escape }}</p>
+            {% endif %}
+            <a class="h5 cart-item__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+            {% unless item.product.has_only_default_variant %}
+              <p class="cart-item__variant">{{ item.variant.title | escape }}</p>
+            {% endunless %}
+            {% for property in item.properties %}
+              {% unless property.last == blank or property.first contains '_' %}
+                <p class="cart-item__variant">{{ property.first }}: {{ property.last }}</p>
+              {% endunless %}
+            {% endfor %}
+            <p class="cart-item__unit">
+              {%- if item.original_price != item.final_price -%}
+                <s>{% render 'format-money', amount: item.original_price %}</s>
+              {% endif -%}
+              {%- render 'format-money', amount: item.final_price -%}
+            </p>
+            {% if item.unit_price_measurement %}
+              <p class="cart-item__note">
+                {%- render 'format-money', amount: item.unit_price -%}
+                /
+                {%- if item.unit_price_measurement.reference_value != 1 -%}
+                  {{- item.unit_price_measurement.reference_value -}}
+                {%- endif -%}
+                {{- item.unit_price_measurement.reference_unit -}}
+              </p>
+            {% endif %}
+            {% for discount in item.line_level_discount_allocations %}
+              <p class="cart-item__discount">{{ discount.discount_application.title }} (−{%- render 'format-money', amount: discount.amount -%})</p>
+            {% endfor %}
+            {% if item.selling_plan_allocation %}
+              <p class="cart-item__plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+            {% endif %}
+            <a class="cart-item__remove" href="{{ item.url_to_remove }}" data-line="{{ forloop.index }}">
+              {{- 'actions.remove' | t -}}
+              <span class="visually-hidden"> {{ item.product.title | escape }}</span>
+            </a>
+          </div>
+
+          <div class="cart-item__quantity">
+            {%- assign quantity_id = 'Quantity-' | append: item.key -%}
+            {% render 'quantity-selector',
+              id: quantity_id,
+              name: 'updates[]',
+              value: item.quantity,
+              min: 0,
+              line: forloop.index,
+              label: item.product.title
+            %}
+          </div>
+
+          <div class="cart-item__price">
+            {% if item.original_line_price != item.final_line_price %}
+              <s>{% render 'format-money', amount: item.original_line_price %}</s>
+            {% endif %}
+            {% render 'format-money', amount: item.final_line_price %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <noscript>
+      <button type="submit" class="button-secondary" name="update">{{ 'actions.update' | t }}</button>
+    </noscript>
+  </form>
+
+  {% if settings.show_cart_note %}
+    <div class="field cart-products__note">
+      <label for="CartNote">{{ 'content.cart_note' | t }}</label>
+      <textarea class="field__input" id="CartNote" name="note" form="cart-form" placeholder="{{ 'content.cart_note_placeholder' | t }}">{{ cart.note }}</textarea>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.cart_products",
+  "tag": null,
+  "settings": []
+}
+{% endschema %}

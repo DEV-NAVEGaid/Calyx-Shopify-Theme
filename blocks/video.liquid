@@ -1,0 +1,184 @@
+{% doc %}
+  Renders an uploaded video or an embedded YouTube or Vimeo video.
+{% enddoc %}
+
+{%- liquid
+  assign video = block.settings.video
+  assign video_url = block.settings.video_url
+-%}
+
+<div
+  class="video-block size-style border-style"
+  style="{% render 'size-style', settings: block.settings %} {% render 'border-override', settings: block.settings %}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.source == 'external' and video_url != blank %}
+    {% if video_url.type == 'youtube' %}
+      <iframe
+        src="https://www.youtube.com/embed/{{ video_url.id }}"
+        title="{{ 'accessibility.video' | t }}"
+        loading="lazy"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    {% else %}
+      <iframe
+        src="https://player.vimeo.com/video/{{ video_url.id }}"
+        title="{{ 'accessibility.video' | t }}"
+        loading="lazy"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    {% endif %}
+  {% elsif video != blank %}
+    {% if block.settings.autoplay %}
+      {{ video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1500x' }}
+    {% else %}
+      {{ video | video_tag: controls: true, image_size: '1500x' }}
+    {% endif %}
+  {% else %}
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.video",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "source",
+      "label": "t:settings.source",
+      "options": [
+        {
+          "value": "uploaded",
+          "label": "t:options.video_source.uploaded"
+        },
+        {
+          "value": "external",
+          "label": "t:options.video_source.external"
+        }
+      ],
+      "default": "uploaded"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "t:settings.video",
+      "visible_if": "{{ block.settings.source == 'uploaded' }}"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "t:settings.video_url",
+      "accept": [
+        "youtube",
+        "vimeo"
+      ],
+      "visible_if": "{{ block.settings.source == 'external' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:settings.autoplay",
+      "default": false,
+      "visible_if": "{{ block.settings.source == 'uploaded' }}",
+      "info": "t:info.autoplay"
+    },
+    {
+      "type": "header",
+      "content": "t:content.size"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "fit",
+          "label": "t:options.width.fit"
+        },
+        {
+          "value": "fill",
+          "label": "t:options.width.fill"
+        },
+        {
+          "value": "custom",
+          "label": "t:options.width.custom"
+        }
+      ],
+      "default": "fill"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "label": "t:settings.custom_width",
+      "min": 5,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.width == 'custom' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.borders"
+    },
+    {
+      "type": "select",
+      "id": "border",
+      "label": "t:settings.style",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.border.none"
+        },
+        {
+          "value": "solid",
+          "label": "t:options.border.solid"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "t:settings.thickness",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 1,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_opacity",
+      "label": "t:settings.opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.video",
+      "category": "t:categories.storytelling"
+    }
+  ]
+}
+{% endschema %}

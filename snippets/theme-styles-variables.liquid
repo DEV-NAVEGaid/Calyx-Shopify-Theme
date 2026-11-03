@@ -1,0 +1,118 @@
+{% doc %}
+  Loads the theme fonts and outputs typography, layout, and shape settings
+  as CSS custom properties on `:root`.
+
+  Font role settings (`type_font_h1`, `type_font_button_primary`, …) store
+  a role name — body, subheading, heading, or accent — that maps to the
+  matching `--font-<role>--*` variables.
+
+  @example
+  {% render 'theme-styles-variables' %}
+{% enddoc %}
+
+{%- liquid
+  case settings.page_width
+    when 'narrow'
+      assign page_width = '75rem'
+    when 'wide'
+      assign page_width = '105rem'
+    else
+      assign page_width = '90rem'
+  endcase
+
+  assign heading_font_bold = settings.type_heading_font | font_modify: 'weight', 'bold'
+
+  case settings.swatch_shape
+    when 'square'
+      assign swatch_radius = '0'
+    when 'rounded'
+      assign swatch_radius = '6px'
+    else
+      assign swatch_radius = '50%'
+  endcase
+
+  assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+  assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+  assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+-%}
+
+{% style %}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+  {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+  {{ settings.type_subheading_font | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+  {{ heading_font_bold | font_face: font_display: 'swap' }}
+  {{ settings.type_accent_font | font_face: font_display: 'swap' }}
+
+  :root {
+    --font-body--family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body--style: {{ settings.type_body_font.style }};
+    --font-body--weight: {{ settings.type_body_font.weight }};
+    --font-subheading--family: {{ settings.type_subheading_font.family }}, {{ settings.type_subheading_font.fallback_families }};
+    --font-subheading--style: {{ settings.type_subheading_font.style }};
+    --font-subheading--weight: {{ settings.type_subheading_font.weight }};
+    --font-heading--family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --font-heading--style: {{ settings.type_heading_font.style }};
+    --font-heading--weight: {{ settings.type_heading_font.weight }};
+    --font-accent--family: {{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
+    --font-accent--style: {{ settings.type_accent_font.style }};
+    --font-accent--weight: {{ settings.type_accent_font.weight }};
+
+    --font-paragraph--size: {{ settings.type_size_paragraph }}px;
+    --font-paragraph--line-height: {{ settings.type_line_height_paragraph }};
+
+    {% for heading in (1..6) %}
+      {%- liquid
+        assign font_key = 'type_font_h' | append: heading
+        assign size_key = 'type_size_h' | append: heading
+        assign line_height_key = 'type_line_height_h' | append: heading
+        assign letter_spacing_key = 'type_letter_spacing_h' | append: heading
+        assign case_key = 'type_case_h' | append: heading
+        assign font_role = settings[font_key]
+      -%}
+      --font-h{{ heading }}--family: var(--font-{{ font_role }}--family);
+      --font-h{{ heading }}--style: var(--font-{{ font_role }}--style);
+      --font-h{{ heading }}--weight: var(--font-{{ font_role }}--weight);
+      --font-h{{ heading }}--size: {{ settings[size_key] }}px;
+      --font-h{{ heading }}--line-height: {{ settings[line_height_key] }};
+      --font-h{{ heading }}--letter-spacing: {{ settings[letter_spacing_key] }};
+      --font-h{{ heading }}--case: {{ settings[case_key] }};
+    {% endfor %}
+
+    --page-width: {{ page_width }};
+    --page-margin: {{ settings.page_margin_mobile }}px;
+
+    --button-primary--font-family: var(--font-{{ settings.type_font_button_primary }}--family);
+    --button-primary--font-weight: var(--font-{{ settings.type_font_button_primary }}--weight);
+    --button-primary--case: {{ settings.button_text_case_primary }};
+    --button-primary--border-width: {{ settings.primary_button_border_width }}px;
+    --button-primary--border-radius: {{ settings.button_border_radius_primary }}px;
+    --button-secondary--font-family: var(--font-{{ settings.type_font_button_secondary }}--family);
+    --button-secondary--font-weight: var(--font-{{ settings.type_font_button_secondary }}--weight);
+    --button-secondary--case: {{ settings.button_text_case_secondary }};
+    --button-secondary--border-width: {{ settings.secondary_button_border_width }}px;
+    --button-secondary--border-radius: {{ settings.button_border_radius_secondary }}px;
+
+    --input--border-width: {{ settings.input_border_width }}px;
+    --input--border-radius: {{ settings.inputs_border_radius }}px;
+
+    --badge--border-radius: {{ settings.badge_corner_radius }}px;
+    --drawer--border-radius: {{ settings.drawer_corner_radius }}px;
+    --popover--border-radius: {{ settings.popover_corner_radius }}px;
+    --swatch--size: {{ settings.swatch_size }}px;
+    --swatch--border-radius: {{ swatch_radius }};
+    --product-card--image-radius: {{ settings.product_corner_radius }}px;
+    --product-card--title-case: {{ settings.card_title_case }};
+
+    --logo--height: {{ settings.logo_height }}px;
+    --logo--height-mobile: {{ settings.logo_height_mobile }}px;
+  }
+
+  @media (min-width: 750px) {
+    :root {
+      --page-margin: {{ settings.page_margin }}px;
+    }
+  }
+{% endstyle %}

@@ -1,0 +1,149 @@
+{% comment %}
+  Complete the ritual: this product and its companions as tickable cards,
+  with the total of the ticked ones and a button that adds them all.
+  Companions come from the product's complementary products (Search &
+  Discovery app), or else from the products picked here. Sold-out products
+  are left out. assets/product-bundle.js keeps the total in step with the
+  ticks.
+{% endcomment %}
+
+{%- liquid
+  assign companions = product.metafields.shopify--discovery--product_recommendation.complementary_products.value
+  if companions == blank
+    assign companions = section.settings.products
+  endif
+
+  assign total = 0
+  assign compare_total = 0
+  assign count = 0
+-%}
+
+{%- capture items -%}
+  {%- liquid
+    assign candidates = companions | where: 'available', true
+    assign variant = product.selected_or_first_available_variant
+  -%}
+  {%- if variant.available -%}
+    {%- render 'bundle-item', item: product, variant: variant, index: count -%}
+    {%- liquid
+      assign compare = variant.compare_at_price | default: variant.price | at_least: variant.price
+      assign total = total | plus: variant.price
+      assign compare_total = compare_total | plus: compare
+      assign count = count | plus: 1
+    -%}
+  {%- endif -%}
+  {%- for item in candidates -%}
+    {%- if count >= section.settings.max_products -%}
+      {%- break -%}
+    {%- endif -%}
+    {%- unless item.id == product.id -%}
+      {%- assign variant = item.selected_or_first_available_variant -%}
+      {%- render 'bundle-item', item: item, variant: variant, index: count -%}
+      {%- liquid
+        assign compare = variant.compare_at_price | default: variant.price | at_least: variant.price
+        assign total = total | plus: variant.price
+        assign compare_total = compare_total | plus: compare
+        assign count = count | plus: 1
+      -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{% if count > 1 or request.design_mode %}
+  <product-bundle class="home-section product-bundle spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+    <div class="home-section__inner">
+      {% if section.settings.heading != blank %}
+        <h2 class="h3 product-bundle__heading">{{ section.settings.heading | escape }}</h2>
+      {% endif %}
+
+      {% if count > 1 %}
+        <form class="product-bundle__form" action="{{ routes.cart_add_url }}" method="post" data-type="add-to-cart-form">
+          {{ items }}
+
+          <div class="product-bundle__total">
+            <p class="product-bundle__count" data-bundle-count-label data-template="{{ 'content.bundle_total' | t: count: '[count]' | escape }}">
+              {{- 'content.bundle_total' | t: count: count -}}
+            </p>
+            <p class="product-bundle__prices">
+              <span class="product-bundle__price" data-bundle-total>{% render 'format-money', amount: total %}</span>
+              <s class="product-bundle__compare" data-bundle-compare {% if compare_total <= total %}hidden{% endif %}>
+                {%- render 'format-money', amount: compare_total -%}
+              </s>
+            </p>
+            <button class="button-light product-bundle__add" type="submit" name="add" data-bundle-button data-template="{{ 'actions.add_all' | t: count: '[count]' | escape }}">
+              {{- 'actions.add_all' | t: count: count -}}
+            </button>
+          </div>
+        </form>
+        <script src="{{ 'product-bundle.js' | asset_url }}" type="module"></script>
+      {% else %}
+        <p class="product-bundle__empty">{{ 'content.bundle_empty' | t }}</p>
+      {% endif %}
+    </div>
+  </product-bundle>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.product_bundle",
+  "tag": "section",
+  "class": "section-wrapper",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.bundle_heading"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "t:settings.products",
+      "info": "t:info.bundle_products",
+      "limit": 4
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "t:settings.max_products",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_bundle",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

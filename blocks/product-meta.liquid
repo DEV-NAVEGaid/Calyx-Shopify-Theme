@@ -1,0 +1,51 @@
+{% doc %}
+  A short line about the product: an eyebrow (such as its mood), a
+  subtitle, or a small note. Connect the text to a product metafield so
+  each product shows its own line. An empty eyebrow shows the product
+  type; other empty lines hide the block.
+{% enddoc %}
+
+{%- liquid
+  assign text = block.settings.text
+  if text == blank and block.settings.style == 'eyebrow'
+    assign text = closest.product.type | escape
+  endif
+-%}
+
+{% if text != blank %}
+  <p class="product-meta product-meta--{{ block.settings.style }}{% if block.settings.style == 'eyebrow' %} eyebrow{% endif %}" {{ block.shopify_attributes }}>
+    {{- text -}}
+  </p>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.product_meta",
+  "tag": null,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "info": "t:info.product_meta_text"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "t:settings.style",
+      "options": [
+        { "value": "eyebrow", "label": "t:options.meta_style.eyebrow" },
+        { "value": "subtitle", "label": "t:options.meta_style.subtitle" },
+        { "value": "note", "label": "t:options.meta_style.note" }
+      ],
+      "default": "subtitle"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_meta",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

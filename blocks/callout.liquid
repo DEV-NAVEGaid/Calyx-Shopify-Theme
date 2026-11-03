@@ -1,0 +1,41 @@
+{% doc %}
+  A soft accent card with a small label and an italic line, such as the
+  intention to say while wearing a scent. Both can come from product
+  metafields through dynamic sources.
+{% enddoc %}
+
+{% if block.settings.text != blank %}
+  <div class="callout" {{ block.shopify_attributes }}>
+    {% if block.settings.label != blank %}
+      <p class="eyebrow callout__label">{{ block.settings.label }}</p>
+    {% endif %}
+    <p class="callout__text heading-italic">{{ block.settings.text }}</p>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.callout",
+  "tag": null,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "label",
+      "label": "t:settings.label",
+      "default": "t:text_defaults.callout_label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.callout_text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.callout",
+      "category": "t:categories.text"
+    }
+  ]
+}
+{% endschema %}

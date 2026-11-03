@@ -1,0 +1,139 @@
+{% doc %}
+  The price of the closest product's selected variant, with the compare-at
+  price when the variant is on sale.
+{% enddoc %}
+
+{%- liquid
+  assign current_product = closest.product
+
+  # The page's own product uses the product-page settings; cards use the product card settings.
+  if request.page_type == 'product' and current_product.id == product.id
+    assign show_currency_code = settings.currency_code_enabled_product_pages
+    assign show_compare_at = true
+    assign show_unit_price = true
+  else
+    assign show_currency_code = settings.currency_code_enabled_product_cards
+    assign show_compare_at = settings.card_show_compare_at_price
+    assign show_unit_price = settings.card_show_unit_price
+  endif
+-%}
+
+<div
+  class="price-block {{ block.settings.type_preset }} spacing-style"
+  style="{% render 'spacing-style', settings: block.settings %}"
+  {{ block.shopify_attributes }}
+>
+  {% if current_product != blank %}
+    {% render 'price',
+      product: current_product,
+      show_currency_code: show_currency_code,
+      show_compare_at: show_compare_at,
+      show_unit_price: show_unit_price
+    %}
+    {% if block.settings.show_tax_note %}
+      <small class="price-block__note">
+        {%- if cart.taxes_included -%}
+          {{ 'content.tax_included' | t }}
+        {%- else -%}
+          {{ 'content.tax_excluded' | t }}
+        {%- endif -%}
+      </small>
+    {% endif %}
+    {% if block.settings.show_installments %}
+      <div class="price-block__installments">
+        {%- form 'product', current_product -%}
+          <input type="hidden" name="id" value="{{ current_product.selected_or_first_available_variant.id }}">
+          {{ form | payment_terms }}
+        {%- endform -%}
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.price",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "type_preset",
+      "label": "t:settings.preset",
+      "options": [
+        {
+          "value": "paragraph",
+          "label": "t:options.type_preset.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.type_preset.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.type_preset.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.type_preset.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.type_preset.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.type_preset.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.type_preset.h6"
+        }
+      ],
+      "default": "h5"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tax_note",
+      "label": "t:settings.show_tax_note",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_installments",
+      "label": "t:settings.show_installments",
+      "info": "t:info.show_installments",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.price",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,39 @@
+{% doc %}
+  Newsletter sign-up form: a pill email field and a submit button.
+  Subscribers are saved as customers tagged "newsletter".
+
+  @param {string} id - Unique id for the form.
+  @param {string} button_label - Text of the submit button.
+  @param {string} [button_class] - Button style class. Default: `button-dark`.
+
+  @example
+  {% render 'newsletter-form', id: 'FooterNewsletter', button_label: 'Subscribe' %}
+{% enddoc %}
+
+{%- assign input_id = id | append: '-email' -%}
+
+{% form 'customer', id: id, class: 'newsletter-form' %}
+  <input type="hidden" name="contact[tags]" value="newsletter">
+
+  <div class="newsletter-form__field">
+    <label class="visually-hidden" for="{{ input_id }}">{{ 'blocks.email_signup.label' | t }}</label>
+    <input
+      id="{{ input_id }}"
+      class="field__input newsletter-form__input"
+      type="email"
+      name="contact[email]"
+      autocomplete="email"
+      placeholder="{{ 'blocks.email_signup.placeholder' | t }}"
+      required
+    >
+    <button type="submit" class="{{ button_class | default: 'button-dark' }} newsletter-form__button">
+      {{- button_label | escape -}}
+    </button>
+  </div>
+
+  {% if form.posted_successfully? %}
+    <p class="newsletter-form__message" role="status">{{ 'blocks.email_signup.success' | t }}</p>
+  {% elsif form.errors %}
+    <div class="newsletter-form__message" role="alert">{{ form.errors | default_errors }}</div>
+  {% endif %}
+{% endform %}

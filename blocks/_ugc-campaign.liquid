@@ -1,0 +1,68 @@
+{% doc %}
+  A campaign tile for the mosaic: a bold heading, a small photo, and a line
+  of text on the accent color.
+{% enddoc %}
+
+{%- liquid
+  if block.settings.link != blank
+    assign tag = 'a'
+  else
+    assign tag = 'div'
+  endif
+-%}
+
+<{{ tag }}
+  class="ugc-campaign"
+  {% if block.settings.link != blank %}
+    href="{{ block.settings.link }}"
+  {% endif %}
+  {{ block.shopify_attributes }}
+>
+  <p class="ugc-campaign__heading">{{ block.settings.heading | escape }}</p>
+  <div class="ugc-campaign__media">
+    {%- if block.settings.image != blank -%}
+      {{ block.settings.image | image_url: width: 400 | image_tag: widths: '200, 400', sizes: '180px', loading: 'lazy' }}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+  {% if block.settings.text != blank %}
+    <p class="ugc-campaign__text">{{ block.settings.text | escape }}</p>
+  {% endif %}
+</{{ tag }}>
+
+{% schema %}
+{
+  "name": "t:names.ugc_campaign",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.ugc_campaign_heading"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.ugc_campaign_text"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.ugc_campaign"
+    }
+  ]
+}
+{% endschema %}

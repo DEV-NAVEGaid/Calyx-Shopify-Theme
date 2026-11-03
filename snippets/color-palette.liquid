@@ -1,0 +1,47 @@
+{% doc %}
+  Outputs the global color settings as CSS custom properties on `:root`.
+  Component colors (buttons, inputs, badges, drawers) default to the
+  `color_palette` roles in config/settings_schema.json, so merchants can
+  restyle the whole theme from the palette and override single parts.
+
+  Hover states and muted tones are derived in CSS with `color-mix()`.
+
+  @example
+  {% render 'color-palette' %}
+{% enddoc %}
+
+{% style %}
+  :root {
+    --color-background: {{ settings.page_background_color }};
+    --color-foreground: {{ settings.page_text_color }};
+    --color-foreground-muted: {{ settings.secondary_text_color }};
+    --color-foreground-inverse: {{ settings.inverse_text_color }};
+    --color-border: {{ settings.border_color }};
+    --color-accent: {{ settings.accent_color }};
+    --color-accent-soft: {{ settings.accent_soft_color }};
+
+    --color-primary-button-background: {{ settings.palette_primary_button_background }};
+    --color-primary-button-text: {{ settings.palette_primary_button_text }};
+    --color-primary-button-border: {{ settings.palette_primary_button_border }};
+    --color-secondary-button-background: {{ settings.palette_secondary_button_background }};
+    --color-secondary-button-text: {{ settings.palette_secondary_button_text }};
+    --color-secondary-button-border: {{ settings.palette_secondary_button_border }};
+
+    --color-input-background: {{ settings.palette_input_background }};
+    --color-input-text: {{ settings.palette_input_text }};
+    --color-input-border: {{ settings.palette_input_border }};
+
+    --color-badge-sale-background: {{ settings.badge_sale_background_color }};
+    --color-badge-sale-text: {{ settings.badge_sale_text_color }};
+    --color-badge-sold-out-background: {{ settings.badge_sold_out_background_color }};
+    --color-badge-sold-out-text: {{ settings.badge_sold_out_text_color }};
+
+    --color-drawer-background: {{ settings.drawer_background_color }};
+    --color-drawer-text: {{ settings.drawer_text_color }};
+    --color-drawer-border: {{ settings.drawer_border_color }};
+
+    --color-popover-background: {{ settings.popover_background_color }};
+    --color-popover-text: {{ settings.popover_text_color }};
+    --color-overlay-backdrop: {{ settings.popover_overlay_color }};
+  }
+{% endstyle %}

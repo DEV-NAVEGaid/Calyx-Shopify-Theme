@@ -1,0 +1,104 @@
+{% comment %}
+  Stats cards: an eyebrow and heading with a link on the right, then a row
+  of bordered cards, one stat block each.
+{% endcomment %}
+
+<div class="home-section stats-cards spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner">
+    <div class="stats-cards__header">
+      <div class="stats-cards__title">
+        {% if section.settings.eyebrow != blank %}
+          <p class="eyebrow stats-cards__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="h3">{{ section.settings.heading | escape }}</h2>
+        {% endif %}
+      </div>
+      {% if section.settings.link_label != blank and section.settings.link != blank %}
+        <a class="arrow-link" href="{{ section.settings.link }}">
+          {{- section.settings.link_label | escape -}}
+          {% render 'icon', icon: 'arrow-right' %}
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="stats-cards__grid">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.stats_cards",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_stat" }],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.responsibility_eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.responsibility_heading"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "t:settings.link_label",
+      "default": "t:text_defaults.responsibility_link"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.stats_cards",
+      "category": "t:categories.text",
+      "blocks": {
+        "stat_1": { "type": "_stat", "settings": { "value": "60%", "label": "t:text_defaults.responsibility_1" } },
+        "stat_2": { "type": "_stat", "settings": { "value": "100%", "label": "t:text_defaults.responsibility_2" } },
+        "stat_3": { "type": "_stat", "settings": { "value": "85%", "label": "t:text_defaults.responsibility_3" } },
+        "stat_4": { "type": "_stat", "settings": { "value": "0", "label": "t:text_defaults.responsibility_4" } }
+      },
+      "block_order": ["stat_1", "stat_2", "stat_3", "stat_4"]
+    }
+  ]
+}
+{% endschema %}

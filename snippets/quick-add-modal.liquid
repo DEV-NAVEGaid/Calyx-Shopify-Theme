@@ -1,0 +1,23 @@
+{% doc %}
+  The quick shop modal: a centered dialog on large screens and a bottom
+  sheet on small screens. assets/quick-add.js fills it with
+  sections/quick-view.liquid for the product whose quick shop button was
+  pressed.
+
+  Rendered by layout/theme.liquid when "Show quick shop button" is on.
+
+  @example
+  {% render 'quick-add-modal' %}
+{% enddoc %}
+
+<quick-add-modal class="quick-add-modal">
+  <dialog class="quick-add-modal__dialog" aria-labelledby="QuickView-Title" scroll-lock>
+    <button class="quick-add-modal__close button-unstyled" type="button" data-quick-add-close>
+      {% render 'icon', icon: 'close' %}
+      <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+    </button>
+    <div class="quick-add-modal__content" data-quick-add-content></div>
+  </dialog>
+</quick-add-modal>
+
+<script src="{{ 'quick-add.js' | asset_url }}" type="module"></script>

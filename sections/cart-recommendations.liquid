@@ -1,0 +1,24 @@
+{% comment %}
+  Product recommendations for the cart drawer. Never placed on a page:
+  assets/cart-drawer.js requests it from the product recommendations route
+  with this section's name. Products already in the cart are left out.
+{% endcomment %}
+
+{%- assign cart_product_ids = cart.items | map: 'product_id' -%}
+
+{% if recommendations.performed? and recommendations.products_count > 0 %}
+  <div class="cart-recommendations">
+    {% for product in recommendations.products %}
+      {% unless cart_product_ids contains product.id %}
+        {% render 'product-card-compact', product: product %}
+      {% endunless %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.cart_recommendations",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,35 @@
+{% doc %}
+  A number with a short label beneath it, such as "85% · natural-origin
+  ingredients".
+{% enddoc %}
+
+<div class="stat" {{ block.shopify_attributes }}>
+  <span class="stat__value h2">{{ block.settings.value | escape }}</span>
+  <span class="stat__label">{{ block.settings.label | escape }}</span>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.stat",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "value",
+      "label": "t:settings.number",
+      "default": "85%"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:settings.label",
+      "default": "t:text_defaults.stat_2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.stat"
+    }
+  ]
+}
+{% endschema %}

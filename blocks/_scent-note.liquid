@@ -1,0 +1,34 @@
+{% doc %}
+  One scent note (or any label and value pair), such as "Top · Pink pepper".
+{% enddoc %}
+
+<div class="scent-note" {{ block.shopify_attributes }}>
+  <span class="scent-note__label eyebrow">{{ block.settings.label | escape }}</span>
+  <span>{{ block.settings.value | escape }}</span>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.scent_note",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:settings.label",
+      "default": "t:text_defaults.note_top"
+    },
+    {
+      "type": "text",
+      "id": "value",
+      "label": "t:settings.value",
+      "default": "t:text_defaults.note_top_value"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.scent_note"
+    }
+  ]
+}
+{% endschema %}

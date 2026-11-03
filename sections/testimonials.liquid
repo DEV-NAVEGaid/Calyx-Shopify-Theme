@@ -1,0 +1,122 @@
+{% comment %}
+  Reviews: a centered eyebrow and heading, an overall rating line, and a
+  row of review cards (blocks). On small screens the cards swipe one at a
+  time, with dots (assets/scroll-dots.js).
+{% endcomment %}
+
+<div class="home-section testimonials spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner">
+    <div class="testimonials__header">
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="h3">{{ section.settings.heading | escape }}</h2>
+      {% endif %}
+      {% if section.settings.rating_text != blank %}
+        <p class="testimonials__summary">
+          {% render 'rating-stars', rating: section.settings.rating, max: 5 %}
+          <span>{{ section.settings.rating_text | escape }}</span>
+        </p>
+      {% endif %}
+    </div>
+
+    <div class="testimonials__cards" id="TestimonialCards-{{ section.id }}">
+      {% content_for 'blocks' %}
+    </div>
+
+    {% if section.blocks.size > 1 %}
+      <scroll-dots class="scroll-dots testimonials__dots" data-for="TestimonialCards-{{ section.id }}">
+        {% for block in section.blocks %}
+          <button
+            class="scroll-dots__dot"
+            type="button"
+            aria-label="{{ 'accessibility.go_to_slide' | t: number: forloop.index }}"
+            {% if forloop.first %}
+              aria-current="true"
+            {% endif %}
+          ></button>
+        {% endfor %}
+      </scroll-dots>
+      <script src="{{ 'scroll-dots.js' | asset_url }}" type="module"></script>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.testimonials",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_testimonial" }],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.reviews_eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.reviews_heading"
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "t:settings.rating",
+      "min": 1,
+      "max": 5,
+      "step": 0.1,
+      "default": 4.8
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "t:settings.rating_text",
+      "default": "t:text_defaults.reviews_summary"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.testimonials",
+      "category": "t:categories.text",
+      "blocks": {
+        "review_1": { "type": "_testimonial", "settings": { "quote": "t:text_defaults.review_1_quote", "text": "t:text_defaults.review_1_text", "author": "t:text_defaults.review_1_author" } },
+        "review_2": { "type": "_testimonial", "settings": { "quote": "t:text_defaults.review_2_quote", "text": "t:text_defaults.review_2_text", "author": "t:text_defaults.review_2_author" } },
+        "review_3": { "type": "_testimonial", "settings": { "quote": "t:text_defaults.review_3_quote", "text": "t:text_defaults.review_3_text", "author": "t:text_defaults.review_3_author" } }
+      },
+      "block_order": ["review_1", "review_2", "review_3"]
+    }
+  ]
+}
+{% endschema %}

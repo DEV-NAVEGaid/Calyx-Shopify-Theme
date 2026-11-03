@@ -1,0 +1,160 @@
+{% comment %}
+  Products in tabs ("Bestsellers"): each tab is a block with a label and a
+  collection. Pills switch the tab; the arrows scroll the row of product
+  cards. Every card renders through the static product card, so its layout
+  is edited once for all tabs. assets/product-tabs.js handles the tabs and
+  arrows. Small screens show four cards in two columns and a "Shop all"
+  button for the tab's collection instead of the scrolling row.
+{% endcomment %}
+
+{%- assign max_products = section.settings.max_products -%}
+
+<product-tabs class="home-section product-tabs spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner">
+    <div class="product-tabs__header">
+      <div class="product-tabs__heading">
+        {% if section.settings.eyebrow != blank %}
+          <p class="eyebrow product-tabs__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="h3">{{ section.settings.heading | escape }}</h2>
+        {% endif %}
+      </div>
+
+      <div class="product-tabs__controls">
+        {% if section.blocks.size > 0 %}
+          <div class="product-tabs__tabs" role="tablist">
+            {% content_for 'blocks' %}
+          </div>
+          <span class="product-tabs__divider" aria-hidden="true"></span>
+        {% endif %}
+        <button class="round-arrow round-arrow--small" type="button" data-scroll-step="-1">
+          {% render 'icon', icon: 'chevron-left' %}
+          <span class="visually-hidden">{{ 'accessibility.previous_slide' | t }}</span>
+        </button>
+        <button class="round-arrow round-arrow--small" type="button" data-scroll-step="1">
+          {% render 'icon', icon: 'chevron-right' %}
+          <span class="visually-hidden">{{ 'accessibility.next_slide' | t }}</span>
+        </button>
+      </div>
+    </div>
+
+    {% for tab in section.blocks %}
+      {%- assign tab_collection = tab.settings.collection -%}
+      <div
+        class="product-tabs__panel"
+        id="ProductTabsPanel-{{ tab.id }}"
+        role="tabpanel"
+        data-tab-panel="{{ tab.id }}"
+        {% unless forloop.first %}
+          hidden
+        {% endunless %}
+      >
+        <ul class="product-tabs__row" role="list" data-scroller>
+          {% if tab_collection != blank %}
+            {% for product in tab_collection.products limit: max_products %}
+              <li>{% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}</li>
+            {% endfor %}
+          {% else %}
+            {% for i in (1..4) %}
+              <li>{% content_for 'block', type: 'product-card', id: 'product-card' %}</li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+        {% if tab_collection != blank %}
+          <a class="button-secondary product-tabs__all" href="{{ tab_collection.url }}">{{ 'actions.shop_all' | t }}</a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</product-tabs>
+
+<script src="{{ 'product-tabs.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.product_tabs",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_product-tab" }],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.most_loved"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.bestsellers"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "t:settings.max_products",
+      "min": 2,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_tabs",
+      "category": "t:categories.products",
+      "blocks": {
+        "tab_1": { "type": "_product-tab", "settings": { "label": "t:text_defaults.tab_1" } },
+        "tab_2": { "type": "_product-tab", "settings": { "label": "t:text_defaults.tab_2" } },
+        "product-card": {
+          "type": "product-card",
+          "static": true,
+          "blocks": {
+            "gallery": { "type": "_product-card-gallery", "settings": { "image_ratio": "portrait" } },
+            "row": {
+              "type": "group",
+              "settings": { "content_direction": "row", "vertical_on_mobile": false, "horizontal_alignment": "space-between", "vertical_alignment": "flex-start", "width": "fill", "gap": 12 },
+              "blocks": {
+                "title": { "type": "product-title", "settings": { "type_preset": "paragraph", "heading_level": "h3" } },
+                "price": { "type": "price", "settings": { "type_preset": "paragraph" } }
+              },
+              "block_order": ["title", "price"]
+            }
+          },
+          "block_order": ["gallery", "row"]
+        }
+      },
+      "block_order": ["tab_1", "tab_2"]
+    }
+  ]
+}
+{% endschema %}

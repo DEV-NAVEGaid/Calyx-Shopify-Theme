@@ -1,0 +1,82 @@
+{% doc %}
+  A colored, numbered card in the mood grid. The number follows the card's
+  position. The color comes from the card, or from the title's line in
+  Theme settings > Swatches, or falls back to the soft accent color.
+{% enddoc %}
+
+{%- liquid
+  assign number = 0
+  for card in section.blocks
+    assign number = number | plus: 1
+    if card.id == block.id
+      break
+    endif
+  endfor
+
+  if block.settings.color != blank
+    assign card_style = '--swatch-background: ' | append: block.settings.color | append: ';'
+  else
+    capture card_style
+      render 'swatch-style', label: block.settings.title
+    endcapture
+  endif
+-%}
+
+<a class="mood-card" href="{{ block.settings.link | default: routes.all_products_collection_url }}" style="{{ card_style }}" {{ block.shopify_attributes }}>
+  <span class="eyebrow mood-card__number">{% if number < 10 %}0{% endif %}{{ number }}</span>
+  <span class="mood-card__body">
+    <span class="h3 mood-card__title">{{ block.settings.title | escape }}</span>
+    {% if block.settings.text != blank %}
+      <span class="mood-card__text">{{ block.settings.text | escape }}</span>
+    {% endif %}
+    {% if block.settings.link_label != blank %}
+      <span class="arrow-link">
+        {{- block.settings.link_label | escape -}}
+        {% render 'icon', icon: 'arrow-right' %}
+      </span>
+    {% endif %}
+  </span>
+</a>
+
+{% schema %}
+{
+  "name": "t:names.mood_card",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:settings.heading",
+      "default": "Calm"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.mood_calm"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "t:settings.link_label",
+      "default": "t:text_defaults.shop_now"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "t:settings.background_color",
+      "info": "t:info.mood_card_color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.mood_card"
+    }
+  ]
+}
+{% endschema %}

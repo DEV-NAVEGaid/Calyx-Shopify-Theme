@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    {% # Charset, viewport, social, title, etc. %}
+    {% render 'meta-tags' %}
+
+    {% if settings.favicon %}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {% endif %}
+
+    {% # Inlined CSS variables from the theme settings %}
+    {% render 'theme-styles-variables' %}
+    {% render 'color-palette' %}
+
+    {% comment %}
+      Font preloading:
+      1. Preconnect to font CDN for faster connection
+      2. Preload only the critical font variant (body weight)
+      3. Additional variants load on-demand via @font-face
+    {% endcomment %}
+    {% unless settings.type_body_font.system? %}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+      {{ settings.type_body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {% endunless %}
+
+    {% # Load and preload the critical CSS %}
+    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'header.css' | asset_url | stylesheet_tag }}
+    {{ 'footer.css' | asset_url | stylesheet_tag }}
+    {{ 'sections.css' | asset_url | stylesheet_tag }}
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-to-content button" href="#MainContent">
+      {{ 'accessibility.skip_to_content' | t }}
+    </a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
+      {% render 'cart-drawer' %}
+    {% endif %}
+
+    {% if settings.quick_add %}
+      {% render 'quick-add-modal' %}
+    {% endif %}
+
+    <script src="{{ 'quantity-selector.js' | asset_url }}" type="module"></script>
+
+    {% if template.name == 'article' %}
+      <script src="{{ 'article.js' | asset_url }}" type="module"></script>
+    {% endif %}
+
+    {% if settings.animations_reveal_on_scroll %}
+      <script src="{{ 'reveal.js' | asset_url }}" type="module"></script>
+    {% endif %}
+  </body>
+</html>

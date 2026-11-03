@@ -1,0 +1,43 @@
+{% doc %}
+  Lets the shopper choose a variant of the closest product, as buttons or
+  drop-downs. The markup and behavior live in snippets/variant-picker.liquid.
+{% enddoc %}
+
+{% render 'variant-picker',
+  product: closest.product,
+  section_id: section.id,
+  id_prefix: block.id,
+  style: block.settings.variant_style,
+  attributes: block.shopify_attributes
+%}
+
+{% schema %}
+{
+  "name": "t:names.variant_picker",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "variant_style",
+      "label": "t:settings.style",
+      "options": [
+        {
+          "value": "buttons",
+          "label": "t:options.variant_style.buttons"
+        },
+        {
+          "value": "dropdown",
+          "label": "t:options.variant_style.dropdown"
+        }
+      ],
+      "default": "buttons"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.variant_picker",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,94 @@
+{% comment %}
+  A page's title and content from the Shopify admin, followed by any extra
+  blocks.
+{% endcomment %}
+
+<div
+  class="section section--page-width spacing-style"
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    {% if section.settings.background_color != blank %}--section-background: {{ section.settings.background_color }};{% endif %}
+    {% if section.settings.text_color != blank %}--section-text-color: {{ section.settings.text_color }};{% endif %}
+    --gap: 24px;
+  "
+>
+  <div class="section-content main-page main-page--{{ section.settings.content_width }} layout-panel">
+    {% if section.settings.show_title %}
+      <h1>{{ page.title }}</h1>
+    {% endif %}
+
+    <div class="rte">{{ page.content }}</div>
+
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.page",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "t:settings.show_title",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "t:settings.content_width",
+      "options": [
+        {
+          "value": "narrow",
+          "label": "t:options.max_width.narrow"
+        },
+        {
+          "value": "normal",
+          "label": "t:options.max_width.normal"
+        }
+      ],
+      "default": "narrow"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}

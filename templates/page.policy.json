@@ -1,0 +1,26 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-policy",
+      "settings": {
+        "eyebrow": "Legal",
+        "show_updated": true,
+        "summary_heading": "The short version",
+        "summary": "Unopened items can be returned within 30 days for a full refund.\nOpened fragrance can be swapped once under our 30-day scent guarantee.\nRefunds go back to your original payment method within 5–10 business days."
+      },
+      "block_order": []
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

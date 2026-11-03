@@ -1,0 +1,53 @@
+{% doc %}
+  One numbered step: a number in a soft circle, a title, and a short line.
+  The number follows the step's position.
+{% enddoc %}
+
+{%- liquid
+  assign number = 0
+  for step in section.blocks
+    assign number = number | plus: 1
+    if step.id == block.id
+      break
+    endif
+  endfor
+-%}
+
+<li class="ritual-step" {{ block.shopify_attributes }}>
+  <span class="ritual-step__number" aria-hidden="true">
+    {%- if section.settings.number_style == 'numeral' and number < 10 -%}0{%- endif -%}
+    {{- number -}}
+  </span>
+  <span class="ritual-step__body">
+    <span class="h5">{{ block.settings.title | escape }}</span>
+    {% if block.settings.text != blank %}
+      <span class="ritual-step__text">{{ block.settings.text | escape }}</span>
+    {% endif %}
+  </span>
+</li>
+
+{% schema %}
+{
+  "name": "t:names.ritual_step",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.step_1"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.step_1_text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.ritual_step"
+    }
+  ]
+}
+{% endschema %}

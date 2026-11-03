@@ -1,0 +1,66 @@
+{% doc %}
+  Local pickup for the selected variant: the nearest location that has it,
+  how soon it is ready, and a list of every pickup location. Shows nothing
+  when no location offers pickup. Choosing another variant re-renders the
+  section, so this stays in sync.
+{% enddoc %}
+
+{%- liquid
+  assign variant = closest.product.selected_or_first_available_variant
+  assign pickup_locations = variant.store_availabilities | where: 'pick_up_enabled', true
+  assign first = pickup_locations.first
+-%}
+
+{% if first %}
+  <div class="pickup-availability" {{ block.shopify_attributes }}>
+    {% if first.available %}
+      {% render 'icon', icon: 'check', class: 'pickup-availability__icon' %}
+    {% else %}
+      {% render 'icon', icon: 'close', class: 'pickup-availability__icon' %}
+    {% endif %}
+    <div class="pickup-availability__text">
+      <p class="pickup-availability__title">
+        {%- if first.available -%}
+          {{ 'content.pickup_available_at' | t: location: first.location.name }}
+        {%- else -%}
+          {{ 'content.pickup_unavailable_at' | t: location: first.location.name }}
+        {%- endif -%}
+      </p>
+      {% if first.available %}
+        <p class="pickup-availability__note">{{ first.pick_up_time }}</p>
+      {% endif %}
+      <details class="pickup-availability__details">
+        <summary>{{ 'content.view_store_information' | t }}</summary>
+        <ul class="pickup-availability__list" role="list">
+          {% for availability in pickup_locations %}
+            <li>
+              <p class="pickup-availability__title">{{ availability.location.name }}</p>
+              <p class="pickup-availability__note">
+                {%- if availability.available -%}
+                  {{ availability.pick_up_time }}
+                {%- else -%}
+                  {{ 'content.pickup_unavailable' | t }}
+                {%- endif -%}
+              </p>
+              <address class="pickup-availability__note">{{ availability.location.address | format_address }}</address>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.pickup_availability",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "t:names.pickup_availability",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

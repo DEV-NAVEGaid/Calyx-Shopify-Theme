@@ -1,0 +1,49 @@
+{% doc %}
+  Outputs the Layout settings of a section or container block as CSS custom
+  properties. Pair it with the `layout-panel` class.
+
+  `horizontal_alignment` and `vertical_alignment` always describe the visual
+  axis, so they map to `justify-content` or `align-items` depending on the
+  content direction. A row with `vertical_on_mobile` becomes a column below
+  750px.
+
+  @param {object} settings - Settings with `content_direction`,
+    `vertical_on_mobile`, `horizontal_alignment`, `vertical_alignment`, and
+    `gap`.
+
+  @example
+  <div class="layout-panel" style="{% render 'layout-panel-style', settings: section.settings %}">
+{% enddoc %}
+
+{%- liquid
+  assign horizontal = settings.horizontal_alignment | default: 'flex-start'
+  assign vertical = settings.vertical_alignment | default: 'flex-start'
+
+  # `space-between` only applies to the main axis; fall back on the cross axis.
+  assign horizontal_cross = horizontal | replace: 'space-between', 'stretch'
+  assign vertical_cross = vertical | replace: 'space-between', 'flex-start'
+
+  if settings.content_direction == 'row'
+    assign direction = 'row'
+    assign justify = horizontal
+    assign align = vertical_cross
+
+    if settings.vertical_on_mobile
+      assign direction_mobile = 'column'
+      assign justify_mobile = vertical
+      assign align_mobile = horizontal_cross
+    else
+      assign direction_mobile = 'row'
+      assign justify_mobile = horizontal
+      assign align_mobile = vertical_cross
+    endif
+  else
+    assign direction = 'column'
+    assign justify = vertical
+    assign align = horizontal_cross
+    assign direction_mobile = 'column'
+    assign justify_mobile = vertical
+    assign align_mobile = horizontal_cross
+  endif
+-%}
+--flex-direction: {{ direction }}; --justify: {{ justify }}; --align: {{ align }}; --flex-direction-mobile: {{ direction_mobile }}; --justify-mobile: {{ justify_mobile }}; --align-mobile: {{ align_mobile }}; {% render 'gap-style', value: settings.gap %}

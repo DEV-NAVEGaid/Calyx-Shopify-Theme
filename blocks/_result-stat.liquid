@@ -1,0 +1,46 @@
+{% doc %}
+  One result: a large number with a small unit, a dotted line, and what it
+  measures.
+{% enddoc %}
+
+<div class="result-stat" {{ block.shopify_attributes }}>
+  <p class="result-stat__value">
+    <span class="result-stat__number">{{ block.settings.value | escape }}</span>
+    {%- if block.settings.unit != blank -%}
+      <span class="result-stat__unit">{{ block.settings.unit | escape }}</span>
+    {%- endif -%}
+  </p>
+  <p class="result-stat__text">{{ block.settings.text | escape }}</p>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.result_stat",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "value",
+      "label": "t:settings.number",
+      "default": "94"
+    },
+    {
+      "type": "text",
+      "id": "unit",
+      "label": "t:settings.unit",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.result_1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.result_stat"
+    }
+  ]
+}
+{% endschema %}

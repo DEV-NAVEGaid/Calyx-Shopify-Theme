@@ -1,0 +1,74 @@
+{% comment %}
+  FAQ body: the topic list beside the groups' headings and accordions.
+  assets/faq.js fills the list from the groups' headings (a section cannot
+  read its theme blocks' settings). Small screens show the topics as a
+  scrolling row of chips.
+{% endcomment %}
+
+<div class="home-section faq-body spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner faq-body__inner">
+    <nav class="faq-topics" aria-label="{{ 'content.faq_topics' | t }}">
+      <p class="faq-topics__label">{{ 'content.faq_topics' | t }}</p>
+      <ul class="faq-topics__list" role="list" data-faq-topics></ul>
+      <template data-faq-topic-template>
+        <li>
+          <a class="faq-topics__link" href="#" data-faq-topic>
+            <span></span>
+            {% render 'icon', icon: 'chevron-right', class: 'faq-topics__icon' %}
+          </a>
+        </li>
+      </template>
+    </nav>
+
+    <div class="faq-questions">
+      {% content_for 'blocks' %}
+      <p class="faq-questions__empty" hidden data-faq-empty>{{ 'content.faq_no_results' | t }}</p>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'faq.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.faq_body",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_faq-group" }],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.faq_body",
+      "category": "t:categories.text"
+    }
+  ]
+}
+{% endschema %}

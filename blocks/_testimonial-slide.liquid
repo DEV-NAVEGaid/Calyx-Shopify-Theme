@@ -1,0 +1,74 @@
+{% doc %}
+  One testimonial of the slider: the previous testimonial's photo small,
+  this one's photo large, the quote, and who said it. Only the first shows
+  until assets/testimonial-slider.js switches them.
+{% enddoc %}
+
+{%- liquid
+  # The small photo belongs to the testimonial before this one (the last one, for the first).
+  assign previous = section.blocks.last
+  assign first = false
+  for item in section.blocks
+    if item.id == block.id
+      if forloop.first
+        assign first = true
+      endif
+      break
+    endif
+    assign previous = item
+  endfor
+-%}
+
+<div class="testimonial-slide" data-slider-slide {% unless first %}hidden{% endunless %} {{ block.shopify_attributes }}>
+  <div class="testimonial-slide__photo testimonial-slide__photo--previous">
+    {%- if previous.settings.image != blank -%}
+      {{ previous.settings.image | image_url: width: 480 | image_tag: widths: '240, 480', sizes: '240px', loading: 'lazy', alt: '' }}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+  <div class="testimonial-slide__photo testimonial-slide__photo--current">
+    {%- if block.settings.image != blank -%}
+      {{ block.settings.image | image_url: width: 960 | image_tag: widths: '480, 720, 960', sizes: '(min-width: 990px) 480px, 100vw', loading: 'lazy', alt: block.settings.image.alt }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+  <figure class="testimonial-slide__quote">
+    <blockquote>— {{ block.settings.quote | escape }}</blockquote>
+    {% if block.settings.author != blank %}
+      <figcaption>{{ block.settings.author | escape }}</figcaption>
+    {% endif %}
+  </figure>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.testimonial_slide",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "t:settings.quote",
+      "default": "t:text_defaults.slide_quote_1"
+    },
+    {
+      "type": "text",
+      "id": "author",
+      "label": "t:settings.author",
+      "default": "Emily — Customer"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.testimonial_slide"
+    }
+  ]
+}
+{% endschema %}

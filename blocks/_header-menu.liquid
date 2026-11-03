@@ -1,0 +1,271 @@
+{% doc %}
+  The main navigation, built from one Shopify menu (Content > Menus).
+
+  Large screens: an inline menu. A menu item with sub-items opens a
+  drop-down; when its sub-items have their own links it opens a full-width
+  mega menu with one column per sub-item, plus any mega menu promos.
+  Small screens: a full-screen drawer with the same menu as an accordion,
+  optional quick-link chips, account, and country/language.
+
+  Link names listed in Theme settings > Swatches get a color dot (mega
+  menu) or a colored chip (drawer). In the drawer, a menu item whose
+  sub-items have swatches (moods, for example) opens its own panel instead
+  of an accordion: a color circle per sub-item, with the first product of
+  the sub-item's collection under its name.
+{% enddoc %}
+
+{%- assign menu = block.settings.menu -%}
+
+<div class="header-menu" {{ block.shopify_attributes }}>
+  <nav class="header-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
+    <ul class="header-nav__list" role="list">
+      {% for link in menu.links %}
+        <li class="header-nav__item">
+          {% if link.links != blank %}
+            {%- liquid
+              assign is_mega = false
+              for child in link.links
+                if child.links != blank
+                  assign is_mega = true
+                  break
+                endif
+              endfor
+            -%}
+
+            <details class="header-nav__dropdown{% if is_mega %} header-nav__dropdown--mega{% endif %}">
+              <summary class="header-nav__link">
+                {{- link.title -}}
+                {% render 'icon', icon: 'chevron-down' %}
+              </summary>
+
+              {% if is_mega %}
+                <div class="mega-menu">
+                  <div class="mega-menu__inner">
+                    {%- assign leaf_links = '' -%}
+                    {% for child in link.links %}
+                      {% if child.links != blank %}
+                        <div class="mega-menu__column">
+                          <a class="mega-menu__heading" href="{{ child.url }}">{{ child.title }}</a>
+                          <ul class="mega-menu__links" role="list">
+                            {% for grandchild in child.links %}
+                              {%- capture dot -%}{% render 'swatch-style', label: grandchild.title %}{%- endcapture -%}
+                              <li>
+                                <a class="mega-menu__link" href="{{ grandchild.url }}" {% if grandchild.current %}aria-current="page"{% endif %}>
+                                  {%- if dot != blank -%}
+                                    <span class="menu-dot" style="{{ dot }}"></span>
+                                  {%- endif -%}
+                                  {{- grandchild.title -}}
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      {% else %}
+                        {%- assign leaf_links = leaf_links | append: 'x' -%}
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if leaf_links != '' %}
+                      <div class="mega-menu__column">
+                        <ul class="mega-menu__links" role="list">
+                          {% for child in link.links %}
+                            {% if child.links == blank %}
+                              <li><a class="mega-menu__link" href="{{ child.url }}">{{ child.title }}</a></li>
+                            {% endif %}
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    {% endif %}
+
+                    <div class="mega-menu__promos" data-mega-promos="{{ link.handle }}"></div>
+                  </div>
+                </div>
+              {% else %}
+                <ul class="header-nav__submenu" role="list">
+                  {% for child in link.links %}
+                    <li>
+                      <a href="{{ child.url }}" {% if child.current %}aria-current="page"{% endif %}>{{ child.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </details>
+          {% else %}
+            <a class="header-nav__link" href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>
+              {{- link.title -}}
+            </a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  {%- capture drawer_account -%}
+    {% if shop.customer_accounts_enabled %}
+      {% if customer %}
+        <a class="header-drawer__utility" href="{{ routes.account_url }}">
+          {% render 'icon', icon: 'account' %}
+          {{ 'content.account' | t }}
+        </a>
+      {% else %}
+        <a class="header-drawer__utility" href="{{ routes.account_login_url }}">
+          {% render 'icon', icon: 'account' %}
+          {{ 'content.account_login' | t }}
+        </a>
+      {% endif %}
+    {% endif %}
+  {%- endcapture -%}
+
+  <details class="header-drawer" scroll-lock>
+    <summary class="header-drawer__toggle">
+      {% render 'icon', icon: 'menu' %}
+      <span class="visually-hidden">{{ 'accessibility.menu' | t }}</span>
+    </summary>
+
+    <div class="header-drawer__panel">
+      <div class="header-drawer__header">
+        <button class="header-drawer__close button-unstyled" type="button" data-drawer-close>
+          {% render 'icon', icon: 'close' %}
+          <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+        </button>
+        <a class="header-logo" href="{{ routes.root_url }}">
+          {% if settings.logo != blank %}
+            {{ settings.logo | image_url: width: 400 | image_tag: class: 'header-logo__image', alt: shop.name, loading: 'lazy' }}
+          {% else %}
+            <span class="header-logo__text">{{ shop.name }}</span>
+          {% endif %}
+        </a>
+        <span aria-hidden="true"></span>
+      </div>
+
+      <nav class="header-drawer__nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
+        <ul class="header-drawer__menu" role="list">
+          {% for link in menu.links %}
+            {%- liquid
+              assign has_swatches = false
+              for child in link.links
+                capture child_swatch
+                  render 'swatch-style', label: child.title
+                endcapture
+                if child_swatch != blank
+                  assign has_swatches = true
+                  break
+                endif
+              endfor
+            -%}
+            <li>
+              {% if has_swatches %}
+                <details class="header-drawer__submenu">
+                  <summary class="header-drawer__item">
+                    {{- link.title -}}
+                    {% render 'icon', icon: 'chevron-right' %}
+                  </summary>
+                  <div class="header-drawer__subpanel">
+                    <div class="header-drawer__subheader">
+                      <button class="header-drawer__back button-unstyled" type="button" data-submenu-close>
+                        {% render 'icon', icon: 'chevron-left' %}
+                        {{ 'actions.back' | t }}
+                      </button>
+                      <button class="header-drawer__close button-unstyled" type="button" data-drawer-close>
+                        {% render 'icon', icon: 'close' %}
+                        <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+                      </button>
+                    </div>
+                    <div class="header-drawer__subbody">
+                      <p class="header-drawer__subtitle">{{ link.title }}</p>
+                      <ul class="header-drawer__rows" role="list">
+                        {% for child in link.links %}
+                          {%- capture child_swatch -%}{% render 'swatch-style', label: child.title %}{%- endcapture -%}
+                          <li>
+                            <a class="header-drawer__row" href="{{ child.url }}" {% if child.current %}aria-current="page"{% endif %}>
+                              <span class="header-drawer__circle" style="{{ child_swatch }}"></span>
+                              <span class="header-drawer__row-text">
+                                <span class="header-drawer__row-title">{{ child.title }}</span>
+                                {%- if child.type == 'collection_link' and child.object.products.first -%}
+                                  <span class="header-drawer__row-meta">{{ child.object.products.first.title }}</span>
+                                {%- endif -%}
+                              </span>
+                              {% render 'icon', icon: 'chevron-right' %}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                      <a class="header-drawer__view-all" href="{{ link.url }}">
+                        {{- 'actions.view_all_title' | t: title: link.title -}}
+                        {% render 'icon', icon: 'arrow-right' %}
+                      </a>
+                    </div>
+                    <div class="header-drawer__footer">
+                      {{ drawer_account }}
+                    </div>
+                  </div>
+                </details>
+              {% elsif link.links != blank %}
+                <details class="header-drawer__group">
+                  <summary class="header-drawer__item">
+                    {{- link.title -}}
+                    {% render 'icon', icon: 'chevron-down' %}
+                  </summary>
+                  <ul class="header-drawer__sublist" role="list">
+                    {% for child in link.links %}
+                      <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                      {% for grandchild in child.links %}
+                        <li><a class="header-drawer__nested" href="{{ grandchild.url }}">{{ grandchild.title }}</a></li>
+                      {% endfor %}
+                    {% endfor %}
+                  </ul>
+                </details>
+              {% else %}
+                <a class="header-drawer__item" href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>
+                  {{- link.title -}}
+                  {% render 'icon', icon: 'chevron-right' %}
+                </a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+
+        {% if block.settings.chips_menu.links != blank %}
+          <ul class="header-drawer__chips" role="list">
+            {% for link in block.settings.chips_menu.links %}
+              {%- capture chip_color -%}{% render 'swatch-style', label: link.title %}{%- endcapture -%}
+              <li>
+                <a class="header-drawer__chip" href="{{ link.url }}" style="{{ chip_color }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </nav>
+
+      <div class="header-drawer__footer">
+        {{ drawer_account }}
+
+        {% if section.settings.show_localization %}
+          {% render 'localization-form', id: 'DrawerLocalization', style: 'full' %}
+        {% endif %}
+      </div>
+    </div>
+  </details>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.menu",
+  "tag": null,
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:settings.menu",
+      "default": "main-menu",
+      "info": "t:info.header_menu"
+    },
+    {
+      "type": "link_list",
+      "id": "chips_menu",
+      "label": "t:settings.chips_menu",
+      "info": "t:info.chips_menu"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,201 @@
+{% comment %}
+  A grid of products from a collection, with a header row of blocks. Each
+  product renders through the static product card, so the card layout is
+  edited once for the whole grid.
+{% endcomment %}
+
+{%- liquid
+  assign list_collection = section.settings.collection
+  assign max_products = section.settings.max_products
+-%}
+
+<div
+  class="section section--{{ section.settings.section_width }} spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="section-content product-list">
+    <div class="product-list__header layout-panel">
+      {% content_for 'blocks' %}
+    </div>
+
+    <ul class="product-grid" role="list" style="--columns-desktop: {{ section.settings.columns_desktop }}; --columns-mobile: {{ section.settings.columns_mobile }};">
+      {% if list_collection != blank %}
+        {% for product in list_collection.products limit: max_products %}
+          <li>{% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}</li>
+        {% endfor %}
+      {% else %}
+        {% for i in (1..max_products) %}
+          <li>{% content_for 'block', type: 'product-card', id: 'product-card' %}</li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.product_list",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:settings.collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "t:settings.max_products",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "t:content.grid"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "t:settings.columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "t:settings.columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:options.columns.one"
+        },
+        {
+          "value": "2",
+          "label": "t:options.columns.two"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "t:content.size"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.section_width.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.section_width.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_list",
+      "category": "t:categories.products",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "t:html_defaults.product_list_heading",
+            "type_preset": "h3"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "t:text_defaults.view_all",
+            "style_class": "link"
+          }
+        },
+        "product-card": {
+          "type": "product-card",
+          "static": true,
+          "settings": {},
+          "blocks": {
+            "card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "type_preset": "h6",
+                "heading_level": "h3"
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "type_preset": "paragraph"
+              }
+            }
+          },
+          "block_order": [
+            "card-gallery",
+            "title",
+            "price"
+          ]
+        }
+      },
+      "block_order": [
+        "heading",
+        "button"
+      ]
+    }
+  ]
+}
+{% endschema %}

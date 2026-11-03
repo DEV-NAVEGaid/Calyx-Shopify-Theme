@@ -1,0 +1,46 @@
+{% doc %}
+  One line of an icon list: an icon and a short text.
+{% enddoc %}
+
+<li class="icon-list__item" {{ block.shopify_attributes }}>
+  {% render 'icon', icon: block.settings.icon, class: 'icon-list__icon' %}
+  <span>{{ block.settings.text }}</span>
+</li>
+
+{% schema %}
+{
+  "name": "t:names.icon_list_item",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:settings.icon",
+      "options": [
+        { "value": "check", "label": "t:options.icon.check" },
+        { "value": "truck", "label": "t:options.icon.truck" },
+        { "value": "gift", "label": "t:options.icon.gift" },
+        { "value": "sparkle", "label": "t:options.icon.sparkle" },
+        { "value": "leaf", "label": "t:options.icon.leaf" },
+        { "value": "heart", "label": "t:options.icon.heart" },
+        { "value": "return", "label": "t:options.icon.return" },
+        { "value": "lock", "label": "t:options.icon.lock" },
+        { "value": "star", "label": "t:options.icon.star" },
+        { "value": "chat", "label": "t:options.icon.chat" }
+      ],
+      "default": "check"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.claim_1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.icon_list_item"
+    }
+  ]
+}
+{% endschema %}

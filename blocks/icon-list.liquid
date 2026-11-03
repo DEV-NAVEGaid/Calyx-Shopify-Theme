@@ -1,0 +1,40 @@
+{% doc %}
+  A short list of lines, each with an icon, such as product claims or
+  delivery promises. Optional dividers above and below.
+{% enddoc %}
+
+<ul
+  class="icon-list{% if block.settings.dividers %} icon-list--dividers{% endif %}"
+  role="list"
+  {{ block.shopify_attributes }}
+>
+  {% content_for 'blocks' %}
+</ul>
+
+{% schema %}
+{
+  "name": "t:names.icon_list",
+  "tag": null,
+  "blocks": [{ "type": "_icon-list-item" }],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "dividers",
+      "label": "t:settings.show_dividers",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.icon_list",
+      "category": "t:categories.product",
+      "blocks": {
+        "item_1": { "type": "_icon-list-item", "settings": { "icon": "check", "text": "t:text_defaults.claim_1" } },
+        "item_2": { "type": "_icon-list-item", "settings": { "icon": "check", "text": "t:text_defaults.claim_2" } },
+        "item_3": { "type": "_icon-list-item", "settings": { "icon": "check", "text": "t:text_defaults.claim_3" } }
+      },
+      "block_order": ["item_1", "item_2", "item_3"]
+    }
+  ]
+}
+{% endschema %}

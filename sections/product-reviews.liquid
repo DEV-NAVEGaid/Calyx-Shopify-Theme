@@ -1,0 +1,131 @@
+{% comment %}
+  Reviews: the product's average rating and review count (standard review
+  metafields) with topic chips and a write-a-review link, beside a list of
+  reviews. The list holds review blocks the merchant writes, or a review
+  app's own block. Three reviews show first; the button reveals the rest.
+{% endcomment %}
+
+{%- liquid
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+  assign topics = section.settings.topics | newline_to_br | split: '<br />'
+-%}
+
+<product-reviews class="home-section product-reviews spacing-style" id="{{ section.settings.anchor | default: 'reviews' | handle }}" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner product-reviews__inner">
+    <div class="product-reviews__summary">
+      {% if section.settings.heading != blank %}
+        <h2 class="h3">{{ section.settings.heading | escape }}</h2>
+      {% endif %}
+
+      {% if rating != blank %}
+        <div class="product-reviews__score">
+          <span class="product-reviews__average">{{ rating.rating | round: 1 }}</span>
+          <span class="product-reviews__meta">
+            {% render 'rating-stars', rating: rating.rating, max: rating.scale_max %}
+            <span>{{ 'content.based_on_reviews' | t: count: rating_count }}</span>
+          </span>
+        </div>
+      {% endif %}
+
+      {% if section.settings.topics != blank %}
+        <ul class="product-reviews__topics" role="list">
+          {% for topic in topics %}
+            {%- assign topic = topic | strip -%}
+            {% if topic != blank %}
+              <li class="product-reviews__topic">{{ topic | escape }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if section.settings.write_link != blank %}
+        <a class="button-secondary" href="{{ section.settings.write_link }}">{{ 'actions.write_review' | t }}</a>
+      {% endif %}
+    </div>
+
+    <div class="product-reviews__list">
+      {% content_for 'blocks' %}
+      <button class="button-secondary product-reviews__more" type="button" data-reviews-more hidden>
+        {{- 'actions.load_more_reviews' | t -}}
+      </button>
+    </div>
+  </div>
+</product-reviews>
+
+<script src="{{ 'product-reviews.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.product_reviews",
+  "tag": "section",
+  "class": "section-wrapper",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_review" }, { "type": "@app" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.reviews_title"
+    },
+    {
+      "type": "textarea",
+      "id": "topics",
+      "label": "t:settings.review_topics",
+      "info": "t:info.review_topics",
+      "default": "Long-lasting\nCompliment magnet\nWarm\nNot too sweet"
+    },
+    {
+      "type": "url",
+      "id": "write_link",
+      "label": "t:settings.write_review_link"
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "t:settings.section_anchor",
+      "info": "t:info.section_anchor",
+      "default": "reviews"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_reviews",
+      "category": "t:categories.product",
+      "blocks": {
+        "review_1": { "type": "_review", "settings": { "author": "Priya S.", "date": "Oct 2, 2026", "title": "t:text_defaults.product_review_1", "text": "t:text_defaults.product_review_1_text" } },
+        "review_2": { "type": "_review", "settings": { "author": "Jordan L.", "date": "Sep 21, 2026", "title": "t:text_defaults.product_review_2", "text": "t:text_defaults.product_review_2_text" } },
+        "review_3": { "type": "_review", "settings": { "author": "Hana M.", "date": "Sep 9, 2026", "title": "t:text_defaults.product_review_3", "text": "t:text_defaults.product_review_3_text" } }
+      },
+      "block_order": ["review_1", "review_2", "review_3"]
+    }
+  ]
+}
+{% endschema %}

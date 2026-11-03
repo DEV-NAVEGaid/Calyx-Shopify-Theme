@@ -1,0 +1,46 @@
+{% doc %}
+  One tab of the product tabs section: a pill label and the collection
+  whose products it shows. The section renders the products.
+{% enddoc %}
+
+{%- assign is_first = false -%}
+{%- if section.blocks.first.id == block.id -%}
+  {%- assign is_first = true -%}
+{%- endif -%}
+
+<button
+  class="product-tabs__tab"
+  type="button"
+  role="tab"
+  aria-controls="ProductTabsPanel-{{ block.id }}"
+  aria-selected="{{ is_first }}"
+  data-tab="{{ block.id }}"
+  {{ block.shopify_attributes }}
+>
+  {{- block.settings.label | escape -}}
+</button>
+
+{% schema %}
+{
+  "name": "t:names.product_tab",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:settings.label",
+      "default": "t:text_defaults.tab_1"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:settings.collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_tab"
+    }
+  ]
+}
+{% endschema %}

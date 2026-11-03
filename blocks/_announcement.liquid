@@ -1,0 +1,37 @@
+{% doc %}
+  One message in the announcement bar, optionally linked.
+{% enddoc %}
+
+{%- comment -%} No whitespace inside the paragraph: it keeps the message's own spacing (pre-wrap). {%- endcomment -%}
+<p class="announcement" {{ block.shopify_attributes }}>
+  {%- if block.settings.link != blank -%}
+    <a href="{{ block.settings.link }}">{{ block.settings.text | escape }}</a>
+  {%- else -%}
+    {{- block.settings.text | escape -}}
+  {%- endif -%}
+</p>
+
+{% schema %}
+{
+  "name": "t:names.announcement",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.announcement"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.announcement"
+    }
+  ]
+}
+{% endschema %}

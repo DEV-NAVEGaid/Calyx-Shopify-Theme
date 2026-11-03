@@ -1,0 +1,248 @@
+/**
+ * Gift card page: one centred column, 28px apart, laid out like the design.
+ */
+
+.gift-card-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 64px var(--page-margin);
+  text-align: center;
+}
+
+.gift-card-page__wordmark {
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 4.32px;
+  color: var(--color-foreground);
+  text-transform: uppercase;
+}
+
+.gift-card-page__heading {
+  max-width: 760px;
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 50px;
+  letter-spacing: -0.88px;
+}
+
+.gift-card-page__intro {
+  max-width: 560px;
+  margin: 0;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: -0.09px;
+  color: var(--color-foreground-muted);
+}
+
+.gift-card-page__notice {
+  margin: 0;
+  color: var(--color-foreground-muted);
+}
+
+.gift-card-visual {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 480 / 300;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--color-accent-soft);
+}
+
+.gift-card-visual__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gift-card-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgb(20 18 15 / 0.5);
+}
+
+.gift-card-visual__content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px;
+  text-align: start;
+  color: var(--color-foreground-inverse);
+}
+
+.gift-card-visual__wordmark {
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 4.32px;
+  text-transform: uppercase;
+}
+
+.gift-card-visual__eyebrow {
+  margin: auto 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.gift-card-visual__balance {
+  margin: 2px 0 0;
+  font-family: var(--font-heading--family);
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 60px;
+  letter-spacing: -1.68px;
+}
+
+.gift-card-code {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 460px;
+  padding: 18px 28px;
+  border: 1px dashed var(--color-foreground);
+  border-radius: 12px;
+}
+
+.gift-card-code__value {
+  font-family: var(--font-heading--family);
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: 1.92px;
+  color: var(--color-foreground);
+}
+
+.gift-card-code__copy {
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.42px;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.gift-card-page__balance {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.048px;
+  color: var(--color-foreground-muted);
+}
+
+.gift-card-qr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  overflow: hidden;
+  background-color: var(--color-background);
+  border-radius: 8px;
+}
+
+.gift-card-qr img,
+.gift-card-qr canvas {
+  display: block;
+  width: 140px;
+  height: 140px;
+}
+
+.gift-card-page__caption {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-foreground-muted);
+}
+
+.gift-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 536px;
+}
+
+/** Pill buttons, as drawn in the design */
+.gift-card-actions__item {
+  padding: 15px 28px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.42px;
+}
+
+.gift-card-actions__item.button-secondary {
+  border-color: var(--color-foreground);
+  color: var(--color-foreground);
+}
+
+@media (max-width: 749px) {
+  .gift-card-page {
+    padding: 40px var(--page-margin);
+    gap: 20px;
+  }
+
+  .gift-card-page__heading {
+    font-size: 32px;
+    line-height: 38px;
+  }
+
+  .gift-card-visual__balance {
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  .gift-card-code {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .gift-card-code__value {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .gift-card-actions__item {
+    flex: 1 1 100%;
+  }
+}
+
+/** Print: only the card itself, no page chrome */
+@media print {
+  .gift-card-page {
+    padding: 0;
+  }
+
+  .gift-card-page__wordmark,
+  .gift-card-page__intro,
+  .gift-card-qr,
+  .gift-card-page__caption,
+  .gift-card-actions {
+    display: none;
+  }
+}

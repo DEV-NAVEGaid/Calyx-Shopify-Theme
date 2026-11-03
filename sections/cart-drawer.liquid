@@ -1,0 +1,14 @@
+{% comment %}
+  Renders only the cart drawer content. Never placed on a page: the layout
+  renders the drawer itself, and assets/cart-drawer.js requests this section
+  through the Section Rendering API after every cart change.
+{% endcomment %}
+
+{% render 'cart-drawer-content' %}
+
+{% schema %}
+{
+  "name": "t:names.cart_drawer",
+  "settings": []
+}
+{% endschema %}

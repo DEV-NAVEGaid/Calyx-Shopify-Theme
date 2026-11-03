@@ -1,0 +1,30 @@
+{% doc %}
+  Adds empty space between blocks. The size scales down on small screens.
+{% enddoc %}
+
+<div class="spacer" style="--spacer-size: {{ block.settings.size }}px;" {{ block.shopify_attributes }}></div>
+
+{% schema %}
+{
+  "name": "t:names.spacer",
+  "tag": null,
+  "settings": [
+    {
+      "type": "range",
+      "id": "size",
+      "label": "t:settings.size",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.spacer",
+      "category": "t:categories.layout"
+    }
+  ]
+}
+{% endschema %}

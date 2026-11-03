@@ -1,0 +1,53 @@
+{% doc %}
+  Renders the price of a product's selected variant: the sale price, the
+  compare-at price when it is higher, and the unit price when set. Amounts
+  follow the currency format in Theme settings > Prices.
+
+  @param {product} product - The product to price.
+  @param {boolean} [show_currency_code] - Show the currency code after the amount.
+  @param {boolean} [show_compare_at] - Show the compare-at price of a sale. Default: true.
+  @param {boolean} [show_unit_price] - Show the unit price, such as "$2.50/ml". Default: true.
+
+  @example
+  {% render 'price', product: closest.product, show_currency_code: false %}
+{% enddoc %}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign on_sale = false
+  if variant.compare_at_price > variant.price
+    assign on_sale = true
+  endif
+
+  assign compare_at_visible = true
+  if show_compare_at == false or on_sale == false
+    assign compare_at_visible = false
+  endif
+-%}
+
+<div class="price{% if on_sale %} price--on-sale{% endif %}">
+  {% if on_sale %}
+    <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
+  {% endif %}
+  <span class="price__current">
+    {%- render 'format-money', amount: variant.price, show_currency_code: show_currency_code -%}
+  </span>
+
+  {% if compare_at_visible %}
+    <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
+    <s class="price__compare">
+      {%- render 'format-money', amount: variant.compare_at_price, show_currency_code: show_currency_code -%}
+    </s>
+  {% endif %}
+
+  {% if variant.unit_price_measurement and show_unit_price != false %}
+    <small class="price__unit">
+      {%- render 'format-money', amount: variant.unit_price -%}
+      /
+      {%- if variant.unit_price_measurement.reference_value != 1 -%}
+        {{- variant.unit_price_measurement.reference_value -}}
+      {%- endif -%}
+      {{- variant.unit_price_measurement.reference_unit -}}
+    </small>
+  {% endif %}
+</div>

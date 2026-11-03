@@ -1,0 +1,171 @@
+{% comment %}
+  A legal page: an eyebrow, the page title, and when it was last updated,
+  then a side menu of policies beside the page content. The content can
+  open with a short summary card. Without a menu, the side lists the
+  store's policies from Settings > Policies. Small screens show the menu as
+  a dropdown named after the current policy.
+{% endcomment %}
+
+{%- liquid
+  assign menu = section.settings.menu
+  assign summary_lines = section.settings.summary | newline_to_br | split: '<br />'
+  assign updated = section.settings.updated
+  if updated == blank and page.published_at != blank
+    assign updated = page.published_at | date: format: 'date'
+  endif
+-%}
+
+<div class="main-policy spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <header class="main-policy__header">
+    <div class="home-section__inner">
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow main-policy__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h1 class="h1">{{ page.title | escape }}</h1>
+      {% if section.settings.show_updated and updated != blank %}
+        <p class="main-policy__updated">{{ 'content.last_updated' | t: date: updated }}</p>
+      {% endif %}
+    </div>
+  </header>
+
+  {%- assign current_title = page.title -%}
+  {%- capture policy_links -%}
+    {% if menu != blank %}
+      {% for link in menu.links %}
+        {%- liquid
+          assign current = link.current
+          if link.url == request.path
+            assign current = true
+          endif
+          if current
+            assign current_title = link.title
+          endif
+        -%}
+        <li>
+          <a href="{{ link.url }}" {% if current %}aria-current="page"{% endif %}>
+            {{- link.title | escape -}}
+            {% if current %}{% render 'icon', icon: 'chevron-right' %}{% endif %}
+          </a>
+        </li>
+      {% endfor %}
+    {% else %}
+      {% for policy in shop.policies %}
+        <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+      {% endfor %}
+    {% endif %}
+  {%- endcapture -%}
+
+  <div class="home-section__inner main-policy__body">
+    <nav class="main-policy__nav" aria-label="{{ 'content.policies' | t }}">
+      <p class="eyebrow main-policy__nav-title">{{ 'content.policies' | t }}</p>
+      <ul class="main-policy__list" role="list">
+        {{ policy_links }}
+      </ul>
+      <details class="main-policy__switcher">
+        <summary>
+          <span>{{ current_title | escape }}</span>
+          {% render 'icon', icon: 'chevron-down' %}
+        </summary>
+        <ul role="list">
+          {{ policy_links }}
+        </ul>
+      </details>
+    </nav>
+
+    <div class="main-policy__content">
+      {% if section.settings.summary != blank %}
+        <div class="main-policy__summary">
+          {% if section.settings.summary_heading != blank %}
+            <p class="eyebrow">{{ section.settings.summary_heading | escape }}</p>
+          {% endif %}
+          <ul class="icon-list" role="list">
+            {% for summary_line in summary_lines %}
+              {%- assign summary_line = summary_line | strip -%}
+              {% if summary_line != blank %}
+                <li class="icon-list__item">
+                  {% render 'icon', icon: 'check', class: 'icon-list__icon' %}
+                  <span>{{ summary_line | escape }}</span>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      <div class="rte main-policy__text">{{ page.content }}</div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.policy_page",
+  "class": "section-wrapper",
+  "tag": "section",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.legal"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_updated",
+      "label": "t:settings.show_last_updated",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "updated",
+      "label": "t:settings.last_updated",
+      "info": "t:info.last_updated",
+      "visible_if": "{{ section.settings.show_updated }}"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:settings.menu",
+      "info": "t:info.policy_menu"
+    },
+    {
+      "type": "text",
+      "id": "summary_heading",
+      "label": "t:settings.summary_heading",
+      "default": "t:text_defaults.policy_summary_heading"
+    },
+    {
+      "type": "textarea",
+      "id": "summary",
+      "label": "t:settings.summary",
+      "info": "t:info.policy_summary"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    }
+  ]
+}
+{% endschema %}

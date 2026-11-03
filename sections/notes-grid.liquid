@@ -1,0 +1,87 @@
+{% comment %}
+  Notes grid: a centered eyebrow and heading over a row of notes (blocks),
+  each a colored circle or photo, the note's name, and the feeling it
+  brings.
+{% endcomment %}
+
+<div class="home-section notes-grid spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <div class="home-section__inner">
+    <div class="notes-grid__header">
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow notes-grid__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="h3">{{ section.settings.heading | escape }}</h2>
+      {% endif %}
+    </div>
+    <ul class="notes-grid__list" role="list">
+      {% content_for 'blocks' %}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.notes_grid",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "_note" }],
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.notes_eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.notes_heading"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.notes_grid",
+      "category": "t:categories.product",
+      "blocks": {
+        "note_1": { "type": "_note", "settings": { "name": "Pink pepper", "feeling": "Energy", "color": "#f3d9d2" } },
+        "note_2": { "type": "_note", "settings": { "name": "Fig leaf", "feeling": "Self-belief", "color": "#e2ecd3" } },
+        "note_3": { "type": "_note", "settings": { "name": "Orris", "feeling": "Poise", "color": "#e9d8ea" } },
+        "note_4": { "type": "_note", "settings": { "name": "Cedar", "feeling": "Steadiness", "color": "#dce9e4" } },
+        "note_5": { "type": "_note", "settings": { "name": "Amber", "feeling": "Warmth", "color": "#f8e7c9" } },
+        "note_6": { "type": "_note", "settings": { "name": "Musk", "feeling": "Comfort", "color": "#dde6f4" } }
+      },
+      "block_order": ["note_1", "note_2", "note_3", "note_4", "note_5", "note_6"]
+    }
+  ]
+}
+{% endschema %}

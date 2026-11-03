@@ -1,0 +1,305 @@
+{% comment %}
+  An article: breadcrumb, centred header, hero image, a three column body
+  (contents, story, shop the story), the merchant blocks, then related
+  stories and comments when the blog allows them.
+{% endcomment %}
+
+{%- liquid
+  assign words = article.content | strip_html | split: ' ' | size
+  assign read_time = words | divided_by: 200 | at_least: 1
+  assign category = article.tags.first
+-%}
+
+<div
+  class="section section--page-width spacing-style"
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    {% if section.settings.background_color != blank %}--section-background: {{ section.settings.background_color }};{% endif %}
+    {% if section.settings.text_color != blank %}--section-text-color: {{ section.settings.text_color }};{% endif %}
+  "
+>
+  <div class="section-content main-blog-post">
+    <nav class="breadcrumb" aria-label="{{ 'content.categories' | t }}">
+      <a href="{{ routes.root_url }}">{{ 'content.home' | t }}</a>
+      <span aria-hidden="true">/</span>
+      <a href="{{ blog.url }}">{{ 'content.journal' | t }}</a>
+      {% if category != blank %}
+        <span aria-hidden="true">/</span>
+        <a href="{{ blog.url }}/tagged/{{ category | handle }}">{{ category }}</a>
+      {% endif %}
+    </nav>
+
+    <header class="article-header">
+      {% if category != blank %}
+        <span class="badge badge--tag">{{ category }}</span>
+      {% endif %}
+
+      <h1 class="article-header__title">{{ article.title | escape }}</h1>
+
+      {% if article.excerpt != blank %}
+        <p class="article-header__excerpt">{{ article.excerpt | strip_html }}</p>
+      {% endif %}
+
+      <p class="article-header__meta">
+        <span class="article-header__avatar" aria-hidden="true">
+          {%- if article.user.image -%}
+            {{ article.user.image | image_url: width: 80 | image_tag: widths: '40, 80', sizes: '40px', loading: 'lazy' }}
+          {%- else -%}
+            {{ article.author | slice: 0 }}
+          {%- endif -%}
+        </span>
+        {% if section.settings.show_author %}
+          <span>{{ 'content.words_by' | t: author: article.author }}</span>
+        {% endif %}
+        {% if section.settings.show_date %}
+          <span aria-hidden="true">·</span>
+          {{ article.published_at | time_tag: format: 'date' }}
+        {% endif %}
+        <span aria-hidden="true">·</span>
+        <span>{{ 'content.min_read' | t: count: read_time }}</span>
+      </p>
+    </header>
+
+    {% if section.settings.show_image and article.image %}
+      <div class="article-hero">
+        {{
+          article.image
+          | image_url: width: 2400
+          | image_tag: widths: '750, 1100, 1500, 2400', sizes: '100vw', loading: 'eager'
+        }}
+      </div>
+    {% endif %}
+
+    <div class="article-body">
+      <nav class="article-toc" aria-label="{{ 'content.in_this_story' | t }}" hidden data-article-toc>
+        <p class="article-aside__label">{{ 'content.in_this_story' | t }}</p>
+        <ul class="article-toc__list" role="list"></ul>
+      </nav>
+
+      <div class="article-content">
+        <div class="rte">{{ article.content }}</div>
+
+        {% if article.tags.size > 0 %}
+          <p class="article-tags">
+            {% for tag in article.tags %}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+            {% endfor %}
+          </p>
+        {% endif %}
+
+        <div class="article-author">
+          <span class="article-author__avatar" aria-hidden="true">
+            {%- if article.user.image -%}
+              {{ article.user.image | image_url: width: 128 | image_tag: widths: '64, 128', sizes: '64px', loading: 'lazy' }}
+            {%- else -%}
+              {{ article.author | slice: 0 }}
+            {%- endif -%}
+          </span>
+          <div>
+            <p class="article-author__name">{{ article.author }}</p>
+            {% if section.settings.author_bio != blank %}
+              <p class="article-author__bio">{{ section.settings.author_bio }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if blog.comments_enabled? %}
+          <div class="main-blog-post__comments" id="comments">
+            <h2 class="h4">
+              {{ 'content.comments' | t }}
+              {%- if article.comments_count > 0 %} ({{ article.comments_count }}){% endif -%}
+            </h2>
+
+            {% paginate article.comments by 10 %}
+              {% for comment in article.comments %}
+                <article class="comment">
+                  <p class="comment__author">{{ comment.author }} · {{ comment.created_at | time_tag: format: 'date' }}</p>
+                  <div class="rte">{{ comment.content }}</div>
+                </article>
+              {% endfor %}
+
+              {% render 'pagination', paginate: paginate %}
+            {% endpaginate %}
+
+            {% form 'new_comment', article, class: 'comment-form' %}
+              <h3 class="h5">{{ 'content.comment_form_title' | t }}</h3>
+
+              {% if form.posted_successfully? %}
+                <p role="status">
+                  {%- if blog.moderated? -%}
+                    {{ 'content.comment_moderated' | t }}
+                  {%- else -%}
+                    {{ 'content.comment_posted' | t }}
+                  {%- endif -%}
+                </p>
+              {% endif %}
+
+              {{ form.errors | default_errors }}
+
+              <div class="comment-form__row">
+                <div class="field">
+                  <label for="CommentAuthor">{{ 'content.comment_form_name' | t }}</label>
+                  <input class="field__input" type="text" name="comment[author]" id="CommentAuthor" value="{{ form.author }}" autocomplete="name" required>
+                </div>
+
+                <div class="field">
+                  <label for="CommentEmail">{{ 'content.comment_form_email' | t }}</label>
+                  <input class="field__input" type="email" name="comment[email]" id="CommentEmail" value="{{ form.email }}" autocomplete="email" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="CommentBody">{{ 'content.comment_form_body' | t }}</label>
+                <textarea class="field__input" name="comment[body]" id="CommentBody" rows="5" required>{{ form.body }}</textarea>
+              </div>
+
+              <button class="button" type="submit">{{ 'actions.post_comment' | t }}</button>
+            {% endform %}
+          </div>
+        {% endif %}
+      </div>
+
+      <aside class="article-shop">
+        {% if section.settings.product != blank %}
+          {%- assign story_product = section.settings.product -%}
+          <p class="article-aside__label">{{ 'content.shop_the_story' | t }}</p>
+
+          {% if story_product.featured_image %}
+            <a class="article-shop__media" href="{{ story_product.url }}" tabindex="-1" aria-hidden="true">
+              {{
+                story_product.featured_image
+                | image_url: width: 720
+                | image_tag: widths: '240, 360, 480, 720', sizes: '240px', loading: 'lazy'
+              }}
+            </a>
+          {% endif %}
+
+          <h2 class="article-shop__title h5">
+            <a href="{{ story_product.url }}">{{ story_product.title | escape }}</a>
+          </h2>
+
+          {% render 'price', product: story_product %}
+
+          <a class="button" href="{{ story_product.url }}">{{ 'actions.view_full_details' | t }}</a>
+        {% endif %}
+
+        <p class="article-share">
+          <span>{{ 'content.share' | t }}</span>
+          <a
+            href="https://pinterest.com/pin/create/button/?url={{ shop.url | append: article.url | url_encode }}"
+            target="_blank"
+            rel="noopener"
+          >
+            {{- 'blocks.social_links.pinterest' | t -}}
+          </a>
+          <button class="button-unstyled" type="button" data-copy-link data-copied-label="{{ 'content.copied' | t }}">
+            {{- 'content.copy_link' | t -}}
+          </button>
+        </p>
+      </aside>
+    </div>
+
+    {% content_for 'blocks' %}
+
+    {%- liquid
+      assign related_shown = 0
+    -%}
+    <section class="related-stories">
+      <div class="related-stories__header">
+        <h2 class="h2">{{ 'content.keep_reading' | t }}</h2>
+        <a class="related-stories__link" href="{{ blog.url }}">
+          {{ 'content.all_stories' | t }}
+          {% render 'icon', icon: 'arrow-right' %}
+        </a>
+      </div>
+
+      <ul class="product-grid journal-grid" role="list" style="--columns-desktop: 3; --columns-mobile: 1;">
+        {% for related in blog.articles %}
+          {% if related.id != article.id and related_shown < 3 %}
+            {%- assign related_shown = related_shown | plus: 1 -%}
+            <li>
+              {% content_for 'block', type: '_blog-post-card', id: 'related-card', closest.article: related %}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.blog_post",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "t:settings.show_image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "t:settings.show_date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "t:settings.show_author",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:settings.product"
+    },
+    {
+      "type": "textarea",
+      "id": "author_bio",
+      "label": "t:settings.author_bio",
+      "default": "Our in-house team of perfumers, writers and wellbeing nerds."
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}

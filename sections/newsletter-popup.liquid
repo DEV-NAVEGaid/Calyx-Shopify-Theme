@@ -1,0 +1,135 @@
+{% comment %}
+  Newsletter popup, in the footer group: a photo beside an eyebrow, a
+  heading, a line of text, an email sign-up, a "No thanks" link, and fine
+  print. It opens once after a delay; closing or signing up keeps it away
+  for 30 days (assets/newsletter-popup.js). After signing up it opens
+  again with a thank-you. In the theme editor it opens when the section is
+  selected.
+{% endcomment %}
+
+{%- liquid
+  assign form_id = 'NewsletterPopup-' | append: section.id
+-%}
+
+<newsletter-popup class="newsletter-popup" data-delay="{{ section.settings.delay }}" data-section-id="{{ section.id }}">
+  <dialog class="newsletter-popup__dialog" aria-labelledby="{{ form_id }}-title" data-popup-dialog>
+    <div class="newsletter-popup__media">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 680 | image_tag: widths: '340, 680', sizes: '340px', loading: 'lazy', alt: '' }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+
+    <div class="newsletter-popup__content">
+      <div class="newsletter-popup__top">
+        {% if section.settings.eyebrow != blank %}
+          <p class="eyebrow newsletter-popup__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        <button class="button-unstyled newsletter-popup__close" type="button" data-popup-close>
+          {% render 'icon', icon: 'close' %}
+          <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+        </button>
+      </div>
+
+      {% form 'customer', id: form_id, class: 'newsletter-popup__form' %}
+        {% if form.posted_successfully? %}
+          <h2 class="h2" id="{{ form_id }}-title" data-popup-success>{{ 'content.newsletter_thanks' | t }}</h2>
+          <p class="newsletter-popup__text">{{ 'content.newsletter_thanks_text' | t }}</p>
+        {% else %}
+          <h2 class="h2" id="{{ form_id }}-title">{{ section.settings.heading | escape }}</h2>
+          {% if section.settings.text != blank %}
+            <p class="newsletter-popup__text">{{ section.settings.text | escape }}</p>
+          {% endif %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="visually-hidden" for="{{ form_id }}-email">{{ 'blocks.email_signup.label' | t }}</label>
+          <input
+            class="field__input newsletter-popup__input"
+            id="{{ form_id }}-email"
+            type="email"
+            name="contact[email]"
+            autocomplete="email"
+            placeholder="{{ 'content.your_email' | t }}"
+            required
+            {% if form.errors %}
+              aria-invalid="true" aria-describedby="{{ form_id }}-error"
+            {% endif %}
+          >
+          {% if form.errors %}
+            <p class="newsletter-popup__error" id="{{ form_id }}-error" data-popup-error>{{ form.errors.messages.email | default: form.errors.messages.base }}</p>
+          {% endif %}
+          <button class="button-dark" type="submit">{{ section.settings.button_label | escape }}</button>
+          <button class="button-unstyled newsletter-popup__decline" type="button" data-popup-close>{{ 'actions.no_thanks' | t }}</button>
+          {% if section.settings.fine_print != blank %}
+            <p class="newsletter-popup__fine">{{ section.settings.fine_print | escape }}</p>
+          {% endif %}
+        {% endif %}
+      {% endform %}
+    </div>
+  </dialog>
+</newsletter-popup>
+
+<script src="{{ 'newsletter-popup.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.newsletter_popup",
+  "tag": "div",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:settings.eyebrow",
+      "default": "t:text_defaults.popup_eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.popup_heading"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.popup_text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:settings.button_label",
+      "default": "t:text_defaults.popup_button"
+    },
+    {
+      "type": "text",
+      "id": "fine_print",
+      "label": "t:settings.fine_print",
+      "default": "t:text_defaults.popup_fine_print"
+    },
+    {
+      "type": "range",
+      "id": "delay",
+      "label": "t:settings.popup_delay",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.newsletter_popup",
+      "category": "t:categories.forms"
+    }
+  ]
+}
+{% endschema %}

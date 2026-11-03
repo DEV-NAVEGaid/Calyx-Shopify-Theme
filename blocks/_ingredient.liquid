@@ -1,0 +1,58 @@
+{% doc %}
+  One ingredient of the ingredients explorer: its name in the list. The
+  section also shows its photo above the list and its description beside
+  it.
+{% enddoc %}
+
+{%- liquid
+  assign number = 0
+  for item in section.blocks
+    assign number = number | plus: 1
+    if item.id == block.id
+      break
+    endif
+  endfor
+-%}
+
+<li {{ block.shopify_attributes }}>
+  <button
+    class="ingredients-explorer__item"
+    type="button"
+    data-ingredient-select="{{ number | minus: 1 }}"
+    aria-pressed="{% if number == 1 %}true{% else %}false{% endif %}"
+  >
+    <span class="ingredients-explorer__index">[{{ number }}]</span>
+    <span class="h5">{{ block.settings.name | escape }}</span>
+  </button>
+</li>
+
+{% schema %}
+{
+  "name": "t:names.ingredient",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "name",
+      "label": "t:settings.name",
+      "default": "Fig leaf"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:settings.description",
+      "default": "t:html_defaults.ingredient_1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.ingredient"
+    }
+  ]
+}
+{% endschema %}

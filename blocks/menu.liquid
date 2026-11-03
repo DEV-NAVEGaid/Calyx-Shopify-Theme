@@ -1,0 +1,46 @@
+{% doc %}
+  A vertical list of links from a navigation menu, for footers and columns.
+{% enddoc %}
+
+{%- assign menu = block.settings.menu -%}
+
+<nav class="menu-block" aria-label="{{ menu.title | escape }}" {{ block.shopify_attributes }}>
+  {% if block.settings.show_heading and menu.title != blank %}
+    <p class="menu-block__heading">{{ menu.title }}</p>
+  {% endif %}
+
+  <ul class="menu-block__list" role="list">
+    {% for link in menu.links %}
+      <li>
+        <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+
+{% schema %}
+{
+  "name": "t:names.menu",
+  "tag": null,
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:settings.menu",
+      "default": "footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "t:settings.show_heading",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.menu",
+      "category": "t:categories.links"
+    }
+  ]
+}
+{% endschema %}

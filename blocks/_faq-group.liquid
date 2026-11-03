@@ -1,0 +1,84 @@
+{% doc %}
+  One FAQ topic: a heading and its collapsible rows. The heading doubles as
+  the anchor the topics list in the parent section links to.
+{% enddoc %}
+
+<div class="faq-group" id="{{ block.settings.heading | handleize }}" {{ block.shopify_attributes }}>
+  {% if block.settings.heading != blank %}
+    <h2 class="h2 faq-group__heading">{{ block.settings.heading | escape }}</h2>
+  {% endif %}
+
+  {% content_for 'blocks' %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.faq_group",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.faq_group_heading"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.faq_group",
+      "blocks": {
+        "accordion": {
+          "type": "accordion",
+          "settings": {
+            "icon": "plus",
+            "dividers": true
+          },
+          "blocks": {
+            "row_1": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "t:text_defaults.accordion_heading_1",
+                "open_by_default": true
+              },
+              "blocks": {
+                "text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "t:html_defaults.accordion_content_1"
+                  }
+                }
+              },
+              "block_order": ["text"]
+            },
+            "row_2": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "t:text_defaults.accordion_heading_2"
+              },
+              "blocks": {
+                "text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "t:html_defaults.accordion_content_2"
+                  }
+                }
+              },
+              "block_order": ["text"]
+            }
+          },
+          "block_order": ["row_1", "row_2"]
+        }
+      },
+      "block_order": ["accordion"]
+    }
+  ]
+}
+{% endschema %}

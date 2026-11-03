@@ -1,0 +1,22 @@
+{% doc %}
+  Outputs the Borders settings of a section or block as CSS custom
+  properties. Pair it with the `border-style` class.
+
+  @param {object} settings - Settings with `border`, `border_width`,
+    `border_opacity`, and `border_radius`.
+
+  @example
+  <div class="border-style" style="{% render 'border-override', settings: block.settings %}">
+{% enddoc %}
+
+{%- liquid
+  if settings.border == 'solid'
+    echo '--border-width: ' | append: settings.border_width | append: 'px; '
+    echo '--border-style: solid; '
+    echo '--border-color: color-mix(in srgb, currentcolor ' | append: settings.border_opacity | append: '%, transparent); '
+  endif
+
+  if settings.border_radius != blank
+    echo '--border-radius: ' | append: settings.border_radius | append: 'px; '
+  endif
+-%}

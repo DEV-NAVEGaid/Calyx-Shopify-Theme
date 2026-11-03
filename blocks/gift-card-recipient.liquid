@@ -1,0 +1,65 @@
+{% doc %}
+  For gift card products: a "send as a gift" checkbox that opens the
+  recipient's email, name, a message, and a send date. The fields join the
+  section's product form as Shopify's gift card recipient properties, and
+  stay disabled (left out) while the box is unticked
+  (assets/gift-card-recipient.js). Renders nothing for other products.
+{% enddoc %}
+
+{%- liquid
+  assign form_id = 'product-form-' | append: section.id
+  assign field_id = 'Recipient-' | append: block.id
+-%}
+
+{% if closest.product.gift_card? %}
+  <gift-card-recipient class="gift-card-recipient" {{ block.shopify_attributes }}>
+    <label class="gift-card-recipient__toggle" for="{{ field_id }}-toggle">
+      <input
+        type="checkbox"
+        id="{{ field_id }}-toggle"
+        name="properties[__shopify_send_gift_card_to_recipient]"
+        form="{{ form_id }}"
+        data-recipient-toggle
+      >
+      <span class="bundle-item__box" aria-hidden="true">{% render 'icon', icon: 'check' %}</span>
+      {{ 'content.send_as_gift' | t }}
+    </label>
+
+    <div class="gift-card-recipient__fields" data-recipient-fields hidden>
+      <div class="field">
+        <label for="{{ field_id }}-email">{{ 'content.recipient_email' | t }}</label>
+        <input class="field__input" type="email" id="{{ field_id }}-email" name="properties[Recipient email]" form="{{ form_id }}" placeholder="{{ 'content.recipient_email_placeholder' | t }}" autocomplete="email" required disabled>
+      </div>
+      <div class="field">
+        <label for="{{ field_id }}-name">{{ 'content.recipient_name' | t }}</label>
+        <input class="field__input" type="text" id="{{ field_id }}-name" name="properties[Recipient name]" form="{{ form_id }}" autocomplete="name" disabled>
+      </div>
+      <div class="field">
+        <label for="{{ field_id }}-message">{{ 'content.recipient_message' | t }}</label>
+        <textarea class="field__input" id="{{ field_id }}-message" name="properties[Message]" form="{{ form_id }}" maxlength="200" aria-describedby="{{ field_id }}-message-hint" disabled></textarea>
+        <p class="gift-card-recipient__hint" id="{{ field_id }}-message-hint">{{ 'content.characters_max' | t: count: 200 }}</p>
+      </div>
+      <div class="field">
+        <label for="{{ field_id }}-date">{{ 'content.recipient_send_on' | t }}</label>
+        <input class="field__input" type="date" id="{{ field_id }}-date" name="properties[Send on]" form="{{ form_id }}" pattern="\d{4}-\d{2}-\d{2}" aria-describedby="{{ field_id }}-date-hint" disabled>
+        <p class="gift-card-recipient__hint" id="{{ field_id }}-date-hint">{{ 'content.recipient_send_on_hint' | t }}</p>
+      </div>
+      <input type="hidden" name="properties[__shopify_offset]" form="{{ form_id }}" data-recipient-offset disabled>
+    </div>
+  </gift-card-recipient>
+  <script src="{{ 'gift-card-recipient.js' | asset_url }}" type="module"></script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.gift_card_recipient",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "t:names.gift_card_recipient",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

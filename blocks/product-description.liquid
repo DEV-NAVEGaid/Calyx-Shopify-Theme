@@ -1,0 +1,46 @@
+{% doc %}
+  The closest product's description.
+{% enddoc %}
+
+<div class="product-description rte spacing-style" style="{% render 'spacing-style', settings: block.settings %}" {{ block.shopify_attributes }}>
+  {{ closest.product.description }}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.product_description",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_description",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

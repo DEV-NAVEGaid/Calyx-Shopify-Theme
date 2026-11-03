@@ -1,0 +1,455 @@
+/** Critical CSS for the theme. This file is included on every page. */
+
+/* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100svh;
+}
+
+html:has(dialog[scroll-lock][open], details[scroll-lock][open], [data-mobile-open]) {
+  overflow: hidden;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p:empty {
+  display: none;
+}
+
+/** Theme tokens */
+:root {
+  --spacing-scale: 1;
+  --content-width: min(
+    calc(var(--page-width) - var(--page-margin) * 2),
+    calc(100% - var(--page-margin) * 2)
+  );
+  --content-margin: minmax(var(--page-margin), 1fr);
+  --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
+}
+
+/* Small screens: tighter section spacing and a smaller display scale. */
+@media (max-width: 749px) {
+  :root {
+    --spacing-scale: 0.55;
+    --font-h1--scale: 0.72;
+    --font-h2--scale: 0.72;
+    --font-h3--scale: 0.78;
+    --font-h4--scale: 0.9;
+  }
+}
+
+/** Base typography */
+body {
+  font-family: var(--font-body--family);
+  font-style: var(--font-body--style);
+  font-weight: var(--font-body--weight);
+  font-size: var(--font-paragraph--size);
+  line-height: var(--font-paragraph--line-height);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  margin-block: 0;
+}
+
+h1,
+.h1 {
+  font-family: var(--font-h1--family);
+  font-style: var(--font-h1--style);
+  font-weight: var(--font-h1--weight);
+  font-size: calc(var(--font-h1--size) * var(--font-h1--scale, 1));
+  line-height: var(--font-h1--line-height);
+  letter-spacing: var(--font-h1--letter-spacing);
+  text-transform: var(--font-h1--case);
+}
+
+h2,
+.h2 {
+  font-family: var(--font-h2--family);
+  font-style: var(--font-h2--style);
+  font-weight: var(--font-h2--weight);
+  font-size: calc(var(--font-h2--size) * var(--font-h2--scale, 1));
+  line-height: var(--font-h2--line-height);
+  letter-spacing: var(--font-h2--letter-spacing);
+  text-transform: var(--font-h2--case);
+}
+
+h3,
+.h3 {
+  font-family: var(--font-h3--family);
+  font-style: var(--font-h3--style);
+  font-weight: var(--font-h3--weight);
+  font-size: calc(var(--font-h3--size) * var(--font-h3--scale, 1));
+  line-height: var(--font-h3--line-height);
+  letter-spacing: var(--font-h3--letter-spacing);
+  text-transform: var(--font-h3--case);
+}
+
+h4,
+.h4 {
+  font-family: var(--font-h4--family);
+  font-style: var(--font-h4--style);
+  font-weight: var(--font-h4--weight);
+  font-size: calc(var(--font-h4--size) * var(--font-h4--scale, 1));
+  line-height: var(--font-h4--line-height);
+  letter-spacing: var(--font-h4--letter-spacing);
+  text-transform: var(--font-h4--case);
+}
+
+h5,
+.h5 {
+  font-family: var(--font-h5--family);
+  font-style: var(--font-h5--style);
+  font-weight: var(--font-h5--weight);
+  font-size: var(--font-h5--size);
+  line-height: var(--font-h5--line-height);
+  letter-spacing: var(--font-h5--letter-spacing);
+  text-transform: var(--font-h5--case);
+}
+
+h6,
+.h6 {
+  font-family: var(--font-h6--family);
+  font-style: var(--font-h6--style);
+  font-weight: var(--font-h6--weight);
+  font-size: var(--font-h6--size);
+  line-height: var(--font-h6--line-height);
+  letter-spacing: var(--font-h6--letter-spacing);
+  text-transform: var(--font-h6--case);
+}
+
+.paragraph {
+  font-family: var(--font-body--family);
+  font-size: var(--font-paragraph--size);
+  line-height: var(--font-paragraph--line-height);
+}
+
+/* Rich text: space out paragraphs and headings coming from the editor. */
+.rte > * + * {
+  margin-block-start: 0.75em;
+}
+
+.rte :is(ul, ol) {
+  padding-inline-start: 1.25em;
+}
+
+.rte img {
+  height: auto;
+}
+
+/** Sections */
+
+/**
+ * A section is a grid that enables both full-width and constrained layouts.
+ * By default the content sits in the central column, which keeps a minimum
+ * page margin and never exceeds the page width. `section--full-width`
+ * lets the content span the entire viewport.
+ */
+.section {
+  /* Required for background media and overlays */
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--content-grid);
+  min-height: var(--section-min-height, auto);
+  background-color: var(--section-background, transparent);
+  color: var(--section-text-color, inherit);
+  overflow: clip;
+}
+
+.section > .section-content {
+  position: relative;
+  z-index: 1;
+  grid-column: 2;
+}
+
+.section--full-width > .section-content {
+  grid-column: 1 / -1;
+}
+
+/** Layout utilities driven by the style snippets */
+.layout-panel {
+  display: flex;
+  flex-direction: var(--flex-direction, column);
+  justify-content: var(--justify, flex-start);
+  align-items: var(--align, flex-start);
+  gap: var(--gap, 0);
+}
+
+.layout-panel > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 749px) {
+  .layout-panel {
+    flex-direction: var(--flex-direction-mobile, var(--flex-direction, column));
+    justify-content: var(--justify-mobile, var(--justify, flex-start));
+    align-items: var(--align-mobile, var(--align, flex-start));
+  }
+
+  /* Children of a stacked row take the full width instead of a share of it. */
+  .layout-panel > .size-style {
+    flex: 0 0 auto;
+  }
+}
+
+.spacing-style {
+  padding-block-start: calc(var(--padding-block-start, 0px) * var(--spacing-scale));
+  padding-block-end: calc(var(--padding-block-end, 0px) * var(--spacing-scale));
+  padding-inline-start: var(--padding-inline-start, 0px);
+  padding-inline-end: var(--padding-inline-end, 0px);
+}
+
+.size-style {
+  width: var(--size-style-width, auto);
+  flex: var(--size-style-flex, 0 1 auto);
+  height: var(--size-style-height, auto);
+}
+
+.border-style {
+  border-width: var(--border-width, 0);
+  border-style: var(--border-style, none);
+  border-color: var(--border-color, transparent);
+  border-radius: var(--border-radius, 0);
+}
+
+.background-media,
+.overlay {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.background-media > :is(img, video, svg) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.background-media--fit > :is(img, video),
+.background-media--contain > :is(img, video) {
+  object-fit: contain;
+}
+
+.overlay--solid {
+  background: var(--overlay-color);
+}
+
+.overlay--gradient {
+  background: linear-gradient(var(--overlay-direction), var(--overlay-color), transparent);
+}
+
+/**
+ * Buttons: pill-shaped labels in four styles.
+ * Primary and secondary (outline) colors come from the theme settings;
+ * dark and light follow the page text and background colors.
+ */
+.button,
+.button-secondary,
+.button-dark,
+.button-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 50px;
+  padding: 14px 28px;
+  font-family: var(--button-primary--font-family);
+  font-weight: var(--button-primary--font-weight);
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.03em;
+  text-transform: var(--button-primary--case);
+  text-decoration: none;
+  background-color: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+  border: var(--button-primary--border-width) solid var(--color-primary-button-border);
+  border-radius: var(--button-primary--border-radius);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.button-secondary {
+  font-family: var(--button-secondary--font-family);
+  font-weight: var(--button-secondary--font-weight);
+  text-transform: var(--button-secondary--case);
+  background-color: var(--color-secondary-button-background);
+  color: var(--color-secondary-button-text);
+  border: var(--button-secondary--border-width) solid var(--color-secondary-button-border);
+  border-radius: var(--button-secondary--border-radius);
+}
+
+.button-dark {
+  background-color: var(--color-foreground);
+  color: var(--color-foreground-inverse);
+  border-color: var(--color-foreground);
+}
+
+.button-light {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  border-color: var(--color-background);
+}
+
+.button:hover {
+  background-color: color-mix(in srgb, var(--color-primary-button-background) 80%, black);
+  border-color: color-mix(in srgb, var(--color-primary-button-border) 80%, black);
+}
+
+/* The outline button fills with its text color on hover. */
+.button-secondary:hover {
+  background-color: var(--color-secondary-button-text);
+  color: var(--color-foreground-inverse);
+}
+
+.button-dark:hover {
+  background-color: color-mix(in srgb, var(--color-foreground) 88%, white);
+  border-color: color-mix(in srgb, var(--color-foreground) 88%, white);
+}
+
+.button-light:hover {
+  background-color: color-mix(in srgb, var(--color-background) 50%, var(--color-border));
+  border-color: color-mix(in srgb, var(--color-background) 50%, var(--color-border));
+}
+
+.button:disabled,
+.button-secondary:disabled,
+.button-dark:disabled,
+.button-light:disabled,
+.button[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-unstyled {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+/** Form controls */
+.field__input,
+.select__input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  font-size: 16px;
+  background-color: var(--color-input-background);
+  color: var(--color-input-text);
+  border: var(--input--border-width) solid var(--color-input-border);
+  border-radius: var(--input--border-radius);
+}
+
+textarea.field__input {
+  padding-block: 14px;
+}
+
+.field__input::placeholder {
+  color: var(--color-foreground-muted);
+}
+
+/* Focused fields get an accent border and a soft accent ring instead of an outline. */
+.field__input:focus-visible,
+.select__input:focus-visible {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent), 0 0 0 5px color-mix(in srgb, var(--color-accent) 15%, transparent);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field > label {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-foreground-muted);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/** Accessibility utilities */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-to-content {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: 1rem;
+  z-index: 100;
+  transform: translateY(-200%);
+}
+
+.skip-to-content:focus {
+  transform: none;
+}

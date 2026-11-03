@@ -1,0 +1,23 @@
+{% doc %}
+  Links to the store policies set in the Shopify admin.
+{% enddoc %}
+
+<ul class="policy-list" role="list" {{ block.shopify_attributes }}>
+  {% for policy in shop.policies %}
+    <li><a href="{{ policy.url }}">{{ policy.title }}</a></li>
+  {% endfor %}
+</ul>
+
+{% schema %}
+{
+  "name": "t:names.policy_list",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "t:names.policy_list",
+      "category": "t:categories.footer"
+    }
+  ]
+}
+{% endschema %}

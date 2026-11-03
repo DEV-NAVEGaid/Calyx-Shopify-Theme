@@ -1,0 +1,29 @@
+{% doc %}
+  Five stars filled up to a review rating, with the rating as text for
+  screen readers.
+
+  @param {number} rating - The rating value, such as 4.8.
+  @param {number} [max] - The top of the rating scale. Default: 5.
+
+  @example
+  {% render 'rating-stars', rating: rating.rating, max: rating.scale_max %}
+{% enddoc %}
+
+{%- liquid
+  assign max = max | default: 5
+  assign percent = rating | times: 100 | divided_by: max
+-%}
+
+<span class="rating-stars" style="--rating-percent: {{ percent }}%;">
+  <span class="rating-stars__track" aria-hidden="true">
+    {%- for i in (1..5) -%}
+      {% render 'icon', icon: 'star' %}
+    {%- endfor -%}
+  </span>
+  <span class="rating-stars__fill" aria-hidden="true">
+    {%- for i in (1..5) -%}
+      {% render 'icon', icon: 'star' %}
+    {%- endfor -%}
+  </span>
+  <span class="visually-hidden">{{ 'content.rating' | t: rating: rating, max: max }}</span>
+</span>

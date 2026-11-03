@@ -1,0 +1,69 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": "Aurora",
+  "presets": {
+    "Aurora": {
+      "color_palette": {
+        "background": "#ffffff",
+        "foreground": "#1f1a17",
+        "color1": "#4a3aa8",
+        "color2": "#e7e2f8",
+        "color3": "#ddd3c6",
+        "color4": "#6b625a",
+        "color5": "#f7f3ec"
+      },
+      "type_body_font": "inter_n4",
+      "type_subheading_font": "inter_n5",
+      "type_heading_font": "arimo_n4",
+      "type_accent_font": "arimo_i4"
+    },
+    "Clay": {
+      "color_palette": {
+        "background": "#f7f3ec",
+        "foreground": "#2b2420",
+        "color1": "#9c5a3c",
+        "color2": "#f1e1d4",
+        "color3": "#e2d5c5",
+        "color4": "#75685d",
+        "color5": "#fffaf3"
+      },
+      "type_body_font": "dm_sans_n4",
+      "type_subheading_font": "dm_sans_n5",
+      "type_heading_font": "fraunces_n4",
+      "type_accent_font": "fraunces_i4",
+      "product_corner_radius": 12,
+      "inputs_border_radius": 12
+    },
+    "Noir": {
+      "color_palette": {
+        "background": "#ffffff",
+        "foreground": "#111111",
+        "color1": "#111111",
+        "color2": "#f1f1f1",
+        "color3": "#e4e4e4",
+        "color4": "#6e6e6e",
+        "color5": "#ffffff"
+      },
+      "type_body_font": "instrument_sans_n4",
+      "type_subheading_font": "instrument_sans_n5",
+      "type_heading_font": "bodoni_moda_n4",
+      "type_accent_font": "bodoni_moda_i4",
+      "button_border_radius_primary": 0,
+      "button_border_radius_secondary": 0,
+      "inputs_border_radius": 0,
+      "badge_corner_radius": 0,
+      "product_corner_radius": 0,
+      "drawer_corner_radius": 0,
+      "popover_corner_radius": 0,
+      "swatch_shape": "square"
+    }
+  }
+}

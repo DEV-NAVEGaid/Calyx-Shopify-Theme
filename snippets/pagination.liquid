@@ -1,0 +1,45 @@
+{% doc %}
+  Renders previous/next links and page numbers for a paginated list.
+  Renders nothing when there is only one page.
+
+  @param {object} paginate - The `paginate` object from a `{% paginate %}` tag.
+
+  @example
+  {% render 'pagination', paginate: paginate %}
+{% enddoc %}
+
+{%- if paginate.pages > 1 -%}
+  <nav class="pagination" aria-label="{{ 'accessibility.pagination' | t }}">
+    <ul class="pagination__list" role="list">
+      {% if paginate.previous %}
+        <li>
+          <a class="pagination__link" href="{{ paginate.previous.url }}" rel="prev">
+            <span aria-hidden="true">&larr;</span>
+            <span class="visually-hidden">{{ 'accessibility.previous_page' | t }}</span>
+          </a>
+        </li>
+      {% endif %}
+
+      {% for part in paginate.parts %}
+        <li>
+          {% if part.is_link %}
+            <a class="pagination__link" href="{{ part.url }}">{{ part.title }}</a>
+          {% elsif part.title contains 'hellip' %}
+            <span class="pagination__link">{{ part.title }}</span>
+          {% else %}
+            <span class="pagination__link pagination__link--current" aria-current="page">{{ part.title }}</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+
+      {% if paginate.next %}
+        <li>
+          <a class="pagination__link" href="{{ paginate.next.url }}" rel="next">
+            <span aria-hidden="true">&rarr;</span>
+            <span class="visually-hidden">{{ 'accessibility.next_page' | t }}</span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{%- endif -%}

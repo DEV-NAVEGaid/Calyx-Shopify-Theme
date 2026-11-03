@@ -1,0 +1,131 @@
+{% comment %}
+  The quick view of a product: images, title, rating, price, variant
+  picker, and add-to-cart form. On small screens it is a compact bottom
+  sheet: a thumbnail beside the title and price, the options, and a
+  full-width add-to-cart button. Never placed on a page: assets/quick-add.js
+  requests it with `?section_id=quick-view` from the product URL, and the
+  variant picker re-renders it the same way.
+{% endcomment %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'product-form-' | append: section.id
+  capture variant_price
+    render 'format-money', amount: current_variant.price
+  endcapture
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+  assign featured = current_variant.featured_media | default: product.featured_media
+  assign images = product.media | where: 'media_type', 'image'
+-%}
+
+<div class="quick-view">
+  <div class="quick-view__media">
+    <ul class="quick-view__slides" role="list" data-quick-view-slides>
+      {% if featured %}
+        <li class="quick-view__slide">
+          {{ featured | image_url: width: 1200 | image_tag: widths: '450, 600, 900, 1200', sizes: '(min-width: 750px) 45vw, 100vw', alt: featured.alt }}
+        </li>
+      {% endif %}
+      {% for image in images %}
+        {% unless image.id == featured.id %}
+          <li class="quick-view__slide">
+            {{ image | image_url: width: 1200 | image_tag: widths: '450, 600, 900, 1200', sizes: '(min-width: 750px) 45vw, 100vw', loading: 'lazy', alt: image.alt }}
+          </li>
+        {% endunless %}
+      {% endfor %}
+      {% if featured == blank %}
+        <li class="quick-view__slide">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</li>
+      {% endif %}
+    </ul>
+
+    {% if images.size > 1 %}
+      <div class="quick-view__dots">
+        {% for image in images %}
+          <button
+            class="quick-view__dot"
+            type="button"
+            data-slide="{{ forloop.index0 }}"
+            aria-label="{{ 'accessibility.go_to_image' | t: number: forloop.index }}"
+            {% if forloop.first %}
+              aria-current="true"
+            {% endif %}
+          ></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="quick-view__details">
+    <div class="quick-view__summary">
+      {% if product.type != blank %}
+        <p class="quick-view__eyebrow">{{ product.type | escape }}</p>
+      {% endif %}
+
+      <h2 class="quick-view__title h2" id="QuickView-Title">{{ product.title | escape }}</h2>
+
+      {% if settings.show_rating and rating != blank %}
+        <p class="quick-view__rating">
+          {% render 'rating-stars', rating: rating.rating, max: rating.scale_max %}
+          <span aria-hidden="true">
+            {{- rating.rating | round: 1 -}}
+            {%- if rating_count %} · {{ 'content.reviews_count' | t: count: rating_count }}{% endif -%}
+          </span>
+        </p>
+      {% endif %}
+
+      <div class="quick-view__price h3">
+        {% render 'price', product: product, show_currency_code: settings.currency_code_enabled_product_pages %}
+      </div>
+    </div>
+
+    {% if product.description != blank %}
+      <p class="quick-view__description">{{ product.description | strip_html | truncatewords: 30 }}</p>
+    {% endif %}
+
+    {% render 'variant-picker',
+      product: product,
+      section_id: section.id,
+      id_prefix: 'quick-view',
+      style: 'buttons',
+      update_url: false
+    %}
+
+    {% form 'product', product, id: form_id, class: 'quick-view__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+      <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+      <div class="quick-view__buy">
+        {% render 'quantity-selector', id: 'QuickView-Quantity', name: 'quantity', value: 1, label: product.title %}
+
+        <button
+          class="button-dark quick-view__add"
+          type="submit"
+          name="add"
+          {% unless current_variant.available %}
+            disabled
+          {% endunless %}
+        >
+          {%- if current_variant.available -%}
+            {{ 'actions.add_to_cart_with_price' | t: price: variant_price }}
+          {%- else -%}
+            {{ 'content.sold_out' | t }}
+          {%- endif -%}
+        </button>
+      </div>
+
+      {{ form | payment_button }}
+    {% endform %}
+
+    <a class="quick-view__full-details" href="{{ product.url }}">
+      {{- 'actions.view_full_details' | t -}}
+      {% render 'icon', icon: 'arrow-right' %}
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.quick_view",
+  "settings": []
+}
+{% endschema %}

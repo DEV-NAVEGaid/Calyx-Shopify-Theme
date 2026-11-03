@@ -1,0 +1,82 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "header": {
+      "type": "contact-header",
+      "settings": {
+        "eyebrow": "Contact",
+        "heading": "Get in touch",
+        "text": "<p>Questions about an order, a scent or a collaboration? We’d love to hear from you.</p>",
+        "padding-block-start": 72,
+        "padding-block-end": 0
+      },
+      "block_order": []
+    },
+    "form": {
+      "type": "contact-form",
+      "settings": {
+        "hours": "Mon–Fri · 9am–6pm ET",
+        "address": "",
+        "faq_heading": "Looking for a quick answer?",
+        "faq_text": "Most questions are covered in our FAQ.",
+        "padding-block-start": 64,
+        "padding-block-end": 112
+      },
+      "blocks": {
+        "care": {
+          "type": "_contact-channel",
+          "settings": {
+            "title": "Customer care",
+            "text": "For orders, returns and product questions",
+            "email": ""
+          }
+        },
+        "press": {
+          "type": "_contact-channel",
+          "settings": {
+            "title": "Press",
+            "text": "Samples, interviews and imagery",
+            "email": ""
+          }
+        },
+        "wholesale": {
+          "type": "_contact-channel",
+          "settings": {
+            "title": "Wholesale",
+            "text": "Stock our scents in your store",
+            "email": ""
+          }
+        }
+      },
+      "block_order": [
+        "care",
+        "press",
+        "wholesale"
+      ]
+    },
+    "studio": {
+      "type": "studio-banner",
+      "settings": {
+        "heading": "Visit the studio",
+        "text": "<p>Smell the full collection and get a free mood consultation.</p>",
+        "link_label": "Find stockists near you",
+        "padding-block-start": 0,
+        "padding-block-end": 112
+      },
+      "block_order": []
+    }
+  },
+  "order": [
+    "header",
+    "form",
+    "studio"
+  ]
+}

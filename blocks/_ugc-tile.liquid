@@ -1,0 +1,150 @@
+{% doc %}
+  One mosaic photo. A small tile fills one cell and can carry a short
+  caption; a large tile fills two by two and shows who posted it, and the
+  product they wear, over a dark fade.
+{% enddoc %}
+
+{%- liquid
+  assign large = false
+  if block.settings.size == 'large'
+    assign large = true
+  endif
+  assign product = block.settings.product
+
+  if large
+    assign sizes = '(min-width: 750px) 29vw, 68vw'
+  else
+    assign sizes = '(min-width: 750px) 15vw, 34vw'
+  endif
+
+  if block.settings.link != blank
+    assign tag = 'a'
+  else
+    assign tag = 'div'
+  endif
+-%}
+
+<{{ tag }}
+  class="ugc-tile{% if large %} ugc-tile--large{% endif %}"
+  {% if block.settings.link != blank %}
+    href="{{ block.settings.link }}"
+  {% endif %}
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.image != blank -%}
+    {{ block.settings.image | image_url: width: 1000 | image_tag: widths: '240, 360, 480, 720, 1000', sizes: sizes, loading: 'lazy', class: 'ugc-tile__image' }}
+  {%- else -%}
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'ugc-tile__image' }}
+  {%- endif -%}
+
+  {% unless block.settings.post_type == 'none' %}
+    {%- liquid
+      case block.settings.post_type
+        when 'video'
+          assign post_icon = 'play'
+        when 'instagram'
+          assign post_icon = 'instagram'
+        else
+          assign post_icon = 'image'
+      endcase
+    -%}
+    {% render 'icon', icon: post_icon, class: 'ugc-tile__type' %}
+  {% endunless %}
+
+  {% if large %}
+    {% if block.settings.name != blank or product != blank %}
+      <div class="ugc-tile__member">
+        {% if product != blank %}
+          <p class="ugc-tile__column">
+            <span>{{ 'content.community_member' | t }}</span>
+            <span class="ugc-tile__highlight">{{ 'content.signature_scent' | t }}</span>
+            <span>{{ product.title | escape }}</span>
+          </p>
+        {% endif %}
+        <p class="ugc-tile__column">
+          <span>{{ block.settings.name | escape }}</span>
+          <span class="ugc-tile__highlight">{{ block.settings.location | escape }}</span>
+          <span>{{ block.settings.note | escape }}</span>
+        </p>
+      </div>
+    {% endif %}
+  {% elsif block.settings.caption != blank %}
+    <p class="ugc-tile__caption">{{ block.settings.caption | escape }}</p>
+  {% endif %}
+</{{ tag }}>
+
+{% schema %}
+{
+  "name": "t:names.ugc_tile",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "select",
+      "id": "size",
+      "label": "t:settings.size",
+      "options": [
+        { "value": "small", "label": "t:options.size.small" },
+        { "value": "large", "label": "t:options.size.large" }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "select",
+      "id": "post_type",
+      "label": "t:settings.post_type",
+      "options": [
+        { "value": "image", "label": "t:options.post_type.image" },
+        { "value": "video", "label": "t:options.post_type.video" },
+        { "value": "instagram", "label": "t:options.post_type.instagram" },
+        { "value": "none", "label": "t:options.post_type.none" }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "t:settings.caption",
+      "visible_if": "{{ block.settings.size == 'small' }}"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "t:settings.name",
+      "visible_if": "{{ block.settings.size == 'large' }}"
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "t:settings.location",
+      "visible_if": "{{ block.settings.size == 'large' }}"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "t:settings.note",
+      "visible_if": "{{ block.settings.size == 'large' }}"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:settings.product",
+      "info": "t:info.ugc_product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.ugc_tile"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,135 @@
+{% doc %}
+  A list of collapsible rows. Each row holds its own blocks.
+{% enddoc %}
+
+<div
+  class="accordion accordion--{{ block.settings.icon }}{% if block.settings.dividers %} accordion--dividers{% endif %} spacing-style"
+  style="{% render 'spacing-style', settings: block.settings %}"
+  {{ block.shopify_attributes }}
+>
+  {% content_for 'blocks' %}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.accordion",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "_accordion-row"
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:settings.icon",
+      "options": [
+        {
+          "value": "caret",
+          "label": "t:options.accordion_icon.caret"
+        },
+        {
+          "value": "plus",
+          "label": "t:options.accordion_icon.plus"
+        }
+      ],
+      "default": "caret"
+    },
+    {
+      "type": "checkbox",
+      "id": "dividers",
+      "label": "t:settings.dividers",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.accordion",
+      "category": "t:categories.text",
+      "blocks": {
+        "row_1": {
+          "type": "_accordion-row",
+          "settings": {
+            "heading": "t:text_defaults.accordion_heading_1"
+          },
+          "blocks": {
+            "text": {
+              "type": "text",
+              "settings": {
+                "text": "t:html_defaults.accordion_content_1"
+              }
+            }
+          },
+          "block_order": [
+            "text"
+          ]
+        },
+        "row_2": {
+          "type": "_accordion-row",
+          "settings": {
+            "heading": "t:text_defaults.accordion_heading_2"
+          },
+          "blocks": {
+            "text": {
+              "type": "text",
+              "settings": {
+                "text": "t:html_defaults.accordion_content_2"
+              }
+            }
+          },
+          "block_order": [
+            "text"
+          ]
+        },
+        "row_3": {
+          "type": "_accordion-row",
+          "settings": {
+            "heading": "t:text_defaults.accordion_heading_3"
+          },
+          "blocks": {
+            "text": {
+              "type": "text",
+              "settings": {
+                "text": "t:html_defaults.accordion_content_3"
+              }
+            }
+          },
+          "block_order": [
+            "text"
+          ]
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3"
+      ]
+    }
+  ]
+}
+{% endschema %}

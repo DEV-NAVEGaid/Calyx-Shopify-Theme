@@ -1,0 +1,54 @@
+{% doc %}
+  One note: a colored circle (or a photo in it), the note's name, and the
+  feeling it brings.
+{% enddoc %}
+
+<li class="note" {{ block.shopify_attributes }}>
+  <span class="note__swatch" style="--note-color: {{ block.settings.color }};">
+    {%- if block.settings.image != blank -%}
+      {{ block.settings.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}
+    {%- endif -%}
+  </span>
+  <span class="h5 note__name">{{ block.settings.name | escape }}</span>
+  {% if block.settings.feeling != blank %}
+    <span class="eyebrow note__feeling">{{ block.settings.feeling | escape }}</span>
+  {% endif %}
+</li>
+
+{% schema %}
+{
+  "name": "t:names.note",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "name",
+      "label": "t:settings.name",
+      "default": "Pink pepper"
+    },
+    {
+      "type": "text",
+      "id": "feeling",
+      "label": "t:settings.feeling",
+      "default": "Energy"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "t:settings.color",
+      "default": "#f3d9d2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image",
+      "info": "t:info.note_image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.note"
+    }
+  ]
+}
+{% endschema %}

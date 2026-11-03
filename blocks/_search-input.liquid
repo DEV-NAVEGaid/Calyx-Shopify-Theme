@@ -1,0 +1,34 @@
+{% doc %}
+  The search form on the search page: a rounded field with a search icon
+  and a link that clears the search, beside a Search button.
+{% enddoc %}
+
+<form class="search-input" action="{{ routes.search_url }}" method="get" role="search" {{ block.shopify_attributes }}>
+  <div class="search-input__field">
+    {% render 'icon', icon: 'search', class: 'search-input__icon' %}
+    <label class="visually-hidden" for="Search-{{ block.id }}">{{ 'content.search' | t }}</label>
+    <input
+      id="Search-{{ block.id }}"
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="{{ 'content.search_placeholder' | t }}"
+      autocomplete="off"
+    >
+    {% if search.terms != blank %}
+      <a class="search-input__clear" href="{{ routes.search_url }}">
+        {% render 'icon', icon: 'close' %}
+        <span class="visually-hidden">{{ 'actions.clear_search' | t }}</span>
+      </a>
+    {% endif %}
+  </div>
+  <button type="submit" class="button-dark">{{ 'actions.search' | t }}</button>
+</form>
+
+{% schema %}
+{
+  "name": "t:names.search_input",
+  "tag": null,
+  "settings": []
+}
+{% endschema %}

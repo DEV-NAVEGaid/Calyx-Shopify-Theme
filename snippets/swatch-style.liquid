@@ -1,0 +1,57 @@
+{% doc %}
+  Outputs `--swatch-background: …;` for a product option value, or nothing
+  when the value has no swatch. Sources, in order:
+
+  1. The swatch set up in Shopify for the value (category metafield).
+  2. A line in Theme settings > Swatches, as "Value: #hex" or
+     "Value: file-name.png" (an image from Content > Files).
+
+  Capture the output to know whether the value has a swatch. Menus pass a
+  link title as `label` to show color dots for names in the swatch list.
+
+  @param {object} [value] - A product option value from `option.values`.
+  @param {string} [label] - A plain name to look up in the swatch list instead.
+
+  @example
+  {% capture swatch %}{% render 'swatch-style', value: value %}{% endcapture %}
+{% enddoc %}
+
+{%- liquid
+  assign background = blank
+  assign lookup_name = value.name | default: label
+
+  if value.swatch.image
+    assign image_url = value.swatch.image | image_url: width: 96
+    assign background = 'url(' | append: image_url | append: ') center / cover'
+  elsif value.swatch.color
+    assign background = value.swatch.color
+  elsif settings.swatch_values != blank
+    assign wanted = lookup_name | downcase | strip
+    assign lines = settings.swatch_values | newline_to_br | split: '<br />'
+
+    for line in lines
+      assign name = line | split: ':' | first
+      assign key = name | downcase | strip
+      if key == wanted
+        assign raw = line | remove_first: name | remove_first: ':' | strip
+        if raw == blank
+          break
+        endif
+
+        # A dot without a leading # means a file name, such as nude-beige.png.
+        assign first_character = raw | slice: 0
+        if raw contains '.' and first_character != '#'
+          assign image_url = raw | file_url
+          assign background = 'url(' | append: image_url | append: ') center / cover'
+        else
+          assign background = raw
+        endif
+        break
+      endif
+    endfor
+  endif
+-%}
+
+{%- if background != blank -%}
+  --swatch-background: {{ background }};
+{%- endif -%}

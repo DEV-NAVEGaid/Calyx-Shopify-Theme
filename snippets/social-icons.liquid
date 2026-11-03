@@ -1,0 +1,51 @@
+{% doc %}
+  Square icon links to the social profiles from Theme settings > Social
+  media. Renders nothing when no profile is filled in.
+
+  @example
+  {% render 'social-icons' %}
+{% enddoc %}
+
+{%- liquid
+  assign networks = 'instagram,tiktok,youtube,pinterest,facebook,x' | split: ','
+  assign has_links = false
+  for network in networks
+    assign setting_id = 'social_' | append: network | append: '_link'
+    if settings[setting_id] != blank
+      assign has_links = true
+      break
+    endif
+  endfor
+-%}
+
+{%- if has_links -%}
+  <ul class="social-icons" role="list">
+    {%- for network in networks -%}
+      {%- assign setting_id = 'social_' | append: network | append: '_link' -%}
+      {%- if settings[setting_id] != blank -%}
+        {%- assign icon_file = 'icon-' | append: network | append: '.svg' -%}
+        <li>
+          <a class="social-icons__link" href="{{ settings[setting_id] }}" target="_blank" rel="noopener">
+            {{ icon_file | inline_asset_content }}
+            <span class="visually-hidden">
+              {%- case network -%}
+                {%- when 'instagram' -%}
+                  {{ 'blocks.social_links.instagram' | t }}
+                {%- when 'tiktok' -%}
+                  {{ 'blocks.social_links.tiktok' | t }}
+                {%- when 'youtube' -%}
+                  {{ 'blocks.social_links.youtube' | t }}
+                {%- when 'pinterest' -%}
+                  {{ 'blocks.social_links.pinterest' | t }}
+                {%- when 'facebook' -%}
+                  {{ 'blocks.social_links.facebook' | t }}
+                {%- else -%}
+                  {{ 'blocks.social_links.x' | t }}
+              {%- endcase -%}
+            </span>
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{%- endif -%}
