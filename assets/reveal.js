@@ -36,12 +36,13 @@ function settings() {
 }
 
 // A grid or flex container whose children are the real items (cards, products).
+// Cheap checks first: `getAnimations({ subtree: true })` walks every descendant.
 function isCollection(element) {
   if (element.children.length < 3) return false;
+  if (/^(P|H[1-6]|A|BUTTON|SPAN)$/.test(element.tagName)) return false;
+  if (!/grid|flex/.test(getComputedStyle(element).display)) return false;
   // A moving band (marquee) stays whole.
-  if (element.getAnimations({ subtree: true }).length) return false;
-  const display = getComputedStyle(element).display;
-  return /grid|flex/.test(display) && !/^(P|H[1-6]|A|BUTTON|SPAN)$/.test(element.tagName);
+  return element.getAnimations({ subtree: true }).length === 0;
 }
 
 function partsOf(section) {

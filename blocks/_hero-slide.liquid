@@ -14,14 +14,17 @@
       {%- liquid
         if is_first
           assign loading = 'eager'
+          assign fetchpriority = 'high'
         else
           assign loading = 'lazy'
+          assign fetchpriority = 'low'
         endif
+        assign image_alt = block.settings.image.alt | default: block.settings.heading
       -%}
       {{
         block.settings.image
         | image_url: width: 3000
-        | image_tag: widths: '750, 1100, 1500, 2200, 3000', sizes: '100vw', loading: loading, alt: block.settings.image.alt
+        | image_tag: widths: '750, 1100, 1500, 2200, 3000', sizes: '100vw', loading: loading, fetchpriority: fetchpriority, alt: image_alt
       }}
     {% else %}
       {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}

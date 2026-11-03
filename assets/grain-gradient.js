@@ -9,6 +9,10 @@
  * Draws only while on screen; for reduced motion it draws a single still
  * frame. Without WebGL the element stays empty and the CSS gradient behind
  * it shows instead.
+ *
+ * Compiling the shader is a long task, so the canvas is only set up once the
+ * element is near the viewport and the main thread is idle. Until then the
+ * CSS gradient behind shows, which looks the same.
  */
 
 const VERTEX_SHADER = `
@@ -121,24 +125,18 @@ class GrainGradient extends HTMLElement {
   #pointer = { x: 0.5, y: -1, targetX: 0.5, targetY: -1, strength: 0, targetStrength: 0 };
   #resizeObserver = null;
   #intersectionObserver = null;
+  #settingUp = false;
+  #failed = false;
   #reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   connectedCallback() {
-    this.#canvas = document.createElement("canvas");
-    this.append(this.#canvas);
-
-    if (!this.#setUpWebGL()) {
-      this.#canvas.remove();
-      return;
-    }
-
-    this.#resizeObserver = new ResizeObserver(() => this.#resize());
-    this.#resizeObserver.observe(this);
-
     this.#intersectionObserver = new IntersectionObserver(([entry]) => {
       this.#visible = entry.isIntersecting;
-      if (this.#visible) {
+      if (!this.#visible) return;
+      if (this.#gl) {
         this.#requestFrame();
+      } else {
+        this.#scheduleSetUp();
       }
     });
     this.#intersectionObserver.observe(this);
@@ -146,7 +144,6 @@ class GrainGradient extends HTMLElement {
     this.parentElement.addEventListener("pointermove", this.#onPointerMove);
     this.parentElement.addEventListener("pointerleave", this.#onPointerLeave);
     document.addEventListener("visibilitychange", this.#onVisibilityChange);
-    this.#resize();
   }
 
   disconnectedCallback() {
@@ -157,6 +154,36 @@ class GrainGradient extends HTMLElement {
     this.parentElement?.removeEventListener("pointerleave", this.#onPointerLeave);
     document.removeEventListener("visibilitychange", this.#onVisibilityChange);
     this.#gl?.getExtension("WEBGL_lose_context")?.loseContext();
+  }
+
+  #scheduleSetUp() {
+    if (this.#settingUp || this.#failed) return;
+    this.#settingUp = true;
+    const start = () => {
+      this.#settingUp = false;
+      this.#setUp();
+    };
+    if (window.requestIdleCallback) requestIdleCallback(start, { timeout: 1500 });
+    else setTimeout(start, 200);
+  }
+
+  #setUp() {
+    if (this.#gl || this.#failed) return;
+
+    this.#canvas = document.createElement("canvas");
+    this.append(this.#canvas);
+
+    if (!this.#setUpWebGL()) {
+      this.#canvas.remove();
+      this.#failed = true;
+      return;
+    }
+
+    this.#resizeObserver = new ResizeObserver(() => this.#resize());
+    this.#resizeObserver.observe(this);
+
+    this.#resize();
+    this.#requestFrame();
   }
 
   // The loop stops while the tab is hidden; pick it up again on return.
@@ -213,6 +240,7 @@ class GrainGradient extends HTMLElement {
   }
 
   #resize() {
+    if (!this.#gl) return;
     // Cap the pixel ratio: the grain reads well without paying for 3x screens.
     const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
     const width = Math.max(1, Math.round(this.clientWidth * ratio));
@@ -238,6 +266,7 @@ class GrainGradient extends HTMLElement {
   };
 
   #requestFrame(force = false) {
+    if (!this.#gl) return;
     if (this.#frame && !force) {
       return;
     }
