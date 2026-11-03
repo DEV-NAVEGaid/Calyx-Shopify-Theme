@@ -1,15 +1,108 @@
 {% doc %}
   Lets the shopper choose a variant of the closest product, as buttons or
   drop-downs. The markup and behavior live in snippets/variant-picker.liquid.
+
+  An optional guide (sizes, ingredients) opens in a modal from a link at the
+  end of an option's label row. It shows tables written as plain lines
+  (cells split by "|", the first row of each table is its header, "# Title"
+  names the next table, a blank line starts a new one), then notes or a
+  page. Both the tables and the notes can be connected to product metafields.
 {% enddoc %}
 
+{%- liquid
+  assign product = closest.product
+  assign guide_id = blank
+  if block.settings.guide_label != blank
+    if block.settings.guide_tables != blank or block.settings.guide_content != blank or block.settings.guide_page != blank
+      assign guide_id = 'Guide-' | append: block.id
+    endif
+  endif
+  assign guide_label = block.settings.guide_label | escape
+-%}
+
 {% render 'variant-picker',
-  product: closest.product,
+  product: product,
   section_id: section.id,
   id_prefix: block.id,
   style: block.settings.variant_style,
-  attributes: block.shopify_attributes
+  attributes: block.shopify_attributes,
+  guide_id: guide_id,
+  guide_label: guide_label,
+  guide_option: block.settings.guide_option
 %}
+
+{% if guide_id != blank %}
+  {% comment %} A product without options has no label row: the trigger stands on its own. {% endcomment %}
+  {% if product.has_only_default_variant %}
+    <button type="button" class="variant-picker__guide variant-picker__guide--alone" data-guide-open="{{ guide_id }}" aria-haspopup="dialog">
+      {{- guide_label -}}
+    </button>
+  {% endif %}
+
+  <dialog class="guide-modal" id="{{ guide_id }}" aria-labelledby="{{ guide_id }}-Title" scroll-lock>
+    <div class="guide-modal__header">
+      <h2 class="guide-modal__title h4" id="{{ guide_id }}-Title">{{ guide_label }}</h2>
+      <button type="button" class="guide-modal__close button-unstyled" data-guide-close>
+        {% render 'icon', icon: 'close' %}
+        <span class="visually-hidden">{{ 'accessibility.close' | t }}</span>
+      </button>
+    </div>
+    <div class="guide-modal__content rte">
+      {%- liquid
+        assign lines = block.settings.guide_tables | newline_to_br | strip_newlines | split: '<br />'
+        assign table_open = false
+        for raw_line in lines
+          assign line = raw_line | strip
+          assign first_char = line | slice: 0
+
+          if line == blank or first_char == '#'
+            if table_open
+              echo '</tbody></table></div>'
+              assign table_open = false
+            endif
+            if first_char == '#'
+              assign title = line | remove_first: '#' | strip | escape
+              echo '<h3 class="guide-modal__table-title">' | append: title | append: '</h3>'
+            endif
+            continue
+          endif
+
+          assign cells = line | split: '|'
+          if table_open
+            echo '<tr>'
+            for cell in cells
+              assign value = cell | strip | escape
+              if forloop.first
+                echo '<th scope="row">' | append: value | append: '</th>'
+              else
+                echo '<td>' | append: value | append: '</td>'
+              endif
+            endfor
+            echo '</tr>'
+          else
+            echo '<div class="guide-modal__table-wrap"><table class="guide-modal__table"><thead><tr>'
+            for cell in cells
+              assign value = cell | strip | escape
+              echo '<th scope="col">' | append: value | append: '</th>'
+            endfor
+            echo '</tr></thead><tbody>'
+            assign table_open = true
+          endif
+        endfor
+        if table_open
+          echo '</tbody></table></div>'
+        endif
+      -%}
+
+      {% if block.settings.guide_page != blank %}
+        {{ block.settings.guide_page.content }}
+      {% else %}
+        {{ block.settings.guide_content }}
+      {% endif %}
+    </div>
+  </dialog>
+  <script src="{{ 'guide-modal.js' | asset_url }}" type="module"></script>
+{% endif %}
 
 {% schema %}
 {
@@ -31,6 +124,41 @@
         }
       ],
       "default": "buttons"
+    },
+    {
+      "type": "header",
+      "content": "t:content.product_guide",
+      "info": "t:info.product_guide"
+    },
+    {
+      "type": "text",
+      "id": "guide_label",
+      "label": "t:settings.guide_label",
+      "default": "t:text_defaults.guide_label"
+    },
+    {
+      "type": "textarea",
+      "id": "guide_tables",
+      "label": "t:settings.guide_tables",
+      "info": "t:info.guide_tables"
+    },
+    {
+      "type": "richtext",
+      "id": "guide_content",
+      "label": "t:settings.guide_content",
+      "info": "t:info.guide_content"
+    },
+    {
+      "type": "page",
+      "id": "guide_page",
+      "label": "t:settings.guide_page",
+      "info": "t:info.guide_page"
+    },
+    {
+      "type": "text",
+      "id": "guide_option",
+      "label": "t:settings.guide_option",
+      "info": "t:info.guide_option"
     }
   ],
   "presets": [

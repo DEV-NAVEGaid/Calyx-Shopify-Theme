@@ -1,0 +1,131 @@
+{% doc %}
+  One dot on the Image hotspots section's image, placed by its horizontal
+  and vertical position. Clicking it opens a card with the chosen product
+  (image, title, price, Add) or with a title, text, and link of its own.
+  The card opens away from the nearest edges of the image.
+{% enddoc %}
+
+{%- liquid
+  assign product = block.settings.product
+  assign title = block.settings.title | default: product.title
+  assign link = block.settings.link | default: product.url
+
+  assign side = 'right'
+  if block.settings.x > 60
+    assign side = 'left'
+  endif
+  assign edge = 'below'
+  if block.settings.y > 60
+    assign edge = 'above'
+  endif
+  assign card_id = 'Hotspot-' | append: block.id
+-%}
+
+<div
+  class="hotspot hotspot--{{ side }} hotspot--{{ edge }}"
+  style="--x: {{ block.settings.x }}%; --y: {{ block.settings.y }}%;"
+  {{ block.shopify_attributes }}
+>
+  <button type="button" class="hotspot__dot" aria-expanded="false" aria-controls="{{ card_id }}" data-hotspot-toggle>
+    <span class="visually-hidden">{{ title | default: block.settings.text | escape }}</span>
+  </button>
+
+  <div class="hotspot__card" id="{{ card_id }}" hidden>
+    {% if product != blank %}
+      <a class="hotspot__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+        {% if product.featured_media %}
+          {{ product.featured_media.preview_image | image_url: width: 240 | image_tag: widths: '120, 240', sizes: '96px', loading: 'lazy', alt: '' }}
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </a>
+    {% endif %}
+
+    <div class="hotspot__body">
+      {% if title != blank and link != blank %}
+        <a class="hotspot__title" href="{{ link }}">{{ title | escape }}</a>
+      {% elsif title != blank %}
+        <p class="hotspot__title">{{ title | escape }}</p>
+      {% endif %}
+      {% if product != blank %}
+        {% render 'price', product: product, show_currency_code: settings.currency_code_enabled_product_cards %}
+      {% elsif block.settings.text != blank %}
+        <p class="hotspot__text">{{ block.settings.text | escape }}</p>
+      {% endif %}
+
+      {% if product != blank and product.available and product.has_only_default_variant %}
+        <form class="hotspot__form" action="{{ routes.cart_add_url }}" method="post" data-type="add-to-cart-form">
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button class="button hotspot__add" type="submit">{{ 'actions.add_to_cart' | t }}</button>
+        </form>
+      {% elsif link != blank %}
+        <a class="hotspot__link" href="{{ link }}">
+          {%- if product == blank and block.settings.link_label != blank -%}
+            {{- block.settings.link_label | escape -}}
+          {%- else -%}
+            {{- 'actions.view_full_details' | t -}}
+          {%- endif -%}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.hotspot",
+  "tag": null,
+  "settings": [
+    {
+      "type": "range",
+      "id": "x",
+      "label": "t:settings.hotspot_x",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "y",
+      "label": "t:settings.hotspot_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:settings.product",
+      "info": "t:info.hotspot_product"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:settings.title"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "visible_if": "{{ block.settings.product == blank }}"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "t:settings.link_label",
+      "visible_if": "{{ block.settings.product == blank }}"
+    }
+  ],
+  "presets": [{ "name": "t:names.hotspot" }]
+}
+{% endschema %}

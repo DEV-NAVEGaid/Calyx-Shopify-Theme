@@ -22,11 +22,258 @@
   "class": "section-wrapper",
   "tag": "section",
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
-  "blocks": [{ "type": "_comparison" }],
+  "blocks": [
+    {
+      "type": "_comparison"
+    }
+  ],
   "max_blocks": 5,
   "settings": [
+    {
+      "type": "header",
+      "content": "t:content.font_sizes"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_font_sizes",
+      "label": "t:settings.custom_font_sizes",
+      "default": false,
+      "info": "t:info.custom_font_sizes"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "t:settings.heading_font_size",
+      "min": 16,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "t:settings.subheading_font_size",
+      "min": 12,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "t:settings.text_font_size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_font_size",
+      "label": "t:settings.eyebrow_font_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.section_layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "normal",
+          "label": "t:options.layout_width.normal"
+        },
+        {
+          "value": "wide",
+          "label": "t:options.layout_width.wide"
+        }
+      ],
+      "default": "normal",
+      "info": "t:info.layout_width"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:settings.image_ratio",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.image_ratio.default"
+        },
+        {
+          "value": "square",
+          "label": "t:options.image_ratio.square"
+        },
+        {
+          "value": "portrait",
+          "label": "t:options.image_ratio.portrait"
+        },
+        {
+          "value": "tall",
+          "label": "t:options.image_ratio.tall"
+        },
+        {
+          "value": "landscape",
+          "label": "t:options.image_ratio.landscape"
+        },
+        {
+          "value": "wide",
+          "label": "t:options.image_ratio.wide"
+        }
+      ],
+      "default": "default"
+    },
     {
       "type": "header",
       "content": "t:content.padding"
@@ -50,6 +297,26 @@
       "step": 4,
       "unit": "px",
       "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     }
   ],
   "presets": [
@@ -57,20 +324,53 @@
       "name": "t:names.before_after",
       "category": "t:categories.storytelling",
       "blocks": {
-        "comparison_1": { "type": "_comparison" },
+        "comparison_1": {
+          "type": "_comparison"
+        },
         "results": {
           "type": "_results",
           "static": true,
           "blocks": {
-            "stat_1": { "type": "_result-stat", "settings": { "value": "85", "text": "t:text_defaults.result_1" } },
-            "stat_2": { "type": "_result-stat", "settings": { "value": "18–22", "text": "t:text_defaults.result_2" } },
-            "stat_3": { "type": "_result-stat", "settings": { "value": "100", "text": "t:text_defaults.result_3" } },
-            "stat_4": { "type": "_result-stat", "settings": { "value": "100", "text": "t:text_defaults.result_4" } }
+            "stat_1": {
+              "type": "_result-stat",
+              "settings": {
+                "value": "85",
+                "text": "t:text_defaults.result_1"
+              }
+            },
+            "stat_2": {
+              "type": "_result-stat",
+              "settings": {
+                "value": "18–22",
+                "text": "t:text_defaults.result_2"
+              }
+            },
+            "stat_3": {
+              "type": "_result-stat",
+              "settings": {
+                "value": "100",
+                "text": "t:text_defaults.result_3"
+              }
+            },
+            "stat_4": {
+              "type": "_result-stat",
+              "settings": {
+                "value": "100",
+                "text": "t:text_defaults.result_4"
+              }
+            }
           },
-          "block_order": ["stat_1", "stat_2", "stat_3", "stat_4"]
+          "block_order": [
+            "stat_1",
+            "stat_2",
+            "stat_3",
+            "stat_4"
+          ]
         }
       },
-      "block_order": ["comparison_1"]
+      "block_order": [
+        "comparison_1"
+      ]
     }
   ]
 }

@@ -69,6 +69,22 @@ templates/*.json    → sections → theme blocks (static or merchant-added) →
   `quote-banner`, `stats-cards`, `logo-list`, `cta-band`; `page.policy.json`:
   `main-policy`). `product.gift-card.json` reuses `product-information` with
   the gift card gallery layout and the `gift-card-recipient` block.
+- Every design section has a **Section** group (`layout_width`: normal /
+  wide, plus `image_ratio` when it shows images) and Top / Bottom / Left /
+  Right padding. `snippets/spacing-style.liquid` turns them into
+  `--section-*` properties that `assets/sections.css` reads; new sections
+  should follow suit. A **Font sizes** group before it (`custom_font_sizes`
+  plus heading / subheading / text / eyebrow ranges) comes out as `--type-*`
+  properties that override the section's own type scale by role: `h1`/`h2`,
+  `h3`–`h6`, paragraphs, and `.eyebrow` / `*__eyebrow`.
+- An eyebrow sits 12px above the heading after it on every section (a rule
+  at the end of `assets/sections.css`). A container that spaces its children
+  with `gap` must also set `--eyebrow-gap` to that gap, in the same rule and
+  media query, so the eyebrow can cancel it.
+- A section's copy (eyebrow, heading, text, buttons) is made of the private
+  `_section-eyebrow`, `_section-heading`, `_section-text`, and
+  `_section-button` blocks inside a `.section-copy` container, rather than
+  section settings, so merchants can add, remove, and reorder it.
 - Keep section and block settings few: prefer a checkbox per optional part
   over styling controls, and reuse Theme settings (colors, social media,
   swatches) instead of repeating them.

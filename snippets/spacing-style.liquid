@@ -5,6 +5,9 @@
 
   @param {object} settings - Settings that may include `padding-block-start`,
     `padding-block-end`, `padding-inline-start`, and `padding-inline-end`.
+    A section's `layout_width` (normal / wide) and `image_ratio` also come
+    out here, as --section-* properties that assets/sections.css reads, and
+    its custom font sizes and weights as --type-* properties.
 
   @example
   <div class="spacing-style" style="{% render 'spacing-style', settings: block.settings %}">
@@ -18,4 +21,38 @@
       echo '--' | append: side | append: ': ' | append: settings[side] | append: 'px; '
     endif
   endfor
+
+  case settings.layout_width
+    when 'wide'
+      echo '--section-gutter: 0px; --section-max-width: none; --section-inset: 0px; '
+    when 'normal'
+      echo '--section-gutter: var(--page-margin); --section-max-width: calc(var(--page-width) - var(--page-margin) * 2); --section-inset: max(var(--page-margin), calc((100% - var(--page-width)) / 2 + var(--page-margin))); '
+  endcase
+
+  if settings.custom_font_sizes
+    echo '--type-heading: ' | append: settings.heading_font_size | append: 'px; '
+    echo '--type-subheading: ' | append: settings.subheading_font_size | append: 'px; '
+    echo '--type-text: ' | append: settings.text_font_size | append: 'px; '
+    echo '--type-eyebrow: ' | append: settings.eyebrow_font_size | append: 'px; '
+    assign roles = 'heading,subheading,text,eyebrow' | split: ','
+    for role in roles
+      assign weight_id = role | append: '_font_weight'
+      if settings[weight_id] != blank and settings[weight_id] != 'default'
+        echo '--type-' | append: role | append: '-weight: ' | append: settings[weight_id] | append: '; '
+      endif
+    endfor
+  endif
+
+  case settings.image_ratio
+    when 'square'
+      echo '--section-image-ratio: 1 / 1; '
+    when 'portrait'
+      echo '--section-image-ratio: 4 / 5; '
+    when 'tall'
+      echo '--section-image-ratio: 2 / 3; '
+    when 'landscape'
+      echo '--section-image-ratio: 4 / 3; '
+    when 'wide'
+      echo '--section-image-ratio: 16 / 9; '
+  endcase
 -%}

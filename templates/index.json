@@ -139,61 +139,114 @@
         "tab_1": {
           "type": "_product-tab",
           "settings": {
-            "label": "Fragrance"
+            "label": "Fragrance",
+            "collection": "bestsellers"
+          },
+          "blocks": {
+            "product-card": {
+              "type": "product-card",
+              "static": true,
+              "settings": {},
+              "blocks": {
+                "gallery": {
+                  "type": "_product-card-gallery",
+                  "settings": {
+                    "image_ratio": "portrait"
+                  }
+                },
+                "row": {
+                  "type": "group",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "space-between",
+                    "vertical_alignment": "flex-start",
+                    "width": "fill",
+                    "gap": 12
+                  },
+                  "blocks": {
+                    "title": {
+                      "type": "product-title",
+                      "settings": {
+                        "type_preset": "paragraph",
+                        "heading_level": "h3"
+                      }
+                    },
+                    "price": {
+                      "type": "price",
+                      "settings": {
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "title",
+                    "price"
+                  ]
+                }
+              },
+              "block_order": [
+                "gallery",
+                "row"
+              ]
+            }
           }
         },
         "tab_2": {
           "type": "_product-tab",
           "settings": {
-            "label": "Body"
-          }
-        },
-        "product-card": {
-          "type": "product-card",
-          "static": true,
-          "settings": {},
+            "label": "Body",
+            "collection": "masks"
+          },
           "blocks": {
-            "gallery": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "portrait"
-              }
-            },
-            "row": {
-              "type": "group",
-              "settings": {
-                "content_direction": "row",
-                "vertical_on_mobile": false,
-                "horizontal_alignment": "space-between",
-                "vertical_alignment": "flex-start",
-                "width": "fill",
-                "gap": 12
-              },
+            "product-card": {
+              "type": "product-card",
+              "static": true,
+              "settings": {},
               "blocks": {
-                "title": {
-                  "type": "product-title",
+                "gallery": {
+                  "type": "_product-card-gallery",
                   "settings": {
-                    "type_preset": "paragraph",
-                    "heading_level": "h3"
+                    "image_ratio": "portrait"
                   }
                 },
-                "price": {
-                  "type": "price",
+                "row": {
+                  "type": "group",
                   "settings": {
-                    "type_preset": "paragraph"
-                  }
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "space-between",
+                    "vertical_alignment": "flex-start",
+                    "width": "fill",
+                    "gap": 12
+                  },
+                  "blocks": {
+                    "title": {
+                      "type": "product-title",
+                      "settings": {
+                        "type_preset": "paragraph",
+                        "heading_level": "h3"
+                      }
+                    },
+                    "price": {
+                      "type": "price",
+                      "settings": {
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "title",
+                    "price"
+                  ]
                 }
               },
               "block_order": [
-                "title",
-                "price"
+                "gallery",
+                "row"
               ]
             }
-          },
-          "block_order": [
-            "gallery",
-            "row"
-          ]
+          }
         }
       },
       "block_order": [
@@ -376,7 +429,49 @@
     "promo_card": {
       "type": "promo-card",
       "settings": {},
-      "block_order": []
+      "block_order": [
+        "eyebrow_1",
+        "heading_2",
+        "text_3",
+        "promo-price_4",
+        "button_5"
+      ],
+      "blocks": {
+        "eyebrow_1": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "Not sure yet?"
+          }
+        },
+        "heading_2": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Try all six moods",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "text_3": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>Six 2ml vials in a keepsake box. Wear each for a day, then claim $15 back toward your full-size favourite.</p>",
+            "size": "large"
+          }
+        },
+        "promo-price_4": {
+          "type": "_promo-price",
+          "settings": {
+            "note": "6 × 2ml · $15 credit back"
+          }
+        },
+        "button_5": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Shop now",
+            "style": "primary"
+          }
+        }
+      }
     },
     "before_after": {
       "type": "before-after",
@@ -519,16 +614,24 @@
         "tile_1": {
           "type": "_ugc-tile",
           "settings": {
-            "post_type": "instagram"
+            "post_type": "instagram",
+            "likes": "1.2k",
+            "comments": "48"
           }
         },
         "tile_2": {
           "type": "_ugc-tile",
-          "settings": {}
+          "settings": {
+            "likes": "864",
+            "comments": "21"
+          }
         },
         "tile_3": {
           "type": "_ugc-tile",
-          "settings": {}
+          "settings": {
+            "likes": "2.4k",
+            "comments": "96"
+          }
         },
         "tile_4": {
           "type": "_ugc-tile",
@@ -536,19 +639,26 @@
             "size": "large",
             "name": "Maya",
             "location": "Lisbon, PT",
-            "note": "Slow mornings"
+            "note": "Slow mornings",
+            "likes": "3.1k",
+            "comments": "142"
           }
         },
         "tile_5": {
           "type": "_ugc-tile",
           "settings": {
             "post_type": "video",
-            "caption": "Slow Sundays"
+            "caption": "Slow Sundays",
+            "likes": "958",
+            "comments": "37"
           }
         },
         "tile_6": {
           "type": "_ugc-tile",
-          "settings": {}
+          "settings": {
+            "likes": "612",
+            "comments": "18"
+          }
         },
         "tile_7": {
           "type": "_ugc-tile",
@@ -556,7 +666,9 @@
             "size": "large",
             "name": "Helen",
             "location": "Copenhagen, DK",
-            "note": "Evening yoga"
+            "note": "Evening yoga",
+            "likes": "2.7k",
+            "comments": "113"
           }
         }
       },
@@ -614,6 +726,444 @@
         "usp_3",
         "usp_4"
       ]
+    },
+    "explore_categories": {
+      "type": "product-tabs",
+      "settings": {
+        "heading": "Explore our categories",
+        "eyebrow": "",
+        "layout": "featured",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      },
+      "blocks": {
+        "tab_1": {
+          "type": "_product-tab",
+          "settings": {
+            "label": "Fragrance",
+            "collection": "serums"
+          },
+          "blocks": {
+            "product-card": {
+              "type": "product-card",
+              "static": true,
+              "blocks": {
+                "gallery": {
+                  "type": "_product-card-gallery",
+                  "settings": {
+                    "image_ratio": "square"
+                  }
+                },
+                "category": {
+                  "type": "product-meta",
+                  "settings": {
+                    "text": "",
+                    "style": "eyebrow"
+                  }
+                },
+                "row": {
+                  "type": "group",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "space-between",
+                    "vertical_alignment": "flex-start",
+                    "width": "fill",
+                    "gap": 12
+                  },
+                  "blocks": {
+                    "title": {
+                      "type": "product-title",
+                      "settings": {
+                        "type_preset": "paragraph",
+                        "heading_level": "h3"
+                      }
+                    },
+                    "price": {
+                      "type": "price",
+                      "settings": {
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "title",
+                    "price"
+                  ]
+                }
+              },
+              "block_order": [
+                "gallery",
+                "category",
+                "row"
+              ]
+            }
+          }
+        },
+        "tab_2": {
+          "type": "_product-tab",
+          "settings": {
+            "label": "Body",
+            "collection": "moisturizers"
+          },
+          "blocks": {
+            "product-card": {
+              "type": "product-card",
+              "static": true,
+              "blocks": {
+                "gallery": {
+                  "type": "_product-card-gallery",
+                  "settings": {
+                    "image_ratio": "square"
+                  }
+                },
+                "category": {
+                  "type": "product-meta",
+                  "settings": {
+                    "text": "",
+                    "style": "eyebrow"
+                  }
+                },
+                "row": {
+                  "type": "group",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "space-between",
+                    "vertical_alignment": "flex-start",
+                    "width": "fill",
+                    "gap": 12
+                  },
+                  "blocks": {
+                    "title": {
+                      "type": "product-title",
+                      "settings": {
+                        "type_preset": "paragraph",
+                        "heading_level": "h3"
+                      }
+                    },
+                    "price": {
+                      "type": "price",
+                      "settings": {
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "title",
+                    "price"
+                  ]
+                }
+              },
+              "block_order": [
+                "gallery",
+                "category",
+                "row"
+              ]
+            }
+          }
+        },
+        "tab_3": {
+          "type": "_product-tab",
+          "settings": {
+            "label": "Home",
+            "collection": "cleansers"
+          },
+          "blocks": {
+            "product-card": {
+              "type": "product-card",
+              "static": true,
+              "blocks": {
+                "gallery": {
+                  "type": "_product-card-gallery",
+                  "settings": {
+                    "image_ratio": "square"
+                  }
+                },
+                "category": {
+                  "type": "product-meta",
+                  "settings": {
+                    "text": "",
+                    "style": "eyebrow"
+                  }
+                },
+                "row": {
+                  "type": "group",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "space-between",
+                    "vertical_alignment": "flex-start",
+                    "width": "fill",
+                    "gap": 12
+                  },
+                  "blocks": {
+                    "title": {
+                      "type": "product-title",
+                      "settings": {
+                        "type_preset": "paragraph",
+                        "heading_level": "h3"
+                      }
+                    },
+                    "price": {
+                      "type": "price",
+                      "settings": {
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "title",
+                    "price"
+                  ]
+                }
+              },
+              "block_order": [
+                "gallery",
+                "category",
+                "row"
+              ]
+            }
+          }
+        },
+        "tab_4": {
+          "type": "_product-tab",
+          "settings": {
+            "label": "All products",
+            "collection": "bestsellers"
+          },
+          "blocks": {
+            "product-card": {
+              "type": "product-card",
+              "static": true,
+              "blocks": {
+                "gallery": {
+                  "type": "_product-card-gallery",
+                  "settings": {
+                    "image_ratio": "square"
+                  }
+                },
+                "category": {
+                  "type": "product-meta",
+                  "settings": {
+                    "text": "",
+                    "style": "eyebrow"
+                  }
+                },
+                "row": {
+                  "type": "group",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "space-between",
+                    "vertical_alignment": "flex-start",
+                    "width": "fill",
+                    "gap": 12
+                  },
+                  "blocks": {
+                    "title": {
+                      "type": "product-title",
+                      "settings": {
+                        "type_preset": "paragraph",
+                        "heading_level": "h3"
+                      }
+                    },
+                    "price": {
+                      "type": "price",
+                      "settings": {
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "title",
+                    "price"
+                  ]
+                }
+              },
+              "block_order": [
+                "gallery",
+                "category",
+                "row"
+              ]
+            }
+          }
+        }
+      },
+      "block_order": [
+        "tab_4",
+        "tab_1",
+        "tab_2",
+        "tab_3"
+      ]
+    },
+    "collection_spotlight": {
+      "type": "collection-spotlight",
+      "blocks": {
+        "product-card": {
+          "type": "product-card",
+          "static": true,
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "category": {
+              "type": "product-meta",
+              "settings": {
+                "text": "",
+                "style": "eyebrow"
+              }
+            },
+            "row": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "space-between",
+                "vertical_alignment": "flex-start",
+                "width": "fill",
+                "gap": 12
+              },
+              "blocks": {
+                "title": {
+                  "type": "product-title",
+                  "settings": {
+                    "type_preset": "paragraph",
+                    "heading_level": "h3"
+                  }
+                },
+                "price": {
+                  "type": "price",
+                  "settings": {
+                    "type_preset": "paragraph"
+                  }
+                }
+              },
+              "block_order": [
+                "title",
+                "price"
+              ]
+            }
+          },
+          "block_order": [
+            "gallery",
+            "category",
+            "row"
+          ]
+        },
+        "eyebrow": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "Holiday 2026"
+          }
+        },
+        "heading": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "The winter edit",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>A forest for the season: fir, resin and cedar.</p>",
+            "size": "large"
+          }
+        },
+        "button": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Shop the collection",
+            "style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "collection": "bestsellers",
+        "products_to_show": 4,
+        "columns_desktop": "2",
+        "image_position": "left",
+        "sticky_image": true,
+        "overlay": true,
+        "text_color": "#ffffff",
+        "layout_width": "wide",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "image_hotspots": {
+      "type": "image-hotspots",
+      "blocks": {
+        "eyebrow": {
+          "type": "_section-eyebrow",
+          "static": true,
+          "settings": {
+            "text": "Shop the look"
+          }
+        },
+        "heading": {
+          "type": "_section-heading",
+          "static": true,
+          "settings": {
+            "heading": "The evening ritual",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "text": {
+          "type": "_section-text",
+          "static": true,
+          "settings": {
+            "text": "<p>Tap a dot to see what is on the shelf.</p>"
+          }
+        },
+        "hotspot_1": {
+          "type": "_hotspot",
+          "settings": {
+            "x": 28,
+            "y": 40,
+            "product": "nave-barrier-balm"
+          }
+        },
+        "hotspot_2": {
+          "type": "_hotspot",
+          "settings": {
+            "x": 55,
+            "y": 64,
+            "product": "whispers-in-peach"
+          }
+        },
+        "hotspot_3": {
+          "type": "_hotspot",
+          "settings": {
+            "x": 79,
+            "y": 32,
+            "product": "the-cartography-of-forgotten-stars"
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_1",
+        "hotspot_2",
+        "hotspot_3"
+      ],
+      "settings": {
+        "center_copy": false,
+        "image_ratio": "default",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
     }
   },
   "order": [
@@ -623,6 +1173,9 @@
     "featured_launch",
     "brand_intro",
     "product_tabs",
+    "explore_categories",
+    "collection_spotlight",
+    "image_hotspots",
     "mood_grid",
     "expanding_panels",
     "ritual_steps",

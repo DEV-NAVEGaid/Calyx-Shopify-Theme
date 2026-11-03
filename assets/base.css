@@ -234,14 +234,19 @@
   z-index: 2;
 }
 
-/* Card titles: heading font at body size, tracked out. */
+/* Card titles: heading font at body size, tracked out, at most two lines. */
 .product-card .product-title {
+  display: -webkit-box;
+  overflow: hidden;
   font-family: var(--font-heading--family);
   font-weight: var(--font-heading--weight);
   font-size: 16px;
   line-height: 22px;
   letter-spacing: 0.07em;
   text-transform: var(--product-card--title-case);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .card-gallery {
@@ -491,6 +496,8 @@
 }
 
 .product-details {
+  --eyebrow-gap: var(--gap, 0px);
+
   align-items: stretch;
 }
 
@@ -498,6 +505,7 @@
 @media (max-width: 749px) {
   .product-details {
     gap: min(var(--gap, 16px), 16px);
+    --eyebrow-gap: min(var(--gap, 16px), 16px);
   }
 }
 
@@ -715,6 +723,23 @@ input:focus-visible + .variant-picker__pill {
 
   .main-collection__results {
     grid-column: 2;
+  }
+
+  /* Filters hidden: the products take the whole width, one column more. */
+  .main-collection__body:has(.filters__drawer:not([open])) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .main-collection__body:has(.filters__drawer:not([open])) .filters__drawer {
+    display: none;
+  }
+
+  .main-collection__body:has(.filters__drawer:not([open])) .main-collection__results {
+    grid-column: 1 / -1;
+  }
+
+  .main-collection__body:has(.filters__drawer:not([open])) .product-grid {
+    grid-template-columns: repeat(calc(var(--columns-desktop, 4) + 1), minmax(0, 1fr));
   }
 }
 
@@ -1119,8 +1144,31 @@ input:focus-visible + .variant-picker__pill {
 /** Promo tile inside the product grid */
 .promo-tile {
   display: flex;
+  grid-row: var(--promo-row-m);
+  grid-column: var(--promo-col-m);
   border-radius: 12px;
   background-color: var(--color-accent-soft);
+}
+
+/* Placement (left / centre / right): sections/main-collection.liquid works out
+   the row and column for each grid width; the products flow around the tile. */
+@media (min-width: 750px) {
+  .promo-tile {
+    grid-row: var(--promo-row-t);
+    grid-column: var(--promo-col-t);
+  }
+}
+
+@media (min-width: 990px) {
+  .promo-tile {
+    grid-row: var(--promo-row-d);
+    grid-column: var(--promo-col-d);
+  }
+
+  .main-collection__body:has(.filters__drawer:not([open])) .promo-tile {
+    grid-row: var(--promo-row-w);
+    grid-column: var(--promo-col-w);
+  }
 }
 
 .promo-tile__inner {
@@ -1398,6 +1446,7 @@ input:focus-visible + .variant-picker__pill {
   display: grid;
   justify-items: center;
   gap: 1.25rem;
+  --eyebrow-gap: 1.25rem;
   padding-block-end: 5rem;
   text-align: center;
 }
@@ -2728,6 +2777,116 @@ cart-items[aria-busy="true"] {
   padding-block: 24px;
 }
 
+/* Empty drawer: a centred message, then the products chosen in Theme settings > Cart. */
+.cart-drawer__empty-title {
+  justify-self: stretch;
+  margin: 0 0 24px;
+  font-family: var(--font-heading--family);
+  font-size: 26px;
+  line-height: 34px;
+  text-align: center;
+}
+
+.cart-drawer__picks-heading {
+  margin: 0;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.cart-drawer__picks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 12px;
+  justify-self: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cart-pick {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+
+.cart-pick__media {
+  display: block;
+  aspect-ratio: 1;
+  margin-block-end: 8px;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--color-foreground) 6%, var(--color-background));
+}
+
+.cart-pick__media > :is(img, svg) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+@media (hover: hover) {
+  .cart-pick:hover .cart-pick__media > img {
+    transform: scale(1.04);
+  }
+}
+
+.cart-pick__form {
+  display: contents;
+}
+
+.cart-pick__add {
+  position: absolute;
+  inset-block-start: 12px;
+  inset-inline-start: 12px;
+  z-index: 1;
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cart-pick__add:hover {
+  color: var(--color-background);
+  background-color: var(--color-foreground);
+}
+
+.cart-pick__add--sold-out,
+.cart-pick__add--sold-out:hover {
+  color: var(--color-foreground-muted);
+  background-color: var(--color-background);
+  cursor: default;
+}
+
+.cart-pick__add[aria-busy="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.cart-pick__title {
+  font-family: var(--font-heading--family);
+  font-size: 15px;
+  line-height: 20px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cart-pick .price {
+  font-size: 14px;
+}
+
 .cart-drawer__footer {
   display: grid;
   gap: 8px;
@@ -2982,6 +3141,7 @@ quick-add-modal[aria-busy='true'] .quick-add-modal__content {
   display: grid;
   align-content: start;
   gap: 16px;
+  --eyebrow-gap: 16px;
 }
 
 .quick-view__details {
@@ -3099,6 +3259,7 @@ quick-add-modal[aria-busy='true'] .quick-add-modal__content {
   .quick-view__summary {
     align-self: center;
     gap: 4px;
+    --eyebrow-gap: 4px;
     padding-inline-end: 36px;
   }
 
@@ -3886,4 +4047,550 @@ input:focus-visible + .variant-picker__swatch {
   .button--bubble:hover .button__label {
     animation: none;
   }
+}
+
+/** Product card background (Theme settings > Product cards, or the card block) */
+.product-card--background-card {
+  padding: 12px 12px 16px;
+  background: var(--card-background);
+  border-radius: calc(var(--product-card--image-radius) + 4px);
+}
+
+.product-card--background-image .card-gallery {
+  background: var(--card-background);
+}
+
+/* Large screens: the media stays in view while the longer details column
+   scrolls past, below the header when the header is sticky. */
+:root:has(.header--sticky) {
+  --sticky-header-offset: var(--header-height, 64px);
+}
+
+@media (min-width: 990px) {
+  .product-media-gallery--sticky {
+    position: sticky;
+    inset-block-start: calc(var(--sticky-header-offset, 0px) + 24px);
+  }
+}
+
+/**
+ * Dropdown motion, as in shadcn/ui: menus fade in while growing from 96%
+ * and sliding 4px into place, and play it backwards on close. Details-based
+ * menus keep their panel rendered while it closes (::details-content);
+ * where that isn't supported they still animate open and close at once.
+ */
+:is(.header-nav__dropdown, .localization__selector)::details-content {
+  transition: content-visibility 0.15s allow-discrete;
+}
+
+:is(.header-nav__submenu, .localization__list, .mega-menu) {
+  opacity: 0;
+  scale: 0.96;
+  translate: 0 -4px;
+  transform-origin: top center;
+  transition:
+    opacity 0.15s ease-out,
+    scale 0.15s ease-out,
+    translate 0.15s ease-out;
+}
+
+/* The mega menu spans the page, so it only fades and slides. */
+.mega-menu {
+  scale: 1;
+}
+
+/* Lists that open upwards grow from their bottom edge. */
+:is(.localization--full, .header-drawer) .localization__list {
+  transform-origin: bottom center;
+  translate: 0 4px;
+}
+
+:is(.header-nav__dropdown, .localization__selector)[open] > :is(.header-nav__submenu, .localization__list, .mega-menu) {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
+}
+
+@starting-style {
+  :is(.header-nav__dropdown, .localization__selector)[open] > :is(.header-nav__submenu, .localization__list) {
+    opacity: 0;
+    scale: 0.96;
+    translate: 0 -4px;
+  }
+
+  .header-nav__dropdown[open] > .mega-menu {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+}
+
+/* Selects: the same motion on the native list, where it can be styled. */
+@supports (appearance: base-select) {
+  :is(.facets-toolbar__input, .select__input, select.field__input),
+  :is(.facets-toolbar__input, .select__input, select.field__input)::picker(select) {
+    appearance: base-select;
+  }
+
+  :is(.facets-toolbar__input, .select__input, select.field__input)::picker-icon {
+    display: none;
+  }
+
+  :is(.facets-toolbar__input, .select__input, select.field__input)::picker(select) {
+    min-width: anchor-size(width);
+    margin-block: 6px;
+    padding: 6px;
+    color: var(--color-popover-text);
+    background-color: var(--color-popover-background);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgb(31 26 23 / 0.12);
+    opacity: 0;
+    scale: 0.96;
+    translate: 0 -4px;
+    transform-origin: top center;
+    transition:
+      opacity 0.15s ease-out,
+      scale 0.15s ease-out,
+      translate 0.15s ease-out,
+      display 0.15s allow-discrete,
+      overlay 0.15s allow-discrete;
+  }
+
+  :is(.facets-toolbar__input, .select__input, select.field__input):open::picker(select) {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+  }
+
+  @starting-style {
+    :is(.facets-toolbar__input, .select__input, select.field__input):open::picker(select) {
+      opacity: 0;
+      scale: 0.96;
+      translate: 0 -4px;
+    }
+  }
+
+  :is(.facets-toolbar__input, .select__input, select.field__input) option {
+    padding: 8px 10px;
+    font-size: 14px;
+    line-height: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  :is(.facets-toolbar__input, .select__input, select.field__input) option:is(:hover, :focus-visible) {
+    background-color: var(--color-accent-soft);
+  }
+
+  :is(.facets-toolbar__input, .select__input, select.field__input) option::checkmark {
+    order: 1;
+    margin-inline-start: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.header-nav__submenu, .localization__list, .mega-menu) {
+    transition: none;
+  }
+}
+
+/* Collection card hover: the collection's product images slide past over
+   the collection image (assets/collection-card.js moves the track). */
+.collection-card__media {
+  position: relative;
+}
+
+.collection-card__slides {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--color-accent-soft);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.collection-card__track {
+  display: flex;
+  height: 100%;
+  transition: translate 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.collection-card__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (hover: hover) {
+  .collection-card:is(:hover, :focus-visible) .collection-card__slides:has(.collection-card__slide + .collection-card__slide) {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collection-card__track {
+    transition: none;
+  }
+}
+
+/**
+ * Product guide (sizes, ingredients): a link at the end of an option's label
+ * row (justified apart from the label), opening a modal.
+ */
+.variant-picker__option:has(> .variant-picker__guide) > legend.variant-picker__label {
+  float: inline-start;
+}
+
+.variant-picker__option > .variant-picker__guide {
+  float: inline-end;
+  margin-block-end: 10px;
+}
+
+.variant-picker__option:has(> .variant-picker__guide) > .variant-picker__values {
+  clear: both;
+}
+
+/* Drop-downs: label and link share a row above the select. */
+.field.variant-picker__option:has(> .variant-picker__guide) {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+}
+
+.field.variant-picker__option:has(> .variant-picker__guide) > select {
+  grid-column: 1 / -1;
+}
+
+.variant-picker__guide {
+  padding: 0;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.variant-picker__guide:hover {
+  text-decoration-thickness: 2px;
+}
+
+.variant-picker__guide--alone {
+  justify-self: end;
+}
+
+/* Centred in the viewport (the theme's dialog reset drops the UA's auto margins). */
+.guide-modal {
+  position: fixed;
+  inset: 0;
+  width: min(720px, calc(100% - 32px));
+  max-width: none;
+  height: fit-content;
+  max-height: calc(100svh - 64px);
+  margin: auto;
+  padding: 0;
+  color: var(--color-popover-text);
+  background-color: var(--color-popover-background);
+  border: 0;
+  border-radius: var(--popover--border-radius);
+  box-shadow: 0 24px 64px rgb(31 26 23 / 0.18);
+}
+
+.guide-modal::backdrop {
+  background-color: var(--color-overlay-backdrop);
+}
+
+.guide-modal[open] {
+  display: flex;
+  flex-direction: column;
+  animation: guide-modal-in 0.2s ease-out;
+}
+
+@keyframes guide-modal-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+.guide-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border-block-end: 1px solid var(--color-border);
+}
+
+.guide-modal__title {
+  margin: 0;
+}
+
+.guide-modal__close {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.guide-modal__close .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.guide-modal__content {
+  padding: 24px;
+  overflow-y: auto;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.guide-modal__content > :first-child {
+  margin-block-start: 0;
+}
+
+.guide-modal__table-title {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-foreground-muted);
+}
+
+.guide-modal__table-title:not(:first-child) {
+  margin-block-start: 28px;
+}
+
+/* Wide tables scroll sideways instead of squeezing on small screens. */
+.guide-modal__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.guide-modal__table-wrap + .guide-modal__table-wrap {
+  margin-block-start: 20px;
+}
+
+.guide-modal__table {
+  width: 100%;
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  border-collapse: collapse;
+}
+
+.guide-modal__table :is(th, td) {
+  padding: 12px 16px;
+  text-align: start;
+  white-space: nowrap;
+  border-block-end: 1px solid var(--color-border);
+}
+
+.guide-modal__table td:last-child {
+  white-space: normal;
+}
+
+.guide-modal__table thead th {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background-color: var(--color-accent-soft);
+}
+
+.guide-modal__table tbody th {
+  font-weight: 600;
+}
+
+.guide-modal__table tbody tr:last-child :is(th, td) {
+  border-block-end: 0;
+}
+
+.guide-modal__table tbody tr:nth-child(even) {
+  background-color: color-mix(in srgb, var(--color-foreground) 3%, transparent);
+}
+
+.guide-modal__content > .guide-modal__table-wrap + :not(.guide-modal__table-wrap, h3) {
+  margin-block-start: 20px;
+  font-size: 14px;
+  color: var(--color-foreground-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-modal[open] {
+    animation: none;
+  }
+}
+/** Countdown block (assets/countdown.js) */
+.countdown {
+  display: grid;
+  gap: 10px;
+}
+
+.countdown[hidden] {
+  display: none;
+}
+
+.countdown--center {
+  justify-items: center;
+  text-align: center;
+}
+
+.countdown--right {
+  justify-items: end;
+  text-align: end;
+}
+
+.countdown__label {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.countdown__units {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.countdown__units[hidden] {
+  display: none;
+}
+
+.countdown__unit {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+}
+
+.countdown__value {
+  font-family: var(--font-heading--family);
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown__name {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.countdown--boxes .countdown__unit {
+  min-width: 68px;
+  padding: 10px 8px;
+  background-color: color-mix(in srgb, currentcolor 6%, transparent);
+  border: 1px solid color-mix(in srgb, currentcolor 18%, transparent);
+  border-radius: 8px;
+}
+
+.countdown--boxes .countdown__unit {
+  min-width: 80px;
+}
+
+.countdown--boxes .countdown__value {
+  font-size: 38px;
+  line-height: 44px;
+}
+
+.countdown--inline .countdown__units {
+  gap: 4px 16px;
+}
+
+.countdown--inline .countdown__unit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.countdown--inline .countdown__value {
+  font-size: 26px;
+  line-height: 32px;
+}
+
+/* Editorial: large light numerals with a ruled label above. Sized so the
+   timer fits beside a heading and button in a horizontal section; when
+   space runs out its units wrap instead of overlapping their neighbours. */
+.countdown--editorial {
+  gap: 16px;
+}
+
+.countdown--editorial .countdown__label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+}
+
+.countdown--editorial .countdown__label::after {
+  content: "";
+  width: 48px;
+  height: 1px;
+  background-color: currentcolor;
+  opacity: 0.5;
+}
+
+.countdown--editorial.countdown--center .countdown__label::before {
+  content: "";
+  width: 48px;
+  height: 1px;
+  background-color: currentcolor;
+  opacity: 0.5;
+}
+
+.countdown--editorial {
+  min-width: 0;
+}
+
+.countdown--editorial .countdown__units {
+  gap: 12px clamp(16px, 2vw, 28px);
+}
+
+.countdown--editorial.countdown--center .countdown__units {
+  justify-content: center;
+}
+
+.countdown--editorial.countdown--right .countdown__units {
+  justify-content: flex-end;
+}
+
+.countdown--editorial .countdown__unit {
+  justify-items: center;
+  gap: 8px;
+}
+
+.countdown--editorial .countdown__value {
+  font-weight: 300;
+  font-size: clamp(40px, 4.4vw, 72px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.countdown--editorial .countdown__name {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  opacity: 0.65;
+}
+
+.countdown--editorial .countdown__expired {
+  font-family: var(--font-heading--family);
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.2;
+}
+
+.countdown__expired {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22px;
 }

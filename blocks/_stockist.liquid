@@ -1,0 +1,105 @@
+{% doc %}
+  One store in the Stockists section: a card in the list and a pin on the
+  map. The map places the pin from the store's latitude and longitude;
+  assets/stockists.js numbers the cards, shows today's opening hours, and
+  adds the distance once the customer shares their location.
+{% enddoc %}
+
+{%- liquid
+  assign name = block.settings.name | default: block.settings.address
+  assign hours = block.settings.hours_sunday | append: '|' | append: block.settings.hours_monday | append: '|' | append: block.settings.hours_tuesday | append: '|' | append: block.settings.hours_wednesday | append: '|' | append: block.settings.hours_thursday | append: '|' | append: block.settings.hours_friday | append: '|' | append: block.settings.hours_saturday
+
+  if block.settings.latitude != blank and block.settings.longitude != blank
+    assign destination = block.settings.latitude | append: ',' | append: block.settings.longitude
+  else
+    assign destination = block.settings.address
+  endif
+-%}
+
+<li
+  class="stockist"
+  data-stockist
+  data-lat="{{ block.settings.latitude | escape }}"
+  data-lng="{{ block.settings.longitude | escape }}"
+  data-category="{{ block.settings.category }}"
+  data-name="{{ name | escape }}"
+  data-hours="{{ hours | escape }}"
+  {{ block.shopify_attributes }}
+>
+  <button type="button" class="stockist__select" aria-pressed="false" data-stockist-select>
+    <span class="visually-hidden">{{ 'accessibility.show_on_map' | t: name: name }}</span>
+  </button>
+  <span class="stockist__number" aria-hidden="true" data-stockist-number></span>
+  <div class="stockist__body">
+    <h3 class="stockist__name">{{ name | escape }}</h3>
+    {% if block.settings.address != blank %}
+      <p class="stockist__address">{{ block.settings.address | escape }}</p>
+    {% endif %}
+    <p class="stockist__hours" data-stockist-hours></p>
+    {% if destination != blank %}
+      <a
+        class="stockist__directions"
+        href="https://www.google.com/maps/dir/?api=1&destination={{ destination | url_encode }}"
+        target="_blank"
+        rel="noopener"
+      >
+        {{- 'actions.get_directions' | t -}}
+      </a>
+    {% endif %}
+  </div>
+  <span class="stockist__distance" data-stockist-distance></span>
+</li>
+
+{% schema %}
+{
+  "name": "t:names.stockist",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "name",
+      "label": "t:settings.name",
+      "default": "t:text_defaults.stockist_name"
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "t:settings.address"
+    },
+    {
+      "type": "text",
+      "id": "latitude",
+      "label": "t:settings.latitude",
+      "info": "t:info.stockist_coordinates"
+    },
+    {
+      "type": "text",
+      "id": "longitude",
+      "label": "t:settings.longitude"
+    },
+    {
+      "type": "select",
+      "id": "category",
+      "label": "t:settings.stockist_category",
+      "options": [
+        { "value": "full", "label": "t:options.stockist_category.full" },
+        { "value": "discovery", "label": "t:options.stockist_category.discovery" }
+      ],
+      "default": "full"
+    },
+    {
+      "type": "header",
+      "content": "t:content.opening_hours",
+      "info": "t:info.opening_hours"
+    },
+    { "type": "text", "id": "hours_monday", "label": "t:settings.monday" },
+    { "type": "text", "id": "hours_tuesday", "label": "t:settings.tuesday" },
+    { "type": "text", "id": "hours_wednesday", "label": "t:settings.wednesday" },
+    { "type": "text", "id": "hours_thursday", "label": "t:settings.thursday" },
+    { "type": "text", "id": "hours_friday", "label": "t:settings.friday" },
+    { "type": "text", "id": "hours_saturday", "label": "t:settings.saturday" },
+    { "type": "text", "id": "hours_sunday", "label": "t:settings.sunday" }
+  ],
+  "presets": [{ "name": "t:names.stockist" }]
+}
+{% endschema %}

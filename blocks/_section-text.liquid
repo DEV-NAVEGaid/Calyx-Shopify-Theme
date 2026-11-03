@@ -1,0 +1,35 @@
+{% doc %}
+  A paragraph of a section's copy.
+{% enddoc %}
+
+{% if block.settings.text != blank %}
+  <div class="section-text rte{% if block.settings.size == 'large' %} body-l{% endif %}" {{ block.shopify_attributes }}>
+    {{- block.settings.text -}}
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.section_text",
+  "tag": null,
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:html_defaults.section_text"
+    },
+    {
+      "type": "select",
+      "id": "size",
+      "label": "t:settings.size",
+      "options": [
+        { "value": "default", "label": "t:options.text_size.default" },
+        { "value": "large", "label": "t:options.text_size.large" }
+      ],
+      "default": "large"
+    }
+  ],
+  "presets": [{ "name": "t:names.section_text" }]
+}
+{% endschema %}

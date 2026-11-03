@@ -1,0 +1,547 @@
+{% comment %}
+  Collection spotlight: a tall campaign image with its copy (eyebrow,
+  heading, text, link blocks) beside a grid of the collection's product
+  cards. With "Keep image in view" on, the image stays pinned below the
+  header while the products scroll past; off, it scrolls with the grid.
+  The image can sit on either side; small screens stack it above the grid.
+{% endcomment %}
+
+{%- liquid
+  assign collection = section.settings.collection
+  assign image = section.settings.image | default: collection.featured_image
+
+  assign classes = 'home-section collection-spotlight spacing-style collection-spotlight--image-' | append: section.settings.image_position
+  if section.settings.sticky_image
+    assign classes = classes | append: ' collection-spotlight--sticky'
+  endif
+  if section.settings.overlay
+    assign classes = classes | append: ' collection-spotlight--overlay'
+  endif
+-%}
+
+<div
+  class="{{ classes }}"
+  style="{% render 'spacing-style', settings: section.settings %} --spotlight-text: {{ section.settings.text_color }};"
+>
+  <div class="home-section__inner collection-spotlight__inner">
+    <div class="collection-spotlight__media">
+      <div class="collection-spotlight__frame">
+        {% if image != blank %}
+          {{
+            image
+            | image_url: width: 2000
+            | image_tag: widths: '600, 900, 1200, 1600, 2000', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy', alt: image.alt, class: 'collection-spotlight__image'
+          }}
+        {% else %}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'collection-spotlight__image placeholder-svg' }}
+        {% endif %}
+
+        <div class="collection-spotlight__copy section-copy">
+          {% content_for 'blocks' %}
+        </div>
+      </div>
+    </div>
+
+    <ul
+      class="product-grid collection-spotlight__grid"
+      role="list"
+      style="--columns-desktop: {{ section.settings.columns_desktop }}; --columns-mobile: 2;"
+    >
+      {% if collection != blank %}
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          <li>{% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}</li>
+        {% endfor %}
+      {% else %}
+        {% for i in (1..section.settings.products_to_show) %}
+          <li>{% content_for 'block', type: 'product-card', id: 'product-card' %}</li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.collection_spotlight",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "_section-eyebrow"
+    },
+    {
+      "type": "_section-heading"
+    },
+    {
+      "type": "_section-text"
+    },
+    {
+      "type": "_section-button"
+    }
+  ],
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:settings.collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "t:settings.products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "t:settings.columns_desktop",
+      "default": "2",
+      "options": [
+        {
+          "value": "2",
+          "label": "t:options.columns.two"
+        },
+        {
+          "value": "3",
+          "label": "t:options.columns.three"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:content.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image",
+      "info": "t:info.spotlight_image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:settings.image_position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:options.position.left"
+        },
+        {
+          "value": "right",
+          "label": "t:options.position.right"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_image",
+      "label": "t:settings.sticky_image",
+      "default": true,
+      "info": "t:info.sticky_image"
+    },
+    {
+      "type": "checkbox",
+      "id": "overlay",
+      "label": "t:settings.overlay",
+      "default": true,
+      "info": "t:info.spotlight_overlay"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "t:content.font_sizes"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_font_sizes",
+      "label": "t:settings.custom_font_sizes",
+      "default": false,
+      "info": "t:info.custom_font_sizes"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "t:settings.heading_font_size",
+      "min": 16,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "t:settings.subheading_font_size",
+      "min": 12,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "t:settings.text_font_size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_font_size",
+      "label": "t:settings.eyebrow_font_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.section_layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "normal",
+          "label": "t:options.layout_width.normal"
+        },
+        {
+          "value": "wide",
+          "label": "t:options.layout_width.wide"
+        }
+      ],
+      "default": "wide",
+      "info": "t:info.layout_width"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:settings.image_ratio",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.image_ratio.default"
+        },
+        {
+          "value": "square",
+          "label": "t:options.image_ratio.square"
+        },
+        {
+          "value": "portrait",
+          "label": "t:options.image_ratio.portrait"
+        },
+        {
+          "value": "tall",
+          "label": "t:options.image_ratio.tall"
+        },
+        {
+          "value": "landscape",
+          "label": "t:options.image_ratio.landscape"
+        },
+        {
+          "value": "wide",
+          "label": "t:options.image_ratio.wide"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.collection_spotlight",
+      "category": "t:categories.products",
+      "blocks": {
+        "product-card": {
+          "type": "product-card",
+          "static": true,
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "category": {
+              "type": "product-meta",
+              "settings": {
+                "text": "",
+                "style": "eyebrow"
+              }
+            },
+            "row": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "space-between",
+                "vertical_alignment": "flex-start",
+                "width": "fill",
+                "gap": 12
+              },
+              "blocks": {
+                "title": {
+                  "type": "product-title",
+                  "settings": {
+                    "type_preset": "paragraph",
+                    "heading_level": "h3"
+                  }
+                },
+                "price": {
+                  "type": "price",
+                  "settings": {
+                    "type_preset": "paragraph"
+                  }
+                }
+              },
+              "block_order": [
+                "title",
+                "price"
+              ]
+            }
+          },
+          "block_order": [
+            "gallery",
+            "category",
+            "row"
+          ]
+        },
+        "eyebrow": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "Holiday 2026"
+          }
+        },
+        "heading": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "The winter edit",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>A forest for the season: fir, resin and cedar.</p>",
+            "size": "large"
+          }
+        },
+        "button": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Shop the collection",
+            "style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text",
+        "button"
+      ]
+    }
+  ]
+}
+{% endschema %}

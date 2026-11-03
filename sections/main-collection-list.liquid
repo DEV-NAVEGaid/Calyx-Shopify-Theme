@@ -1,12 +1,13 @@
 {% comment %}
   The list of all collections: breadcrumb, page header with the number of
   collections, an optional featured collection banner, then a grid of
-  collection cards under its own heading. Each collection renders through
-  the static collection card.
+  collection cards under its own heading, set apart from the banner by the
+  Banner spacing setting. Each collection renders through the static
+  collection card, which loads assets/collection-card.js for its hover slides.
 {% endcomment %}
 
 <div class="section section--page-width spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
-  <div class="section-content main-collection-list">
+  <div class="section-content main-collection-list" style="--banner-gap: {{ section.settings.banner_gap }}px;">
     <nav class="breadcrumb" aria-label="{{ 'content.breadcrumb' | t }}">
       <a href="{{ routes.root_url }}">{{ 'content.home' | t }}</a>
       <span aria-hidden="true">/</span>
@@ -66,6 +67,8 @@
   </div>
 </div>
 
+<script src="{{ 'collection-card.js' | asset_url }}" type="module"></script>
+
 {% schema %}
 {
   "name": "t:names.collection_list",
@@ -101,6 +104,17 @@
       "id": "featured_collection",
       "label": "t:settings.featured_collection",
       "info": "t:info.featured_collection"
+    },
+    {
+      "type": "range",
+      "id": "banner_gap",
+      "label": "t:settings.banner_gap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ section.settings.featured_collection != blank }}"
     },
     {
       "type": "text",

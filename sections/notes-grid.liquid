@@ -26,9 +26,16 @@
   "class": "section-wrapper",
   "tag": "section",
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
-  "blocks": [{ "type": "_note" }],
+  "blocks": [
+    {
+      "type": "_note"
+    }
+  ],
   "max_blocks": 8,
   "settings": [
     {
@@ -42,6 +49,214 @@
       "id": "heading",
       "label": "t:settings.heading",
       "default": "t:text_defaults.notes_heading"
+    },
+    {
+      "type": "header",
+      "content": "t:content.font_sizes"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_font_sizes",
+      "label": "t:settings.custom_font_sizes",
+      "default": false,
+      "info": "t:info.custom_font_sizes"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "t:settings.heading_font_size",
+      "min": 16,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "t:settings.subheading_font_size",
+      "min": 12,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "t:settings.text_font_size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_font_size",
+      "label": "t:settings.eyebrow_font_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.section_layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "normal",
+          "label": "t:options.layout_width.normal"
+        },
+        {
+          "value": "wide",
+          "label": "t:options.layout_width.wide"
+        }
+      ],
+      "default": "normal",
+      "info": "t:info.layout_width"
     },
     {
       "type": "header",
@@ -66,6 +281,26 @@
       "step": 4,
       "unit": "px",
       "default": 112
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     }
   ],
   "presets": [
@@ -73,14 +308,63 @@
       "name": "t:names.notes_grid",
       "category": "t:categories.product",
       "blocks": {
-        "note_1": { "type": "_note", "settings": { "name": "Pink pepper", "feeling": "Energy", "color": "#f3d9d2" } },
-        "note_2": { "type": "_note", "settings": { "name": "Fig leaf", "feeling": "Self-belief", "color": "#e2ecd3" } },
-        "note_3": { "type": "_note", "settings": { "name": "Orris", "feeling": "Poise", "color": "#e9d8ea" } },
-        "note_4": { "type": "_note", "settings": { "name": "Cedar", "feeling": "Steadiness", "color": "#dce9e4" } },
-        "note_5": { "type": "_note", "settings": { "name": "Amber", "feeling": "Warmth", "color": "#f8e7c9" } },
-        "note_6": { "type": "_note", "settings": { "name": "Musk", "feeling": "Comfort", "color": "#dde6f4" } }
+        "note_1": {
+          "type": "_note",
+          "settings": {
+            "name": "Pink pepper",
+            "feeling": "Energy",
+            "color": "#f3d9d2"
+          }
+        },
+        "note_2": {
+          "type": "_note",
+          "settings": {
+            "name": "Fig leaf",
+            "feeling": "Self-belief",
+            "color": "#e2ecd3"
+          }
+        },
+        "note_3": {
+          "type": "_note",
+          "settings": {
+            "name": "Orris",
+            "feeling": "Poise",
+            "color": "#e9d8ea"
+          }
+        },
+        "note_4": {
+          "type": "_note",
+          "settings": {
+            "name": "Cedar",
+            "feeling": "Steadiness",
+            "color": "#dce9e4"
+          }
+        },
+        "note_5": {
+          "type": "_note",
+          "settings": {
+            "name": "Amber",
+            "feeling": "Warmth",
+            "color": "#f8e7c9"
+          }
+        },
+        "note_6": {
+          "type": "_note",
+          "settings": {
+            "name": "Musk",
+            "feeling": "Comfort",
+            "color": "#dde6f4"
+          }
+        }
       },
-      "block_order": ["note_1", "note_2", "note_3", "note_4", "note_5", "note_6"]
+      "block_order": [
+        "note_1",
+        "note_2",
+        "note_3",
+        "note_4",
+        "note_5",
+        "note_6"
+      ]
     }
   ]
 }

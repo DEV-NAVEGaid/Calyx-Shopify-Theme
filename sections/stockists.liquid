@@ -1,0 +1,443 @@
+{% comment %}
+  Stockists: the partner stores that carry the brand. A search field, "Use
+  my location", and filter chips sit over a list of store cards beside a
+  drawn map with a numbered pin for each store. Stores are blocks; the copy
+  above them is static blocks. assets/stockists.js filters the list, sorts
+  it by distance once the customer shares their location, and keeps the
+  selected card and pin in step.
+{% endcomment %}
+
+<stockists-locator
+  class="home-section stockists spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %}"
+  data-unit="{{ section.settings.distance_unit }}"
+  data-count-one="{{ 'content.stockists_count_one' | t }}"
+  data-count-other="{{ 'content.stockists_count_other' | t }}"
+  data-count-near="{{ 'content.stockists_count_near' | t }}"
+  data-open-today="{{ 'content.stockists_open_today' | t }}"
+  data-closed-today="{{ 'content.stockists_closed_today' | t }}"
+  data-distance="{% if section.settings.distance_unit == 'km' %}{{ 'content.distance_km' | t }}{% else %}{{ 'content.distance_mi' | t }}{% endif %}"
+  data-location-error="{{ 'content.stockists_location_error' | t }}"
+>
+  <div class="home-section__inner stockists__inner">
+    <div class="stockists__intro section-copy">
+      {% content_for 'block', type: '_section-eyebrow', id: 'eyebrow' %}
+      {% content_for 'block', type: '_section-heading', id: 'heading' %}
+      {% content_for 'block', type: '_section-text', id: 'text' %}
+    </div>
+
+    <div class="stockists__controls">
+      <label class="stockists__search">
+        {% render 'icon', icon: 'search', class: 'stockists__search-icon' %}
+        <input
+          type="search"
+          class="stockists__search-input"
+          name="stockists-search"
+          placeholder="{{ 'content.stockists_search_placeholder' | t }}"
+          aria-label="{{ 'content.stockists_search_placeholder' | t }}"
+          autocomplete="off"
+          data-stockists-search
+        >
+      </label>
+      <button type="button" class="button-secondary stockists__locate" data-stockists-locate>
+        {{- 'actions.use_my_location' | t -}}
+      </button>
+    </div>
+    <p class="stockists__message" role="status" hidden data-stockists-message></p>
+
+    {% if section.settings.show_filters %}
+      <div class="stockists__filters" role="group" aria-label="{{ 'content.stockists_filters' | t }}">
+        <button type="button" class="mood-filters__chip mood-filters__chip--active" aria-pressed="true" data-filter="all">
+          {{- 'content.stockists_all' | t -}}
+        </button>
+        <button type="button" class="mood-filters__chip" aria-pressed="false" data-filter="full">
+          {{- section.settings.filter_full_label | escape -}}
+        </button>
+        <button type="button" class="mood-filters__chip" aria-pressed="false" data-filter="discovery">
+          {{- section.settings.filter_discovery_label | escape -}}
+        </button>
+      </div>
+    {% endif %}
+
+    <div class="stockists__body">
+      <div class="stockists__results">
+        <p class="stockists__count" aria-live="polite" data-stockists-count></p>
+        <ol class="stockists__list" role="list" data-stockists-list>
+          {% content_for 'blocks' %}
+        </ol>
+        <p class="stockists__empty" hidden data-stockists-empty>{{ 'content.stockists_empty' | t }}</p>
+      </div>
+
+      <div class="stockists__map" role="region" aria-label="{{ 'accessibility.store_map' | t }}" data-stockists-map>
+        <div class="stockists__pins" data-stockists-pins></div>
+        <div class="stockists__popup" hidden data-stockists-popup>
+          <strong class="stockists__popup-name" data-stockists-popup-name></strong>
+          <span class="stockists__popup-meta" data-stockists-popup-meta></span>
+        </div>
+        <div class="stockists__zoom">
+          <button type="button" class="stockists__zoom-button" data-stockists-zoom="1">
+            {% render 'icon', icon: 'plus' %}
+            <span class="visually-hidden">{{ 'accessibility.zoom_in' | t }}</span>
+          </button>
+          <button type="button" class="stockists__zoom-button" data-stockists-zoom="-1">
+            {% render 'icon', icon: 'minus' %}
+            <span class="visually-hidden">{{ 'accessibility.zoom_out' | t }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</stockists-locator>
+
+<script src="{{ 'stockists.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.stockists",
+  "class": "section-wrapper",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "_stockist"
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "distance_unit",
+      "label": "t:settings.distance_unit",
+      "options": [
+        {
+          "value": "mi",
+          "label": "t:options.distance_unit.mi"
+        },
+        {
+          "value": "km",
+          "label": "t:options.distance_unit.km"
+        }
+      ],
+      "default": "mi"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "t:settings.show_filters",
+      "default": true,
+      "info": "t:info.stockists_filters"
+    },
+    {
+      "type": "text",
+      "id": "filter_full_label",
+      "label": "t:settings.filter_full_label",
+      "default": "t:text_defaults.stockists_filter_full",
+      "visible_if": "{{ section.settings.show_filters }}"
+    },
+    {
+      "type": "text",
+      "id": "filter_discovery_label",
+      "label": "t:settings.filter_discovery_label",
+      "default": "t:text_defaults.stockists_filter_discovery",
+      "visible_if": "{{ section.settings.show_filters }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.font_sizes"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_font_sizes",
+      "label": "t:settings.custom_font_sizes",
+      "default": false,
+      "info": "t:info.custom_font_sizes"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "t:settings.heading_font_size",
+      "min": 16,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "t:settings.subheading_font_size",
+      "min": 12,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "t:settings.text_font_size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_font_size",
+      "label": "t:settings.eyebrow_font_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.section_layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "normal",
+          "label": "t:options.layout_width.normal"
+        },
+        {
+          "value": "wide",
+          "label": "t:options.layout_width.wide"
+        }
+      ],
+      "default": "normal",
+      "info": "t:info.layout_width"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.stockists",
+      "category": "t:categories.storytelling",
+      "blocks": {
+        "store_1": {
+          "type": "_stockist",
+          "settings": {
+            "name": "Calyx Studio",
+            "address": "123 Demo Street, Brooklyn",
+            "latitude": "40.6928",
+            "longitude": "-73.9903"
+          }
+        },
+        "store_2": {
+          "type": "_stockist",
+          "settings": {
+            "name": "The Scent Room",
+            "address": "88 Sample Ave, Brooklyn",
+            "latitude": "40.6782",
+            "longitude": "-73.9442"
+          }
+        },
+        "store_3": {
+          "type": "_stockist",
+          "settings": {
+            "name": "Willow & Co.",
+            "address": "5 Example Blvd, Manhattan",
+            "latitude": "40.7359",
+            "longitude": "-73.9911",
+            "category": "discovery"
+          }
+        }
+      },
+      "block_order": [
+        "store_1",
+        "store_2",
+        "store_3"
+      ]
+    }
+  ]
+}
+{% endschema %}

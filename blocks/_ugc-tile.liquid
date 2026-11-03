@@ -1,7 +1,8 @@
 {% doc %}
   One mosaic photo. A small tile fills one cell and can carry a short
   caption; a large tile fills two by two and shows who posted it, and the
-  product they wear, over a dark fade.
+  product they wear. Both sizes set their text at the bottom over a dark
+  fade, with the post's like and comment counts when given.
 {% enddoc %}
 
 {%- liquid
@@ -51,26 +52,47 @@
     {% render 'icon', icon: post_icon, class: 'ugc-tile__type' %}
   {% endunless %}
 
-  {% if large %}
-    {% if block.settings.name != blank or product != blank %}
-      <div class="ugc-tile__member">
-        {% if product != blank %}
+  <div class="ugc-tile__content">
+    {% if large %}
+      {% if block.settings.name != blank or product != blank %}
+        <div class="ugc-tile__member">
+          {% if product != blank %}
+            <p class="ugc-tile__column">
+              <span>{{ 'content.community_member' | t }}</span>
+              <span class="ugc-tile__highlight">{{ 'content.signature_scent' | t }}</span>
+              <span>{{ product.title | escape }}</span>
+            </p>
+          {% endif %}
           <p class="ugc-tile__column">
-            <span>{{ 'content.community_member' | t }}</span>
-            <span class="ugc-tile__highlight">{{ 'content.signature_scent' | t }}</span>
-            <span>{{ product.title | escape }}</span>
+            <span>{{ block.settings.name | escape }}</span>
+            <span class="ugc-tile__highlight">{{ block.settings.location | escape }}</span>
+            <span>{{ block.settings.note | escape }}</span>
           </p>
-        {% endif %}
-        <p class="ugc-tile__column">
-          <span>{{ block.settings.name | escape }}</span>
-          <span class="ugc-tile__highlight">{{ block.settings.location | escape }}</span>
-          <span>{{ block.settings.note | escape }}</span>
-        </p>
-      </div>
+        </div>
+      {% endif %}
+    {% elsif block.settings.caption != blank %}
+      <p class="ugc-tile__caption">{{ block.settings.caption | escape }}</p>
     {% endif %}
-  {% elsif block.settings.caption != blank %}
-    <p class="ugc-tile__caption">{{ block.settings.caption | escape }}</p>
-  {% endif %}
+
+    {% if block.settings.likes != blank or block.settings.comments != blank %}
+      <p class="ugc-tile__stats">
+        {% if block.settings.likes != blank %}
+          <span class="ugc-tile__stat">
+            {% render 'icon', icon: 'heart' %}
+            {{ block.settings.likes | escape }}
+            <span class="visually-hidden">{{ 'accessibility.likes' | t }}</span>
+          </span>
+        {% endif %}
+        {% if block.settings.comments != blank %}
+          <span class="ugc-tile__stat">
+            {% render 'icon', icon: 'chat' %}
+            {{ block.settings.comments | escape }}
+            <span class="visually-hidden">{{ 'accessibility.comments' | t }}</span>
+          </span>
+        {% endif %}
+      </p>
+    {% endif %}
+  </div>
 </{{ tag }}>
 
 {% schema %}
@@ -88,8 +110,14 @@
       "id": "size",
       "label": "t:settings.size",
       "options": [
-        { "value": "small", "label": "t:options.size.small" },
-        { "value": "large", "label": "t:options.size.large" }
+        {
+          "value": "small",
+          "label": "t:options.size.small"
+        },
+        {
+          "value": "large",
+          "label": "t:options.size.large"
+        }
       ],
       "default": "small"
     },
@@ -98,10 +126,22 @@
       "id": "post_type",
       "label": "t:settings.post_type",
       "options": [
-        { "value": "image", "label": "t:options.post_type.image" },
-        { "value": "video", "label": "t:options.post_type.video" },
-        { "value": "instagram", "label": "t:options.post_type.instagram" },
-        { "value": "none", "label": "t:options.post_type.none" }
+        {
+          "value": "image",
+          "label": "t:options.post_type.image"
+        },
+        {
+          "value": "video",
+          "label": "t:options.post_type.video"
+        },
+        {
+          "value": "instagram",
+          "label": "t:options.post_type.instagram"
+        },
+        {
+          "value": "none",
+          "label": "t:options.post_type.none"
+        }
       ],
       "default": "image"
     },
@@ -133,6 +173,17 @@
       "id": "note",
       "label": "t:settings.note",
       "visible_if": "{{ block.settings.size == 'large' }}"
+    },
+    {
+      "type": "text",
+      "id": "likes",
+      "label": "t:settings.likes",
+      "info": "t:info.ugc_counts"
+    },
+    {
+      "type": "text",
+      "id": "comments",
+      "label": "t:settings.comments"
     },
     {
       "type": "product",

@@ -1,7 +1,9 @@
 {% doc %}
   A colored, numbered card in the mood grid. The number follows the card's
   position. The color comes from the card, or from the title's line in
-  Theme settings > Swatches, or falls back to the soft accent color.
+  Theme settings > Swatches, or falls back to the soft accent color. With an
+  image, the image fills the card under a dark gradient so the light text
+  stays readable.
 {% enddoc %}
 
 {%- liquid
@@ -22,7 +24,16 @@
   endif
 -%}
 
-<a class="mood-card" href="{{ block.settings.link | default: routes.all_products_collection_url }}" style="{{ card_style }}" {{ block.shopify_attributes }}>
+{%- if block.settings.image != blank -%}
+  {%- assign card_style = card_style | append: ' --mood-overlay: ' | append: block.settings.overlay_opacity | append: '%;' -%}
+{%- endif -%}
+
+<a class="mood-card{% if block.settings.image != blank %} mood-card--image{% endif %}" href="{{ block.settings.link | default: routes.all_products_collection_url }}" style="{{ card_style }}" {{ block.shopify_attributes }}>
+  {%- if block.settings.image != blank -%}
+    <span class="mood-card__media" aria-hidden="true">
+      {{ block.settings.image | image_url: width: 1200 | image_tag: widths: '400, 600, 900, 1200', sizes: '(min-width: 990px) 33vw, 50vw', loading: 'lazy', alt: '' }}
+    </span>
+  {%- endif -%}
   <span class="eyebrow mood-card__number">{% if number < 10 %}0{% endif %}{{ number }}</span>
   <span class="mood-card__body">
     <span class="h3 mood-card__title">{{ block.settings.title | escape }}</span>
@@ -71,6 +82,22 @@
       "id": "color",
       "label": "t:settings.background_color",
       "info": "t:info.mood_card_color"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:settings.overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 60,
+      "visible_if": "{{ block.settings.image != blank }}"
     }
   ],
   "presets": [

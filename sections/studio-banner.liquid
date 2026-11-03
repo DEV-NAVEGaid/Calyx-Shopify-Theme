@@ -12,21 +12,8 @@
       {%- endif -%}
     </div>
 
-    <div class="studio-banner__content">
-      {% if section.settings.heading != blank %}
-        <h2 class="h2">{{ section.settings.heading | escape }}</h2>
-      {% endif %}
-
-      {% if section.settings.text != blank %}
-        <div class="body-l studio-banner__text">{{ section.settings.text }}</div>
-      {% endif %}
-
-      {% if section.settings.link_label != blank %}
-        <a class="arrow-link" href="{{ section.settings.link | default: routes.root_url }}">
-          {{- section.settings.link_label | escape -}}
-          {% render 'icon', icon: 'arrow-right' %}
-        </a>
-      {% endif %}
+    <div class="studio-banner__content section-copy">
+      {% content_for 'blocks' %}
     </div>
   </div>
 </div>
@@ -37,7 +24,10 @@
   "class": "section-wrapper",
   "tag": "section",
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -46,27 +36,244 @@
       "label": "t:settings.image"
     },
     {
-      "type": "text",
-      "id": "heading",
-      "label": "t:settings.heading",
-      "default": "t:text_defaults.studio_heading"
+      "type": "header",
+      "content": "t:content.font_sizes"
     },
     {
-      "type": "richtext",
-      "id": "text",
-      "label": "t:settings.text",
-      "default": "t:text_defaults.studio_text"
+      "type": "checkbox",
+      "id": "custom_font_sizes",
+      "label": "t:settings.custom_font_sizes",
+      "default": false,
+      "info": "t:info.custom_font_sizes"
     },
     {
-      "type": "text",
-      "id": "link_label",
-      "label": "t:settings.button_label",
-      "default": "t:text_defaults.studio_link"
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "t:settings.heading_font_size",
+      "min": 16,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
     },
     {
-      "type": "url",
-      "id": "link",
-      "label": "t:settings.link"
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "t:settings.subheading_font_size",
+      "min": 12,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "t:settings.text_font_size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_font_size",
+      "label": "t:settings.eyebrow_font_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "t:settings.font_weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.font_weight.default"
+        },
+        {
+          "value": "300",
+          "label": "t:options.font_weight.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.font_weight.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.font_weight.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.font_weight.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.font_weight.bold"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ section.settings.custom_font_sizes }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.section_layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "normal",
+          "label": "t:options.layout_width.normal"
+        },
+        {
+          "value": "wide",
+          "label": "t:options.layout_width.wide"
+        }
+      ],
+      "default": "normal",
+      "info": "t:info.layout_width"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:settings.image_ratio",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.image_ratio.default"
+        },
+        {
+          "value": "square",
+          "label": "t:options.image_ratio.square"
+        },
+        {
+          "value": "portrait",
+          "label": "t:options.image_ratio.portrait"
+        },
+        {
+          "value": "tall",
+          "label": "t:options.image_ratio.tall"
+        },
+        {
+          "value": "landscape",
+          "label": "t:options.image_ratio.landscape"
+        },
+        {
+          "value": "wide",
+          "label": "t:options.image_ratio.wide"
+        }
+      ],
+      "default": "default"
     },
     {
       "type": "header",
@@ -91,12 +298,73 @@
       "step": 4,
       "unit": "px",
       "default": 112
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     }
   ],
   "presets": [
     {
       "name": "t:names.studio_banner",
-      "category": "t:categories.banners"
+      "category": "t:categories.banners",
+      "blocks": {
+        "heading_1": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Visit the studio",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "text_2": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>Smell the full collection and get a free mood consultation.</p>",
+            "size": "large"
+          }
+        },
+        "button_3": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Find stockists near you",
+            "link": "",
+            "style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "heading_1",
+        "text_2",
+        "button_3"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "_section-heading"
+    },
+    {
+      "type": "_section-text"
+    },
+    {
+      "type": "_section-button"
     }
   ]
 }

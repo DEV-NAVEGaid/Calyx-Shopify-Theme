@@ -1,0 +1,23 @@
+{% doc %}
+  A small label above a section's heading.
+{% enddoc %}
+
+{% if block.settings.text != blank %}
+  <p class="eyebrow section-eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.section_eyebrow",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.eyebrow"
+    }
+  ],
+  "presets": [{ "name": "t:names.section_eyebrow" }]
+}
+{% endschema %}

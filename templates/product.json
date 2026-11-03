@@ -126,7 +126,10 @@
             "variant_picker": {
               "type": "variant-picker",
               "settings": {
-                "variant_style": "buttons"
+                "variant_style": "buttons",
+                "guide_label": "Size & ingredients guide",
+                "guide_content": "<p>Free from parabens, phthalates and synthetic dyes. Patch test before first use, and store away from heat and direct sunlight.</p>",
+                "guide_tables": "# Sizes\nSize | Format | Sprays | Lasts about\n10 ml | Travel spray | 120 | 1 month\n50 ml | Everyday bottle | 600 | 5 months\n100 ml | Refillable bottle | 1,200 | 10 months\n\n# Key ingredients\nIngredient | What it does\nShea butter | Nourishes and softens dry skin\nCeramides | Support a healthy skin barrier\nSqualane | Locks in moisture without heaviness\nVitamin E | Protects against everyday stress"
               }
             },
             "buy_buttons": {
@@ -274,6 +277,14 @@
             "sticky": {
               "type": "sticky-add-to-cart",
               "settings": {}
+            },
+            "payment_icons": {
+              "type": "payment-icons",
+              "settings": {
+                "heading": "Secure checkout with",
+                "icon_size": 38,
+                "alignment": "flex-start"
+              }
             }
           },
           "block_order": [
@@ -287,6 +298,7 @@
             "intention",
             "variant_picker",
             "buy_buttons",
+            "payment_icons",
             "back_in_stock",
             "pickup",
             "delivery",
@@ -363,14 +375,45 @@
     "story": {
       "type": "image-with-text",
       "settings": {
-        "image_position": "left",
-        "eyebrow": "The story",
-        "heading": "Written for the moment before you walk in",
-        "text": "<p>Our perfumer built this scent around fig leaf, a green, milky note that feels both grounded and bright. Pink pepper gives the first lift; amber holds you steady.</p>",
-        "button_label": "Listen to the playlist",
-        "button_style": "link"
+        "image_position": "left"
       },
-      "block_order": []
+      "block_order": [
+        "eyebrow_1",
+        "heading_2",
+        "text_3",
+        "button_4"
+      ],
+      "blocks": {
+        "eyebrow_1": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "The story"
+          }
+        },
+        "heading_2": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Written for the moment before you walk in",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "text_3": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>Our perfumer built this scent around fig leaf, a green, milky note that feels both grounded and bright. Pink pepper gives the first lift; amber holds you steady.</p>",
+            "size": "large"
+          }
+        },
+        "button_4": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Listen to the playlist",
+            "link": "",
+            "style": "link"
+          }
+        }
+      }
     },
     "ingredients": {
       "type": "ingredients-explorer",

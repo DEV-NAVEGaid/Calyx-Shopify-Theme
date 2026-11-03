@@ -1,22 +1,69 @@
 {% doc %}
-  Icons for the payment methods enabled in the store's checkout.
+  Icons for the payment methods enabled in the store's checkout, with an
+  optional line of text above them ("Secure checkout with").
 {% enddoc %}
 
-<ul class="payment-icons" role="list" {{ block.shopify_attributes }}>
-  {% for type in shop.enabled_payment_types %}
-    <li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>
-  {% endfor %}
-</ul>
+<div
+  class="payment-icons-block"
+  style="--payment-icon-size: {{ block.settings.icon_size }}px; --payment-icons-align: {{ block.settings.alignment }};"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.heading != blank %}
+    <p class="payment-icons-block__heading">{{ block.settings.heading }}</p>
+  {% endif %}
+  {%- liquid
+    # A store without payments set up yet (a new or development store) shows common methods as a preview.
+    assign payment_types = shop.enabled_payment_types
+    if payment_types.size == 0
+      assign payment_types = "visa,master,american_express,paypal,apple_pay,google_pay" | split: ","
+    endif
+  -%}
+  <ul class="payment-icons" role="list">
+    {% for type in payment_types %}
+      <li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>
+    {% endfor %}
+  </ul>
+</div>
 
 {% schema %}
 {
   "name": "t:names.payment_icons",
   "tag": null,
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "t:settings.icon_size",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:settings.alignment",
+      "options": [
+        { "value": "flex-start", "label": "t:options.alignment.left" },
+        { "value": "center", "label": "t:options.alignment.center" },
+        { "value": "flex-end", "label": "t:options.alignment.right" }
+      ],
+      "default": "flex-start"
+    }
+  ],
   "presets": [
     {
       "name": "t:names.payment_icons",
-      "category": "t:categories.footer"
+      "category": "t:categories.basic",
+      "settings": {
+        "heading": "t:text_defaults.payment_icons_heading"
+      }
     }
   ]
 }

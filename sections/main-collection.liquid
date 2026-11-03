@@ -7,6 +7,43 @@
 {%- liquid
   assign collection_image = section.settings.image | default: collection.image
   assign moods = 'Calm,Joy,Confidence,Clarity,Sensual,Renewal' | split: ','
+
+  # The promo tile sits in the row after product N, in the left, centre, or
+  # right column of it, for each grid width: phone, tablet (at most three
+  # columns), desktop, and desktop with the filters hidden (one column more).
+  assign promo_position = section.settings.promo_position
+  assign promo_style = ''
+  assign cols_m = section.settings.columns_mobile | plus: 0
+  assign cols_d = section.settings.columns_desktop
+  assign cols_t = cols_d | at_most: 3
+  assign cols_w = cols_d | plus: 1
+  assign widths = 'm,t,d,w' | split: ','
+  for width in widths
+    case width
+      when 'm'
+        assign cols = cols_m
+      when 't'
+        assign cols = cols_t
+      when 'd'
+        assign cols = cols_d
+      else
+        assign cols = cols_w
+    endcase
+    assign row = promo_position | divided_by: cols | plus: 1
+    case section.settings.promo_placement
+      when 'left'
+        assign column = '1'
+      when 'right'
+        assign column = '-2'
+      else
+        if cols == 2
+          assign column = '1 / -1'
+        else
+          assign column = cols | plus: 1 | divided_by: 2
+        endif
+    endcase
+    assign promo_style = promo_style | append: '--promo-row-' | append: width | append: ': ' | append: row | append: '; --promo-col-' | append: width | append: ': ' | append: column | append: '; '
+  endfor
 -%}
 
 <div class="section section--page-width spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
@@ -75,7 +112,7 @@
             {% for product in collection.products %}
               <li>{% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}</li>
               {% if section.settings.promo_position > 0 and forloop.index == section.settings.promo_position %}
-                <li class="promo-tile">
+                <li class="promo-tile" style="{{ promo_style }}">
                   <div class="promo-tile__inner">
                     {% if section.settings.promo_eyebrow != blank %}
                       <p class="promo-tile__eyebrow">{{ section.settings.promo_eyebrow | escape }}</p>
@@ -225,6 +262,28 @@
       "step": 1,
       "default": 4,
       "info": "t:info.promo_position"
+    },
+    {
+      "type": "select",
+      "id": "promo_placement",
+      "label": "t:settings.promo_placement",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:options.alignment.left"
+        },
+        {
+          "value": "center",
+          "label": "t:options.alignment.center"
+        },
+        {
+          "value": "right",
+          "label": "t:options.alignment.right"
+        }
+      ],
+      "default": "center",
+      "info": "t:info.promo_placement",
+      "visible_if": "{{ section.settings.promo_position > 0 }}"
     },
     {
       "type": "text",

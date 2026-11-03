@@ -333,3 +333,26 @@
   max-width: 100%;
   text-decoration: none;
 }
+
+/** Payment icons block: an optional heading over the icons */
+.payment-icons-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: var(--payment-icons-align, flex-start);
+}
+
+.payment-icons-block__heading {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--color-foreground-muted);
+}
+
+.payment-icons-block .payment-icons {
+  justify-content: var(--payment-icons-align, flex-start);
+}
+
+.payment-icons-block .payment-icon {
+  width: var(--payment-icon-size, 38px);
+}

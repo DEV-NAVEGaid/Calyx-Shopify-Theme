@@ -12,12 +12,75 @@
     "page_hero": {
       "type": "page-hero",
       "settings": {},
-      "block_order": []
+      "block_order": [
+        "eyebrow_1",
+        "heading_2",
+        "text_3"
+      ],
+      "blocks": {
+        "eyebrow_1": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "Our story"
+          }
+        },
+        "heading_2": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "We make good feelings",
+            "size": "display",
+            "tag": "h1"
+          }
+        },
+        "text_3": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>We began with a simple question: what if your fragrance could help you feel the way you want to feel?</p>",
+            "size": "large"
+          }
+        }
+      }
     },
     "origin": {
       "type": "image-with-text",
       "settings": {},
-      "block_order": []
+      "block_order": [
+        "eyebrow_1",
+        "heading_2",
+        "text_3",
+        "button_4"
+      ],
+      "blocks": {
+        "eyebrow_1": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "Founded 2021"
+          }
+        },
+        "heading_2": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Fragrance as a daily ritual, not a finishing touch",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "text_3": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>We started in a small studio with a perfumer, a botanist and a wall of mood boards. Every scent is built backwards: first the feeling, then the plants traditionally linked to it, then the composition.</p><p>The result is a collection of six genderless eau de parfums, body veils and home scents designed to be worn on purpose.</p>",
+            "size": "large"
+          }
+        },
+        "button_4": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Explore the collection",
+            "link": "",
+            "style": "dark"
+          }
+        }
+      }
     },
     "values": {
       "type": "value-cards",
@@ -180,7 +243,45 @@
     "cta": {
       "type": "cta-band",
       "settings": {},
-      "block_order": []
+      "block_order": [
+        "heading_1",
+        "text_2",
+        "button_3",
+        "button_4"
+      ],
+      "blocks": {
+        "heading_1": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Find the scent for your mood",
+            "size": "h3",
+            "tag": "h2"
+          }
+        },
+        "text_2": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>Take the 60-second quiz or start with the Discovery Set.</p>",
+            "size": "default"
+          }
+        },
+        "button_3": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Take the quiz",
+            "link": "",
+            "style": "primary"
+          }
+        },
+        "button_4": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Shop Discovery Set",
+            "link": "",
+            "style": "secondary"
+          }
+        }
+      }
     }
   },
   "order": [

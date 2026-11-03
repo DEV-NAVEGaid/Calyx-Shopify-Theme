@@ -2,17 +2,19 @@
   A card for the closest product, used in product lists, collection grids,
   and search results. The whole card links to the product; its nested
   blocks (gallery, title, price, …) read the same product. The variant and
-  product type lines below them follow Theme settings > Product cards.
+  product type lines below them follow Theme settings > Product cards, as
+  does the card background (solid or gradient), which the block can override.
 {% enddoc %}
 
 {%- liquid
   assign product = closest.product
   assign variant = product.selected_or_first_available_variant
+  assign card_background = block.settings.background | default: settings.card_background
 -%}
 
 <div
-  class="product-card layout-panel spacing-style"
-  style="--flex-direction: column; --align: {{ block.settings.horizontal_alignment }}; {% render 'gap-style', value: block.settings.gap %} {% render 'spacing-style', settings: block.settings %}"
+  class="product-card layout-panel spacing-style{% if card_background != blank %} product-card--background-{{ settings.card_background_area }}{% endif %}"
+  style="--flex-direction: column; --align: {{ block.settings.horizontal_alignment }}; {% render 'gap-style', value: block.settings.gap %} {% render 'spacing-style', settings: block.settings %}{% if card_background != blank %} --card-background: {{ card_background }};{% endif %}"
   {{ block.shopify_attributes }}
 >
   {% if product != blank %}
@@ -77,6 +79,16 @@
       "step": 1,
       "unit": "px",
       "default": 8
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "t:settings.background",
+      "info": "t:info.product_card_background"
     },
     {
       "type": "header",

@@ -15,6 +15,21 @@
         "collection": "bestsellers"
       },
       "blocks": {
+        "heading_1": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "This page has wandered off",
+            "size": "h2",
+            "tag": "h1"
+          }
+        },
+        "text_2": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>The link may be broken or the page may have moved. Try a search, or start fresh from the homepage.</p>",
+            "size": "large"
+          }
+        },
         "product-card": {
           "type": "product-card",
           "static": true,
@@ -47,7 +62,10 @@
           ]
         }
       },
-      "block_order": []
+      "block_order": [
+        "heading_1",
+        "text_2"
+      ]
     }
   },
   "order": [

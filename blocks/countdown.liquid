@@ -1,0 +1,103 @@
+{% doc %}
+  A countdown to a date and time in the store's time zone, for launches and
+  sales: days, hours, minutes, and seconds, as large editorial numerals
+  between thin rules, boxes, or a single line.
+  assets/countdown.js ticks it every second; once the time has passed it
+  shows the "After it ends" text, or hides the block when that is empty.
+{% enddoc %}
+
+{%- liquid
+  # The store's UTC offset (+0700) as +07:00, so every visitor counts down to the same moment.
+  assign offset = 'now' | date: '%z'
+  assign offset_hours = offset | slice: 0, 3
+  assign offset_minutes = offset | slice: 3, 2
+  assign time = block.settings.end_time | default: '00:00' | strip
+  assign end = block.settings.end_date | strip | append: 'T' | append: time | append: ':00' | append: offset_hours | append: ':' | append: offset_minutes
+-%}
+
+<countdown-timer
+  class="countdown countdown--{{ block.settings.style }} countdown--{{ block.settings.alignment }}"
+  data-end="{{ end | escape }}"
+  {% if block.settings.end_date == blank %}
+    hidden
+  {% endif %}
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.label != blank %}
+    <p class="countdown__label">{{ block.settings.label | escape }}</p>
+  {% endif %}
+  <div class="countdown__units" role="timer" aria-live="off">
+    <span class="countdown__unit"><span class="countdown__value" data-unit="days">00</span><span class="countdown__name">{{ 'content.countdown_days' | t }}</span></span>
+    <span class="countdown__unit"><span class="countdown__value" data-unit="hours">00</span><span class="countdown__name">{{ 'content.countdown_hours' | t }}</span></span>
+    <span class="countdown__unit"><span class="countdown__value" data-unit="minutes">00</span><span class="countdown__name">{{ 'content.countdown_minutes' | t }}</span></span>
+    <span class="countdown__unit"><span class="countdown__value" data-unit="seconds">00</span><span class="countdown__name">{{ 'content.countdown_seconds' | t }}</span></span>
+  </div>
+  {% if block.settings.expired_text != blank %}
+    <p class="countdown__expired" hidden>{{ block.settings.expired_text | escape }}</p>
+  {% endif %}
+</countdown-timer>
+
+<script src="{{ 'countdown.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "t:names.countdown",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "t:settings.end_date",
+      "default": "2026-12-24",
+      "info": "t:info.countdown_date"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "t:settings.end_time",
+      "default": "23:59",
+      "info": "t:info.countdown_time"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:settings.label",
+      "default": "t:text_defaults.countdown_label"
+    },
+    {
+      "type": "text",
+      "id": "expired_text",
+      "label": "t:settings.countdown_expired",
+      "info": "t:info.countdown_expired"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "t:settings.style",
+      "options": [
+        { "value": "editorial", "label": "t:options.countdown_style.editorial" },
+        { "value": "boxes", "label": "t:options.countdown_style.boxes" },
+        { "value": "inline", "label": "t:options.countdown_style.inline" }
+      ],
+      "default": "editorial"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:settings.alignment",
+      "options": [
+        { "value": "left", "label": "t:options.alignment.left" },
+        { "value": "center", "label": "t:options.alignment.center" },
+        { "value": "right", "label": "t:options.alignment.right" }
+      ],
+      "default": "left"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.countdown",
+      "category": "t:categories.basic"
+    }
+  ]
+}
+{% endschema %}

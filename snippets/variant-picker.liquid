@@ -14,6 +14,9 @@
   @param {string} [style] - `buttons` (default) or `dropdown`.
   @param {boolean} [update_url] - Keep `?variant=` in the page URL in sync. Default: true.
   @param {string} [attributes] - Extra attributes for the root element, such as `block.shopify_attributes`.
+  @param {string} [guide_id] - Id of a guide dialog. Its trigger sits at the end of an option's label row.
+  @param {string} [guide_label] - Text of the guide trigger.
+  @param {string} [guide_option] - Option name the trigger sits beside. Default: the first option.
 
   @example
   {% render 'variant-picker', product: closest.product, section_id: section.id, id_prefix: block.id, style: 'buttons' %}
@@ -27,6 +30,7 @@
   endif
 
   assign swatch_option_names = settings.swatch_option_names | downcase | split: ','
+  assign guide_option_key = guide_option | downcase | strip
 -%}
 
 <variant-picker
@@ -40,11 +44,31 @@
 >
   {% unless product.has_only_default_variant %}
     {% for option in product.options_with_values %}
-      {%- assign input_name = option.name | handle | append: '-' | append: id_prefix -%}
+      {%- liquid
+        assign input_name = option.name | handle | append: '-' | append: id_prefix
+
+        # The guide trigger (size, ingredients) sits at the end of one option's label row.
+        assign guide_trigger = blank
+        if guide_id != blank
+          assign option_key = option.name | downcase | strip
+          assign guide_here = false
+          if guide_option_key == blank
+            assign guide_here = forloop.first
+          elsif guide_option_key == option_key
+            assign guide_here = true
+          endif
+          if guide_here
+            capture guide_trigger
+              echo '<button type="button" class="variant-picker__guide" data-guide-open="' | append: guide_id | append: '" aria-haspopup="dialog">' | append: guide_label | append: '</button>'
+            endcapture
+          endif
+        endif
+      -%}
 
       {% if style == 'dropdown' %}
         <div class="field variant-picker__option">
           <label class="variant-picker__label" for="{{ input_name }}">{{ option.name }}</label>
+          {{- guide_trigger -}}
           <select class="select__input" id="{{ input_name }}" name="{{ input_name }}">
             {% for value in option.values %}
               <option
@@ -81,6 +105,7 @@
               : <span class="variant-picker__selected">{{ option.selected_value }}</span>
             {%- endif -%}
           </legend>
+          {{- guide_trigger -}}
           <div class="variant-picker__values">
             {% for value in option.values %}
               {%- liquid

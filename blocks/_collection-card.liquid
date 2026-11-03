@@ -1,5 +1,7 @@
 {% doc %}
-  A card for the closest collection, linked to the collection page.
+  A card for the closest collection, linked to the collection page. When the
+  collection holds more than one product, hovering the card slides through
+  its products' images over the collection image (assets/collection-card.js).
 {% enddoc %}
 
 {%- liquid
@@ -28,6 +30,22 @@
       }}
     {% else %}
       {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+
+    {% if block.settings.product_slides and collection.products_count > 1 %}
+      <span class="collection-card__slides" aria-hidden="true" data-collection-slides>
+        <span class="collection-card__track">
+          {%- for product in collection.products limit: 6 -%}
+            {%- if product.featured_media -%}
+              {{
+                product.featured_media
+                | image_url: width: 900
+                | image_tag: widths: '300, 600, 900', sizes: '(min-width: 990px) 33vw, 50vw', loading: 'lazy', alt: '', class: 'collection-card__slide'
+              }}
+            {%- endif -%}
+          {%- endfor -%}
+        </span>
+      </span>
     {% endif %}
   </div>
 
@@ -81,6 +99,13 @@
       "id": "show_description",
       "label": "t:settings.show_description",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "product_slides",
+      "label": "t:settings.collection_product_slides",
+      "default": true,
+      "info": "t:info.collection_product_slides"
     }
   ]
 }

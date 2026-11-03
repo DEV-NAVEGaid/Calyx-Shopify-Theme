@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}">
+<html lang="{{ request.locale.iso_code }}" class="template-{{ template.name }}">
   <head>
     {% # Charset, viewport, social, title, etc. %}
     {% render 'meta-tags' %}
@@ -29,6 +29,9 @@
     {{ 'header.css' | asset_url | stylesheet_tag }}
     {{ 'footer.css' | asset_url | stylesheet_tag }}
     {{ 'sections.css' | asset_url | stylesheet_tag }}
+    {%- if settings.animations_page_transition %}
+      {{ 'page-transition.css' | asset_url | stylesheet_tag }}
+    {%- endif %}
 
     {{ content_for_header }}
   </head>
@@ -70,6 +73,10 @@
 
     {% if settings.animations_button_bubble %}
       <script src="{{ 'button-bubble.js' | asset_url }}" type="module"></script>
+    {% endif %}
+
+    {% if settings.animations_page_transition %}
+      <script src="{{ 'page-transition.js' | asset_url }}" type="module"></script>
     {% endif %}
 
     {% if settings.animations_text_roll %}

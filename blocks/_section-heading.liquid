@@ -1,0 +1,60 @@
+{% doc %}
+  A section's heading, at a chosen size and HTML tag. Italic words stay
+  italic. Left empty on a page, it shows the page title.
+{% enddoc %}
+
+{%- liquid
+  assign heading = block.settings.heading
+  if heading == blank and page != blank
+    assign heading = page.title | escape
+  endif
+  assign size = block.settings.size
+  if size == 'display'
+    assign size = 'display-xl'
+  endif
+-%}
+
+{% if heading != blank %}
+  <{{ block.settings.tag }} class="section-heading {{ size }}" {{ block.shopify_attributes }}>{{ heading }}</{{ block.settings.tag }}>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.section_heading",
+  "tag": null,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.section_heading"
+    },
+    {
+      "type": "select",
+      "id": "size",
+      "label": "t:settings.size",
+      "options": [
+        { "value": "display", "label": "t:options.heading_size.display" },
+        { "value": "h1", "label": "t:options.heading_size.h1" },
+        { "value": "h2", "label": "t:options.heading_size.h2" },
+        { "value": "h3", "label": "t:options.heading_size.h3" },
+        { "value": "h4", "label": "t:options.heading_size.h4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "tag",
+      "label": "t:settings.html_tag",
+      "options": [
+        { "value": "h1", "label": "t:options.html_tag.h1" },
+        { "value": "h2", "label": "t:options.html_tag.h2" },
+        { "value": "h3", "label": "t:options.html_tag.h3" },
+        { "value": "p", "label": "t:options.html_tag.p" }
+      ],
+      "default": "h2"
+    }
+  ],
+  "presets": [{ "name": "t:names.section_heading" }]
+}
+{% endschema %}

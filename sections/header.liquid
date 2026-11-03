@@ -84,8 +84,14 @@
       </a>
 
       {% if shop.customer_accounts_enabled %}
-        {%- assign account_menu = section.settings.customer_account_menu.handle | default: 'customer-account-main-menu' -%}
-        <shopify-account class="header__account" menu="{{ account_menu }}">
+        {%- liquid
+          # Pass a menu only when the store has it; otherwise the component shows its default links.
+          assign account_menu = section.settings.customer_account_menu.handle
+          if account_menu == blank and linklists['customer-account-main-menu'].links.size > 0
+            assign account_menu = 'customer-account-main-menu'
+          endif
+        -%}
+        <shopify-account class="header__account" {% if account_menu != blank %}menu="{{ account_menu }}"{% endif %}>
           <span class="header__account-avatar" slot="signed-out-avatar">
             <span class="header__text-link header__desktop-only">{{ 'content.account' | t }}</span>
             <span class="header__icon header__mobile-only">

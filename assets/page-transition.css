@@ -1,0 +1,68 @@
+/*
+ * Transition into a product page (Theme settings > Animations), using the
+ * browser's cross-document View Transitions:
+ * - the clicked card's image grows into the product page's main image
+ *   (assets/page-transition.js names the clicked card's image);
+ * - the product page wipes in from right to left over the still old page.
+ * Other pages change as usual. Browsers without View Transitions, and
+ * reduced motion, simply load the page.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  /* The card image and the product page's main image share this name. */
+  .product-gallery__stage,
+  .product-media-gallery__item:first-child,
+  .gift-card-visual {
+    view-transition-name: product-media;
+  }
+
+  /* While a card on a product page is clicked, the page's own image yields its name. */
+  html[data-transition-source] :is(.product-gallery__stage, .product-media-gallery__item:first-child, .gift-card-visual) {
+    view-transition-name: none;
+  }
+
+  /* Leaving for any page other than a product page: no animation. */
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
+  /* Arriving on a product page: the page wipes in from the right. */
+  :root.template-product::view-transition-new(root) {
+    animation: page-wipe-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+  }
+
+  /* Leaving a product page for another kind of page: its image doesn't linger. */
+  :root:not(.template-product)::view-transition-group(product-media) {
+    display: none;
+  }
+
+  /* The image flies from the card to its place on the product page. */
+  ::view-transition-group(product-media) {
+    z-index: 1;
+    animation-duration: 0.42s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  ::view-transition-old(product-media),
+  ::view-transition-new(product-media) {
+    height: 100%;
+    object-fit: cover;
+    animation-duration: 0.42s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes page-wipe-in {
+    from {
+      clip-path: inset(0 0 0 100%);
+    }
+
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+}

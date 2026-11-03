@@ -12,13 +12,37 @@
     "header": {
       "type": "contact-header",
       "settings": {
-        "eyebrow": "Contact",
-        "heading": "Get in touch",
-        "text": "<p>Questions about an order, a scent or a collaboration? We’d love to hear from you.</p>",
         "padding-block-start": 72,
         "padding-block-end": 0
       },
-      "block_order": []
+      "block_order": [
+        "eyebrow_1",
+        "heading_2",
+        "text_3"
+      ],
+      "blocks": {
+        "eyebrow_1": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "Contact"
+          }
+        },
+        "heading_2": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Get in touch",
+            "size": "h1",
+            "tag": "h1"
+          }
+        },
+        "text_3": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>Questions about an order, a scent or a collaboration? We’d love to hear from you.</p>",
+            "size": "large"
+          }
+        }
+      }
     },
     "form": {
       "type": "contact-form",
@@ -65,13 +89,39 @@
     "studio": {
       "type": "studio-banner",
       "settings": {
-        "heading": "Visit the studio",
-        "text": "<p>Smell the full collection and get a free mood consultation.</p>",
-        "link_label": "Find stockists near you",
         "padding-block-start": 0,
         "padding-block-end": 112
       },
-      "block_order": []
+      "block_order": [
+        "heading_1",
+        "text_2",
+        "button_3"
+      ],
+      "blocks": {
+        "heading_1": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Visit the studio",
+            "size": "h2",
+            "tag": "h2"
+          }
+        },
+        "text_2": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>Smell the full collection and get a free mood consultation.</p>",
+            "size": "large"
+          }
+        },
+        "button_3": {
+          "type": "_section-button",
+          "settings": {
+            "label": "Find stockists near you",
+            "link": "",
+            "style": "link"
+          }
+        }
+      }
     }
   },
   "order": [

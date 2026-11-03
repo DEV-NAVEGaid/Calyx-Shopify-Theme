@@ -1,0 +1,145 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "stockists": {
+      "type": "stockists",
+      "blocks": {
+        "eyebrow": {
+          "type": "_section-eyebrow",
+          "static": true,
+          "settings": {
+            "text": "Stockists"
+          }
+        },
+        "heading": {
+          "type": "_section-heading",
+          "static": true,
+          "settings": {
+            "heading": "Find us near you",
+            "size": "h1",
+            "tag": "h1"
+          }
+        },
+        "text": {
+          "type": "_section-text",
+          "static": true,
+          "settings": {
+            "text": "<p>Smell the full collection in person at our partner stores.</p>",
+            "size": "default"
+          }
+        },
+        "store_1": {
+          "type": "_stockist",
+          "settings": {
+            "name": "Calyx Studio",
+            "address": "123 Demo Street, Brooklyn",
+            "latitude": "40.6928",
+            "longitude": "-73.9903",
+            "category": "full",
+            "hours_monday": "10am–7pm",
+            "hours_tuesday": "10am–7pm",
+            "hours_wednesday": "10am–7pm",
+            "hours_thursday": "10am–7pm",
+            "hours_friday": "10am–7pm",
+            "hours_saturday": "10am–7pm",
+            "hours_sunday": "11am–6pm"
+          }
+        },
+        "store_2": {
+          "type": "_stockist",
+          "settings": {
+            "name": "The Scent Room",
+            "address": "88 Sample Ave, Brooklyn",
+            "latitude": "40.6782",
+            "longitude": "-73.9442",
+            "category": "full",
+            "hours_monday": "11am–8pm",
+            "hours_tuesday": "11am–8pm",
+            "hours_wednesday": "11am–8pm",
+            "hours_thursday": "11am–8pm",
+            "hours_friday": "11am–8pm",
+            "hours_saturday": "11am–8pm",
+            "hours_sunday": ""
+          }
+        },
+        "store_3": {
+          "type": "_stockist",
+          "settings": {
+            "name": "Willow & Co.",
+            "address": "5 Example Blvd, Manhattan",
+            "latitude": "40.7359",
+            "longitude": "-73.9911",
+            "category": "discovery",
+            "hours_monday": "10am–9pm",
+            "hours_tuesday": "10am–9pm",
+            "hours_wednesday": "10am–9pm",
+            "hours_thursday": "10am–9pm",
+            "hours_friday": "10am–9pm",
+            "hours_saturday": "10am–9pm",
+            "hours_sunday": "12pm–6pm"
+          }
+        },
+        "store_4": {
+          "type": "_stockist",
+          "settings": {
+            "name": "Market Hall Beauty",
+            "address": "210 Placeholder St, Queens",
+            "latitude": "40.7282",
+            "longitude": "-73.7949",
+            "category": "full",
+            "hours_monday": "9am–8pm",
+            "hours_tuesday": "9am–8pm",
+            "hours_wednesday": "9am–8pm",
+            "hours_thursday": "9am–8pm",
+            "hours_friday": "9am–8pm",
+            "hours_saturday": "9am–8pm",
+            "hours_sunday": ""
+          }
+        },
+        "store_5": {
+          "type": "_stockist",
+          "settings": {
+            "name": "Northside Apothecary",
+            "address": "17 Demo Lane, Hoboken",
+            "latitude": "40.7440",
+            "longitude": "-74.0324",
+            "category": "discovery",
+            "hours_monday": "9am–6pm",
+            "hours_tuesday": "9am–6pm",
+            "hours_wednesday": "9am–6pm",
+            "hours_thursday": "9am–6pm",
+            "hours_friday": "9am–6pm",
+            "hours_saturday": "10am–4pm",
+            "hours_sunday": ""
+          }
+        }
+      },
+      "block_order": [
+        "store_1",
+        "store_2",
+        "store_3",
+        "store_4",
+        "store_5"
+      ],
+      "settings": {
+        "distance_unit": "mi",
+        "show_filters": true,
+        "filter_full_label": "Full collection",
+        "filter_discovery_label": "Discovery Set only",
+        "padding-block-start": 64,
+        "padding-block-end": 96
+      }
+    }
+  },
+  "order": [
+    "stockists"
+  ]
+}

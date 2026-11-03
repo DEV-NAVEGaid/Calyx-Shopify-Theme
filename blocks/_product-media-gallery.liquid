@@ -42,7 +42,7 @@
 -%}
 
 <div
-  class="product-media-gallery product-media-gallery--{{ block.settings.columns }} spacing-style"
+  class="product-media-gallery product-media-gallery--{{ block.settings.columns }}{% if block.settings.sticky %} product-media-gallery--sticky{% endif %} spacing-style"
   style="--media-ratio: {{ ratio }}; {% render 'spacing-style', settings: block.settings %}"
   {{ block.shopify_attributes }}
 >
@@ -202,6 +202,13 @@
         }
       ],
       "default": "adapt"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "t:settings.sticky_media",
+      "default": true,
+      "info": "t:info.sticky_media"
     },
     {
       "type": "header",

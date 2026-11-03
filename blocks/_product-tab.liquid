@@ -1,24 +1,61 @@
 {% doc %}
-  One tab of the product tabs section: a pill label and the collection
-  whose products it shows. The section renders the products.
+  One tab of the product tabs section: a pill label and the products of its
+  collection, shown through the tab's own product card (so each tab can lay
+  its cards out differently). assets/product-tabs.js moves the products
+  under the row of pills.
 {% enddoc %}
 
-{%- assign is_first = false -%}
-{%- if section.blocks.first.id == block.id -%}
-  {%- assign is_first = true -%}
-{%- endif -%}
+{%- liquid
+  assign is_first = false
+  if section.blocks.first.id == block.id
+    assign is_first = true
+  endif
+  assign tab_collection = block.settings.collection
+  assign max_products = section.settings.max_products | default: 8
+  if section.settings.layout == 'featured'
+    assign max_products = 5
+  endif
+-%}
 
-<button
-  class="product-tabs__tab"
-  type="button"
-  role="tab"
-  aria-controls="ProductTabsPanel-{{ block.id }}"
-  aria-selected="{{ is_first }}"
-  data-tab="{{ block.id }}"
-  {{ block.shopify_attributes }}
->
-  {{- block.settings.label | escape -}}
-</button>
+<div class="product-tabs__tab-block" {{ block.shopify_attributes }}>
+  <button
+    class="product-tabs__tab"
+    type="button"
+    aria-controls="ProductTabsPanel-{{ block.id }}"
+    aria-pressed="{{ is_first }}"
+    data-tab="{{ block.id }}"
+  >
+    {{- block.settings.label | escape -}}
+  </button>
+
+  <div
+    class="product-tabs__panel"
+    id="ProductTabsPanel-{{ block.id }}"
+    data-tab-panel="{{ block.id }}"
+    {% unless is_first %}
+      hidden
+    {% endunless %}
+  >
+    <ul class="product-tabs__row" role="list" data-scroller>
+      {% if tab_collection != blank %}
+        {% for product in tab_collection.products limit: max_products %}
+          <li>{% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}</li>
+        {% endfor %}
+      {% else %}
+        {%- assign placeholders = 4 -%}
+        {%- if section.settings.layout == 'featured' -%}
+          {%- assign placeholders = 5 -%}
+        {%- endif -%}
+        {% for i in (1..placeholders) %}
+          <li>{% content_for 'block', type: 'product-card', id: 'product-card' %}</li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+    {% if tab_collection != blank %}
+      <a class="button-secondary product-tabs__all" href="{{ tab_collection.url }}">{{ 'actions.shop_all' | t }}</a>
+    {% endif %}
+  </div>
+</div>
 
 {% schema %}
 {
@@ -39,7 +76,55 @@
   ],
   "presets": [
     {
-      "name": "t:names.product_tab"
+      "name": "t:names.product_tab",
+      "blocks": {
+        "product-card": {
+          "type": "product-card",
+          "static": true,
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "row": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "space-between",
+                "vertical_alignment": "flex-start",
+                "width": "fill",
+                "gap": 12
+              },
+              "blocks": {
+                "title": {
+                  "type": "product-title",
+                  "settings": {
+                    "type_preset": "paragraph",
+                    "heading_level": "h3"
+                  }
+                },
+                "price": {
+                  "type": "price",
+                  "settings": {
+                    "type_preset": "paragraph"
+                  }
+                }
+              },
+              "block_order": [
+                "title",
+                "price"
+              ]
+            }
+          },
+          "block_order": [
+            "gallery",
+            "row"
+          ]
+        }
+      }
     }
   ]
 }

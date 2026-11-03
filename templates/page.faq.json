@@ -12,12 +12,37 @@
     "faq_header": {
       "type": "faq-header",
       "settings": {
-        "eyebrow": "Help centre",
-        "heading": "Frequently asked questions",
-        "text": "<p>Quick answers about orders, shipping, returns and our fragrances.</p>",
         "padding-block-start": 88,
         "padding-block-end": 88
-      }
+      },
+      "blocks": {
+        "eyebrow_1": {
+          "type": "_section-eyebrow",
+          "settings": {
+            "text": "Help centre"
+          }
+        },
+        "heading_2": {
+          "type": "_section-heading",
+          "settings": {
+            "heading": "Frequently asked questions",
+            "size": "h1",
+            "tag": "h1"
+          }
+        },
+        "text_3": {
+          "type": "_section-text",
+          "settings": {
+            "text": "<p>Quick answers about orders, shipping, returns and our fragrances.</p>",
+            "size": "large"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow_1",
+        "heading_2",
+        "text_3"
+      ]
     },
     "faq_body": {
       "type": "faq-body",

@@ -105,10 +105,54 @@
       {% endif %}
     {% else %}
       <div class="cart-drawer__empty">
-        <p class="h4">{{ 'content.cart_empty' | t }}</p>
-        <a class="button" href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}">
-          {{- 'actions.continue_shopping' | t -}}
-        </a>
+        <p class="cart-drawer__empty-title">{{ 'content.cart_empty' | t }}</p>
+
+        {% if settings.empty_cart_products != blank %}
+          {% if settings.empty_cart_products_heading != blank %}
+            <p class="cart-drawer__picks-heading">{{ settings.empty_cart_products_heading | escape }}</p>
+          {% endif %}
+          <ul class="cart-drawer__picks" role="list">
+            {% for product in settings.empty_cart_products %}
+              <li class="cart-pick">
+                <a class="cart-pick__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+                  {% if product.featured_media %}
+                    {{
+                      product.featured_media.preview_image
+                      | image_url: width: 600
+                      | image_tag: widths: '300, 450, 600', sizes: '(min-width: 750px) 240px, 50vw', loading: 'lazy', alt: ''
+                    }}
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% endif %}
+                </a>
+
+                {% comment %} One-variant products add straight from here; others open their page to choose. {% endcomment %}
+                {% if product.available and product.has_only_default_variant %}
+                  <form class="cart-pick__form" action="{{ routes.cart_add_url }}" method="post" data-type="add-to-cart-form">
+                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button class="cart-pick__add" type="submit" aria-label="{{ 'actions.add_product' | t: product: product.title | escape }}">
+                      {{- 'actions.add' | t -}}
+                    </button>
+                  </form>
+                {% elsif product.available %}
+                  <a class="cart-pick__add" href="{{ product.url }}" aria-label="{{ 'actions.choose_options_for' | t: product: product.title | escape }}">
+                    {{- 'actions.choose' | t -}}
+                  </a>
+                {% else %}
+                  <span class="cart-pick__add cart-pick__add--sold-out">{{ 'content.sold_out' | t }}</span>
+                {% endif %}
+
+                <a class="cart-pick__title" href="{{ product.url }}">{{ product.title | escape }}</a>
+                {% render 'price', product: product, show_currency_code: settings.currency_code_enabled_product_cards %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <a class="button" href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}">
+            {{- 'actions.continue_shopping' | t -}}
+          </a>
+        {% endif %}
       </div>
     {% endif %}
   </div>

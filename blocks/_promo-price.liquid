@@ -1,0 +1,32 @@
+{% doc %}
+  The promo card's price line: the section product's price and a short note.
+{% enddoc %}
+
+{%- assign product = section.settings.product -%}
+
+{% if product != blank or block.settings.note != blank %}
+  <p class="promo-card__price" {{ block.shopify_attributes }}>
+    {% if product != blank %}
+      <span class="h3">{% render 'format-money', amount: product.price %}</span>
+    {% endif %}
+    {% if block.settings.note != blank %}
+      <span class="promo-card__price-note">{{ block.settings.note | escape }}</span>
+    {% endif %}
+  </p>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.promo_price",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "note",
+      "label": "t:settings.text",
+      "default": "t:text_defaults.promo_price_note"
+    }
+  ],
+  "presets": [{ "name": "t:names.promo_price" }]
+}
+{% endschema %}

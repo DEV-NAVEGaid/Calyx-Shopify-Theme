@@ -916,6 +916,13 @@
         "info": "t:info.animations_smooth_scroll"
       },
       {
+        "type": "checkbox",
+        "id": "animations_page_transition",
+        "label": "t:settings.animations_page_transition",
+        "default": true,
+        "info": "t:info.animations_page_transition"
+      },
+      {
         "type": "select",
         "id": "card_hover_effect",
         "label": "t:settings.card_hover_effect",
@@ -1295,9 +1302,27 @@
         "default": true
       },
       {
+        "type": "header",
+        "content": "t:content.empty_cart"
+      },
+      {
         "type": "url",
         "id": "empty_cart_button_link",
-        "label": "t:settings.empty_cart_button_link"
+        "label": "t:settings.empty_cart_button_link",
+        "info": "t:info.empty_cart_button_link"
+      },
+      {
+        "type": "text",
+        "id": "empty_cart_products_heading",
+        "label": "t:settings.empty_cart_products_heading",
+        "default": "t:text_defaults.empty_cart_products_heading"
+      },
+      {
+        "type": "product_list",
+        "id": "empty_cart_products",
+        "label": "t:settings.empty_cart_products",
+        "limit": 6,
+        "info": "t:info.empty_cart_products"
       },
       {
         "type": "header",
@@ -1456,6 +1481,29 @@
         "label": "t:settings.show_tag_badges",
         "default": true,
         "info": "t:info.show_tag_badges"
+      },
+      {
+        "type": "color_background",
+        "id": "card_background",
+        "label": "t:settings.card_background",
+        "info": "t:info.card_background"
+      },
+      {
+        "type": "select",
+        "id": "card_background_area",
+        "label": "t:settings.card_background_area",
+        "default": "card",
+        "options": [
+          {
+            "value": "card",
+            "label": "t:options.card_background_area.card"
+          },
+          {
+            "value": "image",
+            "label": "t:options.card_background_area.image"
+          }
+        ],
+        "info": "t:info.card_background_area"
       },
       {
         "type": "range",

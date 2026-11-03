@@ -63,13 +63,25 @@
  * comes from each section's Padding settings (spacing-style), defaulting to
  * the design's 112px.
  */
+/*
+ * Section width and side padding (Width, Left, Right in each section):
+ * Normal keeps content to the page width, Wide lets it run edge to edge.
+ * Left / Right add to the page margin. Values come from snippets/spacing-style.
+ */
 .home-section {
-  padding-inline: var(--page-margin);
+  padding-inline:
+    calc(var(--section-gutter, var(--page-margin)) + var(--padding-inline-start, 0px))
+    calc(var(--section-gutter, var(--page-margin)) + var(--padding-inline-end, 0px));
 }
 
 .home-section__inner {
-  max-width: calc(var(--page-width) - var(--page-margin) * 2);
+  max-width: var(--section-max-width, calc(var(--page-width) - var(--page-margin) * 2));
   margin-inline: auto;
+}
+
+/* Full-bleed sections set to Normal sit inside the page width. */
+.shopify-section > .spacing-style:not(.home-section)[style*='--section-inset'] {
+  margin-inline: var(--section-inset, 0px);
 }
 
 @media (max-width: 749px) {
@@ -133,6 +145,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
+  --eyebrow-gap: 24px;
   width: min(620px, calc(100% - var(--page-margin) * 2));
 }
 
@@ -474,6 +487,7 @@
   flex-direction: column;
   align-items: center;
   gap: 24px;
+  --eyebrow-gap: 24px;
   text-align: center;
 }
 
@@ -531,6 +545,7 @@
 .product-tabs__heading {
   display: grid;
   gap: 8px;
+  --eyebrow-gap: 8px;
 }
 
 .product-tabs__controls,
@@ -554,7 +569,7 @@
   cursor: pointer;
 }
 
-.product-tabs__tab[aria-selected="true"] {
+.product-tabs__tab[aria-pressed="true"] {
   background-color: var(--color-foreground);
   color: var(--color-foreground-inverse);
   border-color: var(--color-foreground);
@@ -625,6 +640,15 @@
   display: none;
 }
 
+/* Each tab block holds its pill and products; the products move under the pills (assets/product-tabs.js). */
+.product-tabs__tab-block {
+  display: contents;
+}
+
+.product-tabs__tabs .product-tabs__panel {
+  display: none;
+}
+
 /* Small screens: four cards in two columns, then "Shop all". */
 @media (max-width: 749px) {
   .product-tabs__header {
@@ -687,6 +711,46 @@
   background: var(--swatch-background, var(--color-accent-soft));
   border-radius: 12px;
   transition: transform 0.3s ease;
+}
+
+/* A card with an image: the photo under a dark gradient, light text on top. */
+.mood-card--image {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.mood-card__media,
+.mood-card--image::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.mood-card__media > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 0.6s ease;
+}
+
+.mood-card--image::after {
+  content: '';
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / var(--mood-overlay, 60%)) 0%,
+    rgb(0 0 0 / calc(var(--mood-overlay, 60%) * 0.45)) 55%,
+    rgb(0 0 0 / calc(var(--mood-overlay, 60%) * 0.2)) 100%
+  );
+}
+
+.mood-card--image :is(.mood-card__number, .mood-card__text, .arrow-link) {
+  color: rgb(255 255 255 / 0.85);
+}
+
+.mood-card--image:hover .mood-card__media > img {
+  scale: 1.05;
 }
 
 .mood-card:hover {
@@ -758,7 +822,7 @@
 /** Expanding panels */
 .expanding-panels {
   display: block;
-  padding-inline: 8px;
+  padding-inline: calc(8px + var(--padding-inline-start, 0px)) calc(8px + var(--padding-inline-end, 0px));
 }
 
 .expanding-panels__track {
@@ -1060,11 +1124,12 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 28px;
+  --eyebrow-gap: 28px;
   min-width: 0;
 }
 
 .ritual-steps__eyebrow,
-.promo-card__eyebrow {
+.promo-card .section-eyebrow {
   color: var(--color-accent);
 }
 
@@ -1138,6 +1203,7 @@
 
   .ritual-steps__copy {
     gap: 16px;
+    --eyebrow-gap: 16px;
   }
 
   .ritual-steps__list {
@@ -1166,10 +1232,11 @@
   align-items: flex-start;
   justify-content: center;
   gap: 20px;
+  --eyebrow-gap: 20px;
   padding: 64px;
 }
 
-.promo-card__text,
+.promo-card .section-text,
 .promo-card__price-note {
   color: var(--color-foreground-muted);
 }
@@ -1555,6 +1622,7 @@
   display: grid;
   justify-items: center;
   gap: 16px;
+  --eyebrow-gap: 16px;
   margin-block-end: 40px;
   text-align: center;
 }
@@ -1700,6 +1768,7 @@
 .video-carousel__heading {
   display: grid;
   gap: 12px;
+  --eyebrow-gap: 12px;
 }
 
 .video-carousel__title {
@@ -2038,12 +2107,51 @@ a.ugc-tile:hover .ugc-tile__image {
   transform: scale(1.04);
 }
 
-.ugc-tile--large::after {
+.ugc-tile::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgb(20 17 16 / 0) 45%, rgb(20 17 16 / 0.7));
+  background: linear-gradient(to bottom, rgb(20 17 16 / 0) 40%, rgb(20 17 16 / 0.7));
   pointer-events: none;
+}
+
+/* Every tile's text sits at the bottom, over the fade. */
+.ugc-tile__content {
+  position: absolute;
+  inset: auto 16px 16px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ugc-tile--large .ugc-tile__content {
+  inset: auto 24px 24px;
+  gap: 16px;
+}
+
+.ugc-tile__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.ugc-tile--large .ugc-tile__stats {
+  font-size: 15px;
+}
+
+.ugc-tile__stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ugc-tile__stat .icon {
+  width: 16px;
+  height: 16px;
 }
 
 .ugc-tile__type {
@@ -2061,10 +2169,6 @@ a.ugc-tile:hover .ugc-tile__image {
 }
 
 .ugc-tile__caption {
-  position: absolute;
-  inset-block-start: 44%;
-  inset-inline: 16px;
-  z-index: 1;
   margin: 0;
   font-family: var(--font-heading--family);
   font-size: 19px;
@@ -2073,10 +2177,6 @@ a.ugc-tile:hover .ugc-tile__image {
 }
 
 .ugc-tile__member {
-  position: absolute;
-  inset-block-end: 24px;
-  inset-inline: 24px;
-  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 12px 48px;
@@ -2147,8 +2247,16 @@ a.ugc-tile:hover .ugc-tile__image {
     scrollbar-width: none;
   }
 
-  .ugc-tile__member {
+  .ugc-tile--large .ugc-tile__content {
     inset: auto 16px 16px;
+    gap: 12px;
+  }
+
+  .ugc-tile__content {
+    inset: auto 10px 10px;
+  }
+
+  .ugc-tile__member {
     gap: 8px 24px;
   }
 
@@ -2261,7 +2369,7 @@ svg.ugc-tile__image,
   display: grid;
   place-items: center;
   min-height: 560px;
-  padding-inline: var(--page-margin);
+  padding-inline: calc(var(--page-margin) + var(--padding-inline-start, 0px)) calc(var(--page-margin) + var(--padding-inline-end, 0px));
   overflow: hidden;
   color: var(--color-foreground);
 }
@@ -2292,12 +2400,12 @@ svg.ugc-tile__image,
   margin: 0;
 }
 
-.page-hero__text {
+.page-hero .section-text {
   max-width: 640px;
   opacity: 0.85;
 }
 
-.page-hero__text > * {
+.page-hero .section-text > * {
   margin: 0;
 }
 
@@ -2325,18 +2433,18 @@ svg.ugc-tile__image,
   margin: 0;
 }
 
-.image-with-text__eyebrow,
+.image-with-text .section-eyebrow,
 .stats-cards__eyebrow {
   color: var(--color-accent);
 }
 
-.image-with-text__text {
+.image-with-text .section-text {
   display: grid;
   gap: 24px;
   color: var(--color-foreground-muted);
 }
 
-.image-with-text__text > * {
+.image-with-text .section-text > * {
   margin: 0;
 }
 
@@ -2373,12 +2481,13 @@ svg.ugc-tile__image,
 @media (max-width: 749px) {
   .image-with-text__inner,
   .image-with-text__copy,
-  .image-with-text__text {
+  .image-with-text .section-text {
     gap: 16px;
   }
 
-  .image-with-text__copy > :is(.button-dark, .button-secondary) {
-    align-self: stretch;
+  .image-with-text__copy > .section-button {
+    display: flex;
+    width: 100%;
   }
 }
 
@@ -2468,7 +2577,7 @@ svg.ugc-tile__image,
 /** Quote banner: light text over a darkened photo */
 .quote-banner {
   position: relative;
-  padding-inline: var(--page-margin);
+  padding-inline: calc(var(--page-margin) + var(--padding-inline-start, 0px)) calc(var(--page-margin) + var(--padding-inline-end, 0px));
   overflow: hidden;
   color: var(--color-foreground-inverse);
   background-color: #1f1a17;
@@ -2520,6 +2629,7 @@ svg.ugc-tile__image,
 .stats-cards__title {
   display: grid;
   gap: 8px;
+  --eyebrow-gap: 8px;
   max-width: 640px;
 }
 
@@ -2614,7 +2724,7 @@ svg.ugc-tile__image,
 
 /** CTA band */
 .cta-band {
-  padding-inline: var(--page-margin);
+  padding-inline: calc(var(--page-margin) + var(--padding-inline-start, 0px)) calc(var(--page-margin) + var(--padding-inline-end, 0px));
   background-color: var(--color-accent-soft);
 }
 
@@ -2635,7 +2745,7 @@ svg.ugc-tile__image,
   margin: 0;
 }
 
-.cta-band__text {
+.cta-band .section-text {
   font-size: 16px;
   line-height: 24px;
   color: var(--color-foreground-muted);
@@ -2678,11 +2788,11 @@ svg.ugc-tile__image,
   margin: 0;
 }
 
-.contact-header__eyebrow {
+.contact-header .section-eyebrow {
   color: var(--color-foreground-muted);
 }
 
-.contact-header__text {
+.contact-header .section-text {
   max-width: 640px;
   color: var(--color-foreground-muted);
 }
@@ -2879,7 +2989,7 @@ svg.ugc-tile__image,
   margin: 0;
 }
 
-.studio-banner__text > * {
+.studio-banner .section-text > * {
   margin: 0;
 }
 
@@ -2979,15 +3089,15 @@ svg.ugc-tile__image,
   margin: 0;
 }
 
-.faq-header__eyebrow {
+.faq-header .section-eyebrow {
   color: var(--color-foreground-muted);
 }
 
-.faq-header__heading {
+.faq-header .section-heading {
   max-width: 644px;
 }
 
-.faq-header__text {
+.faq-header .section-text {
   max-width: 557px;
   color: var(--color-foreground-muted);
 }
@@ -3186,6 +3296,7 @@ svg.ugc-tile__image,
   display: grid;
   justify-items: center;
   gap: 48px;
+  --eyebrow-gap: 48px;
   margin-block-end: 48px;
   text-align: center;
 }
@@ -3236,6 +3347,7 @@ svg.ugc-tile__image,
 @media (max-width: 749px) {
   .notes-grid__header {
     gap: 16px;
+    --eyebrow-gap: 16px;
     margin-block-end: 20px;
   }
 
@@ -3265,7 +3377,7 @@ svg.ugc-tile__image,
   display: flex;
   align-items: flex-start;
   gap: 64px;
-  padding-inline: var(--page-margin);
+  padding-inline: calc(var(--page-margin) + var(--padding-inline-start, 0px)) calc(var(--page-margin) + var(--padding-inline-end, 0px));
   color: var(--color-accent);
 }
 
@@ -4201,7 +4313,12 @@ svg.ugc-tile__image,
 }
 
 .main-collection-list__grid-heading {
-  margin: 0;
+  margin: 0 0 24px;
+}
+
+/* Space between the featured banner and the grid below it (Banner spacing). */
+.featured-collection-banner {
+  margin-block-end: var(--banner-gap, 48px);
 }
 
 /* Small screens: copy at the top, the button at the bottom. */
@@ -4755,7 +4872,7 @@ svg.ugc-tile__image,
   letter-spacing: -0.02em;
 }
 
-.main-404__text {
+.main-404 .section-text {
   max-width: 620px;
   color: var(--color-foreground-muted);
 }
@@ -5001,7 +5118,7 @@ svg.ugc-tile__image,
     aspect-ratio: 350 / 220;
   }
 
-  .main-404__content > h1 {
+  .main-404__content > .section-heading {
     font-size: 28px;
     line-height: 34px;
   }
@@ -5356,7 +5473,12 @@ predictive-search[aria-busy="true"] .predictive-search__body {
 }
 
 .search-product-card__title {
+  display: -webkit-box;
+  overflow: hidden;
   font-weight: 600;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .search-product-card__price {
@@ -5578,7 +5700,7 @@ predictive-search[aria-busy="true"] .predictive-search__body {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  padding-inline: var(--page-margin);
+  padding-inline: calc(var(--page-margin) + var(--padding-inline-start, 0px)) calc(var(--page-margin) + var(--padding-inline-end, 0px));
 }
 
 .hero-split__panel {
@@ -5939,7 +6061,8 @@ predictive-search[aria-busy="true"] .predictive-search__body {
   display: flex;
   align-items: flex-end;
   min-height: min(880px, 100svh);
-  padding: 120px var(--page-margin) 48px;
+  padding-block: 120px 48px;
+  padding-inline: calc(var(--page-margin) + var(--padding-inline-start, 0px)) calc(var(--page-margin) + var(--padding-inline-end, 0px));
   overflow: hidden;
   color: #ffffff;
   background-color: var(--color-foreground);
@@ -6439,4 +6562,1045 @@ predictive-search[aria-busy="true"] .predictive-search__body {
   .back-in-stock__row {
     flex-direction: column;
   }
+}
+
+/** Image ratio (each section's Image ratio setting, from snippets/spacing-style) */
+.before-after[style*='--section-image-ratio'] .comparison__stage,
+.featured-launch[style*='--section-image-ratio'] .featured-launch__media,
+.hero-cards[style*='--section-image-ratio'] .hero-cards__media,
+.image-with-text[style*='--section-image-ratio'] .image-with-text__media,
+.journal-teaser[style*='--section-image-ratio'] .blog-post-card__media,
+.main-404[style*='--section-image-ratio'] .main-404__visual,
+.mood-grid[style*='--section-image-ratio'] .mood-card--image,
+.promo-card[style*='--section-image-ratio'] .promo-card__media,
+.ritual-steps[style*='--section-image-ratio'] .ritual-steps__media,
+.studio-banner[style*='--section-image-ratio'] .studio-banner__card,
+.testimonial-slider[style*='--section-image-ratio'] .testimonial-slide__photo--current,
+.video-carousel[style*='--section-image-ratio'] .video-card,
+.brand-story[style*='--section-image-ratio'] .brand-story__image,
+.hero-full[style*='--section-image-ratio'],
+.hero-split[style*='--section-image-ratio'] .hero-split__panel,
+.ingredients-explorer[style*='--section-image-ratio'] .ingredients-explorer__media,
+.page-hero[style*='--section-image-ratio'],
+.quote-banner[style*='--section-image-ratio'] {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: var(--section-image-ratio);
+}
+
+/**
+ * Section copy built from blocks (eyebrow, heading, text, button): each
+ * block on its own line, buttons inline so consecutive ones sit side by
+ * side. The spacing is each section's own (--copy-gap).
+ */
+.section-copy {
+  display: block;
+}
+
+.section-copy > * {
+  margin: 0;
+}
+
+/* Doubled class: beats older rules such as .main-404__content > :is(h1, p). */
+.section-copy.section-copy > * + * {
+  margin-block-start: var(--copy-gap, 16px);
+}
+
+.section-copy > .section-button {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Space after each button, so a button that wraps to a new line still lines up. */
+.section-copy > .section-button {
+  margin-inline: 0 12px;
+}
+
+.section-copy--center > .section-button {
+  margin-inline: 6px;
+}
+
+.section-copy--center {
+  text-align: center;
+}
+
+.section-copy--center > :not(.section-button) {
+  margin-inline: auto;
+}
+
+.contact-header__inner { --copy-gap: 16px; }
+.cta-band__copy { --copy-gap: 8px; }
+.faq-header__inner { --copy-gap: 20px; }
+.image-with-text__copy { --copy-gap: 24px; }
+.page-hero__content { --copy-gap: 20px; }
+.studio-banner__content { --copy-gap: 12px; }
+.main-404__content { --copy-gap: 24px; }
+
+@media (max-width: 749px) {
+  .image-with-text__copy,
+  .main-404__content {
+    --copy-gap: 16px;
+  }
+}
+
+/* The promo card's copy stays a column centred in the card's height. */
+.promo-card__copy.section-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  --eyebrow-gap: 20px;
+}
+
+.promo-card__copy.section-copy > * {
+  margin: 0;
+}
+
+/* CTA band: copy on the left, buttons on the right. */
+.cta-band__copy {
+  flex: 1;
+  gap: 8px 12px;
+}
+
+@media (min-width: 750px) {
+  .cta-band__copy.section-copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-columns: max-content;
+    grid-auto-flow: dense;
+    align-items: center;
+  }
+
+  .cta-band__copy.section-copy > * {
+    margin: 0;
+  }
+
+  .cta-band__copy > :not(.section-button) {
+    grid-column: 1;
+  }
+
+  /* Buttons take their own columns on the right, next to the copy rows. */
+  .cta-band__copy > .section-button {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+  }
+
+  .cta-band__copy > .section-button ~ .section-button {
+    grid-column: 3;
+  }
+
+  .cta-band__copy > .section-button ~ .section-button ~ .section-button {
+    grid-column: 4;
+  }
+}
+
+/**
+ * Product tabs, "Featured grid" layout ("Explore our categories"): heading
+ * left, compact tab labels right, then one large product beside four.
+ */
+@media (min-width: 750px) {
+  .product-tabs--featured .product-tabs__header {
+    align-items: flex-end;
+  }
+}
+
+.product-tabs--featured .product-tabs__tabs {
+  gap: 4px;
+}
+
+/* Let the row of tabs scroll instead of widening the page: the header is a
+   wrapping flex column, so its line would otherwise grow to fit every tab. */
+.product-tabs__controls {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.product-tabs__tabs {
+  min-width: 0;
+}
+
+.product-tabs--featured .product-tabs__tab {
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-color: transparent;
+  border-radius: 4px;
+}
+
+.product-tabs--featured .product-tabs__row {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-columns: auto;
+  grid-auto-flow: row;
+  gap: 24px 16px;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+
+/* The first product fills two columns and two rows; its image stretches to the row height. */
+.product-tabs--featured .product-tabs__row > li:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.product-tabs--featured .product-tabs__row > li:first-child .product-card {
+  height: 100%;
+}
+
+.product-tabs--featured .product-tabs__row > li:first-child .card-gallery {
+  flex: 1 1 auto;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+/* Only the image grows; the rows under it (a Fill-width group) keep their height. */
+.product-tabs--featured .product-tabs__row > li:first-child .product-card > :not(.card-gallery) {
+  flex: 0 0 auto;
+}
+
+.product-tabs--featured .product-tabs__row > li:nth-child(n + 6) {
+  display: none;
+}
+
+@media (max-width: 749px) {
+  .product-tabs--featured .product-tabs__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 12px;
+  }
+
+  .product-tabs--featured .product-tabs__row > li:first-child {
+    grid-row: auto;
+  }
+
+  .product-tabs--featured .product-tabs__row > li:first-child .card-gallery {
+    aspect-ratio: 1;
+  }
+
+  .product-tabs--featured .product-tabs__row > li:nth-child(n + 5) {
+    display: block;
+  }
+}
+
+/**
+ * Custom font sizes and weights (a section's Font size and weight settings).
+ * The merchant chose them on purpose, so they win over each section's own
+ * type scale;
+ * line heights become relative so larger text doesn't overlap. Large
+ * headings shrink on small screens.
+ */
+[style*='--type-heading'] :is(h1, h2, .h1, .h2) {
+  font-size: var(--type-heading) !important;
+  line-height: 1.1 !important;
+}
+
+[style*='--type-subheading'] :is(h3, h4, h5, h6) {
+  font-size: var(--type-subheading) !important;
+  line-height: 1.25 !important;
+}
+
+[style*='--type-text'] :is(p, blockquote, .rte, .rte li):not(.eyebrow, [class*='__eyebrow']) {
+  font-size: var(--type-text) !important;
+  line-height: 1.55 !important;
+}
+
+[style*='--type-eyebrow'] :is(.eyebrow, [class*='__eyebrow']) {
+  font-size: var(--type-eyebrow) !important;
+  line-height: 1.4 !important;
+}
+
+[style*='--type-heading-weight'] :is(h1, h2, .h1, .h2) {
+  font-weight: var(--type-heading-weight) !important;
+}
+
+[style*='--type-subheading-weight'] :is(h3, h4, h5, h6) {
+  font-weight: var(--type-subheading-weight) !important;
+}
+
+[style*='--type-text-weight'] :is(p, blockquote, .rte, .rte li):not(.eyebrow, [class*='__eyebrow']) {
+  font-weight: var(--type-text-weight) !important;
+}
+
+[style*='--type-eyebrow-weight'] :is(.eyebrow, [class*='__eyebrow']) {
+  font-weight: var(--type-eyebrow-weight) !important;
+}
+
+@media (max-width: 749px) {
+  [style*='--type-heading'] :is(h1, h2, .h1, .h2) {
+    font-size: max(calc(var(--type-heading) * 0.7), min(var(--type-heading), 24px)) !important;
+  }
+
+  [style*='--type-subheading'] :is(h3, h4, h5, h6) {
+    font-size: max(calc(var(--type-subheading) * 0.85), min(var(--type-subheading), 18px)) !important;
+  }
+}
+
+/**
+ * Eyebrow rhythm: an eyebrow sits 12px above the heading it introduces, in
+ * every section. Containers that space their children with `gap` report
+ * it as --eyebrow-gap, and the eyebrow's margin takes it back to 12px; in
+ * block flow (.section-copy) the heading's own top margin is dropped.
+ */
+:is(.eyebrow, [class*='__eyebrow'], .product-meta):has(+ :is(h1, h2, h3, h4, h5, h6)) {
+  margin-block-end: calc(12px - var(--eyebrow-gap, 0px)) !important;
+}
+
+:is(.eyebrow, [class*='__eyebrow'], .product-meta) + :is(h1, h2, h3, h4, h5, h6) {
+  margin-block-start: 0 !important;
+}
+
+
+/**
+ * Stockists: search and filters over a list of store cards beside a drawn
+ * map with numbered pins (assets/stockists.js places them).
+ */
+.stockists {
+  --stockists-land: color-mix(in srgb, #c9b48d 22%, var(--color-background));
+  --stockists-water: #dbe5f4;
+  --stockists-open: #2f7d4f;
+}
+
+.stockists__intro {
+  --copy-gap: 16px;
+}
+
+.stockists__intro .section-text {
+  color: var(--color-foreground-muted);
+}
+
+.stockists__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block-start: 20px;
+}
+
+.stockists__search {
+  display: flex;
+  flex: 0 1 266px;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  height: 44px;
+  padding-inline: 16px;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-foreground);
+  border-radius: 999px;
+}
+
+.stockists__search-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.stockists__search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 14px;
+  color: inherit;
+  background: none;
+  border: 0;
+  outline: none;
+}
+
+.stockists__search:focus-within {
+  outline: 2px solid var(--color-foreground);
+  outline-offset: 2px;
+}
+
+.stockists__locate {
+  height: 44px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stockists__locate[aria-busy="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.stockists__message {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--color-foreground-muted);
+}
+
+.stockists__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-block-start: 14px;
+}
+
+.stockists__filters .mood-filters__chip {
+  height: 32px;
+  padding-inline: 12px;
+  font-size: 12px;
+  background: none;
+  cursor: pointer;
+}
+
+.stockists__filters .mood-filters__chip--active {
+  background-color: var(--color-foreground);
+}
+
+.stockists__body {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-block-start: 20px;
+}
+
+.stockists__count {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--color-foreground-muted);
+}
+
+.stockists__list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stockist {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 14px;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stockist:hover {
+  border-color: color-mix(in srgb, var(--color-foreground) 40%, transparent);
+}
+
+.stockist--selected,
+.stockist--selected:hover {
+  border-color: var(--color-foreground);
+  box-shadow: inset 0 0 0 1px var(--color-foreground);
+}
+
+.stockist[hidden] {
+  display: none;
+}
+
+/* The whole card selects the store; the directions link sits above it. */
+.stockist__select {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: inherit;
+  cursor: pointer;
+}
+
+.stockist__select:focus-visible {
+  outline: 2px solid var(--color-foreground);
+  outline-offset: 2px;
+}
+
+.stockist__number {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  background-color: var(--color-accent-soft);
+  border-radius: 50%;
+}
+
+.stockist--selected .stockist__number {
+  color: #ffffff;
+  background-color: var(--color-accent);
+}
+
+.stockist__body {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.stockist__name {
+  margin: 0;
+  font-family: var(--font-body--family);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+.stockist__address,
+.stockist__hours {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--color-foreground-muted);
+}
+
+.stockist__hours {
+  font-size: 12px;
+}
+
+.stockist__hours--open {
+  color: var(--stockists-open);
+}
+
+.stockist__directions {
+  position: relative;
+  z-index: 2;
+  justify-self: start;
+  margin-block-start: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+.stockist__distance {
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-foreground-muted);
+  white-space: nowrap;
+}
+
+.stockists__empty {
+  margin: 0;
+  padding: 24px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--color-foreground-muted);
+  border: 1px dashed var(--color-border);
+  border-radius: 8px;
+}
+
+/* The map: a drawn grid of streets with a river, and the pins on top. */
+.stockists__map {
+  --map-grid: 48px;
+
+  position: sticky;
+  inset-block-start: calc(var(--sticky-header-offset, 0px) + 24px);
+  height: min(600px, calc(100vh - 120px));
+  min-height: 360px;
+  overflow: hidden;
+  background-color: var(--stockists-land);
+  background-image:
+    linear-gradient(to right, rgb(0 0 0 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0 0 0 / 0.06) 1px, transparent 1px);
+  background-position: center;
+  background-size: var(--map-grid) var(--map-grid);
+  border-radius: 8px;
+}
+
+.stockists__map::before {
+  content: "";
+  position: absolute;
+  inset-block: -10%;
+  inset-inline-start: 34%;
+  width: 16%;
+  background-color: var(--stockists-water);
+  transform: skewX(-16deg);
+}
+
+.stockists__pins {
+  position: absolute;
+  inset: 0;
+}
+
+.stockists__pin {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--color-foreground);
+  border: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: left 0.4s ease, top 0.4s ease, width 0.2s ease, height 0.2s ease;
+}
+
+.stockists__pin--selected {
+  z-index: 1;
+  width: 34px;
+  height: 34px;
+  background-color: var(--color-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+.stockists__pin:focus-visible {
+  outline: 2px solid var(--color-foreground);
+  outline-offset: 3px;
+}
+
+.stockists__popup {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.08);
+  transform: translate(-50%, calc(-100% - 26px));
+  pointer-events: none;
+  transition: left 0.4s ease, top 0.4s ease;
+}
+
+.stockists__popup[hidden] {
+  display: none;
+}
+
+.stockists__popup-meta {
+  color: var(--color-foreground-muted);
+}
+
+.stockists__zoom {
+  position: absolute;
+  inset-block-start: 12px;
+  inset-inline-end: 12px;
+  z-index: 3;
+  display: grid;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.stockists__zoom-button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.stockists__zoom-button + .stockists__zoom-button {
+  border-block-start: 1px solid var(--color-border);
+}
+
+.stockists__zoom-button .icon {
+  width: 12px;
+  height: 12px;
+}
+
+@media (max-width: 749px) {
+  .stockists__controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stockists__search {
+    flex-basis: auto;
+  }
+
+  .stockists__filters {
+    flex-wrap: nowrap;
+    margin-inline-end: calc(var(--page-margin) * -1);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .stockists__filters .mood-filters__chip {
+    flex-shrink: 0;
+  }
+
+  .stockists__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stockists__map {
+    position: relative;
+    inset-block-start: auto;
+    order: -1;
+    height: 320px;
+    min-height: 0;
+  }
+}
+
+/**
+ * Collection spotlight: a campaign image with its copy beside a grid of
+ * product cards. Sticky: the image stays pinned below the header while the
+ * grid scrolls; otherwise it stretches to the grid's height and scrolls too.
+ */
+.collection-spotlight__inner {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 32px;
+  align-items: stretch;
+}
+
+.collection-spotlight--image-right .collection-spotlight__media {
+  order: 2;
+}
+
+.collection-spotlight__media {
+  position: relative;
+  min-width: 0;
+}
+
+.collection-spotlight__frame {
+  position: relative;
+  height: 100%;
+  min-height: 560px;
+  overflow: hidden;
+  color: var(--spotlight-text, #ffffff);
+  background-color: var(--color-accent-soft);
+}
+
+.collection-spotlight--sticky .collection-spotlight__frame {
+  position: sticky;
+  inset-block-start: var(--sticky-header-offset, 0px);
+  height: calc(100vh - var(--sticky-header-offset, 0px));
+}
+
+.collection-spotlight__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.collection-spotlight--overlay .collection-spotlight__frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(20 17 16 / 0.5), rgb(20 17 16 / 0) 55%);
+  pointer-events: none;
+}
+
+.collection-spotlight__copy {
+  --copy-gap: 16px;
+
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  padding: clamp(32px, 4vw, 64px);
+}
+
+.collection-spotlight__copy :is(.eyebrow, .section-heading, .section-text, a) {
+  color: inherit;
+}
+
+/* The eyebrow leads with a dot, as a season or campaign label. */
+.collection-spotlight__copy .section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+}
+
+.collection-spotlight__copy .section-eyebrow::before {
+  content: "";
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  background-color: currentcolor;
+  border-radius: 50%;
+}
+
+.collection-spotlight__grid {
+  align-content: start;
+  margin: 0;
+  padding-block: 32px;
+  /* Wide: the image is flush with the page edge, the grid keeps the page margin. */
+  padding-inline-end: calc(var(--page-margin) - var(--section-gutter, 0px));
+}
+
+.collection-spotlight--image-right .collection-spotlight__grid {
+  padding-inline: calc(var(--page-margin) - var(--section-gutter, 0px)) 0;
+}
+
+@media (max-width: 749px) {
+  .collection-spotlight__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .collection-spotlight--image-right .collection-spotlight__media {
+    order: 0;
+  }
+
+  .collection-spotlight__frame,
+  .collection-spotlight--sticky .collection-spotlight__frame {
+    position: relative;
+    inset-block-start: auto;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: var(--section-image-ratio, 4 / 5);
+  }
+
+  .collection-spotlight__grid,
+  .collection-spotlight--image-right .collection-spotlight__grid {
+    padding: 28px calc(var(--page-margin) - var(--section-gutter, 0px)) 0;
+  }
+}
+/**
+ * Image hotspots: dots on a large image; each opens a small card beside it,
+ * away from the nearest edges (assets/image-hotspots.js). Small screens show
+ * the open card along the bottom of the image instead.
+ */
+.image-hotspots__intro {
+  --copy-gap: 16px;
+
+  margin-block-end: 32px;
+}
+
+.image-hotspots__media {
+  position: relative;
+  aspect-ratio: var(--section-image-ratio, 16 / 9);
+  border-radius: var(--product-card--image-radius);
+}
+
+.image-hotspots__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.hotspot {
+  position: absolute;
+  inset-inline-start: var(--x);
+  inset-block-start: var(--y);
+  z-index: 1;
+}
+
+.hotspot--open {
+  z-index: 2;
+}
+
+.hotspot__dot {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background-color: var(--color-background);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* A soft pulse invites a tap; the centre dot shows the open state. */
+.hotspot__dot::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 2px solid var(--color-background);
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: hotspot-pulse 2s ease-out infinite;
+}
+
+.hotspot__dot::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  background-color: var(--color-foreground);
+  border-radius: 50%;
+  transition: inset 0.2s ease;
+}
+
+.hotspot__dot:hover,
+.hotspot--open .hotspot__dot {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.hotspot--open .hotspot__dot::after {
+  inset: 8px;
+  background-color: var(--color-accent);
+}
+
+@keyframes hotspot-pulse {
+  from {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.hotspot__card {
+  position: absolute;
+  display: flex;
+  gap: 12px;
+  width: 280px;
+  padding: 12px;
+  color: var(--color-popover-text);
+  background-color: var(--color-popover-background);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgb(31 26 23 / 0.18);
+  animation: hotspot-card-in 0.15s ease-out;
+}
+
+.hotspot__card[hidden] {
+  display: none;
+}
+
+@keyframes hotspot-card-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+.hotspot--right .hotspot__card {
+  inset-inline-start: 24px;
+}
+
+.hotspot--left .hotspot__card {
+  inset-inline-end: 24px;
+}
+
+.hotspot--below .hotspot__card {
+  inset-block-start: -14px;
+}
+
+.hotspot--above .hotspot__card {
+  inset-block-end: -14px;
+}
+
+.hotspot__media {
+  flex-shrink: 0;
+  width: 84px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: var(--color-accent-soft);
+  border-radius: 6px;
+}
+
+.hotspot__media > :is(img, svg) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hotspot__body {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  min-width: 0;
+}
+
+.hotspot__title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.hotspot__text,
+.hotspot__body .price {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.hotspot__form {
+  margin-block-start: 6px;
+}
+
+.hotspot__add {
+  min-height: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+}
+
+.hotspot__link {
+  margin-block-start: 4px;
+  font-size: 13px;
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 749px) {
+  .image-hotspots__media {
+    aspect-ratio: var(--section-image-ratio, 4 / 5);
+  }
+
+  /* Cards sit along the bottom of the image, whatever the dot's position. */
+  .hotspot {
+    position: static;
+  }
+
+  .hotspot__dot {
+    position: absolute;
+    inset-inline-start: var(--x);
+    inset-block-start: var(--y);
+  }
+
+  .hotspot__card,
+  :is(.hotspot--left, .hotspot--right, .hotspot--above, .hotspot--below) .hotspot__card {
+    z-index: 3;
+    inset: auto 12px 12px;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hotspot__dot::before,
+  .hotspot__card {
+    animation: none;
+  }
+}
+/** Countdown banner: copy, timer, and button stacked on an optional background. */
+.countdown-banner {
+  color: var(--countdown-banner-text, inherit);
+}
+
+.countdown-banner--filled {
+  background: var(--countdown-banner-background);
+}
+
+.countdown-banner__inner {
+  --copy-gap: 20px;
+}
+
+.countdown-banner__inner > .countdown {
+  margin-block: 36px 12px;
 }
