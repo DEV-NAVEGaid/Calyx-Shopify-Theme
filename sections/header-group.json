@@ -40,8 +40,10 @@
     "header": {
       "type": "header",
       "settings": {
-        "sticky": true,
-        "transparent_on_home": false,
+        "sticky_mode": "always",
+        "background_style": "solid",
+        "transparent_home_only": true,
+        "adaptive_text": true,
         "border_bottom": true,
         "show_localization": true
       },

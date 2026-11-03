@@ -851,6 +851,71 @@
         "info": "t:info.animations_reveal_on_scroll"
       },
       {
+        "type": "range",
+        "id": "reveal_distance",
+        "label": "t:settings.reveal_distance",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "default": 40,
+        "visible_if": "{{ settings.animations_reveal_on_scroll }}"
+      },
+      {
+        "type": "range",
+        "id": "reveal_blur",
+        "label": "t:settings.reveal_blur",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 12,
+        "visible_if": "{{ settings.animations_reveal_on_scroll }}"
+      },
+      {
+        "type": "range",
+        "id": "reveal_duration",
+        "label": "t:settings.reveal_duration",
+        "min": 200,
+        "max": 2000,
+        "step": 100,
+        "unit": "ms",
+        "default": 1000,
+        "visible_if": "{{ settings.animations_reveal_on_scroll }}"
+      },
+      {
+        "type": "range",
+        "id": "reveal_stagger",
+        "label": "t:settings.reveal_stagger",
+        "min": 0,
+        "max": 300,
+        "step": 10,
+        "unit": "ms",
+        "default": 80,
+        "visible_if": "{{ settings.animations_reveal_on_scroll }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "animations_text_roll",
+        "label": "t:settings.animations_text_roll",
+        "default": true,
+        "info": "t:info.animations_text_roll"
+      },
+      {
+        "type": "checkbox",
+        "id": "animations_button_bubble",
+        "label": "t:settings.animations_button_bubble",
+        "default": true,
+        "info": "t:info.animations_button_bubble"
+      },
+      {
+        "type": "checkbox",
+        "id": "animations_smooth_scroll",
+        "label": "t:settings.animations_smooth_scroll",
+        "default": true,
+        "info": "t:info.animations_smooth_scroll"
+      },
+      {
         "type": "select",
         "id": "card_hover_effect",
         "label": "t:settings.card_hover_effect",
@@ -899,6 +964,19 @@
         "label": "t:settings.border",
         "default": "{{ settings.color_palette.color1 }}",
         "alpha": true
+      },
+      {
+        "type": "color",
+        "id": "palette_primary_button_hover_background",
+        "label": "t:settings.hover_fill",
+        "default": "{{ settings.color_palette.color2 }}",
+        "info": "t:info.button_hover_fill"
+      },
+      {
+        "type": "color",
+        "id": "palette_primary_button_hover_text",
+        "label": "t:settings.hover_text",
+        "default": "{{ settings.color_palette.foreground }}"
       },
       {
         "type": "range",
@@ -984,6 +1062,19 @@
         "label": "t:settings.border",
         "default": "{{ settings.color_palette.foreground }}",
         "alpha": true
+      },
+      {
+        "type": "color",
+        "id": "palette_secondary_button_hover_background",
+        "label": "t:settings.hover_fill",
+        "default": "{{ settings.color_palette.color1 }}",
+        "info": "t:info.button_hover_fill"
+      },
+      {
+        "type": "color",
+        "id": "palette_secondary_button_hover_text",
+        "label": "t:settings.hover_text",
+        "default": "{{ settings.color_palette.color5 }}"
       },
       {
         "type": "range",

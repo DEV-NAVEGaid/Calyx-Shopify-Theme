@@ -6,10 +6,13 @@
  * - The mobile drawer's close button closes it; Back closes a drawer panel.
  * - A transparent header turns solid once the page scrolls, and
  *   `--header-height` stays current for layouts that sit under it.
+ * - "Show when scrolling up" hides the sticky header on the way down and
+ *   brings it back on the way up.
  */
 class HeaderComponent extends HTMLElement {
   #resizeObserver = null;
   #closeTimer = null;
+  #lastScrollY = window.scrollY;
 
   get #dropdowns() {
     return [...this.querySelectorAll(".header-nav__dropdown")];
@@ -33,7 +36,7 @@ class HeaderComponent extends HTMLElement {
     });
     this.#resizeObserver.observe(this);
 
-    if (this.classList.contains("header--transparent")) {
+    if (this.classList.contains("header--transparent") || this.classList.contains("header--sticky-up")) {
       window.addEventListener("scroll", this.#onScroll, { passive: true });
       this.#onScroll();
     }
@@ -117,7 +120,20 @@ class HeaderComponent extends HTMLElement {
   };
 
   #onScroll = () => {
-    this.classList.toggle("is-scrolled", window.scrollY > 10);
+    const y = window.scrollY;
+    this.classList.toggle("is-scrolled", y > 10);
+
+    if (this.classList.contains("header--sticky-up")) {
+      const delta = y - this.#lastScrollY;
+      if (y <= this.offsetHeight) {
+        this.classList.remove("is-hidden");
+      } else if (delta > 4) {
+        this.classList.add("is-hidden");
+      } else if (delta < -4) {
+        this.classList.remove("is-hidden");
+      }
+    }
+    this.#lastScrollY = y;
   };
 }
 

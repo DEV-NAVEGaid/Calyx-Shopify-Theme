@@ -5,6 +5,14 @@
   static blocks; mega menu promos are blocks that assets/header.js places in
   the matching mega menu.
 
+  Sticky: off, always, or only while scrolling up (assets/header.js hides it
+  on the way down). Background: a solid color, a gradient, or transparent
+  over the first section (on the home page only, or everywhere). A
+  transparent header can adapt its text to what is behind it: white text
+  blended with mix-blend-mode: difference turns dark over light areas and
+  light over dark ones, so it stays readable over photos and colored
+  sections.
+
   Account is Shopify's <shopify-account> component: it opens a sheet to sign
   in and reach orders and profile without leaving the store. Signed out it
   shows "Account" (an icon on small screens); signed in, the customer's
@@ -13,8 +21,29 @@
 
 {%- liquid
   assign transparent = false
-  if section.settings.transparent_on_home and request.page_type == 'index'
-    assign transparent = true
+  if section.settings.background_style == 'transparent'
+    if section.settings.transparent_home_only == false or request.page_type == 'index'
+      assign transparent = true
+    endif
+  endif
+
+  assign header_classes = 'header'
+  case section.settings.sticky_mode
+    when 'always'
+      assign header_classes = header_classes | append: ' header--sticky'
+    when 'scroll_up'
+      assign header_classes = header_classes | append: ' header--sticky header--sticky-up'
+  endcase
+  if section.settings.border_bottom
+    assign header_classes = header_classes | append: ' header--border'
+  endif
+  if transparent
+    assign header_classes = header_classes | append: ' header--transparent'
+    if section.settings.adaptive_text
+      assign header_classes = header_classes | append: ' header--adaptive'
+    endif
+  elsif section.settings.background_style == 'gradient' and section.settings.background_gradient != blank
+    assign header_classes = header_classes | append: ' header--gradient'
   endif
 
   assign cart_trigger = false
@@ -24,7 +53,12 @@
 -%}
 
 <header-component
-  class="header{% if section.settings.sticky %} header--sticky{% endif %}{% if section.settings.border_bottom %} header--border{% endif %}{% if transparent %} header--transparent{% endif %}"
+  class="{{ header_classes }}"
+  style="
+    {%- if section.settings.background_color != blank -%}--header-background: {{ section.settings.background_color }};{%- endif -%}
+    {%- if section.settings.background_gradient != blank -%}--header-gradient: {{ section.settings.background_gradient }};{%- endif -%}
+    {%- if section.settings.text_color != blank -%}--header-text: {{ section.settings.text_color }};{%- endif -%}
+  "
 >
   <div class="header__inner">
     <div class="header__start">
@@ -109,23 +143,76 @@
   "blocks": [{ "type": "_mega-menu-promo" }],
   "settings": [
     {
-      "type": "checkbox",
-      "id": "sticky",
+      "type": "select",
+      "id": "sticky_mode",
       "label": "t:settings.sticky_header",
-      "default": true
+      "options": [
+        { "value": "none", "label": "t:options.sticky_mode.none" },
+        { "value": "always", "label": "t:options.sticky_mode.always" },
+        { "value": "scroll_up", "label": "t:options.sticky_mode.scroll_up" }
+      ],
+      "default": "always"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "select",
+      "id": "background_style",
+      "label": "t:settings.background",
+      "options": [
+        { "value": "solid", "label": "t:options.header_background.solid" },
+        { "value": "gradient", "label": "t:options.header_background.gradient" },
+        { "value": "transparent", "label": "t:options.header_background.transparent" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "info": "t:info.header_background_color",
+      "visible_if": "{{ section.settings.background_style == 'solid' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:settings.gradient",
+      "default": "linear-gradient(90deg, rgba(247, 243, 236, 1) 0%, rgba(231, 226, 248, 1) 100%)",
+      "visible_if": "{{ section.settings.background_style == 'gradient' }}"
     },
     {
       "type": "checkbox",
-      "id": "transparent_on_home",
-      "label": "t:settings.transparent_on_home",
-      "default": false,
-      "info": "t:info.transparent_on_home"
+      "id": "transparent_home_only",
+      "label": "t:settings.transparent_home_only",
+      "default": true,
+      "info": "t:info.transparent_home_only",
+      "visible_if": "{{ section.settings.background_style == 'transparent' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "adaptive_text",
+      "label": "t:settings.adaptive_text",
+      "default": true,
+      "info": "t:info.adaptive_text",
+      "visible_if": "{{ section.settings.background_style == 'transparent' }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "info": "t:info.header_text_color"
     },
     {
       "type": "checkbox",
       "id": "border_bottom",
       "label": "t:settings.border_bottom",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
     },
     {
       "type": "checkbox",

@@ -63,5 +63,17 @@
     {% if settings.animations_reveal_on_scroll %}
       <script src="{{ 'reveal.js' | asset_url }}" type="module"></script>
     {% endif %}
+
+    {% if settings.animations_smooth_scroll %}
+      <script src="{{ 'smooth-scroll.js' | asset_url }}" type="module"></script>
+    {% endif %}
+
+    {% if settings.animations_button_bubble %}
+      <script src="{{ 'button-bubble.js' | asset_url }}" type="module"></script>
+    {% endif %}
+
+    {% if settings.animations_text_roll %}
+      <script src="{{ 'text-roll.js' | asset_url }}" type="module"></script>
+    {% endif %}
   </body>
 </html>

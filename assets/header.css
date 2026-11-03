@@ -56,6 +56,12 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* "Show when scrolling up": slides away on the way down (assets/header.js). */
+.header-section:has(.header--sticky-up.is-hidden):not(:has(details[open])) {
+  transform: translateY(-100%);
 }
 
 /* Over the first section of the home page until the page scrolls. */
@@ -66,19 +72,39 @@
 .header {
   position: relative;
   display: block;
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  background: var(--header-background, var(--color-background));
+  color: var(--header-text, var(--color-foreground));
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.header--gradient {
+  background: var(--header-gradient);
 }
 
 .header--border {
   border-block-end: 1px solid var(--color-border);
 }
 
-.header--transparent:not(.is-scrolled, :has(details[open])) {
-  background-color: transparent;
-  color: var(--color-foreground-inverse);
+/* Transparent turns solid once the page scrolls, unless the text adapts to what is behind it. */
+.header--transparent:not(.is-scrolled, :has(details[open])),
+.header--transparent.header--adaptive:not(:has(details[open])) {
+  background: transparent;
+  color: var(--header-text, var(--color-foreground-inverse));
   border-color: transparent;
+}
+
+/*
+ * Adaptive text: white text blended with "difference" shows the inverse of
+ * whatever is behind it — dark over light areas, light over dark ones. The
+ * blend sits on the section because the sticky header is its own stacking
+ * context; open menus and drawers turn it off so their panels keep their colors.
+ */
+.header-section:has(.header--transparent.header--adaptive):not(:has(details[open])) {
+  mix-blend-mode: difference;
+}
+
+.header--transparent.header--adaptive:not(:has(details[open])) {
+  color: #ffffff;
 }
 
 .header__inner {
