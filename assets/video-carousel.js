@@ -2,12 +2,15 @@
  * Video carousel: the arrows scroll the row by one card and the counter
  * follows the first visible card. That card's video plays (muted) while the
  * others pause; its button pauses it, and a paused video stays paused until
- * its button is pressed again. No autoplay when reduced motion is preferred.
+ * its button is pressed again. Nothing plays while the carousel is off screen,
+ * and there is no autoplay when reduced motion is preferred.
  */
 class VideoCarousel extends HTMLElement {
   #index = 0;
   #frame = 0;
   #paused = new WeakSet();
+  #visible = false;
+  #observer = null;
 
   get #track() {
     return this.querySelector("[data-scroller]");
@@ -24,12 +27,21 @@ class VideoCarousel extends HTMLElement {
     this.addEventListener("click", this.#onClick);
     this.#track?.addEventListener("scroll", this.#onScroll, { passive: true });
     document.addEventListener("shopify:block:select", this.#onBlockSelect);
-    // Measure on the next frame, not while the page is still being parsed.
-    this.#frame = requestAnimationFrame(() => this.#update());
+    // Measure and play only while the carousel is on screen.
+    this.#observer = new IntersectionObserver(([entry]) => {
+      this.#visible = entry.isIntersecting;
+      if (this.#visible) {
+        this.#onScroll();
+      } else {
+        this.#cards.forEach((card) => this.#play(card, false));
+      }
+    });
+    this.#observer.observe(this);
   }
 
   disconnectedCallback() {
     cancelAnimationFrame(this.#frame);
+    this.#observer?.disconnect();
     document.removeEventListener("shopify:block:select", this.#onBlockSelect);
   }
 
@@ -60,8 +72,8 @@ class VideoCarousel extends HTMLElement {
     this.querySelector('[data-scroll-step="-1"]')?.toggleAttribute("disabled", scrollLeft <= 2);
     this.querySelector('[data-scroll-step="1"]')?.toggleAttribute("disabled", end);
 
-    // Only the first visible card plays.
-    const active = cards[first];
+    // Only the first visible card plays, and only while the carousel is on screen.
+    const active = this.#visible ? cards[first] : null;
     for (const card of cards) {
       this.#play(card, card === active && !this.#paused.has(card));
     }

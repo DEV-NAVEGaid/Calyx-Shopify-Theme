@@ -64,7 +64,7 @@
   </div>
 </ingredients-explorer>
 
-<script src="{{ 'ingredients-explorer.js' | asset_url }}" type="module"></script>
+{% render 'lazy-script', src: 'ingredients-explorer.js' %}
 
 {% schema %}
 {

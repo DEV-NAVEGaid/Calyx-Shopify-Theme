@@ -3717,6 +3717,18 @@ input:focus-visible + .variant-picker__swatch {
   overflow: hidden;
 }
 
+/* Shopify's own "Buy it now" button (shown when no wallet such as Shop Pay
+   takes its place) is black instead of Shopify's blue. Wallet buttons keep
+   their brand colors. */
+.shopify-payment-button .shopify-payment-button__button--unbranded {
+  background-color: rgb(0 0 0);
+  color: rgb(255 255 255);
+}
+
+.shopify-payment-button .shopify-payment-button__button--unbranded:hover:not([disabled]) {
+  background-color: rgb(0 0 0 / 0.8);
+}
+
 .product-details .shopify-payment-button__more-options {
   margin-block-start: 8px;
   font-size: 14px;

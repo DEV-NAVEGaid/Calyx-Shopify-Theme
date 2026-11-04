@@ -51,7 +51,7 @@
   </div>
 </testimonial-slider>
 
-<script src="{{ 'testimonial-slider.js' | asset_url }}" type="module"></script>
+{% render 'lazy-script', src: 'testimonial-slider.js' %}
 
 {% schema %}
 {

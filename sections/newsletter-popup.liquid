@@ -69,7 +69,7 @@
   </dialog>
 </newsletter-popup>
 
-<script src="{{ 'newsletter-popup.js' | asset_url }}" type="module"></script>
+{% render 'lazy-script', src: 'newsletter-popup.js', on: 'idle' %}
 
 {% schema %}
 {

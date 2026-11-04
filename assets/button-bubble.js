@@ -28,16 +28,19 @@ function wrapWithin(root) {
   root.querySelectorAll?.(SELECTOR).forEach(wrap);
 }
 
-wrapWithin(document);
+// A hover effect: touch screens skip it and keep the plain markup.
+if (window.matchMedia("(hover: hover)").matches) {
+  wrapWithin(document);
 
-new MutationObserver((mutations) => {
-  for (const mutation of mutations) {
-    // A script replaced a button's text: wrap the new label.
-    if (mutation.target.matches?.(".button--bubble") && !mutation.target.querySelector(":scope > .button__clip")) {
-      wrap(mutation.target);
+  new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      // A script replaced a button's text: wrap the new label.
+      if (mutation.target.matches?.(".button--bubble") && !mutation.target.querySelector(":scope > .button__clip")) {
+        wrap(mutation.target);
+      }
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === Node.ELEMENT_NODE) wrapWithin(node);
+      });
     }
-    mutation.addedNodes.forEach((node) => {
-      if (node.nodeType === Node.ELEMENT_NODE) wrapWithin(node);
-    });
-  }
-}).observe(document.body, { childList: true, subtree: true });
+  }).observe(document.body, { childList: true, subtree: true });
+}

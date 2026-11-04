@@ -1,15 +1,29 @@
 {% comment %}
   Full-width hero slideshow. Each slide is a block with its own photo,
   badge, headline, text, and two buttons. assets/hero-slideshow.js rotates
-  the slides and wires the arrows and progress bars.
+  the slides and wires the arrows and progress bars. Height: Small (560px),
+  Medium (720px), Large (880px), or Full screen (the height of the screen).
 {% endcomment %}
 
-{%- assign slide_count = section.blocks.size -%}
+{%- liquid
+  assign slide_count = section.blocks.size
+
+  case section.settings.section_height
+    when 'small'
+      assign hero_height = '560px'
+    when 'large'
+      assign hero_height = '880px'
+    when 'full_screen'
+      assign hero_height = '100svh'
+    else
+      assign hero_height = '720px'
+  endcase
+-%}
 
 <hero-slideshow
   class="hero-slideshow spacing-style"
   data-autoplay="{{ section.settings.autoplay_speed }}"
-  style="{% render 'spacing-style', settings: section.settings %} --hero-height: {{ section.settings.height }}px;"
+  style="{% render 'spacing-style', settings: section.settings %} --hero-height: {{ hero_height }};"
 >
   {% content_for 'blocks' %}
 
@@ -76,14 +90,28 @@
       "info": "t:info.autoplay_speed"
     },
     {
-      "type": "range",
-      "id": "height",
+      "type": "select",
+      "id": "section_height",
       "label": "t:settings.height",
-      "min": 480,
-      "max": 960,
-      "step": 20,
-      "unit": "px",
-      "default": 720
+      "options": [
+        {
+          "value": "small",
+          "label": "t:options.section_height.small"
+        },
+        {
+          "value": "medium",
+          "label": "t:options.section_height.medium"
+        },
+        {
+          "value": "large",
+          "label": "t:options.section_height.large"
+        },
+        {
+          "value": "full_screen",
+          "label": "t:options.section_height.full_screen"
+        }
+      ],
+      "default": "medium"
     },
     {
       "type": "header",

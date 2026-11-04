@@ -68,7 +68,10 @@
  * Normal keeps content to the page width, Wide lets it run edge to edge.
  * Left / Right add to the page margin. Values come from snippets/spacing-style.
  */
+/* Several of these are custom elements, which are inline until told otherwise:
+   padding on an inline element doesn't narrow its content. */
 .home-section {
+  display: block;
   padding-inline:
     calc(var(--section-gutter, var(--page-margin)) + var(--padding-inline-start, 0px))
     calc(var(--section-gutter, var(--page-margin)) + var(--padding-inline-end, 0px));

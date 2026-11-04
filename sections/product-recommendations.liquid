@@ -37,7 +37,7 @@
   </product-recommendations>
 {% endif %}
 
-<script src="{{ 'product-recommendations.js' | asset_url }}" type="module"></script>
+{% render 'lazy-script', src: 'product-recommendations.js' %}
 
 {% schema %}
 {

@@ -76,12 +76,15 @@ function splitWithin(root) {
   root.querySelectorAll?.(SELECTOR).forEach(split);
 }
 
-splitWithin(document);
+// A hover effect: touch screens skip it and keep the plain markup.
+if (window.matchMedia("(hover: hover)").matches) {
+  splitWithin(document);
 
-new MutationObserver((mutations) => {
-  for (const mutation of mutations) {
-    mutation.addedNodes.forEach((node) => {
-      if (node.nodeType === Node.ELEMENT_NODE) splitWithin(node);
-    });
-  }
-}).observe(document.body, { childList: true, subtree: true });
+  new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === Node.ELEMENT_NODE) splitWithin(node);
+      });
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+}

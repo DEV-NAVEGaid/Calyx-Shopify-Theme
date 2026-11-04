@@ -20,4 +20,4 @@
   </dialog>
 </quick-add-modal>
 
-<script src="{{ 'quick-add.js' | asset_url }}" type="module"></script>
+{% render 'lazy-script', src: 'quick-add.js', on: 'idle' %}

@@ -1,0 +1,21 @@
+{% doc %}
+  A script module that loads later instead of with the page, so it doesn't
+  compete with the first screen's styles, fonts and images.
+  assets/lazy-modules.js imports it:
+  - `visible` (default): once its section comes within a screen of the viewport;
+  - `idle`: once the page has loaded and the browser is idle, or on the
+    visitor's first interaction, whichever comes first.
+  In the theme editor everything loads right away.
+
+  Use it for components below the first screen and for things that only
+  matter once the visitor acts (drawers, modals, hover effects). Keep a plain
+  `<script type="module">` for what the first screen needs to work.
+
+  @param {string} src - Asset file name, e.g. 'video-carousel.js'.
+  @param {string} [on] - When to load: 'visible' (default) or 'idle'.
+
+  @example
+  {% render 'lazy-script', src: 'video-carousel.js' %}
+{% enddoc %}
+
+<template data-lazy-module="{{ src | asset_url }}" data-load-on="{{ on | default: 'visible' }}"></template>

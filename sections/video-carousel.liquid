@@ -51,7 +51,7 @@
   </div>
 </video-carousel>
 
-<script src="{{ 'video-carousel.js' | asset_url }}" type="module"></script>
+{% render 'lazy-script', src: 'video-carousel.js' %}
 
 {% schema %}
 {
