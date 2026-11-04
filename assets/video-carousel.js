@@ -24,10 +24,12 @@ class VideoCarousel extends HTMLElement {
     this.addEventListener("click", this.#onClick);
     this.#track?.addEventListener("scroll", this.#onScroll, { passive: true });
     document.addEventListener("shopify:block:select", this.#onBlockSelect);
-    this.#update();
+    // Measure on the next frame, not while the page is still being parsed.
+    this.#frame = requestAnimationFrame(() => this.#update());
   }
 
   disconnectedCallback() {
+    cancelAnimationFrame(this.#frame);
     document.removeEventListener("shopify:block:select", this.#onBlockSelect);
   }
 
@@ -44,19 +46,22 @@ class VideoCarousel extends HTMLElement {
       return;
     }
 
+    // Read all the layout first, then write, so the browser lays out once.
     const step = this.#step();
-    const end = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
-    this.#index = end ? cards.length - 1 : Math.round(track.scrollLeft / step);
+    const scrollLeft = track.scrollLeft;
+    const end = scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    const first = step ? Math.round(scrollLeft / step) : 0;
+    this.#index = end ? cards.length - 1 : first;
 
     const current = this.querySelector("[data-carousel-current]");
     if (current) {
       current.textContent = String(this.#index + 1);
     }
-    this.querySelector('[data-scroll-step="-1"]')?.toggleAttribute("disabled", track.scrollLeft <= 2);
+    this.querySelector('[data-scroll-step="-1"]')?.toggleAttribute("disabled", scrollLeft <= 2);
     this.querySelector('[data-scroll-step="1"]')?.toggleAttribute("disabled", end);
 
     // Only the first visible card plays.
-    const active = cards[Math.round(track.scrollLeft / step)];
+    const active = cards[first];
     for (const card of cards) {
       this.#play(card, card === active && !this.#paused.has(card));
     }

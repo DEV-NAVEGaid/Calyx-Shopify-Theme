@@ -13,14 +13,19 @@
     {% render 'color-palette' %}
 
     {% comment %}
-      Font preloading:
-      1. Preconnect to font CDN for faster connection
-      2. Preload only the critical font variant (body weight)
-      3. Additional variants load on-demand via @font-face
+      Font preloading: fonts are served from the store's own domain, so no
+      preconnect is needed. Preload the body font and the heading font (the
+      hero heading is usually the largest paint); other variants load on demand.
     {% endcomment %}
+    {%- liquid
+      assign body_font_url = settings.type_body_font | font_url
+      assign heading_font_url = settings.type_heading_font | font_url
+    -%}
     {% unless settings.type_body_font.system? %}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-      {{ settings.type_body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+      {{ body_font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {% endunless %}
+    {% unless settings.type_heading_font.system? or heading_font_url == body_font_url %}
+      {{ heading_font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
     {% endunless %}
 
     {% # Load and preload the critical CSS %}

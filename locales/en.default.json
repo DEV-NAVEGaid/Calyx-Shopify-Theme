@@ -16,6 +16,7 @@
     "decrease_quantity": "Decrease quantity for {{ product }}",
     "go_to_image": "Go to image {{ number }}",
     "go_to_slide": "Go to slide {{ number }}",
+    "hotspot": "Show details",
     "increase_quantity": "Increase quantity for {{ product }}",
     "language": "Language",
     "likes": "likes",

@@ -757,9 +757,10 @@
   transform: translateY(-4px);
 }
 
+/* Muted text, pulled toward the foreground so it stays readable (4.5:1) on the pastel swatches. */
 .mood-card__number,
 .mood-card__text {
-  color: var(--color-foreground-muted);
+  color: color-mix(in srgb, var(--color-foreground-muted) 70%, var(--color-foreground));
 }
 
 .mood-card__body {

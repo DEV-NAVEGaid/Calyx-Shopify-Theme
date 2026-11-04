@@ -19,6 +19,12 @@
     assign edge = 'above'
   endif
   assign card_id = 'Hotspot-' | append: block.id
+
+  # The dot's name for screen readers: the title, else the text, else a generic label.
+  assign dot_label = title | default: block.settings.text | strip_html | strip
+  if dot_label == blank
+    assign dot_label = 'accessibility.hotspot' | t
+  endif
 -%}
 
 <div
@@ -27,7 +33,7 @@
   {{ block.shopify_attributes }}
 >
   <button type="button" class="hotspot__dot" aria-expanded="false" aria-controls="{{ card_id }}" data-hotspot-toggle>
-    <span class="visually-hidden">{{ title | default: block.settings.text | escape }}</span>
+    <span class="visually-hidden">{{ dot_label | escape }}</span>
   </button>
 
   <div class="hotspot__card" id="{{ card_id }}" hidden>

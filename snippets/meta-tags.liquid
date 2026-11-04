@@ -119,10 +119,9 @@
   href="{{ canonical_url }}"
 >
 
-{%- assign meta_description = page_description | default: shop.description -%}
-{% if meta_description != blank %}
-  <meta
-    name="description"
-    content="{{ meta_description | escape }}"
-  >
-{% endif %}
+{% # Falls back to the store name so every page has a description; set one in Online Store > Preferences. %}
+<meta
+  name="description"
+  content="{{ og_description | escape }}"
+>
+
