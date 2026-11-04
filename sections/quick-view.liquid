@@ -35,7 +35,7 @@
         {% endunless %}
       {% endfor %}
       {% if featured == blank %}
-        <li class="quick-view__slide">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</li>
+        <li class="quick-view__slide">{% render 'placeholder', name: 'product-1' %}</li>
       {% endif %}
     </ul>
 

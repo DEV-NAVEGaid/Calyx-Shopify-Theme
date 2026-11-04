@@ -35,7 +35,7 @@
   {%- if block.settings.image != blank -%}
     {{ block.settings.image | image_url: width: 1000 | image_tag: widths: '240, 360, 480, 720, 1000', sizes: sizes, loading: 'lazy', class: 'ugc-tile__image' }}
   {%- else -%}
-    {{ 'lifestyle-1' | placeholder_svg_tag: 'ugc-tile__image' }}
+    {% render 'placeholder', name: 'lifestyle-1', class: 'ugc-tile__image' %}
   {%- endif -%}
 
   {% unless block.settings.post_type == 'none' %}

@@ -1,0 +1,49 @@
+{% doc %}
+  A placeholder illustration for an empty image setting. The common
+  illustrations load as cached image files (assets/placeholder-*.svg)
+  instead of being inlined: one lifestyle illustration is 40-80 KB of SVG
+  paths, and a page full of them slows parsing, layout and paint. Any other
+  name falls back to Shopify's inline `placeholder_svg_tag`.
+
+  @param {string} name - Placeholder name: lifestyle-1, lifestyle-2, product-1, image, …
+  @param {string} [class] - Extra classes for the placeholder element.
+  @param {boolean} [eager] - Load right away (first screen). Default: lazy.
+
+  @example
+  {% render 'placeholder', name: 'lifestyle-2', class: 'promo-card__image', eager: true %}
+{% enddoc %}
+
+{%- liquid
+  assign class_list = 'placeholder-svg ' | append: class | strip
+
+  case name
+    when 'lifestyle-1', 'lifestyle-2'
+      assign file = 'placeholder-' | append: name | append: '.svg'
+      assign width = 1052
+      assign height = 400
+    when 'product-1', 'product-2'
+      assign file = 'placeholder-' | append: name | append: '.svg'
+      assign width = 525
+      assign height = 525
+  endcase
+-%}
+
+{%- if file -%}
+  {%- comment -%} Contained like the inline SVG it replaces, whatever the image rules around it say. {%- endcomment -%}
+  <img
+    class="{{ class_list }}"
+    src="{{ file | asset_url }}"
+    alt=""
+    width="{{ width }}"
+    height="{{ height }}"
+    style="object-fit: contain;"
+    {% if eager %}
+      fetchpriority="high"
+    {% else %}
+      loading="lazy"
+    {% endif %}
+    decoding="async"
+  >
+{%- else -%}
+  {{ name | placeholder_svg_tag: class_list }}
+{%- endif -%}

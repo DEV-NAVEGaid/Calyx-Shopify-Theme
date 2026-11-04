@@ -51,7 +51,7 @@
       {%- if product.featured_media -%}
         {{ product.featured_media | image_url: width: 1440 | image_tag: widths: '720, 1080, 1440', sizes: '(min-width: 990px) 50vw, 100vw', fetchpriority: 'high', alt: '' }}
       {%- else -%}
-        {{ 'lifestyle-2' | placeholder_svg_tag }}
+        {% render 'placeholder', name: 'lifestyle-2' %}
       {%- endif -%}
       <p class="gift-card-visual__brand">{{ shop.name | escape }}</p>
       <p class="gift-card-visual__value">
@@ -60,7 +60,7 @@
       </p>
     </div>
   {% elsif product.media.size == 0 %}
-    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% render 'placeholder', name: 'product-1' %}
   {% elsif block.settings.columns == 'thumbnails' %}
     <product-gallery class="product-gallery">
       <div class="product-gallery__stage">

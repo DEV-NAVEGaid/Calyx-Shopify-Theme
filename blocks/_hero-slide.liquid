@@ -28,7 +28,7 @@
         }}
       {%- endif -%}
     {% else %}
-      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% render 'placeholder', name: 'lifestyle-2', eager: is_first %}
     {% endif %}
   </div>
 

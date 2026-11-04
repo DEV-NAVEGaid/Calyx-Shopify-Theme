@@ -15,7 +15,7 @@
     {%- elsif block.settings.image != blank -%}
       {{ block.settings.image | image_url: width: 920 | image_tag: widths: '460, 690, 920', sizes: '(min-width: 990px) 460px, 80vw', loading: 'lazy' }}
     {%- else -%}
-      {{ 'lifestyle-1' | placeholder_svg_tag }}
+      {% render 'placeholder', name: 'lifestyle-1' %}
     {%- endif -%}
   </div>
 
@@ -35,7 +35,7 @@
       {%- if product.featured_image -%}
         {{ product.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
       {%- else -%}
-        {{ 'product-1' | placeholder_svg_tag }}
+        {% render 'placeholder', name: 'product-1' %}
       {%- endif -%}
       <span class="visually-hidden">{{ product.title | escape }}</span>
     </a>

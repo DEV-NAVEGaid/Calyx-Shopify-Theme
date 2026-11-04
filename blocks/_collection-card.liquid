@@ -29,7 +29,7 @@
         | image_tag: widths: '300, 600, 900, 1200', sizes: '(min-width: 990px) 33vw, 50vw', loading: 'lazy'
       }}
     {% else %}
-      {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% render 'placeholder', name: 'collection-1' %}
     {% endif %}
 
     {% if block.settings.product_slides and collection.products_count > 1 %}

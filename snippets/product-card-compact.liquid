@@ -18,7 +18,7 @@
         | image_tag: widths: '240, 360, 480', sizes: '200px', loading: 'lazy', alt: ''
       }}
     {% else %}
-      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% render 'placeholder', name: 'product-1' %}
     {% endif %}
   </span>
   <span class="product-card-compact__title">{{ product.title | escape }}</span>

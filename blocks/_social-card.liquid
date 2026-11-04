@@ -26,7 +26,7 @@
       {%- if block.settings.image != blank -%}
         {{ block.settings.image | image_url: width: 400 | image_tag: widths: '200, 300, 400', sizes: '150px', loading: 'lazy', alt: block.settings.image.alt }}
       {%- else -%}
-        {{ 'lifestyle-1' | placeholder_svg_tag }}
+        {% render 'placeholder', name: 'lifestyle-1' %}
       {%- endif -%}
     </span>
   </{{ tag }}>

@@ -28,7 +28,7 @@
     {%- if image != blank -%}
       {{ image | image_url: width: 1200 | image_tag: widths: '600, 900, 1200', sizes: '(min-width: 990px) 50vw, 100vw', alt: '' }}
     {%- else -%}
-      {{ 'product-1' | placeholder_svg_tag }}
+      {% render 'placeholder', name: 'product-1' %}
     {%- endif -%}
   </div>
   <div class="hero-product__copy">

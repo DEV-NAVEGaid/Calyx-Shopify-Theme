@@ -4,6 +4,17 @@
  * when reduced motion is preferred. The dots jump to a slide. In the theme
  * editor, selecting a slide block shows it.
  */
+// Rotation waits for the visitor's first interaction, so nothing on the first
+// screen changes on its own while the page is still loading.
+const firstInteraction = new Promise((resolve) => {
+  const events = ["pointerdown", "pointermove", "keydown", "scroll", "wheel", "touchstart"];
+  const done = () => {
+    events.forEach((type) => window.removeEventListener(type, done, true));
+    resolve();
+  };
+  events.forEach((type) => window.addEventListener(type, done, { capture: true, passive: true }));
+});
+
 class HeroSplit extends HTMLElement {
   #index = 0;
   #timer = 0;
@@ -19,7 +30,7 @@ class HeroSplit extends HTMLElement {
     this.addEventListener("focusin", this.#stop);
     this.addEventListener("focusout", this.#start);
     document.addEventListener("shopify:block:select", this.#onBlockSelect);
-    this.#start();
+    firstInteraction.then(this.#start);
   }
 
   disconnectedCallback() {

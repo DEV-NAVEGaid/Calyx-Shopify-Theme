@@ -31,7 +31,7 @@
         {% for i in (1..section.settings.count) %}
           <article class="blog-post-card">
             <div class="blog-post-card__media">
-              {{ 'lifestyle-2' | placeholder_svg_tag }}
+              {% render 'placeholder', name: 'lifestyle-2' %}
             </div>
             <div class="blog-post-card__body">
               <h3 class="blog-post-card__title h4">{{ 'content.article_title_placeholder' | t }}</h3>

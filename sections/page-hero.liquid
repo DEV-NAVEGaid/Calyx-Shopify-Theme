@@ -8,7 +8,7 @@
     {%- if section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 2880 | image_tag: widths: '750, 1100, 1500, 2200, 2880', sizes: '100vw', fetchpriority: 'high', alt: '' }}
     {%- else -%}
-      {{ 'lifestyle-2' | placeholder_svg_tag }}
+      {% render 'placeholder', name: 'lifestyle-2' %}
     {%- endif -%}
   </div>
 

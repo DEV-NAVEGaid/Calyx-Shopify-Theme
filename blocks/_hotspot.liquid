@@ -42,7 +42,7 @@
         {% if product.featured_media %}
           {{ product.featured_media.preview_image | image_url: width: 240 | image_tag: widths: '120, 240', sizes: '96px', loading: 'lazy', alt: '' }}
         {% else %}
-          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% render 'placeholder', name: 'product-1' %}
         {% endif %}
       </a>
     {% endif %}

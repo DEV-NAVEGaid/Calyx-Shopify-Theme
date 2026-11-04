@@ -21,7 +21,7 @@
       {% if image != blank %}
         {{ image | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 600px, 100vw', loading: 'lazy', alt: image.alt }}
       {% else %}
-        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% render 'placeholder', name: 'product-1' %}
       {% endif %}
     </div>
 

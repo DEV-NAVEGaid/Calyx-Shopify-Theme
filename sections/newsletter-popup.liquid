@@ -17,7 +17,7 @@
       {%- if section.settings.image != blank -%}
         {{ section.settings.image | image_url: width: 680 | image_tag: widths: '340, 680', sizes: '340px', loading: 'lazy', alt: '' }}
       {%- else -%}
-        {{ 'lifestyle-2' | placeholder_svg_tag }}
+        {% render 'placeholder', name: 'lifestyle-2' %}
       {%- endif -%}
     </div>
 

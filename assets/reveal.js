@@ -51,6 +51,40 @@ function partsOf(section) {
     wrapper = wrapper.firstElementChild;
   }
 
+  const parts = [];
+  for (const child of wrapper.children) {
+    if (/^(SCRIPT|STYLE|TEMPLATE|DIALOG)$/.test(child.tagName)) continue;
+    const position = getComputedStyle(child).position;
+    if (position === "fixed" || position === "absolute") continue;
+    if (isCollection(child)) parts.push(...child.children);
+    else parts.push(child);
+  }
+  return parts.slice(0, MAX_ITEMS);
+}
+
+function init() {
+  const { distance, blur, duration, stagger } = settings();
+  const hiddenStyle = { opacity: "0", translate: `0 ${distance}px`, filter: `blur(${blur}px)` };
+  const keyframes = [
+    { opacity: 0, translate: `0 ${distance}px`, filter: `blur(${blur}px)` },
+    { opacity: 1, translate: "0 0", filter: "blur(0px)" },
+  ];
+
+  const hide = (part) => {
+    part.getAnimations().forEach((animation) => animation.id === "reveal" && animation.cancel());
+    Object.assign(part.style, hiddenStyle);
+    part.dataset.reveal = "hidden";
+  };
+
+  const show = (part, order) => {
+    part.style.removeProperty("opacity");
+    part.style.removeProperty("translate");
+    part.style.removeProperty("filter");
+    part.dataset.reveal = "shown";
+    const animation = part.animate(keyframes, { duration, delay: order * stagger, easing: EASING, fill: "backwards" });
+    animation.id = "reveal";
+  };
+
   // Sections are prepared (their parts hidden) only as they come within a
   // screen of the viewport, and only those sections are measured on scroll,
   // so a long page costs nothing until its sections approach.
@@ -125,4 +159,8 @@ function partsOf(section) {
   window.addEventListener("resize", schedule, { passive: true });
   // Content that appears without scrolling (tabs, slides) is picked up too.
   document.addEventListener("click", () => setTimeout(check, 50));
+}
+
+if (!reducedMotion && !window.Shopify?.designMode && "animate" in Element.prototype) {
+  init();
 }

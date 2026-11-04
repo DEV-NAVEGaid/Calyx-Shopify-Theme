@@ -15,7 +15,7 @@
       {%- if upsell.featured_image -%}
         {{ upsell.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
       {%- else -%}
-        {{ 'product-1' | placeholder_svg_tag }}
+        {% render 'placeholder', name: 'product-1' %}
       {%- endif -%}
     </a>
 

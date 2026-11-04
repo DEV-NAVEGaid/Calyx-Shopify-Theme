@@ -9,7 +9,7 @@
     {% if block.settings.image != blank %}
       {{ block.settings.image | image_url: width: 600 | image_tag: widths: '240, 360, 480, 600', sizes: '240px', loading: 'lazy', alt: '' }}
     {% else %}
-      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% render 'placeholder', name: 'product-1' %}
     {% endif %}
   </a>
   <p class="mega-promo__heading">{{ block.settings.heading | escape }}</p>

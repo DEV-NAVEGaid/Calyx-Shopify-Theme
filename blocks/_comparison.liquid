@@ -19,14 +19,14 @@
       {% if block.settings.after_image != blank %}
         {{ block.settings.after_image | image_url: width: 1400 | image_tag: widths: '640, 960, 1280, 1400', sizes: '(min-width: 990px) 640px, 100vw', loading: 'lazy', alt: block.settings.after_image.alt }}
       {% else %}
-        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% render 'placeholder', name: 'image' %}
       {% endif %}
     </div>
     <div class="comparison__image comparison__image--before">
       {% if block.settings.before_image != blank %}
         {{ block.settings.before_image | image_url: width: 1400 | image_tag: widths: '640, 960, 1280, 1400', sizes: '(min-width: 990px) 640px, 100vw', loading: 'lazy', alt: block.settings.before_image.alt }}
       {% else %}
-        {{ 'image' | placeholder_svg_tag: 'placeholder-svg comparison__placeholder-before' }}
+        {% render 'placeholder', name: 'image', class: 'comparison__placeholder-before' %}
       {% endif %}
     </div>
 
@@ -63,7 +63,7 @@
     {% if block.settings.after_image != blank %}
       {{ block.settings.after_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}
     {% else %}
-      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% render 'placeholder', name: 'image' %}
     {% endif %}
     <span class="visually-hidden">{{ 'accessibility.show_comparison' | t }}</span>
   </button>

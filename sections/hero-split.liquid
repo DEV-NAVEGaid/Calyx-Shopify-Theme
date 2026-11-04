@@ -10,7 +10,7 @@
     {%- if section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 1600 | image_tag: widths: '700, 1000, 1400, 1600', sizes: '(min-width: 990px) 50vw, 100vw', fetchpriority: 'high', alt: section.settings.image.alt }}
     {%- else -%}
-      {{ 'lifestyle-1' | placeholder_svg_tag }}
+      {% render 'placeholder', name: 'lifestyle-1' %}
     {%- endif -%}
     <div class="hero-split__copy">
       {% if section.settings.heading != blank %}

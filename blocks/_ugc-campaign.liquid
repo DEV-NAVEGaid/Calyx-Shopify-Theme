@@ -23,7 +23,7 @@
     {%- if block.settings.image != blank -%}
       {{ block.settings.image | image_url: width: 400 | image_tag: widths: '200, 400', sizes: '180px', loading: 'lazy' }}
     {%- else -%}
-      {{ 'lifestyle-2' | placeholder_svg_tag }}
+      {% render 'placeholder', name: 'lifestyle-2' %}
     {%- endif -%}
   </div>
   {% if block.settings.text != blank %}

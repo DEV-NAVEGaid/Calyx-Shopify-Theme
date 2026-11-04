@@ -30,7 +30,7 @@
         | image_tag: sizes: '100vw', loading: loading, widths: '750, 1100, 1500, 2200, 3000, 3840'
       }}
     {% else %}
-      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% render 'placeholder', name: 'hero-apparel-1' %}
     {% endif %}
   </div>
 {%- elsif settings.background_media == 'video' and settings.video != blank -%}

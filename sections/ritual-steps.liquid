@@ -9,7 +9,7 @@
       {% if section.settings.image != blank %}
         {{ section.settings.image | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 600px, 100vw', loading: 'lazy', alt: section.settings.image.alt }}
       {% else %}
-        {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% render 'placeholder', name: 'product-2' %}
       {% endif %}
     </div>
 

@@ -633,7 +633,7 @@ input:focus-visible + .variant-picker__pill {
 }
 
 .main-collection__media > img,
-.main-collection__media > svg {
+.main-collection__media > .placeholder-svg {
   width: 100%;
   height: 100%;
   object-fit: cover;

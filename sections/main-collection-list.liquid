@@ -34,7 +34,7 @@
         {%- if featured.featured_image -%}
           {{ featured.featured_image | image_url: width: 2752 | image_tag: widths: '750, 1100, 1500, 2200, 2752', sizes: '100vw', alt: '' }}
         {%- else -%}
-          {{ 'lifestyle-2' | placeholder_svg_tag }}
+          {% render 'placeholder', name: 'lifestyle-2' %}
         {%- endif -%}
         <div class="featured-collection-banner__content">
           <span class="badge badge--tag">{{ 'content.featured' | t }}</span>

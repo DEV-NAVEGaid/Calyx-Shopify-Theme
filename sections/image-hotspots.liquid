@@ -21,7 +21,7 @@
           | image_tag: widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', loading: 'lazy', class: 'image-hotspots__image'
         }}
       {% else %}
-        {{ 'lifestyle-2' | placeholder_svg_tag: 'image-hotspots__image placeholder-svg' }}
+        {% render 'placeholder', name: 'lifestyle-2', class: 'image-hotspots__image' %}
       {% endif %}
       {% content_for 'blocks' %}
     </div>

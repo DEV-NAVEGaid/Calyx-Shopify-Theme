@@ -20,6 +20,7 @@ class HeaderComponent extends HTMLElement {
 
   connectedCallback() {
     this.#placePromos();
+    this.#deferAccount();
 
     for (const dropdown of this.#dropdowns) {
       dropdown.addEventListener("mouseenter", this.#onEnter);
@@ -54,6 +55,26 @@ class HeaderComponent extends HTMLElement {
       const target = this.querySelector(`[data-mega-promos="${promo.dataset.menuItem}"]`);
       target?.append(promo);
     }
+  }
+
+  // Signed out, the account starts as a plain link. Shopify's account sheet
+  // (a sign-in iframe and its scripts) replaces it on the visitor's first
+  // interaction, so none of that runs during the page load. Interacting with
+  // the link itself never swaps it (that would drop the tap or the focus):
+  // it just follows through to the account page.
+  #deferAccount() {
+    const template = this.querySelector("template[data-account-template]");
+    const link = this.querySelector("[data-account-link]");
+    if (!template || !link) return;
+
+    const events = ["pointerdown", "pointermove", "keydown", "focusin", "scroll", "wheel", "touchstart"];
+    const swap = (event) => {
+      if (event.target instanceof Node && link.contains(event.target)) return;
+      events.forEach((type) => window.removeEventListener(type, swap, true));
+      link.replaceWith(template.content.cloneNode(true));
+      template.remove();
+    };
+    events.forEach((type) => window.addEventListener(type, swap, { capture: true, passive: true }));
   }
 
   #onEnter = (event) => {

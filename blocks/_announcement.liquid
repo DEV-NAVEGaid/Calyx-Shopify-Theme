@@ -3,7 +3,14 @@
 {% enddoc %}
 
 {%- comment -%} No whitespace inside the paragraph: it keeps the message's own spacing (pre-wrap). {%- endcomment -%}
-<p class="announcement" {{ block.shopify_attributes }}>
+{%- comment -%} Only the first message shows before the script runs, so the bar never jumps in height. {%- endcomment -%}
+<p
+  class="announcement"
+  {% unless section.blocks.first.id == block.id %}
+    hidden
+  {% endunless %}
+  {{ block.shopify_attributes }}
+>
   {%- if block.settings.link != blank -%}
     <a href="{{ block.settings.link }}">{{ block.settings.text | escape }}</a>
   {%- else -%}

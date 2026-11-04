@@ -20,7 +20,7 @@
     {%- if item.featured_image -%}
       {{ item.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}
     {%- else -%}
-      {{ 'product-1' | placeholder_svg_tag }}
+      {% render 'placeholder', name: 'product-1' %}
     {%- endif -%}
   </span>
   <span class="bundle-item__text">

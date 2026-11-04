@@ -19,7 +19,7 @@
       {% if image != blank %}
         {{ image | image_url: width: 1800 | image_tag: widths: '600, 900, 1200, 1800', sizes: '(min-width: 990px) 60vw, 100vw', loading: 'lazy', alt: image.alt }}
       {% else %}
-        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% render 'placeholder', name: 'lifestyle-2' %}
       {% endif %}
     </div>
   </div>

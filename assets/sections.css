@@ -1968,7 +1968,7 @@
   border-radius: 12px;
 }
 
-.journal-teaser .blog-post-card__media > svg {
+.journal-teaser .blog-post-card__media > .placeholder-svg {
   width: 100%;
   height: 100%;
   background-color: var(--color-accent-soft);
@@ -2340,9 +2340,9 @@ a.ugc-tile:hover .ugc-tile__image {
 }
 
 /* Placeholder drawings sit on a soft accent until the merchant adds media. */
-.video-card__media > svg,
-svg.ugc-tile__image,
-.ugc-campaign__media > svg {
+.video-card__media > .placeholder-svg,
+.ugc-tile__image.placeholder-svg,
+.ugc-campaign__media > .placeholder-svg {
   background-color: var(--color-accent-soft);
 }
 
@@ -2384,7 +2384,7 @@ svg.ugc-tile__image,
   object-fit: cover;
 }
 
-.page-hero__media > svg {
+.page-hero__media > .placeholder-svg {
   background-color: var(--color-accent-soft);
 }
 
@@ -2462,7 +2462,7 @@ svg.ugc-tile__image,
   object-fit: cover;
 }
 
-.image-with-text__media > svg {
+.image-with-text__media > .placeholder-svg {
   background-color: var(--color-accent-soft);
 }
 
@@ -2966,7 +2966,7 @@ svg.ugc-tile__image,
   object-fit: cover;
 }
 
-.studio-banner__media > svg {
+.studio-banner__media > .placeholder-svg {
   background-color: var(--color-accent-soft);
 }
 
@@ -3394,7 +3394,7 @@ svg.ugc-tile__image,
   object-fit: cover;
 }
 
-.ingredients-explorer__media > svg {
+.ingredients-explorer__media > .placeholder-svg {
   background-color: var(--color-accent-soft);
 }
 
