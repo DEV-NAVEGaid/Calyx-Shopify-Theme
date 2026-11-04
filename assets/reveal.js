@@ -51,64 +51,37 @@ function partsOf(section) {
     wrapper = wrapper.firstElementChild;
   }
 
-  const parts = [];
-  for (const child of wrapper.children) {
-    if (/^(SCRIPT|STYLE|TEMPLATE|DIALOG)$/.test(child.tagName)) continue;
-    const position = getComputedStyle(child).position;
-    if (position === "fixed" || position === "absolute") continue;
-    if (isCollection(child)) parts.push(...child.children);
-    else parts.push(child);
-  }
-  return parts.slice(0, MAX_ITEMS);
-}
+  // Sections are prepared (their parts hidden) only as they come within a
+  // screen of the viewport, and only those sections are measured on scroll,
+  // so a long page costs nothing until its sections approach.
+  const partsBySection = new Map();
+  const near = new Set();
 
-if (!reducedMotion && !window.Shopify?.designMode && "animate" in Element.prototype) {
-  const { distance, blur, duration, stagger } = settings();
-  const hiddenStyle = { opacity: "0", translate: `0 ${distance}px`, filter: `blur(${blur}px)` };
-  const keyframes = [
-    { opacity: 0, translate: `0 ${distance}px`, filter: `blur(${blur}px)` },
-    { opacity: 1, translate: "0 0", filter: "blur(0px)" },
-  ];
-
-  const hide = (part) => {
-    part.getAnimations().forEach((animation) => animation.id === "reveal" && animation.cancel());
-    Object.assign(part.style, hiddenStyle);
-    part.dataset.reveal = "hidden";
+  const prepare = (section) => {
+    if (partsBySection.has(section)) return;
+    const parts = partsOf(section);
+    parts.forEach(hide);
+    partsBySection.set(section, parts);
   };
-
-  const show = (part, order) => {
-    part.style.removeProperty("opacity");
-    part.style.removeProperty("translate");
-    part.style.removeProperty("filter");
-    part.dataset.reveal = "shown";
-    const animation = part.animate(keyframes, { duration, delay: order * stagger, easing: EASING, fill: "backwards" });
-    animation.id = "reveal";
-  };
-
-  const parts = [];
-  for (const section of [...document.querySelectorAll("main > .shopify-section")].slice(1)) {
-    for (const part of partsOf(section)) {
-      hide(part);
-      parts.push(part);
-    }
-  }
 
   // A part shows once THRESHOLD of it is inside the viewport; parts that enter
   // together play in reading order. The translate offset is left out of the
   // measurement so a hidden part counts from where it will land.
   const check = () => {
     const entering = [];
-    for (const part of parts) {
-      const box = part.getBoundingClientRect();
-      const offset = part.dataset.reveal === "hidden" ? distance : 0;
-      const top = box.top - offset;
-      const bottom = box.bottom - offset;
-      const visible = Math.min(bottom, window.innerHeight) - Math.max(top, 0);
-      const inView = box.height > 0 && visible >= Math.min(box.height, window.innerHeight) * THRESHOLD;
+    for (const section of near) {
+      for (const part of partsBySection.get(section)) {
+        const box = part.getBoundingClientRect();
+        const offset = part.dataset.reveal === "hidden" ? distance : 0;
+        const top = box.top - offset;
+        const bottom = box.bottom - offset;
+        const visible = Math.min(bottom, window.innerHeight) - Math.max(top, 0);
+        const inView = box.height > 0 && visible >= Math.min(box.height, window.innerHeight) * THRESHOLD;
 
-      if (inView && part.dataset.reveal === "hidden") entering.push({ part, top, left: box.left });
-      // Reverse: a part that drops back below the viewport hides again.
-      else if (!inView && part.dataset.reveal === "shown" && top > window.innerHeight) hide(part);
+        if (inView && part.dataset.reveal === "hidden") entering.push({ part, top, left: box.left });
+        // Reverse: a part that drops back below the viewport hides again.
+        else if (!inView && part.dataset.reveal === "shown" && top > window.innerHeight) hide(part);
+      }
     }
 
     entering.sort((a, b) => a.top - b.top || a.left - b.left);
@@ -125,9 +98,31 @@ if (!reducedMotion && !window.Shopify?.designMode && "animate" in Element.protot
     }, 16);
   };
 
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const { target, isIntersecting } of entries) {
+        if (isIntersecting) {
+          prepare(target);
+          near.add(target);
+        } else {
+          near.delete(target);
+        }
+      }
+      schedule();
+    },
+    { rootMargin: "100% 0px" },
+  );
+
+  const sections = [...document.querySelectorAll("main > .shopify-section")].slice(1);
+  // Sections already on or just below the first screen are hidden right away,
+  // before the observer's first report, so they never flash in fully drawn.
+  for (const section of sections) {
+    if (section.getBoundingClientRect().top < window.innerHeight * 1.5) prepare(section);
+    observer.observe(section);
+  }
+
   window.addEventListener("scroll", schedule, { passive: true });
   window.addEventListener("resize", schedule, { passive: true });
   // Content that appears without scrolling (tabs, slides) is picked up too.
   document.addEventListener("click", () => setTimeout(check, 50));
-  check();
 }

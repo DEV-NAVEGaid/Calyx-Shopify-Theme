@@ -7599,3 +7599,13 @@ predictive-search[aria-busy="true"] .predictive-search__body {
 .countdown-banner__inner > .countdown {
   margin-block: 36px 12px;
 }
+/*
+ * Sections below the first screen skip style, layout, and paint until they
+ * come near the viewport; the browser keeps their last size afterwards, so
+ * the scrollbar settles once. Sections whose popups reach past their edges
+ * (hotspot cards) stay fully rendered, since containment would clip them.
+ */
+main > .shopify-section:nth-child(n + 3):not(:has(.hotspot)) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}

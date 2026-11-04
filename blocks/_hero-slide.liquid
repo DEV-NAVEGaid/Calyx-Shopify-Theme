@@ -12,20 +12,21 @@
   <div class="hero-slide__media">
     {% if block.settings.image != blank %}
       {%- liquid
-        if is_first
-          assign loading = 'eager'
-          assign fetchpriority = 'high'
-        else
-          assign loading = 'lazy'
-          assign fetchpriority = 'low'
-        endif
-        assign image_alt = block.settings.image.alt | default: block.settings.heading
+        assign image_alt = block.settings.image.alt | default: block.settings.heading | default: block.settings.badge | default: shop.name
       -%}
-      {{
-        block.settings.image
-        | image_url: width: 3000
-        | image_tag: widths: '750, 1100, 1500, 2200, 3000', sizes: '100vw', loading: loading, fetchpriority: fetchpriority, alt: image_alt
-      }}
+      {%- if is_first -%}
+        {{
+          block.settings.image
+          | image_url: width: 3000
+          | image_tag: widths: '750, 1100, 1500, 2200, 3000', sizes: '100vw', loading: 'eager', fetchpriority: 'high', preload: true, alt: image_alt
+        }}
+      {%- else -%}
+        {{
+          block.settings.image
+          | image_url: width: 3000
+          | image_tag: widths: '750, 1100, 1500, 2200, 3000', sizes: '100vw', loading: 'lazy', alt: image_alt
+        }}
+      {%- endif -%}
     {% else %}
       {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
     {% endif %}
