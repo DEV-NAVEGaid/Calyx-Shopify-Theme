@@ -170,7 +170,8 @@
     "variant_picker": "Varyasyon seçici",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Topluluk videoları"
+    "video_carousel": "Topluluk videoları",
+    "image_and_text": "Görsel ve metin"
   },
   "categories": {
     "banners": "Banner'lar",
@@ -520,7 +521,8 @@
     "wordmark_text": "Yazı logosu metni",
     "write_review_link": "Değerlendirme yaz bağlantısı",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Ruh hâli bağlantıları"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Yatay",
       "vertical": "Dikey"
+    },
+    "scroll_direction": {
+      "to_left": "Sağdan sola",
+      "to_right": "Soldan sağa"
     },
     "distance_unit": {
       "mi": "Mil",
@@ -877,14 +883,14 @@
     "policy_summary": "Her satıra bir madde. Sayfa içeriğinin üzerinde bir kartta gösterilir.",
     "popover_overlay_color": "Modallerin, açılır pencerelerin ve çekmecelerin arkasındaki sayfayı karartır.",
     "popular_searches": "Aramaları virgülle ayırın.",
-    "predictive_search": "Arama çekmecesinde ürün, koleksiyon, sayfa ve makale önerir.",
+    "predictive_search": "Duyuru çubuğunun altında açılan arama panelinde ürünler, koleksiyonlar, sayfalar ve makaleler önerir.",
     "predictive_search_collection": "Müşteri yazmaya başlamadan önce önerilen ürünler.",
     "product_card_background": "Tema ayarlarındaki kart arka planını geçersiz kılar.",
     "product_guide": "Bir seçenek etiketinin yanındaki bağlantı, rehberi bir modalda açar. Rehber boşken gizlenir.",
     "product_meta_text": "Her ürünün kendi satırını göstermesi için bir ürün meta alanı bağlayın. Boş bir üst başlık ürün türünü gösterir.",
     "promo_link": "Ürüne bağlantı vermek için boş bırakın.",
-    "promo_placement": "Satır, “Şu üründen sonra göster” ayarına göre belirlenir. İki sütunlu telefonlarda Orta seçeneği tam genişliği kaplar.",
-    "promo_position": "Kutucuk bir ürünün yerini alır; 0 gizler.",
+    "promo_placement": "Promosyon kutucuğu konumu ile seçilen satırda kutucuğun sütunu; ürünler etrafına yerleşir. İki sütunlu telefonlarda Orta tam genişlik kaplar.",
+    "promo_position": "Kutucuğu ızgaraya, bu üründen sonraki ürünün satırına ekler; hiçbir ürün gizlenmez. Sayfada en az bu kadar ürün olduğunda gösterilir; 0 gizler.",
     "promo_product": "Fiyatını ve görsel yoksa fotoğrafını gösterir.",
     "quick_add": "Masaüstünde hızlı görünüm, mobilde alt panel açar.",
     "review_topics": "Her satıra bir konu.",
@@ -915,7 +921,8 @@
     "ugc_product": "Yalnızca büyük kutucuklar. İmza kokusu olarak gösterilir.",
     "upsell_heading": "Ürün başlığını göstermek için boş bırakın.",
     "video_card_image": "Video olmadığında gösterilir.",
-    "wordmark_text": "Marka adınız veya bir slogan gibi herhangi bir kelime ya da kısa ifade. Mağaza adını kullanmak için boş bırakın. Boyut uzunluğa göre ayarlanır."
+    "wordmark_text": "Marka adınız veya bir slogan gibi herhangi bir kelime ya da kısa ifade. Mağaza adını kullanmak için boş bırakın. Boyut uzunluğa göre ayarlanır.",
+    "mood_menu": "Bir menü seçin: her bağlantısı, tüm ürünlere giden \"Tümü\"nün ardından bir etikete dönüşür. Görüntülenen koleksiyonun etiketi vurgulanır. Menü yoksa etiket gösterilmez."
   },
   "html_defaults": {
     "about_text": "<p>Markanızın hikayesini paylaşın: kim olduğunuzu, ne ürettiğinizi ve nedenini anlatın.</p>",

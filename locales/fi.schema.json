@@ -170,7 +170,8 @@
     "variant_picker": "Version valitsin",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Yhteisön videot"
+    "video_carousel": "Yhteisön videot",
+    "image_and_text": "Kuva ja teksti"
   },
   "categories": {
     "banners": "Bannerit",
@@ -520,7 +521,8 @@
     "wordmark_text": "Sanamerkin teksti",
     "write_review_link": "Arvostelun kirjoituslinkki",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Tunnelmalinkit"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Vaaka",
       "vertical": "Pysty"
+    },
+    "scroll_direction": {
+      "to_left": "Oikealta vasemmalle",
+      "to_right": "Vasemmalta oikealle"
     },
     "distance_unit": {
       "mi": "Mailit",
@@ -877,14 +883,14 @@
     "policy_summary": "Yksi kohta riviä kohden. Näytetään kortissa sivun sisällön yläpuolella.",
     "popover_overlay_color": "Himmentää sivun modaalien, ponnahdusikkunoiden ja laatikoiden takana.",
     "popular_searches": "Erota haut pilkuilla.",
-    "predictive_search": "Ehdottaa tuotteita, kokoelmia, sivuja ja artikkeleita hakulaatikossa.",
+    "predictive_search": "Ehdottaa tuotteita, kokoelmia, sivuja ja artikkeleita hakupaneelissa, joka avautuu ilmoituspalkin alle.",
     "predictive_search_collection": "Ehdotetut tuotteet ennen kuin asiakas alkaa kirjoittaa.",
     "product_card_background": "Ohittaa kortin taustan Teeman asetuksista.",
     "product_guide": "Vaihtoehdon nimikkeen vieressä oleva linkki avaa oppaan modaalissa. Piilotetaan, kun opas on tyhjä.",
     "product_meta_text": "Yhdistä tuotteen metakenttä, niin jokainen tuote näyttää oman rivinsä. Tyhjä yläotsikko näyttää tuotetyypin.",
     "promo_link": "Jätä tyhjäksi, niin linkki vie tuotteeseen.",
-    "promo_placement": "Rivi määräytyy asetuksesta Näytä tuotteen jälkeen. Kaksisarakkeisilla puhelimilla Keskitetty vie koko leveyden.",
-    "promo_position": "Ruutu vie tuotteen paikan; 0 piilottaa sen.",
+    "promo_placement": "Ruudun sarake rivillä, jonka Promoruudun sijainti valitsee; tuotteet asettuvat sen ympärille. Kaksisarakkeisilla puhelimilla Keskellä vie koko leveyden.",
+    "promo_position": "Lisää ruudun ruudukkoon, tätä seuraavan tuotteen riville; mitään tuotetta ei piiloteta. Näkyy, kun sivulla on vähintään näin monta tuotetta; 0 piilottaa sen.",
     "promo_product": "Näyttää hinnan ja, jos kuvaa ei ole, tuotekuvan.",
     "quick_add": "Avaa pikanäkymän tietokoneella ja alapaneelin mobiilissa.",
     "review_topics": "Yksi aihe riviä kohden.",
@@ -915,7 +921,8 @@
     "ugc_product": "Vain suuret ruudut. Näytetään niiden tunnustuoksuna.",
     "upsell_heading": "Jätä tyhjäksi, niin näytetään tuotteen nimi.",
     "video_card_image": "Näytetään, kun videota ei ole.",
-    "wordmark_text": "Mikä tahansa sana tai lyhyt fraasi, kuten brändisi nimi tai iskulause. Jätä tyhjäksi, niin käytetään kaupan nimeä. Koko mukautuu pituuden mukaan."
+    "wordmark_text": "Mikä tahansa sana tai lyhyt fraasi, kuten brändisi nimi tai iskulause. Jätä tyhjäksi, niin käytetään kaupan nimeä. Koko mukautuu pituuden mukaan.",
+    "mood_menu": "Valitse valikko: jokaisesta sen linkistä tulee siru Kaikki-sirun jälkeen, joka vie kaikkiin tuotteisiin. Katseltavan kokoelman siru korostetaan. Ilman valikkoa siruja ei näytetä."
   },
   "html_defaults": {
     "about_text": "<p>Kerro brändisi tarina: keitä olette, mitä teette ja miksi.</p>",

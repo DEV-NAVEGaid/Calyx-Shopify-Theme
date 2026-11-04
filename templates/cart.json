@@ -13,10 +13,7 @@
       "type": "main-cart",
       "settings": {
         "padding-block-start": 48,
-        "padding-block-end": 96,
-        "empty_text": "Not sure where to start? Explore our collections or start with our bestsellers.",
-        "empty_button_label": "Explore collections",
-        "empty_heading": "Bestsellers to start with"
+        "padding-block-end": 96
       },
       "blocks": {
         "cart-title": {
@@ -76,22 +73,19 @@
                 "secure": {
                   "type": "_icon-list-item",
                   "settings": {
-                    "icon": "lock",
-                    "text": "Secure, encrypted checkout"
+                    "icon": "lock"
                   }
                 },
                 "guarantee": {
                   "type": "_icon-list-item",
                   "settings": {
-                    "icon": "sparkle",
-                    "text": "30-day scent guarantee"
+                    "icon": "sparkle"
                   }
                 },
                 "shipping": {
                   "type": "_icon-list-item",
                   "settings": {
-                    "icon": "truck",
-                    "text": "Ships to 30+ countries"
+                    "icon": "truck"
                   }
                 }
               },
@@ -112,8 +106,6 @@
     "related": {
       "type": "product-recommendations",
       "settings": {
-        "heading": "Complete your ritual",
-        "link_label": "Shop all",
         "padding-block-start": 0
       },
       "blocks": {
@@ -174,33 +166,25 @@
         "usp_1": {
           "type": "_usp-item",
           "settings": {
-            "icon": "truck",
-            "title": "Free shipping",
-            "text": "On orders over $75"
+            "icon": "truck"
           }
         },
         "usp_2": {
           "type": "_usp-item",
           "settings": {
-            "icon": "gift",
-            "title": "Free 2ml sample",
-            "text": "In every order"
+            "icon": "gift"
           }
         },
         "usp_3": {
           "type": "_usp-item",
           "settings": {
-            "icon": "leaf",
-            "title": "Clean & vegan",
-            "text": "85% natural origin"
+            "icon": "leaf"
           }
         },
         "usp_4": {
           "type": "_usp-item",
           "settings": {
-            "icon": "sparkle",
-            "title": "30-day guarantee",
-            "text": "Love it or swap it"
+            "icon": "sparkle"
           }
         }
       },

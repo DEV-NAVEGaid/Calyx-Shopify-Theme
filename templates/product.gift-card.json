@@ -45,7 +45,6 @@
             "eyebrow": {
               "type": "product-meta",
               "settings": {
-                "text": "",
                 "style": "eyebrow"
               }
             },
@@ -72,8 +71,7 @@
             "variant_picker": {
               "type": "variant-picker",
               "settings": {
-                "variant_style": "buttons",
-                "guide_label": "Size & ingredients guide"
+                "variant_style": "buttons"
               }
             },
             "recipient": {
@@ -120,7 +118,7 @@
                       "type": "text",
                       "settings": {
                         "type_preset": "rte",
-                        "text": "<p>Your gift card arrives by email with a code to use at checkout. Send it to yourself, or to someone else on the date you choose. It never expires.</p>"
+                        "text": "<p>Your gift card arrives by email with a code to use at checkout. Send it to yourself, or to someone else on the date you choose.</p>"
                       }
                     }
                   },

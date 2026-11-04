@@ -1,6 +1,8 @@
 {% doc %}
   Renders one product media item: an image, a hosted or external video, or
-  a 3D model.
+  a 3D model. A model is wrapped in `<product-model>` (assets/product-model.js),
+  which loads Shopify's model viewer and its controls once the model comes
+  into view, so pages without a model never load them.
 
   @param {object} media - A product media item.
   @param {boolean} [eager] - Load the media immediately (for the first item).
@@ -30,6 +32,13 @@
     {% when 'external_video' %}
       {{ media | external_video_tag }}
     {% when 'model' %}
-      {{ media | model_viewer_tag }}
+      {%- comment -%}
+        `touch-action: pan-y` lets a vertical swipe over the model scroll the
+        page; horizontal drags and pinches still turn and zoom it.
+      {%- endcomment -%}
+      <product-model class="product-model">
+        {{ media | model_viewer_tag: image_size: '1500x', touch-action: 'pan-y', data-model-id: media.id }}
+      </product-model>
+      <script src="{{ 'product-model.js' | asset_url }}" type="module"></script>
   {% endcase %}
 </div>

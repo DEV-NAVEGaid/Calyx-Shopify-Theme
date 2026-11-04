@@ -1,7 +1,8 @@
 {% doc %}
-  One ingredient of the ingredients explorer: its name in the list. The
-  section also shows its photo above the list and its description beside
-  it.
+  One ingredient of the ingredients explorer: its numbered photo in the
+  row of photos, plus templates for its name in the list and its
+  description beside it. The section cannot read these settings, so
+  assets/ingredients-explorer.js copies the templates into the list.
 {% enddoc %}
 
 {%- liquid
@@ -12,19 +13,47 @@
       break
     endif
   endfor
+  assign index = number | minus: 1
 -%}
 
-<li {{ block.shopify_attributes }}>
+<div class="ingredients-explorer__ingredient" {{ block.shopify_attributes }}>
   <button
-    class="ingredients-explorer__item"
+    class="ingredients-explorer__thumb"
     type="button"
-    data-ingredient-select="{{ number | minus: 1 }}"
+    data-ingredient-select="{{ index }}"
     aria-pressed="{% if number == 1 %}true{% else %}false{% endif %}"
+    aria-label="{{ block.settings.name | escape }}"
   >
     <span class="ingredients-explorer__index">[{{ number }}]</span>
-    <span class="h5">{{ block.settings.name | escape }}</span>
+    <span class="ingredients-explorer__photo">
+      {%- if block.settings.image != blank -%}
+        {{ block.settings.image | image_url: width: 260 | image_tag: loading: 'lazy', alt: '' }}
+      {%- else -%}
+        {% render 'placeholder', name: 'lifestyle-2' %}
+      {%- endif -%}
+    </span>
   </button>
-</li>
+
+  <template data-ingredient-item-template>
+    <li>
+      <button
+        class="ingredients-explorer__item"
+        type="button"
+        data-ingredient-select="{{ index }}"
+        aria-pressed="{% if number == 1 %}true{% else %}false{% endif %}"
+      >
+        <span class="ingredients-explorer__index">[{{ number }}]</span>
+        <span class="h5">{{ block.settings.name | escape }}</span>
+      </button>
+    </li>
+  </template>
+
+  <template data-ingredient-description-template>
+    <div class="ingredients-explorer__description" data-ingredient-description {% unless number == 1 %}hidden{% endunless %}>
+      {{ block.settings.description }}
+    </div>
+  </template>
+</div>
 
 {% schema %}
 {

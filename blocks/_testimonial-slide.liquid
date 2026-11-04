@@ -1,32 +1,28 @@
 {% doc %}
   One testimonial of the slider: the previous testimonial's photo small,
   this one's photo large, the quote, and who said it. Only the first shows
-  until assets/testimonial-slider.js switches them.
+  until assets/testimonial-slider.js switches them. A block cannot read
+  another block's settings, so each slide carries its own photo at the
+  small size in a template, and the script puts it into the next slide's
+  small frame (the last one's into the first).
 {% enddoc %}
 
 {%- liquid
-  # The small photo belongs to the testimonial before this one (the last one, for the first).
-  assign previous = section.blocks.last
   assign first = false
-  for item in section.blocks
-    if item.id == block.id
-      if forloop.first
-        assign first = true
-      endif
-      break
-    endif
-    assign previous = item
-  endfor
+  if section.blocks.first.id == block.id
+    assign first = true
+  endif
 -%}
 
 <div class="testimonial-slide" data-slider-slide {% unless first %}hidden{% endunless %} {{ block.shopify_attributes }}>
-  <div class="testimonial-slide__photo testimonial-slide__photo--previous">
-    {%- if previous.settings.image != blank -%}
-      {{ previous.settings.image | image_url: width: 480 | image_tag: widths: '240, 480', sizes: '240px', loading: 'lazy', alt: '' }}
+  <div class="testimonial-slide__photo testimonial-slide__photo--previous" data-slide-previous></div>
+  <template data-slide-thumb>
+    {%- if block.settings.image != blank -%}
+      {{ block.settings.image | image_url: width: 480 | image_tag: widths: '240, 480', sizes: '240px', loading: 'lazy', alt: '' }}
     {%- else -%}
       {% render 'placeholder', name: 'lifestyle-2' %}
     {%- endif -%}
-  </div>
+  </template>
   <div class="testimonial-slide__photo testimonial-slide__photo--current">
     {%- if block.settings.image != blank -%}
       {{ block.settings.image | image_url: width: 960 | image_tag: widths: '480, 720, 960', sizes: '(min-width: 990px) 480px, 100vw', loading: 'lazy', alt: block.settings.image.alt }}

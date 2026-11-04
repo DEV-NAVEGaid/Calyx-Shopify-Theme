@@ -1,10 +1,11 @@
 {% comment %}
-  Complete the ritual: this product and its companions as tickable cards,
+  Complete the look: this product and its companions as tickable cards,
   with the total of the ticked ones and a button that adds them all.
   Companions come from the product's complementary products (Search &
   Discovery app), or else from the products picked here. Sold-out products
   are left out. assets/product-bundle.js keeps the total in step with the
-  ticks.
+  ticks, and re-renders the section when the shopper picks another variant
+  of this product, since the first card is the selected variant.
 {% endcomment %}
 
 {%- liquid
@@ -50,7 +51,13 @@
 {%- endcapture -%}
 
 {% if count > 1 or request.design_mode %}
-  <product-bundle class="home-section product-bundle spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+  <product-bundle
+    class="home-section product-bundle spacing-style"
+    style="{% render 'spacing-style', settings: section.settings %}"
+    data-section-id="{{ section.id }}"
+    data-product-url="{{ product.url }}"
+    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+  >
     <div class="home-section__inner">
       {% if section.settings.heading != blank %}
         <h2 class="h3 product-bundle__heading">{{ section.settings.heading | escape }}</h2>

@@ -15,7 +15,6 @@
       "type": "footer",
       "settings": {
         "show_newsletter": true,
-        "newsletter_text": "Join our circle for 10% off your first order.",
         "show_wordmark": true,
         "show_localization": true,
         "show_follow_on_shop": true,
@@ -46,12 +45,7 @@
     "newsletter_popup": {
       "type": "newsletter-popup",
       "settings": {
-        "eyebrow": "Join the list",
-        "heading": "10% off your first order",
-        "text": "Plus new arrivals, rituals and early access to launches. No spam, ever.",
-        "button_label": "Unlock 10% off",
-        "delay": 6,
-        "fine_print": "By subscribing you agree to receive marketing emails. Unsubscribe anytime."
+        "delay": 6
       }
     }
   },

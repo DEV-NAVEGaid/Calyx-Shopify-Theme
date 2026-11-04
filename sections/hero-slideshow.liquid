@@ -1,29 +1,16 @@
 {% comment %}
   Full-width hero slideshow. Each slide is a block with its own photo,
   badge, headline, text, and two buttons. assets/hero-slideshow.js rotates
-  the slides and wires the arrows and progress bars. Height: Small (560px),
-  Medium (720px), Large (880px), or Full screen (the height of the screen).
+  the slides and wires the arrows and progress bars. The Height setting comes
+  out through snippets/hero-height.liquid.
 {% endcomment %}
 
-{%- liquid
-  assign slide_count = section.blocks.size
-
-  case section.settings.section_height
-    when 'small'
-      assign hero_height = '560px'
-    when 'large'
-      assign hero_height = '880px'
-    when 'full_screen'
-      assign hero_height = '100svh'
-    else
-      assign hero_height = '720px'
-  endcase
--%}
+{%- assign slide_count = section.blocks.size -%}
 
 <hero-slideshow
   class="hero-slideshow spacing-style"
   data-autoplay="{{ section.settings.autoplay_speed }}"
-  style="{% render 'spacing-style', settings: section.settings %} --hero-height: {{ hero_height }};"
+  style="{% render 'spacing-style', settings: section.settings %} {% render 'hero-height', height: section.settings.section_height %}"
 >
   {% content_for 'blocks' %}
 
@@ -87,7 +74,7 @@
       "step": 1,
       "unit": "s",
       "default": 6,
-      "info": "t:info.autoplay_speed"
+      "info": "t:info.autoplay_off"
     },
     {
       "type": "select",

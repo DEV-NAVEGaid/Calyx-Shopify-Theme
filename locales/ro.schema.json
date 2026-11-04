@@ -170,7 +170,8 @@
     "variant_picker": "Selector de variante",
     "video": "Videoclip",
     "video_card": "Videoclip",
-    "video_carousel": "Videoclipuri din comunitate"
+    "video_carousel": "Videoclipuri din comunitate",
+    "image_and_text": "Imagine și text"
   },
   "categories": {
     "banners": "Bannere",
@@ -520,7 +521,8 @@
     "wordmark_text": "Text logotip",
     "write_review_link": "Link „Scrie o recenzie”",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Linkuri de stare"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Orizontal",
       "vertical": "Vertical"
+    },
+    "scroll_direction": {
+      "to_left": "De la dreapta la stânga",
+      "to_right": "De la stânga la dreapta"
     },
     "distance_unit": {
       "mi": "Mile",
@@ -877,14 +883,14 @@
     "policy_summary": "Un punct pe linie. Afișat într-un card deasupra conținutului paginii.",
     "popover_overlay_color": "Estompează pagina din spatele ferestrelor modale, pop-up-urilor și sertarelor.",
     "popular_searches": "Separă căutările prin virgule.",
-    "predictive_search": "Sugerează produse, colecții, pagini și articole în sertarul de căutare.",
+    "predictive_search": "Sugerează produse, colecții, pagini și articole în panoul de căutare care se deschide sub bara de anunțuri.",
     "predictive_search_collection": "Produse sugerate înainte ca clientul să înceapă să tasteze.",
     "product_card_background": "Înlocuiește fundalul cardului din Setări temă.",
     "product_guide": "Un link lângă eticheta unei opțiuni deschide ghidul într-o fereastră modală. Ascuns când ghidul este gol.",
     "product_meta_text": "Conectează un metacâmp de produs pentru ca fiecare produs să își afișeze propriul rând. Un supratitlu gol afișează tipul produsului.",
     "promo_link": "Lasă gol pentru a trimite la produs.",
-    "promo_placement": "Rândul este stabilit de Afișează după produs. Pe telefoanele cu două coloane, Centru ocupă toată lățimea.",
-    "promo_position": "Dala ia locul unui produs; 0 o ascunde.",
+    "promo_placement": "Coloana plăcii în rândul ales de Poziția plăcii promoționale; produsele se așază în jurul ei. Pe telefoanele cu două coloane, Centru ocupă toată lățimea.",
+    "promo_position": "Adaugă placa în grilă, în rândul produsului de după acesta; niciun produs nu este ascuns. Apare când pagina are cel puțin atâtea produse; 0 o ascunde.",
     "promo_product": "Afișează prețul acestuia și, în lipsa unei imagini, fotografia sa.",
     "quick_add": "Deschide o vizualizare rapidă pe desktop și un panou inferior pe mobil.",
     "review_topics": "Un subiect pe linie.",
@@ -915,7 +921,8 @@
     "ugc_product": "Doar pentru dalele mari. Afișat ca parfumul lor emblematic.",
     "upsell_heading": "Lasă gol pentru a afișa titlul produsului.",
     "video_card_image": "Afișată când nu există videoclip.",
-    "wordmark_text": "Orice cuvânt sau frază scurtă, cum ar fi numele brandului sau un slogan. Lasă gol pentru a folosi numele magazinului. Dimensiunea se ajustează după lungime."
+    "wordmark_text": "Orice cuvânt sau frază scurtă, cum ar fi numele brandului sau un slogan. Lasă gol pentru a folosi numele magazinului. Dimensiunea se ajustează după lungime.",
+    "mood_menu": "Alege un meniu: fiecare link devine o etichetă după Toate, care duce la toate produsele. Eticheta colecției vizualizate este evidențiată. Fără meniu, nu se afișează etichete."
   },
   "html_defaults": {
     "about_text": "<p>Împărtășește povestea brandului tău: cine ești, ce creezi și de ce.</p>",

@@ -1,7 +1,8 @@
 /*
- * Countdown block: counts down to `data-end` (an ISO date with the store's
- * UTC offset) once a second. When the time has passed it shows the
- * "after it ends" text, or hides the block if there is none.
+ * Countdown block: counts down to `data-end` (a Unix timestamp in seconds,
+ * resolved in the store's time zone by the block) once a second. When the
+ * time has passed it shows the "after it ends" text, or hides the block if
+ * there is none.
  */
 const SECOND = 1000;
 const UNITS = [
@@ -15,7 +16,8 @@ class CountdownTimer extends HTMLElement {
   #timer = null;
 
   connectedCallback() {
-    this.end = Date.parse(this.dataset.end);
+    const end = this.dataset.end?.trim() ?? "";
+    this.end = /^-?\d+$/.test(end) ? Number(end) * SECOND : NaN;
     if (Number.isNaN(this.end)) {
       this.hidden = true;
       return;

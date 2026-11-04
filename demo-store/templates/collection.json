@@ -15,6 +15,7 @@
         "show_title": true,
         "show_description": true,
         "show_moods": true,
+        "mood_menu": "moods",
         "products_per_page": 9,
         "columns_desktop": 3,
         "columns_mobile": "2",

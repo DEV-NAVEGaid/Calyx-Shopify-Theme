@@ -15,7 +15,7 @@
 {% if variant.available == false or request.design_mode %}
   <div class="back-in-stock" {{ block.shopify_attributes }}>
     <p class="back-in-stock__heading">
-      {% render 'icon', icon: 'mail' %}
+      {% render 'icon', icon: 'mail', image: block.settings.custom_icon %}
       <span>{{ block.settings.heading | escape }}</span>
     </p>
 
@@ -45,6 +45,11 @@
   "name": "t:names.back_in_stock",
   "tag": null,
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "custom_icon",
+      "label": "t:settings.custom_icon"
+    },
     {
       "type": "text",
       "id": "heading",

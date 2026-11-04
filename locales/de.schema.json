@@ -170,7 +170,8 @@
     "variant_picker": "Variantenauswahl",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Community-Videos"
+    "video_carousel": "Community-Videos",
+    "image_and_text": "Bild und Text"
   },
   "categories": {
     "banners": "Banner",
@@ -520,7 +521,8 @@
     "wordmark_text": "Schriftzug-Text",
     "write_review_link": "Link zum Schreiben einer Bewertung",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Stimmungs-Links"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Horizontal",
       "vertical": "Vertikal"
+    },
+    "scroll_direction": {
+      "to_left": "Von rechts nach links",
+      "to_right": "Von links nach rechts"
     },
     "distance_unit": {
       "mi": "Meilen",
@@ -877,14 +883,14 @@
     "policy_summary": "Ein Punkt pro Zeile. Wird in einer Karte über dem Seiteninhalt angezeigt.",
     "popover_overlay_color": "Dunkelt die Seite hinter Modals, Pop-ups und Einschüben ab.",
     "popular_searches": "Trenne Suchbegriffe mit Kommas.",
-    "predictive_search": "Schlägt im Such-Einschub Produkte, Kollektionen, Seiten und Artikel vor.",
+    "predictive_search": "Schlägt Produkte, Kollektionen, Seiten und Artikel im Suchbereich vor, der sich unter der Ankündigungsleiste öffnet.",
     "predictive_search_collection": "Vorgeschlagene Produkte, bevor der Kunde zu tippen beginnt.",
     "product_card_background": "Überschreibt den Kartenhintergrund aus den Theme-Einstellungen.",
     "product_guide": "Ein Link neben einem Options-Label öffnet den Guide in einem Modal. Ausgeblendet, wenn der Guide leer ist.",
     "product_meta_text": "Verknüpfe ein Produkt-Metafeld, damit jedes Produkt seine eigene Zeile zeigt. Eine leere Dachzeile zeigt den Produkttyp.",
     "promo_link": "Leer lassen, um auf das Produkt zu verlinken.",
-    "promo_placement": "Die Zeile ergibt sich aus „Anzeigen nach Produkt“. Auf Smartphones mit zwei Spalten nimmt „Mitte“ die volle Breite ein.",
-    "promo_position": "Die Kachel nimmt den Platz eines Produkts ein; 0 blendet sie aus.",
+    "promo_placement": "Die Spalte der Kachel in der Reihe, die „Position der Promo-Kachel“ festlegt; die Produkte fließen um sie herum. Auf Smartphones mit zwei Spalten nimmt „Mitte“ die volle Breite ein.",
+    "promo_position": "Fügt die Kachel in das Raster ein, in der Reihe des Produkts nach diesem; kein Produkt wird ausgeblendet. Erscheint, wenn die Seite mindestens so viele Produkte hat; 0 blendet sie aus.",
     "promo_product": "Zeigt den Preis und, ohne eigenes Bild, das Produktfoto.",
     "quick_add": "Öffnet auf dem Desktop eine Schnellansicht und auf Mobilgeräten ein Bottom Sheet.",
     "review_topics": "Ein Thema pro Zeile.",
@@ -915,7 +921,8 @@
     "ugc_product": "Nur große Kacheln. Wird als Signature-Duft angezeigt.",
     "upsell_heading": "Leer lassen, um den Produkttitel anzuzeigen.",
     "video_card_image": "Wird angezeigt, wenn kein Video vorhanden ist.",
-    "wordmark_text": "Ein beliebiges Wort oder ein kurzer Satz, z. B. dein Markenname oder ein Slogan. Leer lassen, um den Shopnamen zu verwenden. Die Größe passt sich der Länge an."
+    "wordmark_text": "Ein beliebiges Wort oder ein kurzer Satz, z. B. dein Markenname oder ein Slogan. Leer lassen, um den Shopnamen zu verwenden. Die Größe passt sich der Länge an.",
+    "mood_menu": "Wähle ein Menü: Jeder seiner Links wird zu einem Chip nach „Alle“, der zu allen Produkten führt. Der Chip der angezeigten Kollektion wird hervorgehoben. Ohne Menü werden keine Chips angezeigt."
   },
   "html_defaults": {
     "about_text": "<p>Erzähle die Geschichte deiner Marke: wer du bist, was du machst und warum.</p>",

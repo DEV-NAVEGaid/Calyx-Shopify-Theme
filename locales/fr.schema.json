@@ -170,7 +170,8 @@
     "variant_picker": "Sélecteur de variante",
     "video": "Vidéo",
     "video_card": "Vidéo",
-    "video_carousel": "Vidéos de la communauté"
+    "video_carousel": "Vidéos de la communauté",
+    "image_and_text": "Image et texte"
   },
   "categories": {
     "banners": "Bannières",
@@ -520,7 +521,8 @@
     "wordmark_text": "Texte du logotype",
     "write_review_link": "Lien pour écrire un avis",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Liens d’ambiance"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Horizontale",
       "vertical": "Verticale"
+    },
+    "scroll_direction": {
+      "to_left": "De droite à gauche",
+      "to_right": "De gauche à droite"
     },
     "distance_unit": {
       "mi": "Miles",
@@ -877,14 +883,14 @@
     "policy_summary": "Un point par ligne. Affiché dans une carte au-dessus du contenu de la page.",
     "popover_overlay_color": "Assombrit la page derrière les fenêtres modales, les pop-ups et les tiroirs.",
     "popular_searches": "Séparez les recherches par des virgules.",
-    "predictive_search": "Suggère des produits, collections, pages et articles dans le tiroir de recherche.",
+    "predictive_search": "Suggère des produits, collections, pages et articles dans le panneau de recherche qui s’ouvre sous la barre d’annonces.",
     "predictive_search_collection": "Produits suggérés avant que le client ne commence à taper.",
     "product_card_background": "Remplace l’arrière-plan de la carte défini dans Paramètres du thème.",
     "product_guide": "Un lien à côté du libellé d’une option ouvre le guide dans une fenêtre modale. Masqué lorsque le guide est vide.",
     "product_meta_text": "Associez un métachamp de produit pour que chaque produit affiche sa propre ligne. Un surtitre vide affiche le type de produit.",
     "promo_link": "Laissez vide pour renvoyer vers le produit.",
-    "promo_placement": "La rangée est définie par Afficher après le produit. Sur les téléphones à deux colonnes, Centre occupe toute la largeur.",
-    "promo_position": "La vignette prend la place d’un produit ; 0 la masque.",
+    "promo_placement": "La colonne de la vignette dans la rangée choisie par Position de la vignette promo ; les produits se placent autour. Sur les téléphones à deux colonnes, Centre occupe toute la largeur.",
+    "promo_position": "Ajoute la vignette à la grille, dans la rangée du produit qui suit celui-ci ; aucun produit n’est masqué. S’affiche quand la page compte au moins ce nombre de produits ; 0 la masque.",
     "promo_product": "Affiche son prix et, sans image, sa photo.",
     "quick_add": "Ouvre un aperçu rapide sur ordinateur et un volet inférieur sur mobile.",
     "review_topics": "Un thème par ligne.",
@@ -915,7 +921,8 @@
     "ugc_product": "Grandes vignettes uniquement. Affiché comme leur parfum signature.",
     "upsell_heading": "Laissez vide pour afficher le titre du produit.",
     "video_card_image": "Affichée lorsqu’il n’y a pas de vidéo.",
-    "wordmark_text": "Un mot ou une courte phrase, comme le nom de votre marque ou un slogan. Laissez vide pour utiliser le nom de la boutique. La taille s’adapte à la longueur."
+    "wordmark_text": "Un mot ou une courte phrase, comme le nom de votre marque ou un slogan. Laissez vide pour utiliser le nom de la boutique. La taille s’adapte à la longueur.",
+    "mood_menu": "Choisissez un menu : chacun de ses liens devient une pastille après « Tout », qui mène à tous les produits. La pastille de la collection affichée est mise en évidence. Sans menu, aucune pastille ne s’affiche."
   },
   "html_defaults": {
     "about_text": "<p>Racontez l’histoire de votre marque : qui vous êtes, ce que vous créez et pourquoi.</p>",

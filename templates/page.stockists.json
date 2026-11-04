@@ -15,15 +15,12 @@
         "eyebrow": {
           "type": "_section-eyebrow",
           "static": true,
-          "settings": {
-            "text": "Stockists"
-          }
+          "settings": {}
         },
         "heading": {
           "type": "_section-heading",
           "static": true,
           "settings": {
-            "heading": "Find us near you",
             "size": "h1",
             "tag": "h1"
           }
@@ -32,14 +29,12 @@
           "type": "_section-text",
           "static": true,
           "settings": {
-            "text": "<p>Smell the full collection in person at our partner stores.</p>",
             "size": "default"
           }
         },
         "store_1": {
           "type": "_stockist",
           "settings": {
-            "name": "Calyx Studio",
             "address": "123 Demo Street, Brooklyn",
             "latitude": "40.6928",
             "longitude": "-73.9903",
@@ -56,7 +51,6 @@
         "store_2": {
           "type": "_stockist",
           "settings": {
-            "name": "The Scent Room",
             "address": "88 Sample Ave, Brooklyn",
             "latitude": "40.6782",
             "longitude": "-73.9442",
@@ -66,14 +60,12 @@
             "hours_wednesday": "11am–8pm",
             "hours_thursday": "11am–8pm",
             "hours_friday": "11am–8pm",
-            "hours_saturday": "11am–8pm",
-            "hours_sunday": ""
+            "hours_saturday": "11am–8pm"
           }
         },
         "store_3": {
           "type": "_stockist",
           "settings": {
-            "name": "Willow & Co.",
             "address": "5 Example Blvd, Manhattan",
             "latitude": "40.7359",
             "longitude": "-73.9911",
@@ -90,7 +82,6 @@
         "store_4": {
           "type": "_stockist",
           "settings": {
-            "name": "Market Hall Beauty",
             "address": "210 Placeholder St, Queens",
             "latitude": "40.7282",
             "longitude": "-73.7949",
@@ -100,14 +91,12 @@
             "hours_wednesday": "9am–8pm",
             "hours_thursday": "9am–8pm",
             "hours_friday": "9am–8pm",
-            "hours_saturday": "9am–8pm",
-            "hours_sunday": ""
+            "hours_saturday": "9am–8pm"
           }
         },
         "store_5": {
           "type": "_stockist",
           "settings": {
-            "name": "Northside Apothecary",
             "address": "17 Demo Lane, Hoboken",
             "latitude": "40.7440",
             "longitude": "-74.0324",
@@ -117,8 +106,7 @@
             "hours_wednesday": "9am–6pm",
             "hours_thursday": "9am–6pm",
             "hours_friday": "9am–6pm",
-            "hours_saturday": "10am–4pm",
-            "hours_sunday": ""
+            "hours_saturday": "10am–4pm"
           }
         }
       },
@@ -132,8 +120,6 @@
       "settings": {
         "distance_unit": "mi",
         "show_filters": true,
-        "filter_full_label": "Full collection",
-        "filter_discovery_label": "Discovery Set only",
         "padding-block-start": 64,
         "padding-block-end": 96
       }

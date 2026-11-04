@@ -4,15 +4,28 @@
   between thin rules, boxes, or a single line.
   assets/countdown.js ticks it every second; once the time has passed it
   shows the "After it ends" text, or hides the block when that is empty.
+
+  The deadline goes to the browser as a Unix timestamp. Shopify's date
+  filter reads a date string without an offset in the store's time zone,
+  with the UTC offset in force on that date, so a deadline on the far side of
+  a daylight-saving change still lands on the merchant's wall-clock time
+  (the store's current offset would put it an hour off). The filter guesses
+  at text that isn't a date (it would read "soon 12:00" as today at noon),
+  so the date must come back as written; otherwise, or when the time can't
+  be read, `data-end` isn't a number and countdown.js hides the block.
 {% enddoc %}
 
 {%- liquid
-  # The store's UTC offset (+0700) as +07:00, so every visitor counts down to the same moment.
-  assign offset = 'now' | date: '%z'
-  assign offset_hours = offset | slice: 0, 3
-  assign offset_minutes = offset | slice: 3, 2
-  assign time = block.settings.end_time | default: '00:00' | strip
-  assign end = block.settings.end_date | strip | append: 'T' | append: time | append: ':00' | append: offset_hours | append: ':' | append: offset_minutes
+  assign end = ''
+  assign end_date = block.settings.end_date | strip
+  if end_date != blank
+    assign time = block.settings.end_time | default: '00:00' | strip
+    assign end_local = end_date | append: ' ' | append: time
+    assign parsed_date = end_local | date: '%Y-%m-%d'
+    if parsed_date == end_date
+      assign end = end_local | date: '%s'
+    endif
+  endif
 -%}
 
 <countdown-timer

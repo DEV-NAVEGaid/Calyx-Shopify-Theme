@@ -32,7 +32,7 @@
     <main class="gift-card-page" id="MainContent">
       <p class="gift-card-page__wordmark">{{ shop.name }}</p>
 
-      {%- assign amount = gift_card.balance | money_without_trailing_zeros -%}
+      {%- capture amount -%}{% render 'format-money', amount: gift_card.balance %}{%- endcapture -%}
       <h1 class="gift-card-page__heading">
         {{ 'gift_card.heading' | t: value: amount }}
       </h1>
@@ -55,7 +55,7 @@
         <div class="gift-card-visual__content">
           <p class="gift-card-visual__wordmark">{{ shop.name }}</p>
           <p class="gift-card-visual__eyebrow">{{ 'gift_card.eyebrow' | t }}</p>
-          <p class="gift-card-visual__balance">{{ gift_card.balance | money_without_trailing_zeros }}</p>
+          <p class="gift-card-visual__balance">{{ amount }}</p>
         </div>
       </div>
 
@@ -72,13 +72,12 @@
         </button>
       </div>
 
-      {%- assign balance = gift_card.balance | money -%}
       <p class="gift-card-page__balance">
         {%- if gift_card.expires_on -%}
-          {%- assign expires_on = gift_card.expires_on | date: '%B %e, %Y' -%}
-          {{ 'gift_card.balance_expiry' | t: balance: balance, expires_on: expires_on }}
+          {%- assign expires_on = gift_card.expires_on | date: format: 'date' -%}
+          {{ 'gift_card.balance_expiry' | t: balance: amount, expires_on: expires_on }}
         {%- else -%}
-          {{ 'gift_card.balance_no_expiry' | t: balance: balance }}
+          {{ 'gift_card.balance_no_expiry' | t: balance: amount }}
         {%- endif -%}
       </p>
 

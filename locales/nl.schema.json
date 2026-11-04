@@ -170,7 +170,8 @@
     "variant_picker": "Variantkiezer",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Communityvideo's"
+    "video_carousel": "Communityvideo's",
+    "image_and_text": "Afbeelding en tekst"
   },
   "categories": {
     "banners": "Banners",
@@ -520,7 +521,8 @@
     "wordmark_text": "Tekst woordmerk",
     "write_review_link": "Link om een review te schrijven",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Sfeerlinks"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Horizontaal",
       "vertical": "Verticaal"
+    },
+    "scroll_direction": {
+      "to_left": "Van rechts naar links",
+      "to_right": "Van links naar rechts"
     },
     "distance_unit": {
       "mi": "Mijl",
@@ -877,14 +883,14 @@
     "policy_summary": "Eén punt per regel. Getoond in een kaart boven de pagina-inhoud.",
     "popover_overlay_color": "Verduistert de pagina achter modals, pop-ups en lades.",
     "popular_searches": "Scheid zoekopdrachten met komma's.",
-    "predictive_search": "Stelt producten, collecties, pagina's en artikelen voor in de zoeklade.",
+    "predictive_search": "Stelt producten, collecties, pagina’s en artikelen voor in het zoekpaneel dat onder de aankondigingsbalk openklapt.",
     "predictive_search_collection": "Voorgestelde producten voordat de klant begint te typen.",
     "product_card_background": "Overschrijft de kaartachtergrond uit Thema-instellingen.",
     "product_guide": "Een link naast een optielabel opent de gids in een modal. Verborgen als de gids leeg is.",
     "product_meta_text": "Koppel een productmetaveld zodat elk product zijn eigen regel toont. Een lege bovenkop toont het producttype.",
     "promo_link": "Laat leeg om naar het product te linken.",
-    "promo_placement": "De rij volgt uit Tonen na product. Op telefoons met twee kolommen beslaat Midden de volle breedte.",
-    "promo_position": "De tegel neemt de plaats van een product in; 0 verbergt hem.",
+    "promo_placement": "De kolom van de tegel in de rij die Positie van promotegel kiest; de producten schikken zich eromheen. Op telefoons met twee kolommen beslaat Midden de volledige breedte.",
+    "promo_position": "Voegt de tegel toe aan het raster, in de rij van het product na dit product; er wordt geen product verborgen. Verschijnt als de pagina minstens zoveel producten heeft; 0 verbergt hem.",
     "promo_product": "Toont de prijs en, zonder afbeelding, de productfoto.",
     "quick_add": "Opent een snelle weergave op desktop en een onderpaneel op mobiel.",
     "review_topics": "Eén onderwerp per regel.",
@@ -915,7 +921,8 @@
     "ugc_product": "Alleen grote tegels. Getoond als hun signature-geur.",
     "upsell_heading": "Laat leeg om de producttitel te tonen.",
     "video_card_image": "Getoond als er geen video is.",
-    "wordmark_text": "Elk woord of korte zin, zoals je merknaam of een slogan. Laat leeg om de winkelnaam te gebruiken. De grootte past zich aan de lengte aan."
+    "wordmark_text": "Elk woord of korte zin, zoals je merknaam of een slogan. Laat leeg om de winkelnaam te gebruiken. De grootte past zich aan de lengte aan.",
+    "mood_menu": "Kies een menu: elke link ervan wordt een chip na Alles, die naar alle producten linkt. De chip van de bekeken collectie wordt gemarkeerd. Zonder menu worden er geen chips getoond."
   },
   "html_defaults": {
     "about_text": "<p>Vertel het verhaal van je merk: wie je bent, wat je maakt en waarom.</p>",

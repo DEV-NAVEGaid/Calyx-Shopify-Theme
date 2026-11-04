@@ -12,8 +12,6 @@
     "main": {
       "type": "main-blog",
       "settings": {
-        "heading": "Stories on scent, mood and ritual",
-        "description": "<p>Guides, ingredient deep-dives and the people behind our scents.</p>",
         "show_tags": true,
         "articles_per_page": 9,
         "columns_desktop": 3,

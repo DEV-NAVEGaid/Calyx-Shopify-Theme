@@ -170,7 +170,8 @@
     "variant_picker": "Birač varijanti",
     "video": "Videozapis",
     "video_card": "Videozapis",
-    "video_carousel": "Videozapisi zajednice"
+    "video_carousel": "Videozapisi zajednice",
+    "image_and_text": "Slika i tekst"
   },
   "categories": {
     "banners": "Natpisi",
@@ -520,7 +521,8 @@
     "wordmark_text": "Tekst logotipa od slova",
     "write_review_link": "Poveznica za pisanje recenzije",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Poveznice raspoloženja"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Vodoravno",
       "vertical": "Okomito"
+    },
+    "scroll_direction": {
+      "to_left": "Zdesna nalijevo",
+      "to_right": "Slijeva nadesno"
     },
     "distance_unit": {
       "mi": "Milje",
@@ -877,14 +883,14 @@
     "policy_summary": "Jedna stavka po retku. Prikazuje se u kartici iznad sadržaja stranice.",
     "popover_overlay_color": "Zatamnjuje stranicu iza modalnih prozora, skočnih prozora i ladica.",
     "popular_searches": "Odvojite pretraživanja zarezima.",
-    "predictive_search": "Predlaže proizvode, kolekcije, stranice i članke u ladici pretraživanja.",
+    "predictive_search": "Predlaže proizvode, kolekcije, stranice i članke u ploči za pretraživanje koja se otvara ispod trake s obavijestima.",
     "predictive_search_collection": "Predloženi proizvodi prije nego što kupac počne upisivati.",
     "product_card_background": "Zamjenjuje pozadinu kartice iz postavki teme.",
     "product_guide": "Poveznica uz oznaku opcije otvara vodič u modalnom prozoru. Skriva se kad je vodič prazan.",
     "product_meta_text": "Povežite metapolje proizvoda kako bi svaki proizvod prikazao vlastiti redak. Prazan nadnaslov prikazuje vrstu proizvoda.",
     "promo_link": "Ostavite prazno za poveznicu na proizvod.",
-    "promo_placement": "Redak se određuje postavkom Prikaži nakon proizvoda. Na mobitelima s dva stupca Sredina zauzima punu širinu.",
-    "promo_position": "Pločica zauzima mjesto proizvoda; 0 je skriva.",
+    "promo_placement": "Stupac pločice u retku koji odabire Položaj promotivne pločice; proizvodi se slažu oko nje. Na telefonima s dva stupca Sredina zauzima cijelu širinu.",
+    "promo_position": "Dodaje pločicu u mrežu, u redak proizvoda nakon ovoga; nijedan proizvod se ne skriva. Prikazuje se kad stranica ima barem toliko proizvoda; 0 je skriva.",
     "promo_product": "Prikazuje njegovu cijenu i, ako nema slike, njegovu fotografiju.",
     "quick_add": "Otvara brzi pregled na računalu i donji list na mobitelu.",
     "review_topics": "Jedna tema po retku.",
@@ -915,7 +921,8 @@
     "ugc_product": "Samo velike pločice. Prikazuje se kao njihov prepoznatljivi miris.",
     "upsell_heading": "Ostavite prazno za prikaz naziva proizvoda.",
     "video_card_image": "Prikazuje se kad nema videozapisa.",
-    "wordmark_text": "Bilo koja riječ ili kratka fraza, npr. naziv robne marke ili slogan. Ostavite prazno za korištenje naziva trgovine. Veličina se prilagođava duljini."
+    "wordmark_text": "Bilo koja riječ ili kratka fraza, npr. naziv robne marke ili slogan. Ostavite prazno za korištenje naziva trgovine. Veličina se prilagođava duljini.",
+    "mood_menu": "Odaberite izbornik: svaka njegova poveznica postaje oznaka nakon „Sve”, koja vodi na sve proizvode. Oznaka kolekcije koja se pregledava je istaknuta. Bez izbornika oznake se ne prikazuju."
   },
   "html_defaults": {
     "about_text": "<p>Podijelite priču svoje robne marke: tko ste, što izrađujete i zašto.</p>",

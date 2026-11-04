@@ -1,20 +1,29 @@
 {% doc %}
   The closest product's review rating as stars, with the average and the
-  number of reviews linked to the reviews section. Reads the standard
-  `reviews.rating` and `reviews.rating_count` metafields that review apps
-  fill in; shows nothing without a rating.
+  number of reviews linked to the reviews section. On the product's own
+  page the link jumps to that section; elsewhere (Featured product, cards)
+  it opens the product page at it. Reads the standard `reviews.rating` and
+  `reviews.rating_count` metafields that review apps fill in; shows nothing
+  without a rating.
 {% enddoc %}
 
 {%- liquid
-  assign product = closest.product
-  assign rating = product.metafields.reviews.rating.value
-  assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+  assign rated_product = closest.product
+  assign rating = rated_product.metafields.reviews.rating.value
+  assign rating_count = rated_product.metafields.reviews.rating_count.value | default: 0
+
+  # The main product section has no product setting; a Featured product
+  # section re-rendered from the product URL (variant change) does.
+  assign reviews_url = block.settings.anchor | default: 'reviews' | handle | prepend: '#'
+  unless request.page_type == 'product' and rated_product.id == product.id and section.settings.product == blank
+    assign reviews_url = reviews_url | prepend: rated_product.url
+  endunless
 -%}
 
 {% if rating != blank %}
   <div class="product-rating" {{ block.shopify_attributes }}>
     {% render 'rating-stars', rating: rating.rating, max: rating.scale_max %}
-    <a class="product-rating__link" href="#{{ block.settings.anchor | default: 'reviews' | handle }}">
+    <a class="product-rating__link" href="{{ reviews_url }}">
       {{- rating.rating | round: 1 }} · {{ 'content.reviews_count' | t: count: rating_count -}}
     </a>
   </div>

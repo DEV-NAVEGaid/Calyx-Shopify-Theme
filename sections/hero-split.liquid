@@ -5,10 +5,22 @@
   (assets/hero-split.js). Words in the heading set in italics stay italic.
 {% endcomment %}
 
-<hero-split class="hero-split spacing-style" data-autoplay="{{ section.settings.autoplay }}" style="{% render 'spacing-style', settings: section.settings %}">
+{%- liquid
+  # Only a hero among the page's first two sections is likely to be the
+  # largest thing on the first screen: it loads first; a later one waits.
+  if section.index <= 2
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  else
+    assign loading = 'lazy'
+    assign fetchpriority = 'auto'
+  endif
+-%}
+
+<hero-split class="hero-split spacing-style" data-autoplay="{{ section.settings.autoplay }}" style="{% render 'spacing-style', settings: section.settings %} {% render 'hero-height', height: section.settings.section_height %}">
   <div class="hero-split__panel hero-split__panel--image">
     {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 1600 | image_tag: widths: '700, 1000, 1400, 1600', sizes: '(min-width: 990px) 50vw, 100vw', fetchpriority: 'high', alt: section.settings.image.alt }}
+      {{ section.settings.image | image_url: width: 1600 | image_tag: widths: '700, 1000, 1400, 1600', sizes: '(min-width: 990px) 50vw, 100vw', loading: loading, fetchpriority: fetchpriority, alt: section.settings.image.alt }}
     {%- else -%}
       {% render 'placeholder', name: 'lifestyle-1' %}
     {%- endif -%}
@@ -89,6 +101,31 @@
       "step": 1,
       "unit": "s",
       "default": 5
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "t:settings.height",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:options.section_height.small"
+        },
+        {
+          "value": "medium",
+          "label": "t:options.section_height.medium"
+        },
+        {
+          "value": "large",
+          "label": "t:options.section_height.large"
+        },
+        {
+          "value": "full_screen",
+          "label": "t:options.section_height.full_screen"
+        }
+      ],
+      "default": "medium",
+      "visible_if": "{{ section.settings.image_ratio == 'default' }}"
     },
     {
       "type": "header",

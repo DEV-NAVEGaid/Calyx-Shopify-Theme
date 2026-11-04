@@ -170,7 +170,8 @@
     "variant_picker": "Selettore di varianti",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Video della community"
+    "video_carousel": "Video della community",
+    "image_and_text": "Immagine e testo"
   },
   "categories": {
     "banners": "Banner",
@@ -520,7 +521,8 @@
     "wordmark_text": "Testo del logotipo",
     "write_review_link": "Link per scrivere una recensione",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Link per stato d’animo"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Orizzontale",
       "vertical": "Verticale"
+    },
+    "scroll_direction": {
+      "to_left": "Da destra a sinistra",
+      "to_right": "Da sinistra a destra"
     },
     "distance_unit": {
       "mi": "Miglia",
@@ -877,14 +883,14 @@
     "policy_summary": "Un punto per riga. Mostrato in una scheda sopra il contenuto della pagina.",
     "popover_overlay_color": "Oscura la pagina dietro finestre modali, pop-up e pannelli laterali.",
     "popular_searches": "Separa le ricerche con virgole.",
-    "predictive_search": "Suggerisce prodotti, collezioni, pagine e articoli nel pannello di ricerca.",
+    "predictive_search": "Suggerisce prodotti, collezioni, pagine e articoli nel pannello di ricerca che si apre sotto la barra degli annunci.",
     "predictive_search_collection": "Prodotti suggeriti prima che il cliente inizi a digitare.",
     "product_card_background": "Sostituisce lo sfondo della scheda impostato in Impostazioni del tema.",
     "product_guide": "Un link accanto all’etichetta di un’opzione apre la guida in una finestra modale. Nascosto quando la guida è vuota.",
     "product_meta_text": "Collega un metacampo prodotto per far mostrare a ogni prodotto la propria riga. Un occhiello vuoto mostra il tipo di prodotto.",
     "promo_link": "Lascia vuoto per collegarlo al prodotto.",
-    "promo_placement": "La riga dipende da Mostra dopo il prodotto. Sui telefoni con due colonne, Centro occupa l’intera larghezza.",
-    "promo_position": "Il riquadro prende il posto di un prodotto; 0 lo nasconde.",
+    "promo_placement": "La colonna del riquadro nella riga scelta da Posizione del riquadro promozionale; i prodotti si dispongono intorno. Sui telefoni a due colonne, Centro occupa tutta la larghezza.",
+    "promo_position": "Aggiunge il riquadro alla griglia, nella riga del prodotto successivo a questo; nessun prodotto viene nascosto. Compare quando la pagina ha almeno questo numero di prodotti; 0 lo nasconde.",
     "promo_product": "Mostra il prezzo e, senza immagine, la foto.",
     "quick_add": "Apre un’anteprima rapida su desktop e un pannello inferiore su dispositivi mobili.",
     "review_topics": "Un argomento per riga.",
@@ -915,7 +921,8 @@
     "ugc_product": "Solo riquadri grandi. Mostrato come la loro fragranza signature.",
     "upsell_heading": "Lascia vuoto per mostrare il titolo del prodotto.",
     "video_card_image": "Mostrata quando non c’è un video.",
-    "wordmark_text": "Qualsiasi parola o frase breve, come il nome del brand o uno slogan. Lascia vuoto per usare il nome del negozio. La dimensione si adatta alla lunghezza."
+    "wordmark_text": "Qualsiasi parola o frase breve, come il nome del brand o uno slogan. Lascia vuoto per usare il nome del negozio. La dimensione si adatta alla lunghezza.",
+    "mood_menu": "Scegli un menu: ogni suo link diventa un chip dopo Tutti, che porta a tutti i prodotti. Il chip della collezione visualizzata è evidenziato. Senza menu non compare alcun chip."
   },
   "html_defaults": {
     "about_text": "<p>Racconta la storia del tuo brand: chi sei, cosa crei e perché.</p>",

@@ -14,7 +14,7 @@
     when 'portrait'
       assign ratio = '4 / 5'
     when 'landscape'
-      assign ratio = '3 / 2'
+      assign ratio = '16 / 9'
     else
       assign ratio = article.image.aspect_ratio | default: 1.5
   endcase

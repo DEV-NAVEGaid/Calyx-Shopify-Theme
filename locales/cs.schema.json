@@ -170,7 +170,8 @@
     "variant_picker": "Výběr varianty",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Videa komunity"
+    "video_carousel": "Videa komunity",
+    "image_and_text": "Obrázek a text"
   },
   "categories": {
     "banners": "Bannery",
@@ -520,7 +521,8 @@
     "wordmark_text": "Text slovního loga",
     "write_review_link": "Odkaz Napsat recenzi",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Odkazy nálad"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Vodorovně",
       "vertical": "Svisle"
+    },
+    "scroll_direction": {
+      "to_left": "Zprava doleva",
+      "to_right": "Zleva doprava"
     },
     "distance_unit": {
       "mi": "Míle",
@@ -877,14 +883,14 @@
     "policy_summary": "Jeden bod na řádek. Zobrazí se na kartě nad obsahem stránky.",
     "popover_overlay_color": "Ztmaví stránku za modálními okny, vyskakovacími okny a vysouvacími panely.",
     "popular_searches": "Hledané výrazy oddělte čárkami.",
-    "predictive_search": "Ve vyhledávacím panelu navrhuje produkty, kolekce, stránky a články.",
+    "predictive_search": "Navrhuje produkty, kolekce, stránky a články v panelu vyhledávání, který se rozbalí pod lištou oznámení.",
     "predictive_search_collection": "Navrhované produkty předtím, než zákazník začne psát.",
     "product_card_background": "Přepíše pozadí karty z Nastavení motivu.",
     "product_guide": "Odkaz vedle popisku možnosti otevře průvodce v modálním okně. Skryto, když je průvodce prázdný.",
     "product_meta_text": "Propojte metapole produktu, aby každý produkt zobrazil vlastní řádek. Prázdný nadtitulek zobrazí typ produktu.",
     "promo_link": "Ponechte prázdné pro odkaz na produkt.",
-    "promo_placement": "Řádek určuje nastavení Zobrazit po produktu. Na telefonech se dvěma sloupci zabírá Na střed celou šířku.",
-    "promo_position": "Dlaždice zaujme místo produktu; 0 ji skryje.",
+    "promo_placement": "Sloupec dlaždice v řádku, který určuje „Pozice propagační dlaždice“; produkty se řadí kolem ní. Na telefonech se dvěma sloupci zabírá „Na střed“ celou šířku.",
+    "promo_position": "Přidá dlaždici do mřížky, do řádku produktu za tímto; žádný produkt se neskryje. Zobrazí se, když má stránka alespoň tolik produktů; 0 ji skryje.",
     "promo_product": "Zobrazí jeho cenu a bez obrázku i jeho fotku.",
     "quick_add": "Na počítači otevře rychlý náhled a na mobilu spodní panel.",
     "review_topics": "Jedno téma na řádek.",
@@ -915,7 +921,8 @@
     "ugc_product": "Jen velké dlaždice. Zobrazí se jako jejich typická vůně.",
     "upsell_heading": "Ponechte prázdné pro zobrazení názvu produktu.",
     "video_card_image": "Zobrazí se, když není k dispozici video.",
-    "wordmark_text": "Libovolné slovo nebo krátká fráze, například název značky nebo slogan. Ponechte prázdné pro použití názvu obchodu. Velikost se přizpůsobí délce."
+    "wordmark_text": "Libovolné slovo nebo krátká fráze, například název značky nebo slogan. Ponechte prázdné pro použití názvu obchodu. Velikost se přizpůsobí délce.",
+    "mood_menu": "Vyberte menu: každý jeho odkaz se stane štítkem za „Vše“, který vede na všechny produkty. Štítek prohlížené kolekce je zvýrazněn. Bez menu se štítky nezobrazí."
   },
   "html_defaults": {
     "about_text": "<p>Podělte se o příběh své značky: kdo jste, co vytváříte a proč.</p>",

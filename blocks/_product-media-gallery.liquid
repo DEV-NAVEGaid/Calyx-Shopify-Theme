@@ -1,12 +1,14 @@
 {% doc %}
   The product page media: images, videos, and 3D models.
   - Thumbnails: one large media with a row of thumbnails beneath; the
-    selected variant's media shows first (assets/product-gallery.js).
+    selected variant's media shows first (assets/product-gallery.js). On
+    small screens the media swipe, starting at the variant's media.
   - One or two columns: every media stacked, the variant's media first.
   - Gift card: the product photo as a card with the store name and the
     selected amount.
   Scrolls horizontally on small screens. Sale, sold out, and "badge:" tag
-  badges sit on the large media.
+  badges sit on the large media. 3D models load Shopify's model viewer
+  (snippets/product-media.liquid); with the Adapt ratio they are square.
 {% enddoc %}
 
 {%- liquid
@@ -43,7 +45,7 @@
 
 <div
   class="product-media-gallery product-media-gallery--{{ block.settings.columns }}{% if block.settings.sticky %} product-media-gallery--sticky{% endif %} spacing-style"
-  style="--media-ratio: {{ ratio }}; {% render 'spacing-style', settings: block.settings %}"
+  style="{% if ratio != 'auto' %}--media-ratio: {{ ratio }}; {% endif %}{% render 'spacing-style', settings: block.settings %}"
   {{ block.shopify_attributes }}
 >
   {% if block.settings.columns == 'gift_card' %}
@@ -66,14 +68,20 @@
       <div class="product-gallery__stage">
         <div class="product-gallery__track" id="GalleryTrack-{{ block.id }}">
           {% for media in product.media %}
+            {%- liquid
+              assign selected = false
+              if media.id == featured.id
+                assign selected = true
+              endif
+            -%}
             <div
               class="product-gallery__slide"
               data-gallery-slide
-              {% unless media.id == featured.id %}
+              {% unless selected %}
                 hidden
               {% endunless %}
             >
-              {% render 'product-media', media: media, eager: forloop.first %}
+              {% render 'product-media', media: media, eager: selected %}
             </div>
           {% endfor %}
         </div>
@@ -97,7 +105,7 @@
                 class="scroll-dots__dot"
                 type="button"
                 aria-label="{{ 'accessibility.go_to_image' | t: number: forloop.index }}"
-                {% if forloop.first %}
+                {% if media.id == featured.id %}
                   aria-current="true"
                 {% endif %}
               ></button>

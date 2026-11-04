@@ -13,7 +13,7 @@
   </div>
 
   <figure class="quote-banner__content">
-    {% render 'icon', icon: 'sparkle', class: 'quote-banner__icon' %}
+    {% render 'icon', icon: 'sparkle', class: 'quote-banner__icon', image: section.settings.custom_icon %}
     <blockquote class="quote-banner__quote h1">{{ section.settings.quote | escape }}</blockquote>
     {% if section.settings.author != blank %}
       <figcaption class="eyebrow quote-banner__author">{{ section.settings.author | escape }}</figcaption>
@@ -37,6 +37,11 @@
       "type": "image_picker",
       "id": "image",
       "label": "t:settings.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon",
+      "label": "t:settings.custom_icon"
     },
     {
       "type": "textarea",

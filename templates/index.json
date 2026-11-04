@@ -15,23 +15,11 @@
       "blocks": {
         "slide_1": {
           "type": "_hero-slide",
-          "settings": {
-            "badge": "New arrival",
-            "heading": "Scent that shifts how you feel",
-            "text": "Botanical eau de parfums, each composed around a feeling — from calm to confidence.",
-            "primary_label": "Shop now",
-            "secondary_label": "Explore"
-          }
+          "settings": {}
         },
         "slide_2": {
           "type": "_hero-slide",
-          "settings": {
-            "badge": "New arrival",
-            "heading": "Scent that shifts how you feel",
-            "text": "Botanical eau de parfums, each composed around a feeling — from calm to confidence.",
-            "primary_label": "Shop now",
-            "secondary_label": "Explore"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -45,27 +33,19 @@
       "blocks": {
         "item_1": {
           "type": "_marquee-item",
-          "settings": {
-            "text": "Scent for how you want to feel"
-          }
+          "settings": {}
         },
         "item_2": {
           "type": "_marquee-item",
-          "settings": {
-            "text": "Vegan & cruelty-free"
-          }
+          "settings": {}
         },
         "item_3": {
           "type": "_marquee-item",
-          "settings": {
-            "text": "85% natural origin"
-          }
+          "settings": {}
         },
         "item_4": {
           "type": "_marquee-item",
-          "settings": {
-            "text": "Blended in small batches"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -77,43 +57,24 @@
     },
     "brand_story": {
       "type": "brand-story",
-      "settings": {
-        "heading": "Rooted in botanicals.\nGuided by feeling.",
-        "text": "<p>Born from slow mornings and long walks, our scents blend botanicals with modern perfumery to support how you want to feel — honest ingredients, thoughtful sourcing, and scents that move with your rhythm.</p>",
-        "link_label": "Read more"
-      },
+      "settings": {},
       "block_order": []
     },
     "featured_launch": {
       "type": "featured-launch",
-      "settings": {
-        "badge": "New arrival",
-        "subtitle": "For the moment before you walk in.",
-        "stat_value": "6–8h",
-        "stat_text": "of wear on skin, and longer on fabric.",
-        "link_label": "Try a mini"
-      },
+      "settings": {},
       "blocks": {
         "note_1": {
           "type": "_scent-note",
-          "settings": {
-            "label": "Top",
-            "value": "Pink pepper"
-          }
+          "settings": {}
         },
         "note_2": {
           "type": "_scent-note",
-          "settings": {
-            "label": "Heart",
-            "value": "Fig leaf"
-          }
+          "settings": {}
         },
         "note_3": {
           "type": "_scent-note",
-          "settings": {
-            "label": "Base",
-            "value": "Soft amber"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -124,33 +85,19 @@
     },
     "brand_intro": {
       "type": "brand-intro",
-      "settings": {
-        "eyebrow": "Our method",
-        "heading": "Feel first. Then smell.",
-        "text": "<p>Every scent starts with a feeling. We pair botanicals traditionally used for that mood with modern perfumery, so your fragrance does more than smell good.</p>",
-        "link_label": "Read our story"
-      },
+      "settings": {},
       "blocks": {
         "stat_1": {
           "type": "_stat",
-          "settings": {
-            "value": "6",
-            "label": "moods to choose from"
-          }
+          "settings": {}
         },
         "stat_2": {
           "type": "_stat",
-          "settings": {
-            "value": "85%",
-            "label": "natural-origin ingredients"
-          }
+          "settings": {}
         },
         "stat_3": {
           "type": "_stat",
-          "settings": {
-            "value": "0",
-            "label": "animal testing, ever"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -161,16 +108,11 @@
     },
     "product_tabs": {
       "type": "product-tabs",
-      "settings": {
-        "eyebrow": "Most loved",
-        "heading": "Bestsellers"
-      },
+      "settings": {},
       "blocks": {
         "tab_1": {
           "type": "_product-tab",
-          "settings": {
-            "label": "Fragrance"
-          },
+          "settings": {},
           "blocks": {
             "product-card": {
               "type": "product-card",
@@ -223,9 +165,7 @@
         },
         "tab_2": {
           "type": "_product-tab",
-          "settings": {
-            "label": "Body"
-          },
+          "settings": {},
           "blocks": {
             "product-card": {
               "type": "product-card",
@@ -284,63 +224,42 @@
     },
     "mood_grid": {
       "type": "mood-grid",
-      "settings": {
-        "heading": "Shop by mood",
-        "text": "Choose the feeling first. We’ll match you with the scent."
-      },
+      "settings": {},
       "blocks": {
         "mood_1": {
           "type": "_mood-card",
           "settings": {
-            "title": "Calm",
-            "text": "For slowing down and settling in",
-            "color": "#dce9e4",
-            "link_label": "Still Water"
+            "color": "#dce9e4"
           }
         },
         "mood_2": {
           "type": "_mood-card",
           "settings": {
-            "title": "Joy",
-            "text": "For lightness and easy laughter",
-            "color": "#f8e7c9",
-            "link_label": "Golden Hour"
+            "color": "#f8e7c9"
           }
         },
         "mood_3": {
           "type": "_mood-card",
           "settings": {
-            "title": "Confidence",
-            "text": "For speaking up and standing tall",
-            "color": "#f3d9d2",
-            "link_label": "Brave Bloom"
+            "color": "#f3d9d2"
           }
         },
         "mood_4": {
           "type": "_mood-card",
           "settings": {
-            "title": "Clarity",
-            "text": "For focus and a clear head",
-            "color": "#dde6f4",
-            "link_label": "First Light"
+            "color": "#dde6f4"
           }
         },
         "mood_5": {
           "type": "_mood-card",
           "settings": {
-            "title": "Sensual",
-            "text": "For closeness and slow evenings",
-            "color": "#e9d8ea",
-            "link_label": "Night Orchid"
+            "color": "#e9d8ea"
           }
         },
         "mood_6": {
           "type": "_mood-card",
           "settings": {
-            "title": "Renewal",
-            "text": "For fresh starts and balance",
-            "color": "#e2ecd3",
-            "link_label": "Green Return"
+            "color": "#e2ecd3"
           }
         }
       },
@@ -359,35 +278,19 @@
       "blocks": {
         "panel_1": {
           "type": "_panel",
-          "settings": {
-            "heading": "Calm, on repeat.",
-            "text": "Pink pepper and fig leaf, blended to help you take up space.",
-            "link_label": "Shop the scent"
-          }
+          "settings": {}
         },
         "panel_2": {
           "type": "_panel",
-          "settings": {
-            "heading": "A softer kind of courage.",
-            "text": "Pink pepper and fig leaf, blended to help you take up space.",
-            "link_label": "Shop the scent"
-          }
+          "settings": {}
         },
         "panel_3": {
           "type": "_panel",
-          "settings": {
-            "heading": "Clear, on purpose.",
-            "text": "Pink pepper and fig leaf, blended to help you take up space.",
-            "link_label": "Shop the scent"
-          }
+          "settings": {}
         },
         "panel_4": {
           "type": "_panel",
-          "settings": {
-            "heading": "In good spirits.",
-            "text": "Pink pepper and fig leaf, blended to help you take up space.",
-            "link_label": "Shop the scent"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -399,32 +302,19 @@
     },
     "ritual_steps": {
       "type": "ritual-steps",
-      "settings": {
-        "eyebrow": "The ritual",
-        "heading": "Breathe. Spray. Say.",
-        "text": "<p>Each bottle comes with an intention card. Pair the scent with a few words, and let the moment anchor the mood.</p>"
-      },
+      "settings": {},
       "blocks": {
         "step_1": {
           "type": "_ritual-step",
-          "settings": {
-            "title": "Breathe",
-            "text": "Three slow breaths to arrive in the moment."
-          }
+          "settings": {}
         },
         "step_2": {
           "type": "_ritual-step",
-          "settings": {
-            "title": "Spray",
-            "text": "Two spritzes on pulse points: wrists and neck."
-          }
+          "settings": {}
         },
         "step_3": {
           "type": "_ritual-step",
-          "settings": {
-            "title": "Say",
-            "text": "Speak your intention, e.g. “I am ready for today.”"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -439,27 +329,19 @@
       "blocks": {
         "item_1": {
           "type": "_marquee-item",
-          "settings": {
-            "text": "Scent for how you want to feel"
-          }
+          "settings": {}
         },
         "item_2": {
           "type": "_marquee-item",
-          "settings": {
-            "text": "Vegan & cruelty-free"
-          }
+          "settings": {}
         },
         "item_3": {
           "type": "_marquee-item",
-          "settings": {
-            "text": "85% natural origin"
-          }
+          "settings": {}
         },
         "item_4": {
           "type": "_marquee-item",
-          "settings": {
-            "text": "Blended in small batches"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -482,14 +364,11 @@
       "blocks": {
         "eyebrow_1": {
           "type": "_section-eyebrow",
-          "settings": {
-            "text": "Not sure yet?"
-          }
+          "settings": {}
         },
         "heading_2": {
           "type": "_section-heading",
           "settings": {
-            "heading": "Try all six moods",
             "size": "h2",
             "tag": "h2"
           }
@@ -497,20 +376,16 @@
         "text_3": {
           "type": "_section-text",
           "settings": {
-            "text": "<p>Six 2ml vials in a keepsake box. Wear each for a day, then claim $15 back toward your full-size favourite.</p>",
             "size": "large"
           }
         },
         "promo-price_4": {
           "type": "_promo-price",
-          "settings": {
-            "note": "6 × 2ml · $15 credit back"
-          }
+          "settings": {}
         },
         "button_5": {
           "type": "_section-button",
           "settings": {
-            "label": "Shop now",
             "style": "primary"
           }
         }
@@ -527,44 +402,23 @@
         "results": {
           "type": "_results",
           "static": true,
-          "settings": {
-            "eyebrow": "Inside the formula",
-            "heading": "Made to wear all day",
-            "note": "Blended for skin, not just for scent.",
-            "stats_heading": "By the numbers"
-          },
+          "settings": {},
           "blocks": {
             "stat_1": {
               "type": "_result-stat",
-              "settings": {
-                "value": "85",
-                "text": "natural-origin ingredients",
-                "unit": "%"
-              }
+              "settings": {}
             },
             "stat_2": {
               "type": "_result-stat",
-              "settings": {
-                "value": "18–22",
-                "text": "perfume oil, for all-day wear",
-                "unit": "%"
-              }
+              "settings": {}
             },
             "stat_3": {
               "type": "_result-stat",
-              "settings": {
-                "value": "100",
-                "text": "vegan and cruelty-free",
-                "unit": "%"
-              }
+              "settings": {}
             },
             "stat_4": {
               "type": "_result-stat",
-              "settings": {
-                "value": "100",
-                "text": "recyclable glass bottle",
-                "unit": "%"
-              }
+              "settings": {}
             }
           },
           "block_order": [
@@ -581,35 +435,19 @@
     },
     "testimonials": {
       "type": "testimonials",
-      "settings": {
-        "eyebrow": "Reviews",
-        "heading": "Worn and loved every day",
-        "rating_text": "Average rating from our customers"
-      },
+      "settings": {},
       "blocks": {
         "review_1": {
           "type": "_testimonial",
-          "settings": {
-            "quote": "“I get asked what I’m wearing every single time.”",
-            "text": "Soft, grounding and long-lasting. It has become my evening wind-down.",
-            "author": "Maya R. · Still Water"
-          }
+          "settings": {}
         },
         "review_2": {
           "type": "_testimonial",
-          "settings": {
-            "quote": "“It genuinely changes my mood in the morning.”",
-            "text": "Bright and happy without being sweet. I spray it before every school run.",
-            "author": "Daniel K. · Golden Hour"
-          }
+          "settings": {}
         },
         "review_3": {
           "type": "_testimonial",
-          "settings": {
-            "quote": "“My new signature for big days.”",
-            "text": "Warm and confident. Lasted through a twelve-hour day of meetings.",
-            "author": "Priya S. · Brave Bloom"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -620,29 +458,19 @@
     },
     "video_carousel": {
       "type": "video-carousel",
-      "settings": {
-        "eyebrow": "You + us",
-        "heading": "The Community",
-        "text": "<p>Real rituals from real people. See how our community makes our scents part of their everyday moods.</p>"
-      },
+      "settings": {},
       "blocks": {
         "video_1": {
           "type": "_video-card",
-          "settings": {
-            "handle": "@maya.morning"
-          }
+          "settings": {}
         },
         "video_2": {
           "type": "_video-card",
-          "settings": {
-            "handle": "@daniel.k"
-          }
+          "settings": {}
         },
         "video_3": {
           "type": "_video-card",
-          "settings": {
-            "handle": "@priya.s"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -653,9 +481,7 @@
     },
     "journal_teaser": {
       "type": "journal-teaser",
-      "settings": {
-        "heading": "From the journal"
-      },
+      "settings": {},
       "blocks": {
         "blog-post-card": {
           "type": "_blog-post-card",
@@ -667,77 +493,46 @@
     },
     "ugc_mosaic": {
       "type": "ugc-mosaic",
-      "settings": {
-        "heading": "The circle is here",
-        "text": "Real rituals from real people. Tag us to be featured.",
-        "handle": "@yourcommunity"
-      },
+      "settings": {},
       "blocks": {
         "campaign": {
           "type": "_ugc-campaign",
-          "settings": {
-            "heading": "Ritual Club",
-            "text": "Join us every Sunday for a scent walk & slow coffee."
-          }
+          "settings": {}
         },
         "tile_1": {
           "type": "_ugc-tile",
           "settings": {
-            "post_type": "instagram",
-            "likes": "1.2k",
-            "comments": "48"
+            "post_type": "instagram"
           }
         },
         "tile_2": {
           "type": "_ugc-tile",
-          "settings": {
-            "likes": "864",
-            "comments": "21"
-          }
+          "settings": {}
         },
         "tile_3": {
           "type": "_ugc-tile",
-          "settings": {
-            "likes": "2.4k",
-            "comments": "96"
-          }
+          "settings": {}
         },
         "tile_4": {
           "type": "_ugc-tile",
           "settings": {
-            "size": "large",
-            "name": "Maya",
-            "location": "Lisbon, PT",
-            "note": "Slow mornings",
-            "likes": "3.1k",
-            "comments": "142"
+            "size": "large"
           }
         },
         "tile_5": {
           "type": "_ugc-tile",
           "settings": {
-            "post_type": "video",
-            "caption": "Slow Sundays",
-            "likes": "958",
-            "comments": "37"
+            "post_type": "video"
           }
         },
         "tile_6": {
           "type": "_ugc-tile",
-          "settings": {
-            "likes": "612",
-            "comments": "18"
-          }
+          "settings": {}
         },
         "tile_7": {
           "type": "_ugc-tile",
           "settings": {
-            "size": "large",
-            "name": "Helen",
-            "location": "Copenhagen, DK",
-            "note": "Evening yoga",
-            "likes": "2.7k",
-            "comments": "113"
+            "size": "large"
           }
         }
       },
@@ -759,33 +554,25 @@
         "usp_1": {
           "type": "_usp-item",
           "settings": {
-            "icon": "truck",
-            "title": "Free shipping",
-            "text": "On orders over $75"
+            "icon": "truck"
           }
         },
         "usp_2": {
           "type": "_usp-item",
           "settings": {
-            "icon": "gift",
-            "title": "Free 2ml sample",
-            "text": "In every order"
+            "icon": "gift"
           }
         },
         "usp_3": {
           "type": "_usp-item",
           "settings": {
-            "icon": "leaf",
-            "title": "Clean & vegan",
-            "text": "85% natural origin"
+            "icon": "leaf"
           }
         },
         "usp_4": {
           "type": "_usp-item",
           "settings": {
-            "icon": "sparkle",
-            "title": "30-day guarantee",
-            "text": "Love it or swap it"
+            "icon": "sparkle"
           }
         }
       },
@@ -799,7 +586,6 @@
     "explore_categories": {
       "type": "product-tabs",
       "settings": {
-        "heading": "Explore our categories",
         "eyebrow": "",
         "layout": "featured",
         "padding-block-start": 64,
@@ -808,9 +594,7 @@
       "blocks": {
         "tab_1": {
           "type": "_product-tab",
-          "settings": {
-            "label": "Fragrance"
-          },
+          "settings": {},
           "blocks": {
             "product-card": {
               "type": "product-card",
@@ -825,7 +609,6 @@
                 "category": {
                   "type": "product-meta",
                   "settings": {
-                    "text": "",
                     "style": "eyebrow"
                   }
                 },
@@ -871,9 +654,7 @@
         },
         "tab_2": {
           "type": "_product-tab",
-          "settings": {
-            "label": "Body"
-          },
+          "settings": {},
           "blocks": {
             "product-card": {
               "type": "product-card",
@@ -888,7 +669,6 @@
                 "category": {
                   "type": "product-meta",
                   "settings": {
-                    "text": "",
                     "style": "eyebrow"
                   }
                 },
@@ -934,9 +714,7 @@
         },
         "tab_3": {
           "type": "_product-tab",
-          "settings": {
-            "label": "Home"
-          },
+          "settings": {},
           "blocks": {
             "product-card": {
               "type": "product-card",
@@ -951,7 +729,6 @@
                 "category": {
                   "type": "product-meta",
                   "settings": {
-                    "text": "",
                     "style": "eyebrow"
                   }
                 },
@@ -997,9 +774,7 @@
         },
         "tab_4": {
           "type": "_product-tab",
-          "settings": {
-            "label": "All products"
-          },
+          "settings": {},
           "blocks": {
             "product-card": {
               "type": "product-card",
@@ -1014,7 +789,6 @@
                 "category": {
                   "type": "product-meta",
                   "settings": {
-                    "text": "",
                     "style": "eyebrow"
                   }
                 },
@@ -1082,7 +856,6 @@
             "category": {
               "type": "product-meta",
               "settings": {
-                "text": "",
                 "style": "eyebrow"
               }
             },
@@ -1126,14 +899,11 @@
         },
         "eyebrow": {
           "type": "_section-eyebrow",
-          "settings": {
-            "text": "Holiday 2026"
-          }
+          "settings": {}
         },
         "heading": {
           "type": "_section-heading",
           "settings": {
-            "heading": "The winter edit",
             "size": "display",
             "tag": "h2"
           }
@@ -1141,14 +911,12 @@
         "text": {
           "type": "_section-text",
           "settings": {
-            "text": "<p>A forest for the season: fir, resin and cedar.</p>",
             "size": "large"
           }
         },
         "button": {
           "type": "_section-button",
           "settings": {
-            "label": "Shop the collection",
             "style": "link"
           }
         }
@@ -1185,7 +953,6 @@
           "type": "_section-heading",
           "static": true,
           "settings": {
-            "heading": "The evening ritual",
             "size": "h2",
             "tag": "h2"
           }

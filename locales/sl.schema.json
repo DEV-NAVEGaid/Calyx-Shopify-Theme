@@ -170,7 +170,8 @@
     "variant_picker": "Izbirnik različic",
     "video": "Videoposnetek",
     "video_card": "Videoposnetek",
-    "video_carousel": "Videoposnetki skupnosti"
+    "video_carousel": "Videoposnetki skupnosti",
+    "image_and_text": "Slika in besedilo"
   },
   "categories": {
     "banners": "Pasice",
@@ -520,7 +521,8 @@
     "wordmark_text": "Besedilo besednega znaka",
     "write_review_link": "Povezava za pisanje mnenja",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Povezave razpoloženj"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Vodoravno",
       "vertical": "Navpično"
+    },
+    "scroll_direction": {
+      "to_left": "Z desne na levo",
+      "to_right": "Z leve na desno"
     },
     "distance_unit": {
       "mi": "Milje",
@@ -877,14 +883,14 @@
     "policy_summary": "Ena točka na vrstico. Prikazano v kartici nad vsebino strani.",
     "popover_overlay_color": "Zatemni stran za modalnimi okni, pojavnimi okni in predali.",
     "popular_searches": "Iskanja ločite z vejicami.",
-    "predictive_search": "V predalu za iskanje predlaga izdelke, zbirke, strani in članke.",
+    "predictive_search": "Predlaga izdelke, zbirke, strani in članke v iskalni plošči, ki se odpre pod vrstico z obvestili.",
     "predictive_search_collection": "Predlagani izdelki, preden stranka začne tipkati.",
     "product_card_background": "Preglasi ozadje kartice iz nastavitev teme.",
     "product_guide": "Povezava ob oznaki možnosti odpre vodnik v modalnem oknu. Skrito, ko je vodnik prazen.",
     "product_meta_text": "Povežite metapolje izdelka, da vsak izdelek prikaže svojo vrstico. Prazen nadnaslov prikaže vrsto izdelka.",
     "promo_link": "Pustite prazno za povezavo do izdelka.",
-    "promo_placement": "Vrstica izhaja iz nastavitve Pokaži po izdelku. Na telefonih z dvema stolpcema se Sredina razteza čez celotno širino.",
-    "promo_position": "Ploščica zavzame mesto izdelka; 0 jo skrije.",
+    "promo_placement": "Stolpec ploščice v vrstici, ki jo izbere Položaj promocijske ploščice; izdelki se razporedijo okoli nje. Na telefonih z dvema stolpcema Sredina zavzame celotno širino.",
+    "promo_position": "Doda ploščico v mrežo, v vrstico izdelka za tem; noben izdelek se ne skrije. Prikaže se, ko ima stran vsaj toliko izdelkov; 0 jo skrije.",
     "promo_product": "Prikaže njegovo ceno in, če ni slike, njegovo fotografijo.",
     "quick_add": "Na namizju odpre hitri ogled, na mobilnih napravah pa spodnji list.",
     "review_topics": "Ena tema na vrstico.",
@@ -915,7 +921,8 @@
     "ugc_product": "Samo velike ploščice. Prikazano kot njihov značilni vonj.",
     "upsell_heading": "Pustite prazno, da prikažete naslov izdelka.",
     "video_card_image": "Prikazano, ko ni videoposnetka.",
-    "wordmark_text": "Katera koli beseda ali kratka fraza, na primer ime vaše blagovne znamke ali slogan. Pustite prazno, da uporabite ime trgovine. Velikost se prilagodi dolžini."
+    "wordmark_text": "Katera koli beseda ali kratka fraza, na primer ime vaše blagovne znamke ali slogan. Pustite prazno, da uporabite ime trgovine. Velikost se prilagodi dolžini.",
+    "mood_menu": "Izberite meni: vsaka njegova povezava postane oznaka za »Vse«, ki vodi do vseh izdelkov. Oznaka ogledovane zbirke je poudarjena. Brez menija se oznake ne prikažejo."
   },
   "html_defaults": {
     "about_text": "<p>Delite zgodbo svoje blagovne znamke: kdo ste, kaj ustvarjate in zakaj.</p>",

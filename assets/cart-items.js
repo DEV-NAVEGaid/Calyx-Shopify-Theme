@@ -2,7 +2,9 @@
  * Updates the cart in place: quantities and removals go to the Cart change
  * API, discount codes to the Cart update API. Each request carries the
  * `sections` parameter, so the response holds the freshly rendered cart
- * section. Without JavaScript the cart form still submits normally.
+ * section. After each update it fires `cart:updated` on the document with
+ * the new cart, so other sections (You may also like) can follow. Without
+ * JavaScript the cart form still submits normally.
  */
 class CartItems extends HTMLElement {
   #controller = null;
@@ -96,6 +98,8 @@ class CartItems extends HTMLElement {
         count.textContent = cart.item_count;
         count.hidden = cart.item_count === 0;
       }
+
+      document.dispatchEvent(new CustomEvent("cart:updated", { detail: { cart } }));
 
       if (focusId) {
         document.getElementById(focusId)?.focus();

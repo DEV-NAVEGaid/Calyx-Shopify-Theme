@@ -72,6 +72,7 @@
     "icons_with_text": "Icons with text",
     "image": "Image",
     "image_hotspots": "Image hotspots",
+    "image_and_text": "Image and text",
     "image_with_text": "Image with text",
     "ingredient": "Ingredient",
     "ingredients_explorer": "Ingredients explorer",
@@ -389,6 +390,7 @@
     "menu_item": "Menu item",
     "mobile_height": "Height on mobile",
     "monday": "Monday",
+    "mood_menu": "Mood links",
     "name": "Name",
     "note": "Note",
     "number": "Number",
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Horizontal",
       "vertical": "Vertical"
+    },
+    "scroll_direction": {
+      "to_left": "Right to left",
+      "to_right": "Left to right"
     },
     "distance_unit": {
       "mi": "Miles",
@@ -868,6 +874,7 @@
     "loop_duration": "Time for one full pass. Higher is slower.",
     "menu_item": "The name of the top menu item whose mega menu shows this promo, such as \"Shop\".",
     "mood_card_color": "Leave empty to use the color listed for this name in Theme settings > Swatches.",
+    "mood_menu": "Pick a menu: each of its links becomes a chip after All, which links to all products. The chip of the collection being viewed is highlighted. Without a menu, no chips show.",
     "note_image": "Shown in the circle instead of the color.",
     "opening_hours": "For example 10am–7pm. Leave a day empty when the store is closed.",
     "page_hero_heading": "Leave empty to show the page title.",
@@ -877,14 +884,14 @@
     "policy_summary": "One point per line. Shown in a card above the page content.",
     "popover_overlay_color": "Dims the page behind modals, popups, and drawers.",
     "popular_searches": "Separate searches with commas.",
-    "predictive_search": "Suggests products, collections, pages, and articles in the search drawer.",
+    "predictive_search": "Suggests products, collections, pages, and articles in the search panel that drops down under the announcement bar.",
     "predictive_search_collection": "Suggested products before the customer starts typing.",
     "product_card_background": "Overrides the card background from Theme settings.",
     "product_guide": "A link beside an option label opens the guide in a modal. Hidden when the guide is empty.",
     "product_meta_text": "Connect a product metafield so each product shows its own line. An empty eyebrow shows the product type.",
     "promo_link": "Leave empty to link to the product.",
-    "promo_placement": "The row comes from Show after product. On phones with two columns, Center spans the full width.",
-    "promo_position": "The tile takes the place of a product; 0 hides it.",
+    "promo_placement": "The tile's column in the row that Promo tile position picks; the products flow around it. On phones with two columns, Center spans the full width.",
+    "promo_position": "Adds the tile to the grid, in the row of the product after this one; no product is hidden. Shows when the page has at least this many products; 0 hides it.",
     "promo_product": "Shows its price and, without an image, its photo.",
     "quick_add": "Opens a quick view on desktop and a bottom sheet on mobile.",
     "review_topics": "One topic per line.",

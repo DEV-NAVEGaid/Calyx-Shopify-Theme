@@ -1,6 +1,7 @@
 /**
- * FAQ page: lists a topic link per group, filters the answer rows by the
- * search field in the header, and marks the topic of the group in view.
+ * FAQ page: lists a topic link per group, filters the groups (heading,
+ * answer rows, and text blocks) by the search field in the header, and marks
+ * the topic of the group in view.
  */
 
 const search = document.querySelector('[data-faq-search]');
@@ -24,23 +25,45 @@ if (topicList && topicTemplate) {
 
 const topics = Array.from(document.querySelectorAll('[data-faq-topic]'));
 
+const includes = (element, query) => element.textContent.toLowerCase().includes(query);
+
 if (search) {
   search.addEventListener('input', () => {
     const query = search.value.trim().toLowerCase();
     let shown = 0;
 
+    // A group stays when its heading, one of its rows, or one of its text
+    // blocks (outside the rows) matches; a heading match keeps all of it.
     groups.forEach((group) => {
-      let groupShown = 0;
+      const heading = group.querySelector('.faq-group__heading');
+      const headingMatch = !query || (heading !== null && includes(heading, query));
+      let groupShown = false;
+
       group.querySelectorAll('.accordion-row').forEach((row) => {
-        const match = !query || row.textContent.toLowerCase().includes(query);
+        const ownMatch = Boolean(query) && includes(row, query);
+        const match = headingMatch || ownMatch;
         row.hidden = !match;
-        if (match) {
-          groupShown += 1;
-          shown += 1;
-          if (query) row.open = true;
-        }
+        if (ownMatch) row.open = true;
+        if (match) groupShown = true;
       });
-      group.hidden = groupShown === 0;
+
+      group.querySelectorAll('.text-block').forEach((text) => {
+        if (text.closest('.accordion-row')) return;
+        const match = headingMatch || includes(text, query);
+        text.hidden = !match;
+        if (match) groupShown = true;
+      });
+
+      // An accordion whose rows are all filtered out would leave an empty frame.
+      group.querySelectorAll('.accordion').forEach((accordion) => {
+        const rows = accordion.querySelectorAll('.accordion-row');
+        accordion.hidden = rows.length > 0 && Array.from(rows).every((row) => row.hidden);
+      });
+
+      // An empty search shows every group, even one without searchable content.
+      if (!query) groupShown = true;
+      group.hidden = !groupShown;
+      if (groupShown) shown += 1;
     });
 
     if (empty) empty.hidden = shown > 0;

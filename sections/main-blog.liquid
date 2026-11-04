@@ -5,11 +5,7 @@
 
 <div
   class="section section--page-width spacing-style"
-  style="
-    {% render 'spacing-style', settings: section.settings %}
-    {% if section.settings.background_color != blank %}--section-background: {{ section.settings.background_color }};{% endif %}
-    {% if section.settings.text_color != blank %}--section-text-color: {{ section.settings.text_color }};{% endif %}
-  "
+  style="{% render 'spacing-style', settings: section.settings %}"
 >
   <div class="section-content main-blog">
     <header class="journal-header">

@@ -102,6 +102,13 @@
   height: calc(var(--spacer-size) * var(--spacing-scale));
 }
 
+/* An uploaded "Custom icon" (snippets/icon.liquid) takes the place and size of the SVG icon. */
+.icon--image {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
 .icon-block {
   width: var(--icon-size);
 }
@@ -480,7 +487,7 @@
   }
 }
 
-.product-media > :is(img, video, iframe, model-viewer) {
+.product-media > :is(img, video, iframe) {
   width: 100%;
   height: auto;
   aspect-ratio: var(--media-ratio, auto);
@@ -490,6 +497,102 @@
 .product-media > iframe {
   aspect-ratio: 16 / 9;
   border: 0;
+}
+
+/* 3D model: Shopify's model viewer UI (assets/product-model.js) wraps the
+   <model-viewer> and adds zoom / full-screen controls on desktop. The model
+   is square unless the gallery sets a ratio. */
+.product-model,
+.product-model .shopify-model-viewer-ui {
+  position: relative;
+  display: block;
+}
+
+.product-model model-viewer {
+  --progress-bar-color: var(--color-foreground);
+  --progress-bar-height: 2px;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--media-ratio, 1);
+  background-color: var(--color-accent-soft);
+}
+
+.product-model .shopify-model-viewer-ui--fullscreen model-viewer {
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: auto;
+}
+
+.product-model .shopify-model-viewer-ui__controls-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.product-model .shopify-model-viewer-ui__controls-area {
+  position: absolute;
+  inset-block-end: 12px;
+  inset-inline-end: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.product-model .shopify-model-viewer-ui:not(.shopify-model-viewer-ui--desktop) .shopify-model-viewer-ui__controls-area,
+.product-model .shopify-model-viewer-ui__controls-area:not(.shopify-model-viewer-ui__controls-area--playing) {
+  display: none;
+}
+
+.product-model .shopify-model-viewer-ui__button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--color-foreground);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.product-model .shopify-model-viewer-ui__button--poster {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  width: 62px;
+  height: 62px;
+  background-color: var(--color-background);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.product-model .shopify-model-viewer-ui__control-icon,
+.product-model .shopify-model-viewer-ui__poster-control-icon {
+  width: 100%;
+  height: 100%;
+  fill: none;
+}
+
+.product-model .shopify-model-viewer-ui__control-icon--exit-fullscreen,
+.product-model .shopify-model-viewer-ui--fullscreen .shopify-model-viewer-ui__control-icon--enter-fullscreen,
+.product-model .shopify-model-viewer-ui__spritesheet {
+  display: none;
+}
+
+.product-model .shopify-model-viewer-ui--fullscreen .shopify-model-viewer-ui__control-icon--exit-fullscreen {
+  display: block;
+}
+
+.product-model .shopify-model-viewer-ui__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 @media (min-width: 990px) {
@@ -3393,7 +3496,7 @@ input:focus-visible + .variant-picker__swatch {
   border-radius: 8px;
 }
 
-.product-gallery__slide .product-media > :is(img, video, iframe, model-viewer) {
+.product-gallery__slide .product-media > :is(img, video, iframe) {
   display: block;
   aspect-ratio: var(--media-ratio);
 }

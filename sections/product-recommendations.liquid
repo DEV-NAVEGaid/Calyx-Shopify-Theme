@@ -1,20 +1,46 @@
 {% comment %}
   You may also like: a heading with a link, then products related to this
-  one (or, on the cart page, to the first product in the cart) as cards.
-  Shopify picks the products; the section first renders empty and
-  assets/product-recommendations.js loads it from the product
-  recommendations route. Each card is the static product card block.
+  one (or, on the cart page, to the first product in the cart) as cards,
+  leaving out products already in the cart. Shopify picks the products; the
+  section first renders empty and assets/product-recommendations.js loads
+  it from the product recommendations route. On the cart page it loads
+  again whenever the cart changes. Each card is the static product card
+  block.
 {% endcomment %}
 
-{%- assign source_id = product.id | default: cart.items.first.product_id -%}
+{%- liquid
+  assign source_id = product.id | default: cart.items.first.product_id
+
+  # Ask for more products than shown, so leaving out the cart's products
+  # still fills the grid.
+  assign limit = section.settings.max_products | plus: cart.items.size | at_most: 10
+  assign cart_product_ids = cart.items | map: 'product_id'
+-%}
 
 {% if source_id != blank %}
   <product-recommendations
     class="home-section product-recommendations spacing-style"
     style="{% render 'spacing-style', settings: section.settings %}"
-    data-url="{{ routes.product_recommendations_url }}?product_id={{ source_id }}&limit={{ section.settings.max_products }}&section_id={{ section.id }}&intent=related"
+    data-url="{{ routes.product_recommendations_url }}?product_id={{ source_id }}&limit={{ limit }}&section_id={{ section.id }}&intent=related"
+    {% if product == blank %}
+      data-cart-url="{{ routes.cart_url }}" data-section-id="{{ section.id }}"
+    {% endif %}
   >
-    {% if recommendations.performed? and recommendations.products_count > 0 %}
+    {%- liquid
+      assign shown = 0
+      if recommendations.performed?
+        for recommendation in recommendations.products
+          if cart_product_ids contains recommendation.id
+            continue
+          endif
+          assign shown = shown | plus: 1
+          if shown == section.settings.max_products
+            break
+          endif
+        endfor
+      endif
+    -%}
+    {% if shown > 0 %}
       <div class="home-section__inner">
         <div class="product-recommendations__header">
           {% if section.settings.heading != blank %}
@@ -28,8 +54,16 @@
           {% endif %}
         </div>
         <ul class="product-recommendations__grid" role="list">
+          {%- assign shown = 0 -%}
           {% for recommendation in recommendations.products %}
+            {% if cart_product_ids contains recommendation.id %}
+              {% continue %}
+            {% endif %}
             <li>{% content_for 'block', type: 'product-card', id: 'product-card', closest.product: recommendation %}</li>
+            {%- assign shown = shown | plus: 1 -%}
+            {% if shown == section.settings.max_products %}
+              {% break %}
+            {% endif %}
           {% endfor %}
         </ul>
       </div>

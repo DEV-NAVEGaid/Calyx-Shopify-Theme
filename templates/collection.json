@@ -19,12 +19,6 @@
         "columns_desktop": 3,
         "columns_mobile": "2",
         "promo_position": 4,
-        "promo_eyebrow": "Not sure yet?",
-        "promo_heading": "Try all six moods for $38",
-        "promo_text": "Get $15 back toward your full-size favourite.",
-        "promo_label": "Shop the discovery set",
-        "seo_heading": "About mood fragrance",
-        "seo_text": "<p>Mood fragrance pairs botanicals traditionally linked to a feeling with modern perfumery. Every eau de parfum we make is genderless, vegan and blended at 18–22% concentration for 6–8 hours of wear.</p>",
         "padding-block-start": 16,
         "padding-block-end": 88
       },
@@ -78,33 +72,25 @@
         "usp_1": {
           "type": "_usp-item",
           "settings": {
-            "icon": "truck",
-            "title": "Free shipping",
-            "text": "On orders over $75"
+            "icon": "truck"
           }
         },
         "usp_2": {
           "type": "_usp-item",
           "settings": {
-            "icon": "gift",
-            "title": "Free 2ml sample",
-            "text": "In every order"
+            "icon": "gift"
           }
         },
         "usp_3": {
           "type": "_usp-item",
           "settings": {
-            "icon": "leaf",
-            "title": "Clean & vegan",
-            "text": "85% natural origin"
+            "icon": "leaf"
           }
         },
         "usp_4": {
           "type": "_usp-item",
           "settings": {
-            "icon": "sparkle",
-            "title": "30-day guarantee",
-            "text": "Love it or swap it"
+            "icon": "sparkle"
           }
         }
       },

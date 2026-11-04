@@ -170,7 +170,8 @@
     "variant_picker": "子類選擇器",
     "video": "影片",
     "video_card": "影片",
-    "video_carousel": "社群影片"
+    "video_carousel": "社群影片",
+    "image_and_text": "圖片與文字"
   },
   "categories": {
     "banners": "橫幅",
@@ -520,7 +521,8 @@
     "wordmark_text": "文字標誌內容",
     "write_review_link": "撰寫評論連結",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "心情連結"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "水平",
       "vertical": "垂直"
+    },
+    "scroll_direction": {
+      "to_left": "從右到左",
+      "to_right": "從左到右"
     },
     "distance_unit": {
       "mi": "英里",
@@ -877,14 +883,14 @@
     "policy_summary": "每行一個重點。顯示於頁面內容上方的卡片中。",
     "popover_overlay_color": "讓對話框、彈出式視窗和抽屜後方的頁面變暗。",
     "popular_searches": "以逗號分隔搜尋字詞。",
-    "predictive_search": "在搜尋抽屜中建議商品、商品系列、頁面和文章。",
+    "predictive_search": "在公告列下方展開的搜尋面板中推薦商品、商品系列、頁面和文章。",
     "predictive_search_collection": "顧客開始輸入前建議的商品。",
     "product_card_background": "覆寫佈景主題設定中的卡片背景。",
     "product_guide": "選項標籤旁的連結會以對話框開啟指南。指南為空時隱藏。",
     "product_meta_text": "連結商品中繼欄位，讓每件商品顯示專屬的資訊列。眉標為空時會顯示商品類型。",
     "promo_link": "留空即連結至商品。",
-    "promo_placement": "所在列由「在第幾件商品後顯示」決定。在雙欄的手機版面上，「置中」會橫跨全寬。",
-    "promo_position": "圖塊會取代一件商品的位置；設為 0 即隱藏。",
+    "promo_placement": "圖塊在「促銷圖塊位置」所選列中的欄位；商品會圍繞它排列。在雙欄顯示的手機上，「置中」會佔滿整個寬度。",
+    "promo_position": "將圖塊加入網格中此商品之後那項商品所在的列；不會隱藏任何商品。頁面至少有此數量的商品時顯示；設為 0 則隱藏。",
     "promo_product": "顯示其價格，未設定圖片時也會顯示其相片。",
     "quick_add": "在桌面版開啟快速檢視，在行動版開啟底部面板。",
     "review_topics": "每行一個主題。",
@@ -915,7 +921,8 @@
     "ugc_product": "僅限大型圖塊。顯示為其招牌香氛。",
     "upsell_heading": "留空即顯示商品名稱。",
     "video_card_image": "沒有影片時顯示。",
-    "wordmark_text": "任何單字或短語，例如品牌名稱或標語。留空即使用商店名稱。大小會依長度調整。"
+    "wordmark_text": "任何單字或短語，例如品牌名稱或標語。留空即使用商店名稱。大小會依長度調整。",
+    "mood_menu": "選擇一個選單：其中每個連結都會成為「全部」之後的標籤，「全部」連結至所有商品。目前瀏覽的商品系列標籤會醒目顯示。未選擇選單時不顯示標籤。"
   },
   "html_defaults": {
     "about_text": "<p>分享你的品牌故事：你是誰、你做什麼，以及為什麼而做。</p>",

@@ -2,7 +2,9 @@
   Featured product: one chosen product, shown as on its own page, with the
   media gallery (images, videos, 3D models) beside the details and buying
   options. Both are static blocks that read the product through
-  `closest.product`; app blocks go in the details.
+  `closest.product`. The details show the selected variant's price and link
+  the rating to the product page's reviews. App blocks added to the section
+  go below the gallery and details.
 {% endcomment %}
 
 {%- assign product = section.settings.product -%}
@@ -14,6 +16,8 @@
   >
     {% content_for 'block', type: '_product-media-gallery', id: 'media-gallery', closest.product: product %}
     {% content_for 'block', type: '_product-details', id: 'product-details', closest.product: product %}
+
+    <div class="product-information__additional layout-panel">{% content_for 'blocks' %}</div>
   </div>
 </div>
 

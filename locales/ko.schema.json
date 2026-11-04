@@ -170,7 +170,8 @@
     "variant_picker": "옵션 선택기",
     "video": "동영상",
     "video_card": "동영상",
-    "video_carousel": "커뮤니티 동영상"
+    "video_carousel": "커뮤니티 동영상",
+    "image_and_text": "이미지와 텍스트"
   },
   "categories": {
     "banners": "배너",
@@ -520,7 +521,8 @@
     "wordmark_text": "워드마크 텍스트",
     "write_review_link": "리뷰 작성 링크",
     "x_url": "X(Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "무드 링크"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "가로",
       "vertical": "세로"
+    },
+    "scroll_direction": {
+      "to_left": "오른쪽에서 왼쪽으로",
+      "to_right": "왼쪽에서 오른쪽으로"
     },
     "distance_unit": {
       "mi": "마일",
@@ -877,14 +883,14 @@
     "policy_summary": "한 줄에 한 항목씩 입력합니다. 페이지 콘텐츠 위의 카드에 표시됩니다.",
     "popover_overlay_color": "모달, 팝업, 드로어 뒤의 페이지를 어둡게 합니다.",
     "popular_searches": "검색어는 쉼표로 구분하세요.",
-    "predictive_search": "검색 드로어에서 상품, 컬렉션, 페이지, 아티클을 추천합니다.",
+    "predictive_search": "공지 바 아래에 펼쳐지는 검색 패널에서 상품, 컬렉션, 페이지, 아티클을 추천합니다.",
     "predictive_search_collection": "고객이 입력을 시작하기 전에 추천되는 상품입니다.",
     "product_card_background": "테마 설정의 카드 배경을 재정의합니다.",
     "product_guide": "옵션 레이블 옆의 링크를 누르면 모달에서 가이드가 열립니다. 가이드가 비어 있으면 숨겨집니다.",
     "product_meta_text": "상품 메타필드를 연결하면 상품마다 고유한 줄을 표시할 수 있습니다. 아이브로우가 비어 있으면 상품 유형을 표시합니다.",
     "promo_link": "비워 두면 상품으로 연결됩니다.",
-    "promo_placement": "행은 '이 상품 뒤에 표시'에 따라 정해집니다. 2열로 표시되는 휴대폰에서는 가운데가 전체 너비를 차지합니다.",
-    "promo_position": "타일이 상품 하나의 자리를 차지합니다. 0으로 설정하면 숨겨집니다.",
+    "promo_placement": "\"프로모션 타일 위치\"로 선택한 행에서 타일이 놓이는 열입니다. 상품은 타일 주위로 배치됩니다. 두 열로 표시되는 휴대폰에서는 \"가운데\"가 전체 너비를 차지합니다.",
+    "promo_position": "이 상품 다음 상품이 있는 행에 타일을 그리드에 추가합니다. 숨겨지는 상품은 없습니다. 페이지에 이 수 이상의 상품이 있을 때 표시되며, 0이면 숨겨집니다.",
     "promo_product": "가격을 표시하고, 이미지가 없으면 상품 사진을 표시합니다.",
     "quick_add": "데스크톱에서는 빠른 보기를, 모바일에서는 하단 시트를 엽니다.",
     "review_topics": "한 줄에 하나의 주제를 입력하세요.",
@@ -915,7 +921,8 @@
     "ugc_product": "큰 타일 전용입니다. 시그니처 향으로 표시됩니다.",
     "upsell_heading": "비워 두면 상품 제목을 표시합니다.",
     "video_card_image": "동영상이 없을 때 표시됩니다.",
-    "wordmark_text": "브랜드 이름이나 태그라인 같은 단어 또는 짧은 문구입니다. 비워 두면 스토어 이름을 사용합니다. 크기는 길이에 맞게 조정됩니다."
+    "wordmark_text": "브랜드 이름이나 태그라인 같은 단어 또는 짧은 문구입니다. 비워 두면 스토어 이름을 사용합니다. 크기는 길이에 맞게 조정됩니다.",
+    "mood_menu": "메뉴를 선택하세요. 각 링크가 모든 상품으로 연결되는 \"전체\" 뒤에 칩으로 표시됩니다. 보고 있는 컬렉션의 칩은 강조됩니다. 메뉴가 없으면 칩이 표시되지 않습니다."
   },
   "html_defaults": {
     "about_text": "<p>브랜드의 이야기를 들려주세요. 누구인지, 무엇을 만드는지, 그리고 왜 만드는지 소개하세요.</p>",

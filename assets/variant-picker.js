@@ -2,7 +2,9 @@
  * Re-renders the product section when the shopper picks another option
  * value. The section is fetched with the Section Rendering API and the
  * `option_values` parameter, so the server resolves the variant and every
- * block (price, media, buy buttons) comes back in sync.
+ * block (price, media, buy buttons) comes back in sync. Then a
+ * `variant:change` event on the document ({ sectionId, productUrl,
+ * variantId, updateUrl }) tells other sections, such as the product bundle.
  */
 class VariantPicker extends HTMLElement {
   #controller = null;
@@ -59,10 +61,21 @@ class VariantPicker extends HTMLElement {
       // Keep the URL shareable: it points at the variant now on screen.
       // Pickers outside the product page (quick view) leave the URL alone.
       const variantId = section.querySelector('input[name="id"]')?.value;
-      if (variantId && this.dataset.updateUrl !== "false") {
+      const updateUrl = this.dataset.updateUrl !== "false";
+      if (variantId && updateUrl) {
         const pageUrl = new URL(window.location.href);
         pageUrl.searchParams.set("variant", variantId);
         window.history.replaceState(null, "", pageUrl);
+      }
+
+      // Other sections that show this product's variant (the product
+      // bundle) follow along.
+      if (variantId) {
+        document.dispatchEvent(
+          new CustomEvent("variant:change", {
+            detail: { sectionId, productUrl, variantId, updateUrl },
+          }),
+        );
       }
 
       window.Shopify?.PaymentButton?.init();

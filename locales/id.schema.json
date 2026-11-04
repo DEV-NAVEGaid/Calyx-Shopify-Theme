@@ -170,7 +170,8 @@
     "variant_picker": "Pemilih varian",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Video komunitas"
+    "video_carousel": "Video komunitas",
+    "image_and_text": "Gambar dan teks"
   },
   "categories": {
     "banners": "Banner",
@@ -520,7 +521,8 @@
     "wordmark_text": "Teks wordmark",
     "write_review_link": "Tautan tulis ulasan",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Tautan suasana"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Horizontal",
       "vertical": "Vertikal"
+    },
+    "scroll_direction": {
+      "to_left": "Kanan ke kiri",
+      "to_right": "Kiri ke kanan"
     },
     "distance_unit": {
       "mi": "Mil",
@@ -877,14 +883,14 @@
     "policy_summary": "Satu poin per baris. Ditampilkan dalam kartu di atas konten halaman.",
     "popover_overlay_color": "Meredupkan halaman di belakang modal, pop-up, dan laci.",
     "popular_searches": "Pisahkan pencarian dengan koma.",
-    "predictive_search": "Menyarankan produk, koleksi, halaman, dan artikel di laci pencarian.",
+    "predictive_search": "Menyarankan produk, koleksi, halaman, dan artikel di panel pencarian yang terbuka di bawah bilah pengumuman.",
     "predictive_search_collection": "Produk yang disarankan sebelum pelanggan mulai mengetik.",
     "product_card_background": "Menggantikan latar belakang kartu dari Pengaturan tema.",
     "product_guide": "Tautan di samping label opsi membuka panduan dalam modal. Disembunyikan jika panduan kosong.",
     "product_meta_text": "Hubungkan metafield produk agar setiap produk menampilkan barisnya sendiri. Label atas yang kosong menampilkan jenis produk.",
     "promo_link": "Biarkan kosong untuk menautkan ke produk.",
-    "promo_placement": "Barisnya ditentukan oleh pengaturan Tampilkan setelah produk. Di ponsel dengan dua kolom, Tengah membentang selebar layar.",
-    "promo_position": "Ubin menggantikan posisi sebuah produk; 0 menyembunyikannya.",
+    "promo_placement": "Kolom ubin pada baris yang dipilih oleh Posisi ubin promo; produk mengalir di sekitarnya. Di ponsel dengan dua kolom, Tengah memenuhi seluruh lebar.",
+    "promo_position": "Menambahkan ubin ke grid, pada baris produk setelah produk ini; tidak ada produk yang disembunyikan. Tampil jika halaman memiliki setidaknya sebanyak ini produk; 0 menyembunyikannya.",
     "promo_product": "Menampilkan harganya dan, jika tanpa gambar, fotonya.",
     "quick_add": "Membuka tampilan cepat di desktop dan panel bawah di seluler.",
     "review_topics": "Satu topik per baris.",
@@ -915,7 +921,8 @@
     "ugc_product": "Hanya untuk ubin besar. Ditampilkan sebagai aroma khasnya.",
     "upsell_heading": "Biarkan kosong untuk menampilkan judul produk.",
     "video_card_image": "Ditampilkan jika tidak ada video.",
-    "wordmark_text": "Kata atau frasa pendek apa saja, seperti nama merek atau tagline Anda. Biarkan kosong untuk menggunakan nama toko. Ukurannya menyesuaikan panjang teks."
+    "wordmark_text": "Kata atau frasa pendek apa saja, seperti nama merek atau tagline Anda. Biarkan kosong untuk menggunakan nama toko. Ukurannya menyesuaikan panjang teks.",
+    "mood_menu": "Pilih menu: setiap tautannya menjadi chip setelah Semua, yang menautkan ke semua produk. Chip koleksi yang sedang dilihat disorot. Tanpa menu, tidak ada chip yang ditampilkan."
   },
   "html_defaults": {
     "about_text": "<p>Bagikan cerita merek Anda: siapa Anda, apa yang Anda buat, dan alasannya.</p>",

@@ -170,7 +170,8 @@
     "variant_picker": "Variantvælger",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Community-videoer"
+    "video_carousel": "Community-videoer",
+    "image_and_text": "Billede og tekst"
   },
   "categories": {
     "banners": "Bannere",
@@ -520,7 +521,8 @@
     "wordmark_text": "Ordmærkets tekst",
     "write_review_link": "Link til at skrive en anmeldelse",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Stemningslinks"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Vandret",
       "vertical": "Lodret"
+    },
+    "scroll_direction": {
+      "to_left": "Højre mod venstre",
+      "to_right": "Venstre mod højre"
     },
     "distance_unit": {
       "mi": "Miles",
@@ -877,14 +883,14 @@
     "policy_summary": "Ét punkt pr. linje. Vises i et kort over sidens indhold.",
     "popover_overlay_color": "Gør siden mørkere bag modaler, pop op-vinduer og skuffer.",
     "popular_searches": "Adskil søgninger med kommaer.",
-    "predictive_search": "Foreslår produkter, kollektioner, sider og artikler i søgeskuffen.",
+    "predictive_search": "Foreslår produkter, kollektioner, sider og artikler i søgepanelet, der folder sig ud under meddelelseslinjen.",
     "predictive_search_collection": "Foreslåede produkter, før kunden begynder at skrive.",
     "product_card_background": "Tilsidesætter kortbaggrunden fra Temaindstillinger.",
     "product_guide": "Et link ved siden af en muligheds etiket åbner guiden i en modal. Skjult, når guiden er tom.",
     "product_meta_text": "Tilknyt et produktmetafelt, så hvert produkt viser sin egen linje. En tom overlinje viser produkttypen.",
     "promo_link": "Lad stå tomt for at linke til produktet.",
-    "promo_placement": "Rækken bestemmes af Vis efter produkt. På telefoner med to kolonner fylder Midt hele bredden.",
-    "promo_position": "Feltet indtager et produkts plads; 0 skjuler det.",
+    "promo_placement": "Flisens kolonne i den række, som Placering af promoflise vælger; produkterne flyder rundt om den. På telefoner med to kolonner fylder Centreret hele bredden.",
+    "promo_position": "Tilføjer flisen i gitteret, i rækken med produktet efter dette; intet produkt skjules. Vises, når siden har mindst så mange produkter; 0 skjuler den.",
     "promo_product": "Viser prisen og, uden et billede, produktfotoet.",
     "quick_add": "Åbner en hurtig visning på computer og et bundpanel på mobil.",
     "review_topics": "Ét emne pr. linje.",
@@ -915,7 +921,8 @@
     "ugc_product": "Kun store felter. Vises som deres signaturduft.",
     "upsell_heading": "Lad stå tomt for at vise produktets titel.",
     "video_card_image": "Vises, når der ikke er nogen video.",
-    "wordmark_text": "Et hvilket som helst ord eller en kort sætning, f.eks. dit brandnavn eller et slogan. Lad stå tomt for at bruge butikkens navn. Størrelsen tilpasses længden."
+    "wordmark_text": "Et hvilket som helst ord eller en kort sætning, f.eks. dit brandnavn eller et slogan. Lad stå tomt for at bruge butikkens navn. Størrelsen tilpasses længden.",
+    "mood_menu": "Vælg en menu: hvert af dens links bliver en chip efter Alle, som linker til alle produkter. Chippen for den viste kollektion fremhæves. Uden menu vises ingen chips."
   },
   "html_defaults": {
     "about_text": "<p>Fortæl dit brands historie: hvem du er, hvad du laver, og hvorfor.</p>",

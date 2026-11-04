@@ -1,13 +1,25 @@
 {% comment %}
   Hero full: a full-screen photo with a rating line, a heading, and up to
   three short promises with icons along the bottom. Pair it with Header >
-  "Transparent on home" so the header sits over the photo.
+  Background > Transparent (Home page only) so the header sits over the photo.
 {% endcomment %}
 
-<div class="hero-full spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+{%- liquid
+  # Only a hero among the page's first two sections is likely to be the
+  # largest thing on the first screen: it loads first; a later one waits.
+  if section.index <= 2
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  else
+    assign loading = 'lazy'
+    assign fetchpriority = 'auto'
+  endif
+-%}
+
+<div class="hero-full spacing-style" style="{% render 'spacing-style', settings: section.settings %} {% render 'hero-height', height: section.settings.section_height %}">
   <div class="hero-full__media" aria-hidden="true">
     {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 2880 | image_tag: widths: '750, 1100, 1500, 2200, 2880', sizes: '100vw', fetchpriority: 'high', alt: '' }}
+      {{ section.settings.image | image_url: width: 2880 | image_tag: widths: '750, 1100, 1500, 2200, 2880', sizes: '100vw', loading: loading, fetchpriority: fetchpriority, alt: '' }}
     {%- else -%}
       {% render 'placeholder', name: 'lifestyle-2' %}
     {%- endif -%}
@@ -73,6 +85,31 @@
       "id": "heading",
       "label": "t:settings.heading",
       "default": "t:text_defaults.hero_full_heading"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "t:settings.height",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:options.section_height.small"
+        },
+        {
+          "value": "medium",
+          "label": "t:options.section_height.medium"
+        },
+        {
+          "value": "large",
+          "label": "t:options.section_height.large"
+        },
+        {
+          "value": "full_screen",
+          "label": "t:options.section_height.full_screen"
+        }
+      ],
+      "default": "full_screen",
+      "visible_if": "{{ section.settings.image_ratio == 'default' }}"
     },
     {
       "type": "header",

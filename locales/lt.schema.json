@@ -170,7 +170,8 @@
     "variant_picker": "Variantų parinkiklis",
     "video": "Vaizdo įrašas",
     "video_card": "Vaizdo įrašas",
-    "video_carousel": "Bendruomenės vaizdo įrašai"
+    "video_carousel": "Bendruomenės vaizdo įrašai",
+    "image_and_text": "Vaizdas ir tekstas"
   },
   "categories": {
     "banners": "Reklamjuostės",
@@ -520,7 +521,8 @@
     "wordmark_text": "Žodinio ženklo tekstas",
     "write_review_link": "Nuoroda „Rašyti atsiliepimą“",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Nuotaikų nuorodos"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Horizontali",
       "vertical": "Vertikali"
+    },
+    "scroll_direction": {
+      "to_left": "Iš dešinės į kairę",
+      "to_right": "Iš kairės į dešinę"
     },
     "distance_unit": {
       "mi": "Mylios",
@@ -877,14 +883,14 @@
     "policy_summary": "Vienas punktas eilutėje. Rodoma kortelėje virš puslapio turinio.",
     "popover_overlay_color": "Pritemdo puslapį už modalinių, iššokančiųjų langų ir stalčių.",
     "popular_searches": "Paieškas atskirkite kableliais.",
-    "predictive_search": "Paieškos stalčiuje siūlo prekes, kolekcijas, puslapius ir straipsnius.",
+    "predictive_search": "Siūlo produktus, kolekcijas, puslapius ir straipsnius paieškos skydelyje, kuris atsiveria po pranešimų juosta.",
     "predictive_search_collection": "Siūlomos prekės, kol klientas dar nepradėjo rašyti.",
     "product_card_background": "Pakeičia kortelės foną iš temos nustatymų.",
     "product_guide": "Nuoroda šalia parinkties etiketės atidaro gidą modaliniame lange. Paslėpta, kai gidas tuščias.",
     "product_meta_text": "Susiekite prekės metalauką, kad kiekviena prekė rodytų savo eilutę. Tuščia viršutinė eilutė rodo prekės tipą.",
     "promo_link": "Palikite tuščią, kad būtų nukreipiama į prekę.",
-    "promo_placement": "Eilutė nustatoma pagal „Rodyti po prekės“. Telefonuose su dviem stulpeliais „Centre“ užima visą plotį.",
-    "promo_position": "Plytelė užima prekės vietą; 0 ją paslepia.",
+    "promo_placement": "Plytelės stulpelis eilutėje, kurią parenka „Reklaminės plytelės padėtis“; produktai išsidėsto aplink ją. Telefonuose su dviem stulpeliais „Centre“ užima visą plotį.",
+    "promo_position": "Įterpia plytelę į tinklelį, po šio produkto einančio produkto eilutėje; joks produktas nepaslepiamas. Rodoma, kai puslapyje yra bent tiek produktų; 0 ją paslepia.",
     "promo_product": "Rodo jos kainą ir, jei nėra vaizdo, jos nuotrauką.",
     "quick_add": "Kompiuteryje atidaro greitą peržiūrą, mobiliuosiuose – apatinį langą.",
     "review_topics": "Viena tema eilutėje.",
@@ -915,7 +921,8 @@
     "ugc_product": "Tik didelėms plytelėms. Rodoma kaip firminis kvapas.",
     "upsell_heading": "Palikite tuščią, kad būtų rodomas prekės pavadinimas.",
     "video_card_image": "Rodoma, kai nėra vaizdo įrašo.",
-    "wordmark_text": "Bet koks žodis ar trumpa frazė, pvz., jūsų prekės ženklo pavadinimas ar šūkis. Palikite tuščią, kad būtų naudojamas parduotuvės pavadinimas. Dydis prisitaiko prie ilgio."
+    "wordmark_text": "Bet koks žodis ar trumpa frazė, pvz., jūsų prekės ženklo pavadinimas ar šūkis. Palikite tuščią, kad būtų naudojamas parduotuvės pavadinimas. Dydis prisitaiko prie ilgio.",
+    "mood_menu": "Pasirinkite meniu: kiekviena jo nuoroda tampa žyma po „Visi“, kuri veda į visus produktus. Peržiūrimos kolekcijos žyma paryškinama. Be meniu žymos nerodomos."
   },
   "html_defaults": {
     "about_text": "<p>Papasakokite savo prekės ženklo istoriją: kas esate, ką kuriate ir kodėl.</p>",

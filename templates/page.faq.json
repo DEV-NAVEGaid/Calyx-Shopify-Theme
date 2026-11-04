@@ -18,14 +18,11 @@
       "blocks": {
         "eyebrow_1": {
           "type": "_section-eyebrow",
-          "settings": {
-            "text": "Help centre"
-          }
+          "settings": {}
         },
         "heading_2": {
           "type": "_section-heading",
           "settings": {
-            "heading": "Frequently asked questions",
             "size": "h1",
             "tag": "h1"
           }
@@ -33,7 +30,6 @@
         "text_3": {
           "type": "_section-text",
           "settings": {
-            "text": "<p>Quick answers about orders, shipping, returns and our fragrances.</p>",
             "size": "large"
           }
         }
@@ -49,9 +45,7 @@
       "blocks": {
         "group-fragrances": {
           "type": "_faq-group",
-          "settings": {
-            "heading": "Our fragrances"
-          },
+          "settings": {},
           "blocks": {
             "accordion": {
               "type": "accordion",
@@ -63,15 +57,12 @@
                 "row-1": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "How long does the scent last?",
                     "open_by_default": true
                   },
                   "blocks": {
                     "text": {
                       "type": "text",
-                      "settings": {
-                        "text": "<p>Our eau de parfums are blended at 18–22% concentration, so most wearers enjoy 6–8 hours on skin and longer on fabric.</p>"
-                      }
+                      "settings": {}
                     }
                   },
                   "block_order": [
@@ -80,15 +71,11 @@
                 },
                 "row-2": {
                   "type": "_accordion-row",
-                  "settings": {
-                    "heading": "What is a mood fragrance?"
-                  },
+                  "settings": {},
                   "blocks": {
                     "text": {
                       "type": "text",
-                      "settings": {
-                        "text": "<p>Instead of a fragrance family, each scent is built around a feeling. You choose the mood you want, and the blend does the rest.</p>"
-                      }
+                      "settings": {}
                     }
                   },
                   "block_order": [
@@ -97,15 +84,11 @@
                 },
                 "row-3": {
                   "type": "_accordion-row",
-                  "settings": {
-                    "heading": "Are the fragrances genderless?"
-                  },
+                  "settings": {},
                   "blocks": {
                     "text": {
                       "type": "text",
-                      "settings": {
-                        "text": "<p>Yes. Every scent is designed to be worn by anyone, and none of them lean traditionally masculine or feminine.</p>"
-                      }
+                      "settings": {}
                     }
                   },
                   "block_order": [
@@ -114,15 +97,11 @@
                 },
                 "row-4": {
                   "type": "_accordion-row",
-                  "settings": {
-                    "heading": "Can I layer two scents together?"
-                  },
+                  "settings": {},
                   "blocks": {
                     "text": {
                       "type": "text",
-                      "settings": {
-                        "text": "<p>Layering works best with a grounding base and a lighter scent on top. Spray the deeper one first, then the brighter one on top.</p>"
-                      }
+                      "settings": {}
                     }
                   },
                   "block_order": [
@@ -144,9 +123,7 @@
         },
         "group-shipping": {
           "type": "_faq-group",
-          "settings": {
-            "heading": "Shipping & delivery"
-          },
+          "settings": {},
           "blocks": {
             "accordion": {
               "type": "accordion",
@@ -158,15 +135,12 @@
                 "row-1": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "How much is shipping?",
                     "open_by_default": true
                   },
                   "blocks": {
                     "text": {
                       "type": "text",
-                      "settings": {
-                        "text": "<p>Standard shipping is free on orders over $75. Below that, it is a flat $6 within the US.</p>"
-                      }
+                      "settings": {}
                     }
                   },
                   "block_order": [
@@ -175,15 +149,11 @@
                 },
                 "row-2": {
                   "type": "_accordion-row",
-                  "settings": {
-                    "heading": "When will my order arrive?"
-                  },
+                  "settings": {},
                   "blocks": {
                     "text": {
                       "type": "text",
-                      "settings": {
-                        "text": "<p>Orders leave our studio within one business day. Standard delivery takes 3–5 business days, express 1–2.</p>"
-                      }
+                      "settings": {}
                     }
                   },
                   "block_order": [
@@ -192,15 +162,11 @@
                 },
                 "row-3": {
                   "type": "_accordion-row",
-                  "settings": {
-                    "heading": "Do you ship internationally?"
-                  },
+                  "settings": {},
                   "blocks": {
                     "text": {
                       "type": "text",
-                      "settings": {
-                        "text": "<p>We ship to the US, Canada, the UK and the EU. International orders arrive in 5–10 business days, duties included.</p>"
-                      }
+                      "settings": {}
                     }
                   },
                   "block_order": [
@@ -221,9 +187,7 @@
         },
         "group-returns": {
           "type": "_faq-group",
-          "settings": {
-            "heading": "Returns & exchanges"
-          },
+          "settings": {},
           "blocks": {
             "accordion": {
               "type": "accordion",
@@ -235,15 +199,12 @@
                 "row-1": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "What is the 30-day scent guarantee?",
                     "open_by_default": true
                   },
                   "blocks": {
                     "text": {
                       "type": "text",
-                      "settings": {
-                        "text": "<p>If your scent isn’t right for you, swap it for another within 30 days, even if opened.</p>"
-                      }
+                      "settings": {}
                     }
                   },
                   "block_order": [
@@ -252,15 +213,11 @@
                 },
                 "row-2": {
                   "type": "_accordion-row",
-                  "settings": {
-                    "heading": "How do I start a return?"
-                  },
+                  "settings": {},
                   "blocks": {
                     "text": {
                       "type": "text",
-                      "settings": {
-                        "text": "<p>Open your account, choose the order and select the item you would like to return. We email a prepaid label within minutes.</p>"
-                      }
+                      "settings": {}
                     }
                   },
                   "block_order": [
@@ -296,8 +253,6 @@
           "type": "_value-card",
           "settings": {
             "icon": "mail",
-            "title": "Email us",
-            "text": "We reply within 1 business day.",
             "link_label": "Send us a message"
           }
         },
@@ -305,8 +260,6 @@
           "type": "_value-card",
           "settings": {
             "icon": "sparkle",
-            "title": "Live chat",
-            "text": "Mon–Fri, 9am–6pm ET.",
             "link_label": "Start a chat",
             "link": "/pages/contact"
           }
@@ -315,8 +268,6 @@
           "type": "_value-card",
           "settings": {
             "icon": "truck",
-            "title": "Track your order",
-            "text": "Use your order number and email.",
             "link_label": "Track order",
             "link": "/account"
           }
@@ -328,7 +279,6 @@
         "order"
       ],
       "settings": {
-        "heading": "Still need help?",
         "heading_size": "h2",
         "icon_style": "plain",
         "padding-block-start": 0,

@@ -3,7 +3,7 @@
 {% enddoc %}
 
 <li class="icon-list__item" {{ block.shopify_attributes }}>
-  {% render 'icon', icon: block.settings.icon, class: 'icon-list__icon' %}
+  {% render 'icon', icon: block.settings.icon, class: 'icon-list__icon', image: block.settings.custom_icon %}
   <span>{{ block.settings.text }}</span>
 </li>
 
@@ -29,6 +29,11 @@
         { "value": "chat", "label": "t:options.icon.chat" }
       ],
       "default": "check"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon",
+      "label": "t:settings.custom_icon"
     },
     {
       "type": "inline_richtext",

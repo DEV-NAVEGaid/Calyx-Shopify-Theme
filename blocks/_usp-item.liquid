@@ -3,7 +3,7 @@
 {% enddoc %}
 
 <div class="usp-item" {{ block.shopify_attributes }}>
-  {% render 'icon', icon: block.settings.icon, class: 'usp-item__icon' %}
+  {% render 'icon', icon: block.settings.icon, class: 'usp-item__icon', image: block.settings.custom_icon %}
   <div class="usp-item__text">
     <p class="usp-item__title">{{ block.settings.title | escape }}</p>
     {% if block.settings.text != blank %}
@@ -34,6 +34,11 @@
         { "value": "chat", "label": "t:options.icon.chat" }
       ],
       "default": "truck"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon",
+      "label": "t:settings.custom_icon"
     },
     {
       "type": "text",

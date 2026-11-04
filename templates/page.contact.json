@@ -23,14 +23,11 @@
       "blocks": {
         "eyebrow_1": {
           "type": "_section-eyebrow",
-          "settings": {
-            "text": "Contact"
-          }
+          "settings": {}
         },
         "heading_2": {
           "type": "_section-heading",
           "settings": {
-            "heading": "Get in touch",
             "size": "h1",
             "tag": "h1"
           }
@@ -38,7 +35,6 @@
         "text_3": {
           "type": "_section-text",
           "settings": {
-            "text": "<p>Questions about an order, a scent or a collaboration? We’d love to hear from you.</p>",
             "size": "large"
           }
         }
@@ -47,10 +43,6 @@
     "form": {
       "type": "contact-form",
       "settings": {
-        "hours": "Mon–Fri · 9am–6pm ET",
-        "address": "",
-        "faq_heading": "Looking for a quick answer?",
-        "faq_text": "Most questions are covered in our FAQ.",
         "padding-block-start": 64,
         "padding-block-end": 112
       },
@@ -59,24 +51,21 @@
           "type": "_contact-channel",
           "settings": {
             "title": "Customer care",
-            "text": "For orders, returns and product questions",
-            "email": ""
+            "text": "For orders, returns and product questions"
           }
         },
         "press": {
           "type": "_contact-channel",
           "settings": {
             "title": "Press",
-            "text": "Samples, interviews and imagery",
-            "email": ""
+            "text": "Samples, interviews and imagery"
           }
         },
         "wholesale": {
           "type": "_contact-channel",
           "settings": {
             "title": "Wholesale",
-            "text": "Stock our scents in your store",
-            "email": ""
+            "text": "Stock our products in your store"
           }
         }
       },
@@ -101,7 +90,6 @@
         "heading_1": {
           "type": "_section-heading",
           "settings": {
-            "heading": "Visit the studio",
             "size": "h2",
             "tag": "h2"
           }
@@ -109,14 +97,12 @@
         "text_2": {
           "type": "_section-text",
           "settings": {
-            "text": "<p>Smell the full collection and get a free mood consultation.</p>",
             "size": "large"
           }
         },
         "button_3": {
           "type": "_section-button",
           "settings": {
-            "label": "Find stockists near you",
             "link": "",
             "style": "link"
           }

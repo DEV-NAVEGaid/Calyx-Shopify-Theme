@@ -1,12 +1,13 @@
 {% comment %}
   The collection page: breadcrumb, collection image, header with the mood
-  filters, toolbar with filters and sorting, the product grid with an
-  optional promo tile, and the SEO text.
+  chips (an All chip, then the links of the menu picked in Mood links),
+  toolbar with filters and sorting, the product grid with an optional promo
+  tile, and the SEO text.
 {% endcomment %}
 
 {%- liquid
   assign collection_image = section.settings.image | default: collection.image
-  assign moods = 'Calm,Joy,Confidence,Clarity,Sensual,Renewal' | split: ','
+  assign mood_links = section.settings.mood_menu.links
 
   # The promo tile sits in the row after product N, in the left, centre, or
   # right column of it, for each grid width: phone, tablet (at most three
@@ -72,7 +73,7 @@
       {% endif %}
     </div>
 
-    {% if section.settings.show_moods %}
+    {% if section.settings.show_moods and mood_links.size > 0 %}
       <nav class="mood-filters" aria-label="{{ 'content.mood_filters' | t }}">
         <a
           class="mood-filters__chip{% if collection.handle == 'all' %} mood-filters__chip--active{% endif %}"
@@ -81,18 +82,14 @@
         >
           {{- 'content.mood_all' | t -}}
         </a>
-        {% for mood in moods %}
-          {%- assign mood_handle = mood | handleize -%}
-          {%- assign mood_collection = collections[mood_handle] -%}
-          {% if mood_collection != blank %}
-            <a
-              class="mood-filters__chip{% if collection.handle == mood_handle %} mood-filters__chip--active{% endif %}"
-              href="{{ mood_collection.url }}"
-              {% if collection.handle == mood_handle %}aria-current="page"{% endif %}
-            >
-              {{- mood -}}
-            </a>
-          {% endif %}
+        {% for link in mood_links %}
+          <a
+            class="mood-filters__chip{% if link.current %} mood-filters__chip--active{% endif %}"
+            href="{{ link.url }}"
+            {% if link.current %}aria-current="page"{% endif %}
+          >
+            {{- link.title | escape -}}
+          </a>
         {% endfor %}
       </nav>
     {% endif %}
@@ -204,6 +201,13 @@
       "id": "show_moods",
       "label": "t:settings.show_moods",
       "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "mood_menu",
+      "label": "t:settings.mood_menu",
+      "info": "t:info.mood_menu",
+      "visible_if": "{{ section.settings.show_moods }}"
     },
     {
       "type": "image_picker",

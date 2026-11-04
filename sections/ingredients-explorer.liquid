@@ -2,7 +2,9 @@
   Ingredients explorer: a tall photo beside an intro, a row of numbered
   ingredient photos (blocks), and the list of names with the selected
   ingredient's description. Choosing a photo or a name selects it
-  (assets/ingredients-explorer.js).
+  (assets/ingredients-explorer.js). A section cannot read its theme blocks'
+  settings, so each ingredient renders its photo here and carries its name
+  and description in templates that the script copies into the list.
 {% endcomment %}
 
 <ingredients-explorer class="ingredients-explorer spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
@@ -23,42 +25,12 @@
     {% endif %}
 
     {% if section.blocks.size > 0 %}
-      <div class="ingredients-explorer__thumbs">
-        {% for block in section.blocks %}
-          <button
-            class="ingredients-explorer__thumb"
-            type="button"
-            data-ingredient-select="{{ forloop.index0 }}"
-            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
-            aria-label="{{ block.settings.name | escape }}"
-          >
-            <span class="ingredients-explorer__index">[{{ forloop.index }}]</span>
-            <span class="ingredients-explorer__photo">
-              {%- if block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 260 | image_tag: loading: 'lazy', alt: '' }}
-              {%- else -%}
-                {% render 'placeholder', name: 'lifestyle-2' %}
-              {%- endif -%}
-            </span>
-          </button>
-        {% endfor %}
+      <div class="ingredients-explorer__thumbs" data-ingredient-thumbs>
+        {% content_for 'blocks' %}
       </div>
 
-      <div class="ingredients-explorer__detail">
-        <ol class="ingredients-explorer__list" role="list">
-          {% content_for 'blocks' %}
-        </ol>
-        {% for block in section.blocks %}
-          <div
-            class="ingredients-explorer__description"
-            data-ingredient-description
-            {% unless forloop.first %}
-              hidden
-            {% endunless %}
-          >
-            {{ block.settings.description }}
-          </div>
-        {% endfor %}
+      <div class="ingredients-explorer__detail" data-ingredient-detail>
+        <ol class="ingredients-explorer__list" role="list" data-ingredient-list></ol>
       </div>
     {% endif %}
   </div>

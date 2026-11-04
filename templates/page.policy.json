@@ -12,10 +12,7 @@
     "main": {
       "type": "main-policy",
       "settings": {
-        "eyebrow": "Legal",
-        "show_updated": true,
-        "summary_heading": "The short version",
-        "summary": "Unopened items can be returned within 30 days for a full refund.\nOpened fragrance can be swapped once under our 30-day scent guarantee.\nRefunds go back to your original payment method within 5–10 business days."
+        "show_updated": true
       },
       "block_order": []
     }

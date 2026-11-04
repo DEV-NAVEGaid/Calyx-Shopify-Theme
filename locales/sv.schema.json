@@ -170,7 +170,8 @@
     "variant_picker": "Variantväljare",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Communityvideor"
+    "video_carousel": "Communityvideor",
+    "image_and_text": "Bild och text"
   },
   "categories": {
     "banners": "Banners",
@@ -520,7 +521,8 @@
     "wordmark_text": "Ordmärkets text",
     "write_review_link": "Länk för att skriva en recension",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Stämningslänkar"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Horisontell",
       "vertical": "Vertikal"
+    },
+    "scroll_direction": {
+      "to_left": "Höger till vänster",
+      "to_right": "Vänster till höger"
     },
     "distance_unit": {
       "mi": "Miles",
@@ -877,14 +883,14 @@
     "policy_summary": "En punkt per rad. Visas i ett kort ovanför sidans innehåll.",
     "popover_overlay_color": "Tonar ned sidan bakom modaler, popup-fönster och lådor.",
     "popular_searches": "Separera sökningar med kommatecken.",
-    "predictive_search": "Föreslår produkter, produktserier, sidor och artiklar i söklådan.",
+    "predictive_search": "Föreslår produkter, produktserier, sidor och artiklar i sökpanelen som fälls ut under meddelandefältet.",
     "predictive_search_collection": "Föreslagna produkter innan kunden börjar skriva.",
     "product_card_background": "Ersätter kortbakgrunden från Temainställningar.",
     "product_guide": "En länk bredvid en alternativetikett öppnar guiden i en modal. Döljs när guiden är tom.",
     "product_meta_text": "Koppla ett produktmetafält så att varje produkt visar sin egen rad. En tom överrubrik visar produkttypen.",
     "promo_link": "Lämna tomt för att länka till produkten.",
-    "promo_placement": "Raden styrs av Visa efter produkt. På telefoner med två kolumner täcker Centrerad hela bredden.",
-    "promo_position": "Rutan tar en produkts plats; 0 döljer den.",
+    "promo_placement": "Plattans kolumn i raden som Placering av kampanjplatta väljer; produkterna placeras runt den. På telefoner med två kolumner tar Centrerad hela bredden.",
+    "promo_position": "Lägger till plattan i rutnätet, i raden för produkten efter denna; ingen produkt döljs. Visas när sidan har minst så många produkter; 0 döljer den.",
     "promo_product": "Visar dess pris och, om bild saknas, dess foto.",
     "quick_add": "Öppnar en snabbvy på dator och ett bottenark på mobil.",
     "review_topics": "Ett ämne per rad.",
@@ -915,7 +921,8 @@
     "ugc_product": "Endast stora rutor. Visas som deras signaturdoft.",
     "upsell_heading": "Lämna tomt för att visa produktens titel.",
     "video_card_image": "Visas när det inte finns någon video.",
-    "wordmark_text": "Valfritt ord eller kort fras, till exempel ditt varumärkesnamn eller en slogan. Lämna tomt för att använda butikens namn. Storleken anpassas efter längden."
+    "wordmark_text": "Valfritt ord eller kort fras, till exempel ditt varumärkesnamn eller en slogan. Lämna tomt för att använda butikens namn. Storleken anpassas efter längden.",
+    "mood_menu": "Välj en meny: varje länk i den blir en knapp efter Alla, som länkar till alla produkter. Knappen för den visade produktserien markeras. Utan meny visas inga knappar."
   },
   "html_defaults": {
     "about_text": "<p>Berätta ditt varumärkes historia: vilka ni är, vad ni gör och varför.</p>",

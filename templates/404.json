@@ -11,9 +11,7 @@
   "sections": {
     "main": {
       "type": "main-404",
-      "settings": {
-        "collection_heading": "Popular right now"
-      },
+      "settings": {},
       "blocks": {
         "heading_1": {
           "type": "_section-heading",

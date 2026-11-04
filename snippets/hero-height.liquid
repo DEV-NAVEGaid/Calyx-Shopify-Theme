@@ -1,0 +1,21 @@
+{% doc %}
+  Outputs a hero's Height setting (`section_height`: small, medium, large,
+  full_screen) as the `--hero-height` CSS custom property. Small is 560px,
+  Medium 720px, Large 880px, and Full screen the height of the screen.
+
+  @param {string} height - The `section_height` setting value.
+
+  @example
+  <div style="{% render 'hero-height', height: section.settings.section_height %}">
+{% enddoc %}
+
+{%- case height -%}
+  {%- when 'small' -%}
+    --hero-height: 560px;
+  {%- when 'medium' -%}
+    --hero-height: 720px;
+  {%- when 'large' -%}
+    --hero-height: 880px;
+  {%- when 'full_screen' -%}
+    --hero-height: 100svh;
+{%- endcase -%}

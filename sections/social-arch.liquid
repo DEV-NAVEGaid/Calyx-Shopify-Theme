@@ -1,11 +1,11 @@
 {% comment %}
   Social arch ("Follow us"): a big heading and the account handle, over a
-  row of photo cards (blocks) stepped like an arch, the middle card the
-  tallest. The arch turns one card at a time on a timer, pausing on hover
+  row of photo cards (blocks) that runs edge to edge and slides sideways
+  through an arch: the card in the middle is the tallest
   (assets/social-arch.js).
 {% endcomment %}
 
-<social-arch class="home-section social-arch spacing-style" data-autoplay="{{ section.settings.autoplay }}" style="{% render 'spacing-style', settings: section.settings %}">
+<social-arch class="home-section social-arch spacing-style" data-autoplay="{{ section.settings.autoplay }}" data-direction="{{ section.settings.direction }}" style="{% render 'spacing-style', settings: section.settings %}">
   <div class="home-section__inner">
     <div class="social-arch__header">
       {% if section.settings.heading != blank %}
@@ -15,7 +15,9 @@
         <a class="social-arch__handle" href="{{ section.settings.link | default: settings.social_instagram_link }}">{{ section.settings.handle | escape }}</a>
       {% endif %}
     </div>
-    <ul class="social-arch__cards" role="list">
+  </div>
+  <div class="social-arch__viewport">
+    <ul class="social-arch__cards" role="list" data-arch-track>
       {% content_for 'blocks' %}
     </ul>
   </div>
@@ -69,6 +71,22 @@
       "step": 1,
       "unit": "s",
       "default": 4
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "t:settings.direction",
+      "options": [
+        {
+          "value": "to_left",
+          "label": "t:options.scroll_direction.to_left"
+        },
+        {
+          "value": "to_right",
+          "label": "t:options.scroll_direction.to_right"
+        }
+      ],
+      "default": "to_left"
     },
     {
       "type": "header",

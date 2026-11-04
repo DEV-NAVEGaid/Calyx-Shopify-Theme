@@ -1,14 +1,24 @@
 {% doc %}
   The price of the closest product's selected variant, with the compare-at
-  price when the variant is on sale.
+  price when the variant is on sale. In product cards, a price range when
+  the variants' prices differ.
 {% enddoc %}
 
 {%- liquid
   assign current_product = closest.product
 
-  # The page's own product uses the product-page settings; cards use the product
-  # card settings and show a price range when the variants' prices differ.
+  # The page's own product, and the product a section features (Featured
+  # product), use the product-page settings and show the selected variant's
+  # price; cards use the product card settings and show a price range when
+  # the variants' prices differ.
+  assign selected_product = false
   if request.page_type == 'product' and current_product.id == product.id
+    assign selected_product = true
+  elsif section.settings.product != blank and current_product.id == section.settings.product.id
+    assign selected_product = true
+  endif
+
+  if selected_product
     assign show_currency_code = settings.currency_code_enabled_product_pages
     assign show_compare_at = true
     assign show_unit_price = true

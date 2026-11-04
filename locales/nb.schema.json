@@ -170,7 +170,8 @@
     "variant_picker": "Variantvelger",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Fellesskapsvideoer"
+    "video_carousel": "Fellesskapsvideoer",
+    "image_and_text": "Bilde og tekst"
   },
   "categories": {
     "banners": "Bannere",
@@ -520,7 +521,8 @@
     "wordmark_text": "Ordmerketekst",
     "write_review_link": "Lenke for å skrive en omtale",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Stemningslenker"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Horisontal",
       "vertical": "Vertikal"
+    },
+    "scroll_direction": {
+      "to_left": "Høyre mot venstre",
+      "to_right": "Venstre mot høyre"
     },
     "distance_unit": {
       "mi": "Miles",
@@ -877,14 +883,14 @@
     "policy_summary": "Ett punkt per linje. Vises i et kort over sideinnholdet.",
     "popover_overlay_color": "Demper siden bak modaler, popuper og skuffer.",
     "popular_searches": "Skill søkene med komma.",
-    "predictive_search": "Foreslår produkter, samlinger, sider og artikler i søkeskuffen.",
+    "predictive_search": "Foreslår produkter, kolleksjoner, sider og artikler i søkepanelet som åpnes under kunngjøringslinjen.",
     "predictive_search_collection": "Foreslåtte produkter før kunden begynner å skrive.",
     "product_card_background": "Overstyrer kortbakgrunnen fra Temainnstillinger.",
     "product_guide": "En lenke ved siden av en alternativetikett åpner guiden i en modal. Skjules når guiden er tom.",
     "product_meta_text": "Koble til et produktmetafelt slik at hvert produkt viser sin egen linje. En tom stikktittel viser produkttypen.",
     "promo_link": "La stå tomt for å lenke til produktet.",
-    "promo_placement": "Raden bestemmes av Vis etter produkt. På telefoner med to kolonner går Midtstilt over hele bredden.",
-    "promo_position": "Ruten tar plassen til et produkt; 0 skjuler den.",
+    "promo_placement": "Flisens kolonne i raden som Plassering av promoflis velger; produktene legger seg rundt den. På telefoner med to kolonner fyller Midtstilt hele bredden.",
+    "promo_position": "Legger flisen til i rutenettet, i raden til produktet etter dette; ingen produkter skjules. Vises når siden har minst så mange produkter; 0 skjuler den.",
     "promo_product": "Viser prisen og, hvis det ikke er noe bilde, produktbildet.",
     "quick_add": "Åpner en hurtigvisning på datamaskin og et bunnark på mobil.",
     "review_topics": "Ett emne per linje.",
@@ -915,7 +921,8 @@
     "ugc_product": "Bare store ruter. Vises som signaturduften deres.",
     "upsell_heading": "La stå tomt for å vise produkttittelen.",
     "video_card_image": "Vises når det ikke finnes noen video.",
-    "wordmark_text": "Et hvilket som helst ord eller en kort frase, for eksempel merkenavnet ditt eller et slagord. La stå tomt for å bruke butikknavnet. Størrelsen tilpasses lengden."
+    "wordmark_text": "Et hvilket som helst ord eller en kort frase, for eksempel merkenavnet ditt eller et slagord. La stå tomt for å bruke butikknavnet. Størrelsen tilpasses lengden.",
+    "mood_menu": "Velg en meny: hver av lenkene blir en brikke etter Alle, som lenker til alle produkter. Brikken for kolleksjonen som vises, er uthevet. Uten meny vises ingen brikker."
   },
   "html_defaults": {
     "about_text": "<p>Fortell merkevarens historie: hvem dere er, hva dere lager, og hvorfor.</p>",

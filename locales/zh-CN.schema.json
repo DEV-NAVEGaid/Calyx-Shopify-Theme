@@ -170,7 +170,8 @@
     "variant_picker": "多属性选择器",
     "video": "视频",
     "video_card": "视频",
-    "video_carousel": "社区视频"
+    "video_carousel": "社区视频",
+    "image_and_text": "图片和文本"
   },
   "categories": {
     "banners": "横幅",
@@ -520,7 +521,8 @@
     "wordmark_text": "文字标识文本",
     "write_review_link": "撰写评价链接",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "心情链接"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "水平",
       "vertical": "垂直"
+    },
+    "scroll_direction": {
+      "to_left": "从右到左",
+      "to_right": "从左到右"
     },
     "distance_unit": {
       "mi": "英里",
@@ -877,14 +883,14 @@
     "policy_summary": "每行一个要点。显示在页面内容上方的卡片中。",
     "popover_overlay_color": "使模态窗口、弹窗和抽屉后方的页面变暗。",
     "popular_searches": "用逗号分隔各个搜索词。",
-    "predictive_search": "在搜索抽屉中推荐产品、产品系列、页面和文章。",
+    "predictive_search": "在公告栏下方展开的搜索面板中推荐产品、产品系列、页面和文章。",
     "predictive_search_collection": "客户开始输入前推荐的产品。",
     "product_card_background": "覆盖主题设置中的卡片背景。",
     "product_guide": "选项标签旁的链接会在模态窗口中打开指南。指南为空时隐藏。",
     "product_meta_text": "连接产品元字段，让每个产品显示各自的标语。眉标为空时显示产品类型。",
     "promo_link": "留空则链接到产品。",
-    "promo_placement": "所在行由“在第几个产品后显示”决定。在两列布局的手机上，“居中”会占满整行宽度。",
-    "promo_position": "图块会占据一个产品的位置；设为 0 则隐藏。",
+    "promo_placement": "图块在“推广图块位置”所选行中的列；产品会围绕它排列。在两列显示的手机上，“居中”会占满整个宽度。",
+    "promo_position": "将图块添加到网格中此产品之后那个产品所在的行；不会隐藏任何产品。页面至少有此数量的产品时显示；设为 0 则隐藏。",
     "promo_product": "显示其价格；未设置图片时显示其照片。",
     "quick_add": "在桌面端打开快速查看，在移动端打开底部面板。",
     "review_topics": "每行一个主题。",
@@ -915,7 +921,8 @@
     "ugc_product": "仅限大图块。显示为其招牌香。",
     "upsell_heading": "留空则显示产品标题。",
     "video_card_image": "没有视频时显示。",
-    "wordmark_text": "任意词语或短语，例如您的品牌名称或标语。留空则使用商店名称。尺寸会根据长度自动调整。"
+    "wordmark_text": "任意词语或短语，例如您的品牌名称或标语。留空则使用商店名称。尺寸会根据长度自动调整。",
+    "mood_menu": "选择一个菜单：其中每个链接都会成为“全部”之后的标签，“全部”链接到所有产品。当前浏览的产品系列标签会突出显示。未选择菜单时不显示标签。"
   },
   "html_defaults": {
     "about_text": "<p>分享您的品牌故事：您是谁、您做什么，以及为什么而做。</p>",

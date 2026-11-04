@@ -170,7 +170,8 @@
     "variant_picker": "Változatválasztó",
     "video": "Videó",
     "video_card": "Videó",
-    "video_carousel": "Közösségi videók"
+    "video_carousel": "Közösségi videók",
+    "image_and_text": "Kép és szöveg"
   },
   "categories": {
     "banners": "Bannerek",
@@ -520,7 +521,8 @@
     "wordmark_text": "Szóvédjegy szövege",
     "write_review_link": "Értékelés írása link",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Hangulat-linkek"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Vízszintes",
       "vertical": "Függőleges"
+    },
+    "scroll_direction": {
+      "to_left": "Jobbról balra",
+      "to_right": "Balról jobbra"
     },
     "distance_unit": {
       "mi": "Mérföld",
@@ -877,14 +883,14 @@
     "policy_summary": "Soronként egy pont. Kártyában jelenik meg az oldal tartalma felett.",
     "popover_overlay_color": "Elsötétíti az oldalt a modális ablakok, felugró ablakok és oldalpanelek mögött.",
     "popular_searches": "A kereséseket vesszővel válaszd el.",
-    "predictive_search": "Termékeket, kollekciókat, oldalakat és cikkeket javasol a keresőpanelen.",
+    "predictive_search": "Termékeket, kollekciókat, oldalakat és cikkeket javasol a keresőpanelen, amely a hirdetősáv alatt nyílik le.",
     "predictive_search_collection": "Javasolt termékek, mielőtt a vásárló gépelni kezd.",
     "product_card_background": "Felülírja a Témabeállításokban megadott kártyahátteret.",
     "product_guide": "Az opció címkéje melletti link modális ablakban nyitja meg az útmutatót. Üres útmutatónál rejtve marad.",
     "product_meta_text": "Kapcsolj hozzá egy termék-metamezőt, hogy minden termék a saját sorát mutassa. Üres felcímnél a terméktípus jelenik meg.",
     "promo_link": "Hagyd üresen a termékre mutató linkhez.",
-    "promo_placement": "A sort a Megjelenítés termék után beállítás határozza meg. Kétoszlopos telefonos nézetben a Közép teljes szélességű.",
-    "promo_position": "A csempe egy termék helyét foglalja el; a 0 elrejti.",
+    "promo_placement": "A csempe oszlopa abban a sorban, amelyet a Promóciós csempe helye választ ki; a termékek körülötte helyezkednek el. Kétoszlopos telefonokon a Középen teljes szélességű.",
+    "promo_position": "A csempét a rácsba illeszti, az ezt követő termék sorába; egyetlen termék sem rejtődik el. Akkor jelenik meg, ha az oldalon legalább ennyi termék van; a 0 elrejti.",
     "promo_product": "Megjeleníti az árát, kép nélkül pedig a fotóját.",
     "quick_add": "Asztali gépen gyorsnézetet, mobilon alsó panelt nyit.",
     "review_topics": "Soronként egy téma.",
@@ -915,7 +921,8 @@
     "ugc_product": "Csak nagy csempéknél. Kedvenc illatukként jelenik meg.",
     "upsell_heading": "Hagyd üresen a termék nevének megjelenítéséhez.",
     "video_card_image": "Akkor jelenik meg, ha nincs videó.",
-    "wordmark_text": "Bármilyen szó vagy rövid kifejezés, például a márkaneved vagy egy szlogen. Hagyd üresen az üzlet nevének használatához. A méret a hosszhoz igazodik."
+    "wordmark_text": "Bármilyen szó vagy rövid kifejezés, például a márkaneved vagy egy szlogen. Hagyd üresen az üzlet nevének használatához. A méret a hosszhoz igazodik.",
+    "mood_menu": "Válasszon menüt: minden linkje egy címke lesz a „Mind” után, amely az összes termékre mutat. A megtekintett kollekció címkéje kiemelt. Menü nélkül nem jelennek meg címkék."
   },
   "html_defaults": {
     "about_text": "<p>Mesélj a márkád történetéről: kik vagytok, mit készítetek és miért.</p>",

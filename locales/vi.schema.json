@@ -170,7 +170,8 @@
     "variant_picker": "Bộ chọn mẫu mã",
     "video": "Video",
     "video_card": "Video",
-    "video_carousel": "Video cộng đồng"
+    "video_carousel": "Video cộng đồng",
+    "image_and_text": "Hình ảnh và văn bản"
   },
   "categories": {
     "banners": "Biểu ngữ",
@@ -520,7 +521,8 @@
     "wordmark_text": "Văn bản chữ thương hiệu",
     "write_review_link": "Liên kết viết đánh giá",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Liên kết tâm trạng"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Ngang",
       "vertical": "Dọc"
+    },
+    "scroll_direction": {
+      "to_left": "Phải sang trái",
+      "to_right": "Trái sang phải"
     },
     "distance_unit": {
       "mi": "Dặm",
@@ -877,14 +883,14 @@
     "policy_summary": "Mỗi dòng một ý. Hiển thị trong thẻ phía trên nội dung trang.",
     "popover_overlay_color": "Làm tối trang phía sau hộp thoại, cửa sổ bật lên và ngăn kéo.",
     "popular_searches": "Phân tách các tìm kiếm bằng dấu phẩy.",
-    "predictive_search": "Gợi ý sản phẩm, bộ sưu tập, trang và bài viết trong ngăn kéo tìm kiếm.",
+    "predictive_search": "Gợi ý sản phẩm, bộ sưu tập, trang và bài viết trong bảng tìm kiếm mở ra bên dưới thanh thông báo.",
     "predictive_search_collection": "Sản phẩm được gợi ý trước khi khách hàng bắt đầu nhập.",
     "product_card_background": "Ghi đè nền thẻ từ Cài đặt chủ đề.",
     "product_guide": "Liên kết bên cạnh nhãn tùy chọn sẽ mở hướng dẫn trong hộp thoại. Ẩn khi hướng dẫn trống.",
     "product_meta_text": "Kết nối trường siêu dữ liệu sản phẩm để mỗi sản phẩm hiển thị dòng riêng. Tiêu đề nhỏ để trống sẽ hiển thị loại sản phẩm.",
     "promo_link": "Để trống để liên kết đến sản phẩm.",
-    "promo_placement": "Hàng được xác định bởi Hiển thị sau sản phẩm. Trên điện thoại có hai cột, Giữa sẽ trải toàn bộ chiều rộng.",
-    "promo_position": "Ô này chiếm vị trí của một sản phẩm; 0 để ẩn.",
+    "promo_placement": "Cột của ô trong hàng do Vị trí ô khuyến mãi chọn; các sản phẩm sắp xếp xung quanh nó. Trên điện thoại hai cột, Giữa chiếm toàn bộ chiều rộng.",
+    "promo_position": "Thêm ô vào lưới, trong hàng của sản phẩm sau sản phẩm này; không sản phẩm nào bị ẩn. Hiển thị khi trang có ít nhất số sản phẩm này; 0 sẽ ẩn ô.",
     "promo_product": "Hiển thị giá và, khi không có hình ảnh, ảnh của sản phẩm.",
     "quick_add": "Mở chế độ xem nhanh trên máy tính và bảng trượt từ dưới lên trên thiết bị di động.",
     "review_topics": "Mỗi dòng một chủ đề.",
@@ -915,7 +921,8 @@
     "ugc_product": "Chỉ ô lớn. Hiển thị như hương thơm đặc trưng.",
     "upsell_heading": "Để trống để hiển thị tiêu đề sản phẩm.",
     "video_card_image": "Hiển thị khi không có video.",
-    "wordmark_text": "Bất kỳ từ hoặc cụm từ ngắn nào, chẳng hạn như tên thương hiệu hoặc khẩu hiệu. Để trống để dùng tên cửa hàng. Kích thước tự điều chỉnh theo độ dài."
+    "wordmark_text": "Bất kỳ từ hoặc cụm từ ngắn nào, chẳng hạn như tên thương hiệu hoặc khẩu hiệu. Để trống để dùng tên cửa hàng. Kích thước tự điều chỉnh theo độ dài.",
+    "mood_menu": "Chọn một menu: mỗi liên kết trong đó trở thành một nhãn sau Tất cả, dẫn đến tất cả sản phẩm. Nhãn của bộ sưu tập đang xem được làm nổi bật. Không có menu thì không hiển thị nhãn."
   },
   "html_defaults": {
     "about_text": "<p>Chia sẻ câu chuyện thương hiệu của bạn: bạn là ai, bạn làm ra gì và vì sao.</p>",

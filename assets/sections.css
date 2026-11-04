@@ -1758,7 +1758,11 @@
   display: grid;
   grid-template-columns: minmax(0, 376px) minmax(0, 1fr);
   column-gap: 82px;
-  padding-inline-end: 0;
+  /* The row runs off the right edge, so only the left side follows Width:
+     Normal lines up with the page width, Wide starts at the screen edge. */
+  padding-inline:
+    calc(var(--section-inset, var(--page-margin)) + var(--padding-inline-start, 0px))
+    var(--padding-inline-end, 0px);
 }
 
 .video-carousel__intro {
@@ -2838,15 +2842,6 @@ a.ugc-tile:hover .ugc-tile__image {
   }
 }
 
-.contact-form__consent {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  line-height: 20px;
-  cursor: pointer;
-}
-
 .contact-form__actions {
   display: flex;
   flex-wrap: wrap;
@@ -3445,6 +3440,7 @@ a.ugc-tile:hover .ugc-tile__image {
 .ingredients-explorer__thumb {
   display: grid;
   gap: 14px;
+  width: 100%;
 }
 
 .ingredients-explorer__index {
@@ -5704,8 +5700,9 @@ predictive-search[aria-busy="true"] .predictive-search__body {
 
 .hero-split__panel {
   position: relative;
-  height: min(760px, calc(100svh - 120px));
-  min-height: 520px;
+  /* Height setting (snippets/hero-height.liquid). */
+  height: var(--hero-height, min(760px, calc(100svh - 120px)));
+  min-height: 480px;
   overflow: hidden;
   border-radius: 6px;
 }
@@ -5857,10 +5854,10 @@ predictive-search[aria-busy="true"] .predictive-search__body {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Stacked on small screens: each panel keeps the chosen height, at most a screen tall. */
   .hero-split__panel {
-    height: auto;
+    height: min(var(--hero-height, 520px), 100svh);
     min-height: 0;
-    aspect-ratio: 4 / 5;
   }
 
   .hero-split__copy,
@@ -6059,7 +6056,8 @@ predictive-search[aria-busy="true"] .predictive-search__body {
   position: relative;
   display: flex;
   align-items: flex-end;
-  min-height: min(880px, 100svh);
+  /* Height setting (snippets/hero-height.liquid). */
+  min-height: var(--hero-height, min(880px, 100svh));
   padding-block: 120px 48px;
   padding-inline: calc(var(--page-margin) + var(--padding-inline-start, 0px)) calc(var(--page-margin) + var(--padding-inline-end, 0px));
   overflow: hidden;
@@ -6173,23 +6171,33 @@ predictive-search[aria-busy="true"] .predictive-search__body {
   text-transform: uppercase;
 }
 
+/* The row runs to the section's edges (the page gutter is cancelled; Left and
+   Right padding still apply) and slides inside this window (assets/social-arch.js). */
+.social-arch__viewport {
+  margin-inline: calc(-1 * var(--section-gutter, var(--page-margin)));
+  overflow: hidden;
+}
+
 .social-arch__cards {
   display: flex;
   align-items: flex-end;
-  justify-content: center;
   gap: 12px;
+  width: max-content;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   list-style: none;
 }
 
-/* Each step away from the middle is 50px shorter; four steps out and beyond stay at 160px. */
+/*
+ * Each card is drawn at the tallest photo height; --cut (set by the script
+ * from the card's distance to the middle of the row) clips the top of the
+ * photo and moves the title down with it, so the photo steps down 50px per
+ * place from 300px to 160px without any layout work.
+ */
 .social-card {
-  --media-height: max(160px, calc(300px - var(--distance, 0) * 50px));
+  --cut: 0px;
 
   flex: 0 0 150px;
-  transition: order 0s;
 }
 
 .social-card__inner {
@@ -6203,6 +6211,7 @@ predictive-search[aria-busy="true"] .predictive-search__body {
   display: grid;
   gap: 6px;
   text-transform: uppercase;
+  transform: translateY(var(--cut));
 }
 
 .social-card__title {
@@ -6222,10 +6231,10 @@ predictive-search[aria-busy="true"] .predictive-search__body {
 
 .social-card__media {
   display: block;
-  height: var(--media-height);
+  height: 300px;
   overflow: hidden;
   background-color: var(--color-accent-soft);
-  transition: height 0.5s ease;
+  clip-path: inset(var(--cut) 0 0 0);
 }
 
 .social-card__media > :is(img, svg) {

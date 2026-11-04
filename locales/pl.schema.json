@@ -170,7 +170,8 @@
     "variant_picker": "Selektor wariantów",
     "video": "Wideo",
     "video_card": "Wideo",
-    "video_carousel": "Filmy społeczności"
+    "video_carousel": "Filmy społeczności",
+    "image_and_text": "Obraz i tekst"
   },
   "categories": {
     "banners": "Banery",
@@ -520,7 +521,8 @@
     "wordmark_text": "Tekst logotypu słownego",
     "write_review_link": "Link „Napisz opinię”",
     "x_url": "X (Twitter)",
-    "youtube_url": "YouTube"
+    "youtube_url": "YouTube",
+    "mood_menu": "Linki nastrojów"
   },
   "options": {
     "accordion_icon": {
@@ -596,6 +598,10 @@
     "direction": {
       "horizontal": "Poziomo",
       "vertical": "Pionowo"
+    },
+    "scroll_direction": {
+      "to_left": "Od prawej do lewej",
+      "to_right": "Od lewej do prawej"
     },
     "distance_unit": {
       "mi": "Mile",
@@ -877,14 +883,14 @@
     "policy_summary": "Jeden punkt na linię. Wyświetlane na karcie nad treścią strony.",
     "popover_overlay_color": "Przyciemnia stronę za oknami modalnymi, wyskakującymi okienkami i szufladami.",
     "popular_searches": "Oddziel wyszukiwania przecinkami.",
-    "predictive_search": "Sugeruje produkty, kolekcje, strony i artykuły w szufladzie wyszukiwania.",
+    "predictive_search": "Podpowiada produkty, kolekcje, strony i artykuły w panelu wyszukiwania, który rozwija się pod paskiem ogłoszeń.",
     "predictive_search_collection": "Sugerowane produkty, zanim klient zacznie pisać.",
     "product_card_background": "Zastępuje tło karty z Ustawień motywu.",
     "product_guide": "Link obok etykiety opcji otwiera przewodnik w oknie modalnym. Ukryty, gdy przewodnik jest pusty.",
     "product_meta_text": "Połącz metapole produktu, aby każdy produkt pokazywał własny wiersz. Pusty nadtytuł pokazuje typ produktu.",
     "promo_link": "Pozostaw puste, aby linkować do produktu.",
-    "promo_placement": "Wiersz wynika z ustawienia Pokaż po produkcie. Na telefonach z dwiema kolumnami opcja Do środka zajmuje całą szerokość.",
-    "promo_position": "Kafelek zajmuje miejsce produktu; 0 go ukrywa.",
+    "promo_placement": "Kolumna kafelka w rzędzie wybranym przez Pozycję kafelka promocyjnego; produkty układają się wokół niego. Na telefonach z dwiema kolumnami Środek zajmuje całą szerokość.",
+    "promo_position": "Dodaje kafelek do siatki, w rzędzie produktu następującego po tym; żaden produkt nie jest ukrywany. Wyświetla się, gdy strona ma co najmniej tyle produktów; 0 go ukrywa.",
     "promo_product": "Pokazuje jego cenę oraz, gdy brak obrazu, jego zdjęcie.",
     "quick_add": "Otwiera szybki podgląd na komputerze i dolny panel na urządzeniach mobilnych.",
     "review_topics": "Jeden temat na linię.",
@@ -915,7 +921,8 @@
     "ugc_product": "Tylko duże kafelki. Wyświetlany jako ich zapach sygnaturowy.",
     "upsell_heading": "Pozostaw puste, aby pokazać tytuł produktu.",
     "video_card_image": "Wyświetlany, gdy brak wideo.",
-    "wordmark_text": "Dowolne słowo lub krótka fraza, np. nazwa marki lub hasło. Pozostaw puste, aby użyć nazwy sklepu. Rozmiar dopasowuje się do długości."
+    "wordmark_text": "Dowolne słowo lub krótka fraza, np. nazwa marki lub hasło. Pozostaw puste, aby użyć nazwy sklepu. Rozmiar dopasowuje się do długości.",
+    "mood_menu": "Wybierz menu: każdy jego link staje się etykietą po „Wszystko”, która prowadzi do wszystkich produktów. Etykieta przeglądanej kolekcji jest wyróżniona. Bez menu etykiety się nie wyświetlają."
   },
   "html_defaults": {
     "about_text": "<p>Opowiedz historię swojej marki: kim jesteś, co tworzysz i dlaczego.</p>",
